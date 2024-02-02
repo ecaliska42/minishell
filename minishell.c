@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/02 17:50:38 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/02 17:53:01 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int main(int ac, char **av, char **envp)
 
 //TODO BUILDINS: echo with -n || cd with only relative or absolout path || pwd with no options
 //TODO BUILDINS: export with no options || unset with no options || env with no options or arguments
-//TODO BUILDINS: exit with no options 
+//TODO BUILDINS: exit with no options
 
 /*
   * ALLOWED FUNCTIONS:

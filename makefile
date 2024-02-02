@@ -6,7 +6,7 @@
 #    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/31 15:50:49 by ecaliska          #+#    #+#              #
-#    Updated: 2024/02/02 17:50:32 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/02/02 17:53:41 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,11 +42,12 @@ re:	fclean all
 gitpush: fclean
 	@echo "pushing in github"
 	@echo "."
-	@git add * 2>/dev/null
+	@git add *
 	@echo ".."
-	@git commit -m "Makefile pushing" 2>/dev/null
+	@git commit -m "Makefile pushing"
 	@echo "..."
-	@git push 2>/dev/null
+	@git push
 	@echo "PUSHED TO YOUR GITHUB"
 
-.PHONY: all clean fclean re gitpush
+.PHONY: all clean fclean re
+.SILENT: gitpush
