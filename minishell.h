@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/01 02:40:46 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/02 15:36:17 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 # include <termios.h>   //tcsetattr, tcgetattr
 
 typedef struct t_command_list{
-	char **
+	
 } t_commands;
 
 #endif
