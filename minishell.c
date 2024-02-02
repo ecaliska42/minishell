@@ -6,12 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/02 17:53:01 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/02 18:21:23 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "libft/libft.h"
 
 int main(int ac, char **av, char **envp)
 {
@@ -28,7 +27,7 @@ int main(int ac, char **av, char **envp)
 	}
 	//line = readline("minishell > ");
 	if(!line)
-		return (printf("error on readline\n"));//todo stderr make
+		return (write(2, "ERROR ON READLINE\n", 19));
 	printf("%s\n", line);
 	free(line);
 	return 0;
@@ -42,21 +41,8 @@ int main(int ac, char **av, char **envp)
 
 /*
   * ALLOWED FUNCTIONS:
-  * readline
-  * rl_clear_history
-  * rl_on_new_line
-  * rl_replace_line
-  * rl_redisplay
   * add_history
-  * printf
-  * malloc
-  * free
-  * write
   * access
-  * open
-  * read
-  * close
-  * fork
   * wait
   * waitpid
   * wait3
@@ -66,7 +52,6 @@ int main(int ac, char **av, char **envp)
   * sigemptyset
   * sigaddset
   * kill
-  * exit
   * getcwd
   * chdir
   * stat
@@ -76,12 +61,10 @@ int main(int ac, char **av, char **envp)
   * execve
   * dup
   * dup2
-  * pipe
   * opendir
   * readdir
   * closedir
   * strerror
-  * perror
   * isatty
   * ttyname
   * ttyslot
@@ -95,4 +78,20 @@ int main(int ac, char **av, char **envp)
   * tgetstr
   * tgoto
   * tputs
+  ! readline
+  ! rl_clear_history
+  ! rl_on_new_line
+  ! rl_replace_line
+  ! rl_redisplay
+  ! printf
+  ! malloc
+  ! free
+  ! write
+  ! open
+  ! read
+  ! close
+  ! fork
+  ! exit
+  ! pipe
+  ! perror
 */
