@@ -6,7 +6,7 @@
 #    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/31 15:50:49 by ecaliska          #+#    #+#              #
-#    Updated: 2024/02/02 17:54:24 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/02/02 17:54:46 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,10 +40,8 @@ re:	fclean all
 	$(MAKE) re -C libft
 
 gitpush: fclean
-	@echo "PUSHING IN GITHUB"
 	@git add *
 	@git commit -m "Makefile pushing"
 	@git push
-	@echo "PUSHED TO YOUR GITHUB"
 
 .PHONY: all clean fclean re gitpush
