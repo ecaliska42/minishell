@@ -6,11 +6,23 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/02 18:21:23 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/06 17:39:31 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*
+	TODO MAKE PROTECTIONS IF FUNCTIONS FAIL
+*/
+int	parse_functions(char *s)
+{
+	if (ft_strncmp("echo ", s, 5) == 0)
+		ft_echo(ft_strchr(s, ' '));
+	if (ft_strncmp("pwd", s, 3) == 0)
+		ft_pwd();
+	return 0;
+}
 
 int main(int ac, char **av, char **envp)
 {
@@ -20,24 +32,32 @@ int main(int ac, char **av, char **envp)
 	(void) ac;
 	char *line;
 	
-	while ((line = readline("minishell >")))
+	while ((line = readline("minishell > ")))
 	{
+		add_history(line);
+		parse_functions(line);
 		
+		//printf("%s\n", line);
 		continue;
 	}
 	//line = readline("minishell > ");
 	if(!line)
 		return (write(2, "ERROR ON READLINE\n", 19));
-	printf("%s\n", line);
 	free(line);
 	return 0;
 }
 
 //TODO MAKE READLINE PRINT THE CORRECT HOSTNAME
 
-//TODO BUILDINS: echo with -n || cd with only relative or absolout path || pwd with no options
+//TODO BUILDINS: echo with -n || cd with only relative or absolout path
 //TODO BUILDINS: export with no options || unset with no options || env with no options or arguments
 //TODO BUILDINS: exit with no options
+
+//TODO DONE: pwd with no options || 
+
+/*
+  * can you give me a description of these function and its return values if they have one
+*/
 
 /*
   * ALLOWED FUNCTIONS:
@@ -64,7 +84,6 @@ int main(int ac, char **av, char **envp)
   * opendir
   * readdir
   * closedir
-  * strerror
   * isatty
   * ttyname
   * ttyslot
@@ -94,4 +113,5 @@ int main(int ac, char **av, char **envp)
   ! exit
   ! pipe
   ! perror
+  ! strerror
 */

@@ -6,17 +6,19 @@
 #    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/31 15:50:49 by ecaliska          #+#    #+#              #
-#    Updated: 2024/02/02 17:54:46 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/02/06 17:28:08 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC= cc
 
-FLAGS= -Wall -Werror -Wextra -lreadline -g
+FLAGS= -Wall -Werror -Wextra -lreadline -g -L /opt/homebrew/Cellar/readline/8.1.2/lib
 
 NAME= minishell
 
-SRC= minishell.c
+SRC= minishell.c buildins/ft_echo.c buildins/ft_cd.c buildins/ft_env.c \
+	buildins/ft_exit.c buildins/ft_export.c buildins/ft_pwd.c buildins/ft_unset.c \
+	
 
 OBJ= $(SRC:.c=.o)
 
