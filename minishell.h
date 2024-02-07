@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/07 17:36:42 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/07 18:28:27 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct t_env
 */
 int	ft_echo(char *str);
 int	ft_cd(void);
-int	ft_env(t_env *envp);
+int	ft_env(char **envp);
 int	ft_unset(void);
 int	ft_pwd(void);		//TODO finsihed
 int	ft_export(void);
