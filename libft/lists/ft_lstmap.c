@@ -1,24 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/02 18:21:10 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/07 17:25:46 by ecaliska         ###   ########.fr       */
+/*   Created: 2023/10/28 17:44:50 by ecaliska          #+#    #+#             */
+/*   Updated: 2024/02/07 17:46:20 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../libft.h"
 
-int	ft_env(t_env *envp)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	while (envp->next != NULL)
+	t_list	*node;
+	t_list	*list;
+
+	if (!lst || !f || !del)
+		return (NULL);
+	list = NULL;
+	while (lst)
 	{
-		printf("name is : %s\n", envp->name);
-		printf("value is : %s\n\n", envp->name);
-		envp= envp->next;
+		node = ft_lstnew(f(lst->content));
+		if (!node)
+		{
+			ft_lstclear(&list, del);
+			return (NULL);
+		}
+		ft_lstadd_back(&list, node);
+		lst = lst -> next;
 	}
-	return 0;
+	return (list);
 }

@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/02 18:21:10 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/07 17:25:46 by ecaliska         ###   ########.fr       */
+/*   Created: 2023/09/05 12:18:29 by ecaliska          #+#    #+#             */
+/*   Updated: 2024/02/07 17:56:31 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../libft.h"
 
-int	ft_env(t_env *envp)
+size_t	ft_strlen(const char *str)
 {
-	while (envp->next != NULL)
-	{
-		printf("name is : %s\n", envp->name);
-		printf("value is : %s\n\n", envp->name);
-		envp= envp->next;
-	}
-	return 0;
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }

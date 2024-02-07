@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/02 18:21:10 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/07 17:25:46 by ecaliska         ###   ########.fr       */
+/*   Created: 2023/09/08 21:25:23 by ecaliska          #+#    #+#             */
+/*   Updated: 2024/02/07 17:47:23 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../libft.h"
 
-int	ft_env(t_env *envp)
+void	ft_putstr_fd(char *s, int fd)
 {
-	while (envp->next != NULL)
+	int	i;
+
+	i = 0;
+	while (s[i])
 	{
-		printf("name is : %s\n", envp->name);
-		printf("value is : %s\n\n", envp->name);
-		envp= envp->next;
+		write(fd, &s[i], 1);
+		i++;
 	}
-	return 0;
 }

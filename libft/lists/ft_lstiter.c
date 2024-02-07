@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_lstiter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/02 18:21:10 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/07 17:25:46 by ecaliska         ###   ########.fr       */
+/*   Created: 2023/10/28 17:44:54 by ecaliska          #+#    #+#             */
+/*   Updated: 2024/02/07 17:46:16 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../libft.h"
 
-int	ft_env(t_env *envp)
+void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	while (envp->next != NULL)
+	if (!lst || !f)
+		return ;
+	while (lst != NULL)
 	{
-		printf("name is : %s\n", envp->name);
-		printf("value is : %s\n\n", envp->name);
-		envp= envp->next;
+		f(lst -> content);
+		lst = lst -> next;
 	}
-	return 0;
 }

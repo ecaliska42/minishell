@@ -6,7 +6,7 @@
 #    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/31 15:50:49 by ecaliska          #+#    #+#              #
-#    Updated: 2024/02/06 17:28:08 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/02/07 18:11:13 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,9 +41,4 @@ fclean:	clean
 re:	fclean all
 	$(MAKE) re -C libft
 
-gitpush: fclean
-	@git add *
-	@git commit -m "Makefile pushing"
-	@git push
-
-.PHONY: all clean fclean re gitpush
+.PHONY: all clean fclean re

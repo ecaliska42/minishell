@@ -6,12 +6,21 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/07 15:11:31 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/07 17:36:42 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+# define RED "\033[0;31m"
+# define BLACK "\033[0;30m"
+# define GREEN "\033[0;32m"
+# define YELLOW "\033[0;33m"
+# define BLUE "\033[0;34m"
+# define PURPLE "\033[0;35m"
+# define CYAN "\033[0;36m"
+# define WHITE "\033[0;37m"
 
 # include "libft/libft.h"
 
@@ -49,12 +58,19 @@ typedef struct t_files
 	char	*outfile;
 }	t_file;
 
+typedef struct t_env
+{
+	char	*name;
+	char	*value;
+	struct t_env	*next;
+}	t_env;
+
 /*
 	*BUILDINS
 */
 int	ft_echo(char *str);
 int	ft_cd(void);
-int	ft_env(char **envp);
+int	ft_env(t_env *envp);
 int	ft_unset(void);
 int	ft_pwd(void);		//TODO finsihed
 int	ft_export(void);

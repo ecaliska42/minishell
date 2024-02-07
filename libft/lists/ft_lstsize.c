@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/02 18:21:10 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/07 17:25:46 by ecaliska         ###   ########.fr       */
+/*   Created: 2023/10/28 17:44:51 by ecaliska          #+#    #+#             */
+/*   Updated: 2024/02/07 17:46:23 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../libft.h"
 
-int	ft_env(t_env *envp)
+int	ft_lstsize(t_list *lst)
 {
-	while (envp->next != NULL)
+	t_list	*temp;
+	int		i;
+
+	if (!lst)
+		return (0);
+	temp = lst;
+	i = 0;
+	while (temp)
 	{
-		printf("name is : %s\n", envp->name);
-		printf("value is : %s\n\n", envp->name);
-		envp= envp->next;
+		i++;
+		temp = temp -> next;
 	}
-	return 0;
+	return (i);
 }
