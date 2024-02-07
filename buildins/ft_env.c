@@ -6,13 +6,21 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:10 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/06 16:39:58 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/07 15:22:51 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_env(void)
+int	ft_env(char **envp)
 {
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		printf("%s\n", envp[i]);
+		i++;
+	}
 	return 0;
 }

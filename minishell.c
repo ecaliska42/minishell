@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/06 19:07:42 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/07 15:11:37 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 /*
 	TODO MAKE PROTECTIONS IF FUNCTIONS FAIL
 */
-int	parse_functions(char *s)
+int	parse_functions(char *s, char **envp)
 {
 	if (ft_strncmp("echo ", s, 5) == 0)
 		ft_echo(ft_strchr(s, ' '));
 	if (ft_strncmp("pwd", s, 3) == 0)
 		ft_pwd();
+	if (ft_strncmp("env", s, 3) == 0)
+		ft_env(envp);
 	return 0;
 }
 
@@ -35,7 +37,7 @@ int main(int ac, char **av, char **envp)
 	while ((line = readline("minishell > ")))
 	{
 		add_history(line);
-		parse_functions(line);
+		parse_functions(line, envp);
 		
 		//printf("%s\n", line);
 		continue;

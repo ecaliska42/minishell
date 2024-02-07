@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/06 19:06:05 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/07 15:11:31 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct t_files
 */
 int	ft_echo(char *str);
 int	ft_cd(void);
-int	ft_env(void);
+int	ft_env(char **envp);
 int	ft_unset(void);
 int	ft_pwd(void);		//TODO finsihed
 int	ft_export(void);
