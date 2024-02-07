@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/07 18:29:54 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/07 19:21:54 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	e(void)
 /*
 	TODO MAKE PROTECTIONS IF FUNCTIONS FAIL
 */
-int	parse_functions(char *s, char **environment)
+int	parse_functions(char *s, t_env *environment)
 {
 	if (ft_strncmp("echo ", s, 5) == 0)
 		ft_echo(ft_strchr(s, ' '));
@@ -67,7 +67,10 @@ char	*get_after(char *str, char character)
 	while (str[i])
 	{
 		if (str[i] == character)
+		{
+			i++;
 			break;
+		}
 		i++;
 	}
 	ret = malloc(ft_strlen(str) - i + 1);
@@ -84,24 +87,39 @@ char	*get_after(char *str, char character)
 	return (ret);
 }
 
-int	copy_environment(char **envp, t_env *lst)
+int	copy_environment(char **envp, t_env **lst)
 {
 	int	i;
+	t_env *new_node;
+	t_env	*tail = NULL;
 
 	i = 0;
 	while(envp[i])
 	{
-		lst->name = get_till(envp[i], '=');
-		lst->value = get_after(envp[i], '=');
-		lst = lst->next;
+		new_node = malloc(sizeof(t_env));
+		if (!new_node)
+			break;
+		new_node->name = get_till(envp[i], '=');
+		new_node->value = get_after(envp[i], '=');
+		new_node->next = NULL;
+		if (*lst == NULL)
+			*lst = new_node;
+		else
+			tail->next = new_node;
+		tail = new_node;
 		i++;
 	}
-	e();
-	lst->next = NULL;
 	return (0);
 }
 
-
+void	print_list(t_env *env)
+{
+	for(int i = 0; i < 10; i++){
+		printf("%s\n", env->name);
+		env = env->next;
+	}
+	exit(1);
+}
 
 int main(int ac, char **av, char **envp)
 {
@@ -110,13 +128,13 @@ int main(int ac, char **av, char **envp)
 	(void) av;
 	(void) ac;
 	char *line;
-	//t_env	environment;
+	t_env	*environment = NULL;
 	
-	//copy_environment(envp, &environment);
+	copy_environment(envp, &environment);
 	while ((line = readline("minishell > ")))
 	{
 		add_history(line);
-		parse_functions(line, envp);
+		parse_functions(line, environment);
 		
 		//printf("%s\n", line);
 		continue;
