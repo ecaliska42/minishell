@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/07 19:21:54 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/08 16:14:23 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char	*get_after(char *str, char character)
 		}
 		i++;
 	}
+	printf("after is %s\n", str);
 	ret = malloc(ft_strlen(str) - i + 1);
 	if (!ret)
 		return (NULL);
@@ -96,11 +97,12 @@ int	copy_environment(char **envp, t_env **lst)
 	i = 0;
 	while(envp[i])
 	{
+		// printf("\nwhole envp for %d is %s\n", i, envp[i]);
 		new_node = malloc(sizeof(t_env));
 		if (!new_node)
 			break;
 		new_node->name = get_till(envp[i], '=');
-		new_node->value = get_after(envp[i], '=');
+		new_node->values = ft_split(get_after(envp[i], '='), ':');
 		new_node->next = NULL;
 		if (*lst == NULL)
 			*lst = new_node;
@@ -112,13 +114,20 @@ int	copy_environment(char **envp, t_env **lst)
 	return (0);
 }
 
-void	print_list(t_env *env)
+char	*search_for(t_env *stack, char *str)
 {
-	for(int i = 0; i < 10; i++){
-		printf("%s\n", env->name);
-		env = env->next;
+	int i;
+
+	i = 0;
+	while (stack->next)
+	{
+		if (ft_strncmp(stack->name, str, ft_strlen(str)) == 0)
+		{
+			return (stack->values[0]);
+		}
+		stack = stack ->next;
 	}
-	exit(1);
+	return (NULL);
 }
 
 int main(int ac, char **av, char **envp)
@@ -131,11 +140,12 @@ int main(int ac, char **av, char **envp)
 	t_env	*environment = NULL;
 	
 	copy_environment(envp, &environment);
-	while ((line = readline("minishell > ")))
+	//printf("%s@%s -> ", search_for(environment, "LOGNAME"), search_for(environment, "PWD"));
+	while ((line = readline("shell > ")))
 	{
 		add_history(line);
 		parse_functions(line, environment);
-		
+		//printf("%s@%s -> ", search_for(environment, "LOGNAME"), search_for(environment, "PWD"));
 		//printf("%s\n", line);
 		continue;
 	}

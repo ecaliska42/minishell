@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/07 19:08:45 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/08 11:38:16 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct t_files
 typedef struct t_env
 {
 	char	*name;
-	char	*value;
+	char	**values;
 	struct t_env	*next;
 }	t_env;
 
