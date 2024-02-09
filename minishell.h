@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/08 11:38:16 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/09 20:00:34 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,13 @@ typedef struct t_env
 	struct t_env	*next;
 }	t_env;
 
+typedef struct parse
+{
+	char *check;
+	char **command;
+	struct	parse *next;
+}	t_parse;
+
 /*
 	*BUILDINS
 */
@@ -75,5 +82,17 @@ int	ft_unset(void);
 int	ft_pwd(void);		//TODO finsihed
 int	ft_export(void);
 int	ft_exit(void);
+
+/*
+	*PARSE_TEMPORARY
+*/
+char **parse_temp(char *s, t_parse **commands);
+void pathfinder(t_parse **comm, t_env **envi);
+void	ex(void);
+
+
+
+
+
 
 #endif

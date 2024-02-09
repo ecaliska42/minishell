@@ -6,13 +6,13 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/08 16:14:23 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/09 19:50:56 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	e(void)
+void	ex(void)
 {
 	printf("%sHERE\n", RED);
 }
@@ -20,14 +20,22 @@ void	e(void)
 /*
 	TODO MAKE PROTECTIONS IF FUNCTIONS FAIL
 */
-int	parse_functions(char *s, t_env *environment)
+int	parse_functions(char *s, t_env *environment, t_parse *com)
 {
-	if (ft_strncmp("echo ", s, 5) == 0)
+	if (ft_strncmp("echo ", s, 6) == 0)
 		ft_echo(ft_strchr(s, ' '));
-	if (ft_strncmp("pwd", s, 3) == 0)
+	if (ft_strncmp("pwd", s, 4) == 0)
 		ft_pwd();
-	if (ft_strncmp("env", s, 3) == 0)
+	if (ft_strncmp("env", s, 4) == 0)
 		ft_env(environment);
+	else
+	{
+		parse_temp(s, &com);
+		pathfinder(&com, &environment);
+		// for (; com; com=com->next)
+		// 	printf("path is %s\n", com->check);
+	}
+	//printf("%s command not found :(\n", s);
 	return 0;
 }
 
@@ -73,7 +81,6 @@ char	*get_after(char *str, char character)
 		}
 		i++;
 	}
-	printf("after is %s\n", str);
 	ret = malloc(ft_strlen(str) - i + 1);
 	if (!ret)
 		return (NULL);
@@ -138,13 +145,14 @@ int main(int ac, char **av, char **envp)
 	(void) ac;
 	char *line;
 	t_env	*environment = NULL;
+	t_parse *commands = NULL;
 	
 	copy_environment(envp, &environment);
 	//printf("%s@%s -> ", search_for(environment, "LOGNAME"), search_for(environment, "PWD"));
 	while ((line = readline("shell > ")))
 	{
 		add_history(line);
-		parse_functions(line, environment);
+		parse_functions(line, environment, commands);
 		//printf("%s@%s -> ", search_for(environment, "LOGNAME"), search_for(environment, "PWD"));
 		//printf("%s\n", line);
 		continue;
