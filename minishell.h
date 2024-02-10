@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/09 20:00:34 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/10 19:31:14 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ char **parse_temp(char *s, t_parse **commands);
 void pathfinder(t_parse **comm, t_env **envi);
 void	ex(void);
 
+/*
+	*EXECUTION
+*/
 
 
 
