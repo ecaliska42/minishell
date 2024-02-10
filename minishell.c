@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/09 19:50:56 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/10 18:43:30 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int	parse_functions(char *s, t_env *environment, t_parse *com)
 	{
 		parse_temp(s, &com);
 		pathfinder(&com, &environment);
-		// for (; com; com=com->next)
-		// 	printf("path is %s\n", com->check);
+		for (; com; com=com->next)
+			printf("path is %s\n", com->check);
 	}
 	//printf("%s command not found :(\n", s);
 	return 0;
@@ -139,8 +139,6 @@ char	*search_for(t_env *stack, char *str)
 
 int main(int ac, char **av, char **envp)
 {
-	if (!envp)
-		return 0;
 	(void) av;
 	(void) ac;
 	char *line;

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/09 20:02:46 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/10 17:09:44 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ char **parse_temp(char *s, t_parse **commands)
 	int i = 0;
 	char **temp = ft_split(s, '|');
 	t_parse *node;
-	node = malloc(sizeof(t_parse));
 	while (temp[i])
 	{
+		node = malloc(sizeof(t_parse));
 		node->command = ft_split(temp[i], ' ');
 		node->next = NULL;
 		//printf("node is : %s\n", node->command[0]);
