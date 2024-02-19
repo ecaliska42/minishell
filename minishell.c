@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/10 18:43:30 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/19 13:01:57 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ void	ex(void)
 	printf("%sHERE\n", RED);
 }
 
-/*
-	TODO MAKE PROTECTIONS IF FUNCTIONS FAIL
-*/
+
 int	parse_functions(char *s, t_env *environment, t_parse *com)
 {
 	if (ft_strncmp("echo ", s, 6) == 0)
@@ -30,12 +28,13 @@ int	parse_functions(char *s, t_env *environment, t_parse *com)
 		ft_env(environment);
 	else
 	{
-		parse_temp(s, &com);
+		t_mini count;
+		parse_temp(s, &com, &count);
 		pathfinder(&com, &environment);
-		for (; com; com=com->next)
-			printf("path is %s\n", com->check);
+		// for (; com; com=com->next)
+		// 	printf("path is %s\n", com->check);
+		execute(&com, &count);
 	}
-	//printf("%s command not found :(\n", s);
 	return 0;
 }
 

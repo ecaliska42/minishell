@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/10 19:31:14 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/19 14:54:16 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ typedef struct t_commands
 
 typedef struct t_files
 {
-	char	*infile;
-	char	*outfile;
+	int	infile;
+	int	outfile;
 }	t_file;
 
 typedef struct t_env
@@ -72,6 +72,12 @@ typedef struct parse
 	struct	parse *next;
 }	t_parse;
 
+
+typedef struct s_mini
+{
+	int	pipecount;
+	
+}	t_mini;
 /*
 	*BUILDINS
 */
@@ -86,14 +92,14 @@ int	ft_exit(void);
 /*
 	*PARSE_TEMPORARY
 */
-char **parse_temp(char *s, t_parse **commands);
+char **parse_temp(char *s, t_parse **commands, t_mini *count);
 void pathfinder(t_parse **comm, t_env **envi);
 void	ex(void);
 
 /*
 	*EXECUTION
 */
-
+int	execute(t_parse **comm, t_mini *count);
 
 
 

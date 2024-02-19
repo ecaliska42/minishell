@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/10 17:09:44 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/19 12:48:46 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,21 @@ static void add_back(t_parse **com, t_parse *node)
 	temp = *com;
 }
 
+
+int	count_in_line(char *s, char c)
+{
+	int	count;
+
+	count = 0;
+	while(*s)
+	{
+		if (*s == c)
+			count++;
+		s++;
+	}
+	return count;
+}
+
 void pathfinder(t_parse **comm, t_env **envi)
 {
 	int	i = 0;
@@ -47,12 +62,8 @@ void pathfinder(t_parse **comm, t_env **envi)
 	while (tmp2)
 	{
 		x = 0;
-		// for(int i = 0; tmp->values[i]; i++)
-		// 	printf("%s\n", tmp->values[x]);
-		// exit(1);
 		while (tmp->values[x])
 		{
-			usleep(5000);
 			printf("%s\n", tmp->values[x]);
 			temp = ft_strjoin(tmp->values[x], "/");
 			temp = ft_strjoin(temp, tmp2->command[0]);
@@ -68,11 +79,12 @@ void pathfinder(t_parse **comm, t_env **envi)
 	tmp2 = *comm;
 }
 
-char **parse_temp(char *s, t_parse **commands)
+char **parse_temp(char *s, t_parse **commands, t_mini *count)
 {
 	// int	infile;
 	// int	outfile;
 	int i = 0;
+	count->pipecount = count_in_line(s, '|');
 	char **temp = ft_split(s, '|');
 	t_parse *node;
 	while (temp[i])
