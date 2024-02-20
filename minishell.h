@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/19 14:54:16 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/20 11:11:41 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	ex(void);
 /*
 	*EXECUTION
 */
-int	execute(t_parse **comm, t_mini *count);
+int	execute(t_parse **comm, t_mini *count, char **envp);
 
 
 

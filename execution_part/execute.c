@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/19 16:58:49 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:56:50 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,34 +18,74 @@ typedef struct s_exe
 	int		**fd;
 }	t_exe;
 
-void	child(t_parse *comm, t_exe *ex_utils, int i, t_file *files, int pipes)
+//TODO TEMPORARY
+int fdprintf ( int fd, size_t bufmax, const char * fmt, ... )
+{
+  char * buffer;
+  int n;
+  va_list ap;
+
+  buffer = ( char * ) malloc ( bufmax );
+  if ( !buffer )
+    return 0;
+
+  va_start ( ap, fmt );
+  n = vsnprintf ( buffer, bufmax, fmt, ap );
+  va_end ( ap );
+
+  write ( fd, buffer, n );
+  free ( buffer );
+  return n;
+}
+
+void	child(t_parse *comm, t_exe *ex_utils, int i, t_file *files, int pipes, char **envp)
 {
 	if (i == 0)
 	{
 		dup2(files->infile, STDIN_FILENO);
 		close(files->infile);
-		dup2(ex_utils->fd[i][1], ex_utils->fd[i+1][0]);
+		dup2(ex_utils->fd[i][1], STDOUT_FILENO);
 		close(ex_utils->fd[i][1]);
 	}
 	else if (i > 0 && i < pipes)
 	{
-		dup2(ex_utils->fd[i][0], ex_utils->fd[i - 1][1]);
-		close(ex_utils->fd[i][0]);
-		dup2(ex_utils->fd[i][1], ex_utils->fd[i + 1][0]);
+		dup2(ex_utils->fd[i - 1][0], STDIN_FILENO);
+		close(ex_utils->fd[i - 1][0]);
+		dup2(ex_utils->fd[i][1], STDOUT_FILENO);
 		close(ex_utils->fd[i][1]);
 	}
-	if(i == pipes)
+	else
 	{
-		dup2(ex_utils->fd[i][0], ex_utils->fd[i-1][1]);
+		dup2(ex_utils->fd[i][0], STDIN_FILENO);
 		close(ex_utils->fd[i][0]);
-		dup2(ex_utils->fd[i][1], files->outfile);
-		close(ex_utils->fd[i][1]);
+		dup2(files->outfile, STDOUT_FILENO);
+		close(files->outfile);
 	}
-	execve(comm->check, comm->command, NULL); //TODO 1: PATH WITH COMMAND ATTATCHED 2: command split with ' '
+	if(i == pipes && i > 0)
+	{
+		dup2(ex_utils->fd[i - 1][0], STDIN_FILENO);
+		close(ex_utils->fd[i - 1][0]);
+		dup2(files->outfile, STDOUT_FILENO);
+		close(files->outfile);
+	}
+	else if (pipes == i)
+	{
+		dup2(ex_utils->fd[i][0], STDIN_FILENO);
+		close(ex_utils->fd[i][0]);
+		dup2(files->outfile, STDOUT_FILENO);
+		close(files->outfile);
+	}
+	//write(2, "Error\n", 7);
+	//fdprintf(2, 100, "check is %s and command is %s\n", comm->check, comm->command[0]);
+	execve(comm->check, comm->command, envp); //TODO 1: PATH WITH COMMAND ATTATCHED 2: command split with ' '
+	//perror("execve ");
+	write(2, comm->command[0], ft_strlen(comm->command[0]));
+	write(2, " : command not found\n", 22);
+	exit(1);
 }
 
 
-int	execute(t_parse **comm, t_mini *count)
+int	execute(t_parse **comm, t_mini *count, char **envp)
 {
 	t_exe	ex_struct;
 	t_file	files;
@@ -66,15 +106,27 @@ int	execute(t_parse **comm, t_mini *count)
 		pipe(ex_struct.fd[i]);
 		i++;
 	}
+	ex_struct.fd[i] = NULL;
 	i = 0;
 	while (tmp != NULL)
 	{
-	 	//printf("ok\n");
 		ex_struct.id[i] = fork();
+		//printf("tmp is %s\n", tmp->check);
 		if (ex_struct.id[i] == 0)
-			child(tmp, &ex_struct, i, &files, count->pipecount);
+			child(tmp, &ex_struct, i, &files, count->pipecount, envp);
 		tmp = tmp->next;
 		i++;
+	}
+	for (int x = 0; ex_struct.fd[x]; x++)
+	{
+		//ft_putstr_fd("ERROR\n", 2);
+		close(ex_struct.fd[x][1]);
+		close(ex_struct.fd[x][0]);
+	}
+	while (i)
+	{
+		waitpid(ex_struct.id[i], NULL, 0);
+		i--;
 	}
 	return 0;
 }

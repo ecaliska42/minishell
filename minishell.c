@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/19 13:01:57 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:55:49 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	ex(void)
 {
-	printf("%sHERE\n", RED);
+	printf("%sHERE\n%s", RED, WHITE);
 }
 
 
-int	parse_functions(char *s, t_env *environment, t_parse *com)
+int	parse_functions(char *s, t_env *environment, t_parse *com, char **envp)
 {
 	if (ft_strncmp("echo ", s, 6) == 0)
 		ft_echo(ft_strchr(s, ' '));
@@ -31,9 +31,7 @@ int	parse_functions(char *s, t_env *environment, t_parse *com)
 		t_mini count;
 		parse_temp(s, &com, &count);
 		pathfinder(&com, &environment);
-		// for (; com; com=com->next)
-		// 	printf("path is %s\n", com->check);
-		execute(&com, &count);
+		execute(&com, &count, envp);
 	}
 	return 0;
 }
@@ -149,7 +147,7 @@ int main(int ac, char **av, char **envp)
 	while ((line = readline("shell > ")))
 	{
 		add_history(line);
-		parse_functions(line, environment, commands);
+		parse_functions(line, environment, commands, envp);
 		//printf("%s@%s -> ", search_for(environment, "LOGNAME"), search_for(environment, "PWD"));
 		//printf("%s\n", line);
 		continue;

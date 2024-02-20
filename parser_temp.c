@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/19 12:48:46 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:24:53 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,23 @@ void pathfinder(t_parse **comm, t_env **envi)
 		x = 0;
 		while (tmp->values[x])
 		{
-			printf("%s\n", tmp->values[x]);
+			//printf("%s\n", tmp->values[x]);
+			temp = ft_strdup("");
 			temp = ft_strjoin(tmp->values[x], "/");
 			temp = ft_strjoin(temp, tmp2->command[0]);
-			if (access(temp, X_OK | F_OK))
+			if (access(temp, X_OK | F_OK) == 0)
 				break;
 			x++;
+			free(temp);
 		}
-		printf("temp is %s\n", temp);
+		if (access(temp, X_OK | F_OK)==-1)
+		{
+			write(2, tmp2->command[0], ft_strlen(tmp2->command[0]));
+			write(2, " : command not found\n", 22);
+			perror("access ");
+			temp = NULL;
+		}
+		//printf("temp is %s\n", temp);
 		tmp2->check = temp;
 		tmp2 = tmp2 -> next;
 	}
