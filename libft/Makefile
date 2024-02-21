@@ -6,7 +6,7 @@
 #    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/07 18:00:21 by ecaliska          #+#    #+#              #
-#    Updated: 2024/02/07 18:09:54 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/02/21 18:59:09 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRC=	ft_fd/ft_putchar_fd.c ft_fd/ft_putendl_fd.c ft_fd/ft_putnbr_fd.c \
 		utilitie/ft_atoi.c utilitie/ft_bzero.c utilitie/ft_calloc.c \
 		utilitie/ft_itoa.c \
 		to_is/ft_isalnum.c to_is/ft_isalpha.c to_is/ft_isascii.c to_is/ft_isdigit.c \
-		to_is/ft_isprint.c to_is/ft_tolower.c to_is/ft_toupper.c \
+		to_is/ft_isprint.c to_is/ft_tolower.c to_is/ft_toupper.c to_is/ft_iswhitespace.c\
 		lists/ft_lstadd_back.c lists/ft_lstadd_front.c lists/ft_lstclear.c \
 		lists/ft_lstdelone.c lists/ft_lstiter.c lists/ft_lstlast.c lists/ft_lstmap.c \
 		lists/ft_lstnew.c lists/ft_lstsize.c \

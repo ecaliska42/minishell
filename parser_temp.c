@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/20 19:24:53 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/21 19:13:00 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void pathfinder(t_parse **comm, t_env **envi)
 	while (tmp2)
 	{
 		x = 0;
+		//TODO INPUT IS COMPLETE PATH if (access(tmp2-))
 		while (tmp->values[x])
 		{
 			//printf("%s\n", tmp->values[x]);
