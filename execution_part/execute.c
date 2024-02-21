@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/21 18:20:21 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/21 19:30:17 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,9 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, t_file *files, int pipes, char
 	//fdprintf(2, 100, "check is %s and command is %s\n", comm->check, comm->command[0]);
 	execve(comm->check, comm->command, envp); //TODO 1: PATH WITH COMMAND ATTATCHED 2: command split with ' '
 	//perror("execve ");
-	write(2, comm->command[0], ft_strlen(comm->command[0]));
-	write(2, " : command not found\n", 22);
-	//exit(1);
+	// write(2, comm->command[0], ft_strlen(comm->command[0]));
+	// write(2, " : command not found\n", 22);
+	exit(127);//TODO look into correct exit status with echo $?
 }
 
 
