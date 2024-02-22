@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/20 11:11:41 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:52:47 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,19 @@ int	ft_exit(void);
 */
 char **parse_temp(char *s, t_parse **commands, t_mini *count);
 void pathfinder(t_parse **comm, t_env **envi);
-void	ex(void);
 
 /*
 	*EXECUTION
 */
 int	execute(t_parse **comm, t_mini *count, char **envp);
-
-
+/*
+	*MS_UTILS
+*/
+int		count_in_line(char *s, char c);
+char	*get_till(char *str, char character);
+char	*get_after(char *str, char character);
+void	ex(void);	//*DEBUGGING AND GHOST FUNCTION
+char	*search_for(t_env *stack, char *str);	//*GHOST FUNCTION
 
 
 #endif

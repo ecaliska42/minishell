@@ -6,17 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/20 16:55:49 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:50:42 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ex(void)
-{
-	printf("%sHERE\n%s", RED, WHITE);
-}
-
 
 int	parse_functions(char *s, t_env *environment, t_parse *com, char **envp)
 {
@@ -36,62 +30,6 @@ int	parse_functions(char *s, t_env *environment, t_parse *com, char **envp)
 	return 0;
 }
 
-char	*get_till(char *str, char character)
-{
-	int		i;
-	int		j;
-	char	*ret;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == character)
-			break;
-		i++;
-	}
-	ret = malloc(i + 1);
-	if (!ret)
-		return (NULL);
-	j = 0;
-	while (j < i)
-	{
-		ret[j] = str[j];
-		j++;
-	}
-	ret[j] = '\0';
-	return (ret);
-}
-
-char	*get_after(char *str, char character)
-{
-	int		i;
-	int		j;
-	char	*ret;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == character)
-		{
-			i++;
-			break;
-		}
-		i++;
-	}
-	ret = malloc(ft_strlen(str) - i + 1);
-	if (!ret)
-		return (NULL);
-	j = 0;
-	while (str[i])
-	{
-		ret[j] = str[i];
-		j++;
-		i++;
-	}
-	ret[j] = '\0';
-	return (ret);
-}
-
 int	copy_environment(char **envp, t_env **lst)
 {
 	int	i;
@@ -101,7 +39,6 @@ int	copy_environment(char **envp, t_env **lst)
 	i = 0;
 	while(envp[i])
 	{
-		// printf("\nwhole envp for %d is %s\n", i, envp[i]);
 		new_node = malloc(sizeof(t_env));
 		if (!new_node)
 			break;
@@ -118,41 +55,22 @@ int	copy_environment(char **envp, t_env **lst)
 	return (0);
 }
 
-char	*search_for(t_env *stack, char *str)
-{
-	int i;
-
-	i = 0;
-	while (stack->next)
-	{
-		if (ft_strncmp(stack->name, str, ft_strlen(str)) == 0)
-		{
-			return (stack->values[0]);
-		}
-		stack = stack ->next;
-	}
-	return (NULL);
-}
-
 int main(int ac, char **av, char **envp)
 {
 	(void) av;
-	(void) ac;
+	if (ac != 1)
+		return(write(2, "PLEASE EXECUTE MINISHELL WITH ./minishell only!\n", 49));
 	char *line;
 	t_env	*environment = NULL;
 	t_parse *commands = NULL;
-	
+
 	copy_environment(envp, &environment);
-	//printf("%s@%s -> ", search_for(environment, "LOGNAME"), search_for(environment, "PWD"));
 	while ((line = readline("shell > ")))
 	{
 		add_history(line);
 		parse_functions(line, environment, commands, envp);
-		//printf("%s@%s -> ", search_for(environment, "LOGNAME"), search_for(environment, "PWD"));
-		//printf("%s\n", line);
 		continue;
 	}
-	//line = readline("minishell > ");
 	if(!line)
 		return (write(2, "ERROR ON READLINE\n", 19));
 	free(line);
