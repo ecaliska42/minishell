@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/22 15:50:42 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/23 14:30:00 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	parse_functions(char *s, t_env *environment, t_parse *com, char **envp)
 		ft_pwd();
 	if (ft_strncmp("env", s, 4) == 0)
 		ft_env(environment);
+	if (ft_strncmp("exit", s, 5) == 0)
+		ft_exit();
 	else
 	{
 		t_mini count;

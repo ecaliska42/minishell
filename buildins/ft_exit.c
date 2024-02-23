@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:08 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/06 16:42:44 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/23 14:29:15 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,6 @@
 int	ft_exit(void)
 {
 	printf("exiting minishell\n");
+	exit(0);
 	return 0;
 }
