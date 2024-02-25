@@ -91,12 +91,12 @@ int	execute(t_parse **comm, t_mini *count, char **envp)
 {
 	t_exe	ex_struct;
 	t_file	files;
-	files.infile = open("infile.txt", O_RDONLY);
-	if (files.infile < 0)
-		perror("");
-	files.outfile = open("outfile.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (files.outfile < 0)
-		perror("");
+	//files.infile = open("infile.txt", O_RDONLY);
+	//if (files.infile < 0)
+	//	perror("");
+	//files.outfile = open("outfile.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	//if (files.outfile < 0)
+	//	perror("");
 	t_parse *tmp;
 	tmp = *comm;
 	ex_struct.id = malloc(count->pipecount * sizeof(pid_t));
