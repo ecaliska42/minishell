@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/22 15:52:47 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/26 16:23:31 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,12 @@ typedef struct t_env
 
 typedef struct parse
 {
-	char *check;
-	char **command;
+	char	*check;
+	char	**command;
+	char	*infile;
+	char	*outfile;
+	int		infd;
+	int		outfd;
 	struct	parse *next;
 }	t_parse;
 
@@ -107,6 +111,10 @@ char	*get_till(char *str, char character);
 char	*get_after(char *str, char character);
 void	ex(void);	//*DEBUGGING AND GHOST FUNCTION
 char	*search_for(t_env *stack, char *str);	//*GHOST FUNCTION
+char	*get_first_word_after_char(char *str, char c);
+char	*get_first_word(char *str);
 
+void	printf_double(char **str);
+void	printf_tripple(char ***str);
 
 #endif

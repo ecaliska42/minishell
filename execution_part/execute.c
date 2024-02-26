@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/23 18:52:41 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/26 21:09:16 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,30 +46,130 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, t_file *files, int pipes, char
 	{
 		if (i == 0)
 		{
-			if(dup2(ex_utils->fd[i][1], STDOUT_FILENO) == -1)
-				perror("");
+			if (comm->infd > 0 && comm->infile)
+			{
+				if (dup2(comm->infd, STDIN_FILENO) == -1)
+					perror("");
+				close(comm->infd);
+			}
+			if (comm->outfd > 0 && comm->outfile)
+			{
+				dup2(comm->outfd, STDOUT_FILENO);
+				close(comm->outfd);
+			}
+			else
+			{
+				if(dup2(ex_utils->fd[i][1], STDOUT_FILENO) == -1)
+					perror("");
+			}
 			if (i == pipes)
 			{
+				if (comm->outfd > 0 && comm->outfile)
+				{
+					if(dup2(ex_utils->fd[i][0], STDIN_FILENO) == -1)
+						perror("");
+					if (dup2(comm->outfd, STDOUT_FILENO) == -1)
+						perror("");
+					close(comm->outfd);
+				}
+				else
+				{
+					if(dup2(ex_utils->fd[i][0], STDIN_FILENO) == -1)
+						perror("");
+					if(dup2(STDOUT_FILENO, STDOUT_FILENO) == -1)
+						perror("");
+				}
+			}
+		}
+		else if (i < pipes)
+		{
+			if (comm->infd > 0 && comm->infile)
+			{
+				if (dup2(comm->infd, STDIN_FILENO) == -1)
+					perror("");
+				close(comm->infd);
+				if (comm->outfd > 0 && comm->outfile)
+				{
+					if(dup2(ex_utils->fd[i][0], STDIN_FILENO) == -1)
+						perror("");
+					if (dup2(comm->outfd, STDOUT_FILENO) == -1)
+						perror("");
+					close(comm->outfd);
+				}
+			}
+			else if (comm->outfd > 0 && comm->outfile)
+			{
 				if(dup2(ex_utils->fd[i][0], STDIN_FILENO) == -1)
+					perror("");
+				if (dup2(comm->outfd, STDOUT_FILENO) == -1)
+					perror("");
+				close(comm->outfd);
+			}
+			else
+			{
+				if(dup2(ex_utils->fd[i - 1][0], STDIN_FILENO) == -1)
+					perror("");
+				if(dup2(ex_utils->fd[i][1], STDOUT_FILENO) == -1)
+					perror("");
+			}
+		}
+		if(i == pipes && i > 0)
+		{
+			if (comm->infd > 0 && comm->infile)
+			{
+				if (dup2(comm->infd, STDIN_FILENO) == -1)
+					perror("");
+				close(comm->infd);
+				if (comm->outfd > 0 && comm->outfile)
+				{
+					if (dup2(comm->outfd, STDOUT_FILENO) == -1)
+						perror("");
+					close(comm->outfd);
+				}
+			}
+			else if (comm->outfd > 0 && comm->outfile)
+			{
+				if(dup2(ex_utils->fd[i][0], STDIN_FILENO) == -1)
+					perror("");
+				if (dup2(comm->outfd, STDOUT_FILENO) == -1)
+					perror("");
+				close(comm->outfd);
+			}
+			else
+			{
+				if(dup2(ex_utils->fd[i - 1][0], STDIN_FILENO) == -1)
 					perror("");
 				if(dup2(STDOUT_FILENO, STDOUT_FILENO) == -1)
 					perror("");
 			}
 		}
-		else if (i < pipes)
+
+		//TODO TEMPOROARY
+		/*
+		if (comm->infd > 0 && comm->infile)
 		{
-			if(dup2(ex_utils->fd[i - 1][0], STDIN_FILENO) == -1)
+			if (dup2(comm->infd, STDIN_FILENO) == -1)
 				perror("");
-			if(dup2(ex_utils->fd[i][1], STDOUT_FILENO) == -1)
+			if (close(comm->infd) == -1)
 				perror("");
+			if (comm->outfd < 0)
+			{
+				if(dup2(STDOUT_FILENO, STDOUT_FILENO) == -1)
+					perror("");
+			}
 		}
-		if(i == pipes && i > 0)
+		if (comm->outfd > 0 && comm->outfile)
 		{
-			if(dup2(ex_utils->fd[i - 1][0], STDIN_FILENO) == -1)
+			if (dup2(comm->outfd, STDOUT_FILENO) == -1)
 				perror("");
-			if(dup2(STDOUT_FILENO, STDOUT_FILENO) == -1)
+			if (close(comm->outfd) == -1)
 				perror("");
+			// if(dup2(STDOUT_FILENO, STDOUT_FILENO) == -1)
+			// 	perror("");
 		}
+		*/
+		//TODO TEMPOROARY END
+		
 		for (int x = 0; ex_utils->fd[x]; x++)
 		{
 			if (close(ex_utils->fd[x][1]) == -1)
@@ -78,7 +178,23 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, t_file *files, int pipes, char
 				perror("loop 2 ");
 		}
 	}
-	//fdprintf(2, "check is %s and command is %s\n", comm->check, comm->command[0]);
+	else
+	{
+		if (comm->infd > 0 && comm->infile)
+		{
+			if (dup2(comm->infd, STDIN_FILENO) == -1)
+				perror("");
+			if (close(comm->infd) == -1)
+				perror("");
+		}
+		if (comm->outfd > 0 && comm->outfile)
+		{
+			if (dup2(comm->outfd, STDOUT_FILENO) == -1)
+				perror("");
+			if (close(comm->outfd) == -1)
+				perror("");
+		}
+	}
 	execve(comm->check, comm->command, envp); //TODO 1: PATH WITH COMMAND ATTATCHED 2: command split with ' '
 	perror("execve : ");
 	write(2, comm->command[0], ft_strlen(comm->command[0]));

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/22 14:43:09 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/26 21:14:29 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,23 @@ void pathfinder(t_parse **comm, t_env **envi)
 	tmp2 = *comm;
 }
 
+char	*remove_after_char(char *s, char c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+		{
+			s[i] = '\0';
+			break ;
+		}
+		i++;
+	}
+	return s;
+}
+
 char **parse_temp(char *s, t_parse **commands, t_mini *count)
 {
 	int i = 0;
@@ -81,7 +98,29 @@ char **parse_temp(char *s, t_parse **commands, t_mini *count)
 	while (temp[i])
 	{
 		node = malloc(sizeof(t_parse));
-		node->command = ft_split(temp[i], ' ');
+		node->infile = get_first_word_after_char(temp[i], '<');
+		printf("infile=%s\n", node->infile);
+		if (node->infile)
+		{
+			node->infd = open(node->infile, O_RDONLY);
+			if (node->infd == -1)
+				perror("");
+		}
+		node->outfile = get_first_word_after_char(temp[i], '>');
+		if (node->outfile)
+		{
+			node->outfd = open(node->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (node->outfd == -1)
+				perror("");
+		}
+		if (node->infile)
+		{
+			if (temp[i][1] == ' ')
+				temp[i] = &temp[i][1];
+			temp[i] = &temp[i][ft_strlen(node->infile) + 1];
+			printf("%d=%s\n", i, temp[i]);
+		}
+		node->command = ft_split(remove_after_char(temp[i], '>'), ' ');
 		node->next = NULL;
 		add_back(commands, node);
 		i++;
