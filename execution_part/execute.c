@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/26 21:09:16 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/27 16:27:50 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,108 +39,71 @@ int fdprintf ( int fd, const char * fmt, ... )
 }
 
 //TODO add closing functions after each dup2
-void	child(t_parse *comm, t_exe *ex_utils, int i, t_file *files, int pipes, char **envp)
+void	child(t_parse *comm, t_exe *ex_utils, int i, int pipes, char **envp)
 {
-	(void) files;
 	if (pipes != 0)
 	{
 		if (i == 0)
 		{
 			if (comm->infd > 0 && comm->infile)
-			{
-				if (dup2(comm->infd, STDIN_FILENO) == -1)
-					perror("");
-				close(comm->infd);
-			}
+				dup2(comm->infd, STDIN_FILENO);
 			if (comm->outfd > 0 && comm->outfile)
-			{
 				dup2(comm->outfd, STDOUT_FILENO);
-				close(comm->outfd);
-			}
 			else
-			{
-				if(dup2(ex_utils->fd[i][1], STDOUT_FILENO) == -1)
-					perror("");
-			}
-			if (i == pipes)
-			{
-				if (comm->outfd > 0 && comm->outfile)
-				{
-					if(dup2(ex_utils->fd[i][0], STDIN_FILENO) == -1)
-						perror("");
-					if (dup2(comm->outfd, STDOUT_FILENO) == -1)
-						perror("");
-					close(comm->outfd);
-				}
-				else
-				{
-					if(dup2(ex_utils->fd[i][0], STDIN_FILENO) == -1)
-						perror("");
-					if(dup2(STDOUT_FILENO, STDOUT_FILENO) == -1)
-						perror("");
-				}
-			}
+				dup2(ex_utils->fd[i][1], STDOUT_FILENO);
+			// if (i == pipes)
+			// {
+			// 	if (comm->outfd > 0 && comm->outfile)
+			// 	{
+			// 		dup2(ex_utils->fd[i][0], STDIN_FILENO);
+			// 		dup2(comm->outfd, STDOUT_FILENO);
+			// 	}
+			// 	else
+			// 	{
+			// 		dup2(ex_utils->fd[i][0], STDIN_FILENO);
+			// 		dup2(STDOUT_FILENO, STDOUT_FILENO);
+			// 	}
+			// }
 		}
 		else if (i < pipes)
 		{
 			if (comm->infd > 0 && comm->infile)
 			{
-				if (dup2(comm->infd, STDIN_FILENO) == -1)
-					perror("");
-				close(comm->infd);
+				dup2(comm->infd, STDIN_FILENO);
 				if (comm->outfd > 0 && comm->outfile)
 				{
-					if(dup2(ex_utils->fd[i][0], STDIN_FILENO) == -1)
-						perror("");
-					if (dup2(comm->outfd, STDOUT_FILENO) == -1)
-						perror("");
-					close(comm->outfd);
+					// dup2(ex_utils->fd[i][0], STDIN_FILENO);
+					dup2(comm->outfd, STDOUT_FILENO);
 				}
 			}
 			else if (comm->outfd > 0 && comm->outfile)
 			{
-				if(dup2(ex_utils->fd[i][0], STDIN_FILENO) == -1)
-					perror("");
-				if (dup2(comm->outfd, STDOUT_FILENO) == -1)
-					perror("");
-				close(comm->outfd);
+				dup2(ex_utils->fd[i][0], STDIN_FILENO);
+				dup2(comm->outfd, STDOUT_FILENO);
 			}
 			else
 			{
-				if(dup2(ex_utils->fd[i - 1][0], STDIN_FILENO) == -1)
-					perror("");
-				if(dup2(ex_utils->fd[i][1], STDOUT_FILENO) == -1)
-					perror("");
+				dup2(ex_utils->fd[i - 1][0], STDIN_FILENO);
+				dup2(ex_utils->fd[i][1], STDOUT_FILENO);
 			}
 		}
-		if(i == pipes && i > 0)
+		else if(i == pipes && i > 0)
 		{
 			if (comm->infd > 0 && comm->infile)
 			{
-				if (dup2(comm->infd, STDIN_FILENO) == -1)
-					perror("");
-				close(comm->infd);
+				dup2(comm->infd, STDIN_FILENO);
 				if (comm->outfd > 0 && comm->outfile)
-				{
-					if (dup2(comm->outfd, STDOUT_FILENO) == -1)
-						perror("");
-					close(comm->outfd);
-				}
+					dup2(comm->outfd, STDOUT_FILENO);
 			}
 			else if (comm->outfd > 0 && comm->outfile)
 			{
-				if(dup2(ex_utils->fd[i][0], STDIN_FILENO) == -1)
-					perror("");
-				if (dup2(comm->outfd, STDOUT_FILENO) == -1)
-					perror("");
-				close(comm->outfd);
+				dup2(ex_utils->fd[i][0], STDIN_FILENO);
+				dup2(comm->outfd, STDOUT_FILENO);
 			}
 			else
 			{
-				if(dup2(ex_utils->fd[i - 1][0], STDIN_FILENO) == -1)
-					perror("");
-				if(dup2(STDOUT_FILENO, STDOUT_FILENO) == -1)
-					perror("");
+				dup2(ex_utils->fd[i - 1][0], STDIN_FILENO);
+				dup2(STDOUT_FILENO, STDOUT_FILENO);
 			}
 		}
 
@@ -177,6 +140,10 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, t_file *files, int pipes, char
 			if (close(ex_utils->fd[x][0]) == -1)
 				perror("loop 2 ");
 		}
+		if (comm->infd > 0 && comm -> infile)
+			close(comm->infd);
+		if (comm->outfd > 0 && comm -> outfile)
+			close(comm->outfd);
 	}
 	else
 	{
@@ -190,11 +157,13 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, t_file *files, int pipes, char
 		if (comm->outfd > 0 && comm->outfile)
 		{
 			if (dup2(comm->outfd, STDOUT_FILENO) == -1)
-				perror("");
+				perror("here1 ");
 			if (close(comm->outfd) == -1)
-				perror("");
+				perror("here2 ");
 		}
 	}
+	if (comm->infd < 0)
+		exit (1);
 	execve(comm->check, comm->command, envp); //TODO 1: PATH WITH COMMAND ATTATCHED 2: command split with ' '
 	perror("execve : ");
 	write(2, comm->command[0], ft_strlen(comm->command[0]));
@@ -206,13 +175,6 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, t_file *files, int pipes, char
 int	execute(t_parse **comm, t_mini *count, char **envp)
 {
 	t_exe	ex_struct;
-	t_file	files;
-	//files.infile = open("infile.txt", O_RDONLY);
-	//if (files.infile < 0)
-	//	perror("");
-	//files.outfile = open("outfile.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	//if (files.outfile < 0)
-	//	perror("");
 	t_parse *tmp;
 	tmp = *comm;
 	ex_struct.id = malloc(count->pipecount * sizeof(pid_t));
@@ -230,7 +192,7 @@ int	execute(t_parse **comm, t_mini *count, char **envp)
 	{
 		ex_struct.id[i] = fork();
 		if (ex_struct.id[i] == 0)
-			child(tmp, &ex_struct, i, &files, count->pipecount, envp);
+			child(tmp, &ex_struct, i, count->pipecount, envp);
 		tmp = tmp->next;
 		i++;
 	}

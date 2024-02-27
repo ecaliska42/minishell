@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/26 21:14:29 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/27 16:25:53 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ char **parse_temp(char *s, t_parse **commands, t_mini *count)
 	{
 		node = malloc(sizeof(t_parse));
 		node->infile = get_first_word_after_char(temp[i], '<');
-		printf("infile=%s\n", node->infile);
 		if (node->infile)
 		{
 			node->infd = open(node->infile, O_RDONLY);
@@ -107,7 +106,7 @@ char **parse_temp(char *s, t_parse **commands, t_mini *count)
 				perror("");
 		}
 		node->outfile = get_first_word_after_char(temp[i], '>');
-		if (node->outfile)
+		if (node->outfile && node->infd != -1)
 		{
 			node->outfd = open(node->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (node->outfd == -1)
@@ -115,10 +114,11 @@ char **parse_temp(char *s, t_parse **commands, t_mini *count)
 		}
 		if (node->infile)
 		{
-			if (temp[i][1] == ' ')
+			if (temp[i][0] == ' ')
 				temp[i] = &temp[i][1];
+			if (temp[i][1] == ' ')
+				temp[i] = &temp[i][2];
 			temp[i] = &temp[i][ft_strlen(node->infile) + 1];
-			printf("%d=%s\n", i, temp[i]);
 		}
 		node->command = ft_split(remove_after_char(temp[i], '>'), ' ');
 		node->next = NULL;
