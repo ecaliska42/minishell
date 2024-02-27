@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/27 16:27:50 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/27 18:42:18 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,25 +45,14 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, int pipes, char **envp)
 	{
 		if (i == 0)
 		{
+			ft_putstr_fd(comm->infile, 2);
+			write(2, "\n", 2);
 			if (comm->infd > 0 && comm->infile)
 				dup2(comm->infd, STDIN_FILENO);
 			if (comm->outfd > 0 && comm->outfile)
 				dup2(comm->outfd, STDOUT_FILENO);
 			else
 				dup2(ex_utils->fd[i][1], STDOUT_FILENO);
-			// if (i == pipes)
-			// {
-			// 	if (comm->outfd > 0 && comm->outfile)
-			// 	{
-			// 		dup2(ex_utils->fd[i][0], STDIN_FILENO);
-			// 		dup2(comm->outfd, STDOUT_FILENO);
-			// 	}
-			// 	else
-			// 	{
-			// 		dup2(ex_utils->fd[i][0], STDIN_FILENO);
-			// 		dup2(STDOUT_FILENO, STDOUT_FILENO);
-			// 	}
-			// }
 		}
 		else if (i < pipes)
 		{
@@ -71,10 +60,7 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, int pipes, char **envp)
 			{
 				dup2(comm->infd, STDIN_FILENO);
 				if (comm->outfd > 0 && comm->outfile)
-				{
-					// dup2(ex_utils->fd[i][0], STDIN_FILENO);
 					dup2(comm->outfd, STDOUT_FILENO);
-				}
 			}
 			else if (comm->outfd > 0 && comm->outfile)
 			{
@@ -97,7 +83,7 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, int pipes, char **envp)
 			}
 			else if (comm->outfd > 0 && comm->outfile)
 			{
-				dup2(ex_utils->fd[i][0], STDIN_FILENO);
+				dup2(ex_utils->fd[i - 1][0], STDIN_FILENO);
 				dup2(comm->outfd, STDOUT_FILENO);
 			}
 			else
@@ -106,33 +92,6 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, int pipes, char **envp)
 				dup2(STDOUT_FILENO, STDOUT_FILENO);
 			}
 		}
-
-		//TODO TEMPOROARY
-		/*
-		if (comm->infd > 0 && comm->infile)
-		{
-			if (dup2(comm->infd, STDIN_FILENO) == -1)
-				perror("");
-			if (close(comm->infd) == -1)
-				perror("");
-			if (comm->outfd < 0)
-			{
-				if(dup2(STDOUT_FILENO, STDOUT_FILENO) == -1)
-					perror("");
-			}
-		}
-		if (comm->outfd > 0 && comm->outfile)
-		{
-			if (dup2(comm->outfd, STDOUT_FILENO) == -1)
-				perror("");
-			if (close(comm->outfd) == -1)
-				perror("");
-			// if(dup2(STDOUT_FILENO, STDOUT_FILENO) == -1)
-			// 	perror("");
-		}
-		*/
-		//TODO TEMPOROARY END
-		
 		for (int x = 0; ex_utils->fd[x]; x++)
 		{
 			if (close(ex_utils->fd[x][1]) == -1)
@@ -149,17 +108,17 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, int pipes, char **envp)
 	{
 		if (comm->infd > 0 && comm->infile)
 		{
-			if (dup2(comm->infd, STDIN_FILENO) == -1)
-				perror("");
-			if (close(comm->infd) == -1)
-				perror("");
+			dup2(comm->infd, STDIN_FILENO);
+				perror("dup2 l: 153 ");
+			close(comm->infd);
+				perror("dup2 l: 155 ");
 		}
 		if (comm->outfd > 0 && comm->outfile)
 		{
 			if (dup2(comm->outfd, STDOUT_FILENO) == -1)
-				perror("here1 ");
+				perror("dup2 l: 160 ");
 			if (close(comm->outfd) == -1)
-				perror("here2 ");
+				perror("dup2 l: 162 ");
 		}
 	}
 	if (comm->infd < 0)
@@ -171,6 +130,31 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, int pipes, char **envp)
 	exit(127);//TODO look into correct exit status with echo $?
 }
 
+//TODO TEMPOROARY
+/*
+if (comm->infd > 0 && comm->infile)
+{
+	if (dup2(comm->infd, STDIN_FILENO) == -1)
+		perror("");
+	if (close(comm->infd) == -1)
+		perror("");
+	if (comm->outfd < 0)
+	{
+		if(dup2(STDOUT_FILENO, STDOUT_FILENO) == -1)
+			perror("");
+	}
+}
+if (comm->outfd > 0 && comm->outfile)
+{
+	if (dup2(comm->outfd, STDOUT_FILENO) == -1)
+		perror("");
+	if (close(comm->outfd) == -1)
+		perror("");
+	// if(dup2(STDOUT_FILENO, STDOUT_FILENO) == -1)
+	// 	perror("");
+}
+*/
+//TODO TEMPOROARY END
 
 int	execute(t_parse **comm, t_mini *count, char **envp)
 {

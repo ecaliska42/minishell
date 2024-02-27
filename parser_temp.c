@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/27 16:25:53 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/27 18:23:47 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ char **parse_temp(char *s, t_parse **commands, t_mini *count)
 			if (node->outfd == -1)
 				perror("");
 		}
+		else
+			node->outfd = -1;
 		if (node->infile)
 		{
 			if (temp[i][0] == ' ')

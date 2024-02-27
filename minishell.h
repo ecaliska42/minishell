@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/26 16:23:31 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/27 18:27:28 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ typedef struct parse
 	char	**command;
 	char	*infile;
 	char	*outfile;
-	int		infd;
-	int		outfd;
+	long	infd;
+	long	outfd;
 	struct	parse *next;
 }	t_parse;
 
