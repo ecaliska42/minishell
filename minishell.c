@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/28 18:42:33 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:24:27 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int main(int ac, char **av, char **envp)
 	while ((line = readline("shell > ")))
 	{
 		add_history(line);
-		parse_functions(line, environment, commands, envp);
+		parse_functions(line, environment, commands, &environment);
 		continue;
 	}
 	if(!line)
