@@ -6,20 +6,20 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/23 14:30:00 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/28 18:42:33 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parse_functions(char *s, t_env *environment, t_parse *com, char **envp)
+int	parse_functions(char *s, t_env *environment, t_parse *com, t_env **envp)
 {
 	if (ft_strncmp("echo ", s, 6) == 0)
 		ft_echo(ft_strchr(s, ' '));
 	if (ft_strncmp("pwd", s, 4) == 0)
 		ft_pwd();
 	if (ft_strncmp("env", s, 4) == 0)
-		ft_env(environment);
+		ft_env(&environment);
 	if (ft_strncmp("exit", s, 5) == 0)
 		ft_exit();
 	else
@@ -36,7 +36,7 @@ int	copy_environment(char **envp, t_env **lst)
 {
 	int	i;
 	t_env *new_node;
-	t_env	*tail = NULL;
+	t_env	*tail;
 
 	i = 0;
 	while(envp[i])

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/27 18:27:28 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/28 18:42:16 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 # include <ncurses.h>   //tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 // Terminal control library
 # include <termios.h>   //tcsetattr, tcgetattr
+# include <stdbool.h>
 
 typedef struct t_commands
 {
@@ -86,11 +87,11 @@ typedef struct s_mini
 	*BUILDINS
 */
 int	ft_echo(char *str);
-int	ft_cd(void);
-int	ft_env(t_env *envp);
+int	ft_cd(t_env **lst, char *s);
+int	ft_env(t_env **envp);
 int	ft_unset(void);
 int	ft_pwd(void);		//TODO finsihed
-int	ft_export(void);
+int	ft_export(t_env **lst);
 int	ft_exit(void);
 
 /*
@@ -102,7 +103,7 @@ void pathfinder(t_parse **comm, t_env **envi);
 /*
 	*EXECUTION
 */
-int	execute(t_parse **comm, t_mini *count, char **envp);
+int	execute(t_parse **comm, t_mini *count, t_env **envp);
 /*
 	*MS_UTILS
 */
@@ -116,5 +117,11 @@ char	*get_first_word(char *str);
 
 void	printf_double(char **str);
 void	printf_tripple(char ***str);
+
+/*
+	*BUILDIN_CHECK.C
+*/
+bool	is_buildin(char **command, t_env **envp);
+int		execute_buildin(char *s, t_env **envp);
 
 #endif

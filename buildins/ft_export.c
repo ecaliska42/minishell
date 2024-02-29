@@ -6,13 +6,19 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:07 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/06 16:40:04 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/28 16:33:50 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_export(void)
+int	ft_export(t_env **lst)
 {
+	t_env	*temp;
+	int		i;
+
+	i = 0;
+	temp = *lst;
+	
 	return 0;
 }

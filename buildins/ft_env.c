@@ -6,31 +6,33 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:10 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/09 15:12:29 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/28 16:29:36 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_env(t_env *envp)
+int	ft_env(t_env **envp)
 {
 	int i = 0;
-	while (envp != NULL)
+	t_env	*tmp;
+
+	tmp = *envp;
+	while (tmp != NULL)
 	{
-		//printf("\nname is :%s\n", envp->name);
-		printf("%s=",envp->name);
+		printf("%s=",tmp->name);
 		i = 0;
-		while (envp->values[i])
+		while (tmp->values[i])
 		{
-			//printf("values are :%s\n", envp->values[i]);
-			if (!envp->values[i + 1])
-				printf("%s", envp->values[i]);
+			if (!tmp->values[i + 1])
+				printf("%s", tmp->values[i]);
 			else
-				printf("%s:", envp->values[i]);
+				printf("%s:", tmp->values[i]);
 			i++;
 		}
 		printf("\n");
-		envp = envp->next;
+		tmp = tmp->next;
 	}
+	tmp = *envp;
 	return 0;
 }

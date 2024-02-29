@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/27 18:42:18 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/28 18:41:52 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ typedef struct s_exe
 }	t_exe;
 
 //TODO TEMPORARY
-int fdprintf ( int fd, const char * fmt, ... )
+int fdprintf ( int fd, const char * str, ... )
 {
   char * buffer;
   int n;
@@ -29,8 +29,8 @@ int fdprintf ( int fd, const char * fmt, ... )
   if ( !buffer )
     return 0;
 
-  va_start ( ap, fmt );
-  n = vsnprintf ( buffer, 100, fmt, ap );
+  va_start ( ap, str );
+  n = vsnprintf ( buffer, 100, str, ap );
   va_end ( ap );
 
   write ( fd, buffer, n );
@@ -39,7 +39,7 @@ int fdprintf ( int fd, const char * fmt, ... )
 }
 
 //TODO add closing functions after each dup2
-void	child(t_parse *comm, t_exe *ex_utils, int i, int pipes, char **envp)
+void	child(t_parse *comm, t_exe *ex_utils, int i, int pipes, t_env **envp)
 {
 	if (pipes != 0)
 	{
@@ -123,7 +123,10 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, int pipes, char **envp)
 	}
 	if (comm->infd < 0)
 		exit (1);
-	execve(comm->check, comm->command, envp); //TODO 1: PATH WITH COMMAND ATTATCHED 2: command split with ' '
+	if (is_buildin(comm->command, envp) == true)
+		execute_buildin(comm->command[0], envp);
+	else
+		execve(comm->check, comm->command, NULL); //TODO 1: PATH WITH COMMAND ATTATCHED 2: command split with ' '
 	perror("execve : ");
 	write(2, comm->command[0], ft_strlen(comm->command[0]));
 	write(2, " : command not found\n", 22);
@@ -156,7 +159,7 @@ if (comm->outfd > 0 && comm->outfile)
 */
 //TODO TEMPOROARY END
 
-int	execute(t_parse **comm, t_mini *count, char **envp)
+int	execute(t_parse **comm, t_mini *count, t_env **envp)
 {
 	t_exe	ex_struct;
 	t_parse *tmp;
