@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/28 18:42:16 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/29 16:43:47 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	printf_tripple(char ***str);
 /*
 	*BUILDIN_CHECK.C
 */
-bool	is_buildin(char **command, t_env **envp);
+bool	is_buildin(char **command);
 int		execute_buildin(char *s, t_env **envp);
 
 #endif

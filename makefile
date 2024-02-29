@@ -6,7 +6,7 @@
 #    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/31 15:50:49 by ecaliska          #+#    #+#              #
-#    Updated: 2024/02/27 18:48:49 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/02/29 16:42:46 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC= minishell.c buildins/ft_echo.c buildins/ft_cd.c buildins/ft_env.c \
 	buildins/ft_exit.c buildins/ft_export.c buildins/ft_pwd.c buildins/ft_unset.c \
 	parser_temp.c execution_part/execute.c ms_utils.c \
 	get_first_word_after_char.c printf_double_tripple.c get_first_word.c\
+	buildin_check.c \
 	
 
 OBJ= $(SRC:.c=.o)

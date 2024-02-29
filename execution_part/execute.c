@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/29 15:23:55 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/02/29 17:44:18 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ typedef struct s_exe
 {
 	pid_t	*id;
 	int		**fd;
+	int		pipecount;
 }	t_exe;
 
 //TODO TEMPORARY
@@ -39,9 +40,9 @@ int fdprintf ( int fd, const char * str, ... )
 }
 
 //TODO add closing functions after each dup2
-void	child(t_parse *comm, t_exe *ex_utils, int i, int pipes, t_env **envp)
+void	child(t_parse *comm, t_exe *ex_utils, int i, t_env **envp)
 {
-	if (pipes != 0)
+	if (ex_utils->pipecount != 0)
 	{
 		if (i == 0)
 		{
@@ -54,7 +55,7 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, int pipes, t_env **envp)
 			else
 				dup2(ex_utils->fd[i][1], STDOUT_FILENO);
 		}
-		else if (i < pipes)
+		else if (i < ex_utils->pipecount)
 		{
 			if (comm->infd > 0 && comm->infile)
 			{
@@ -73,7 +74,7 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, int pipes, t_env **envp)
 				dup2(ex_utils->fd[i][1], STDOUT_FILENO);
 			}
 		}
-		else if(i == pipes && i > 0)
+		else if(i == ex_utils->pipecount && i > 0)
 		{
 			if (comm->infd > 0 && comm->infile)
 			{
@@ -123,13 +124,15 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, int pipes, t_env **envp)
 	}
 	if (comm->infd < 0)
 		exit (1);
-	if (is_buildin(comm->command, envp) == true)
+	if (is_buildin(comm->command) == true)
 		execute_buildin(comm->command[0], envp);
 	else
+	{
 		execve(comm->check, comm->command, NULL); //TODO 1: PATH WITH COMMAND ATTATCHED 2: command split with ' '
-	perror("execve : ");
-	write(2, comm->command[0], ft_strlen(comm->command[0]));
-	write(2, " : command not found\n", 22);
+		perror("execve : ");
+		write(2, comm->command[0], ft_strlen(comm->command[0]));
+		write(2, " : command not found\n", 22);
+	}
 	exit(127);//TODO look into correct exit status with echo $?
 }
 
@@ -166,6 +169,7 @@ int	execute(t_parse **comm, t_mini *count, t_env **envp)
 	tmp = *comm;
 	ex_struct.id = malloc(count->pipecount * sizeof(pid_t));
 	ex_struct.fd = malloc(count->pipecount * sizeof(int *) + 1);
+	ex_struct.pipecount = count->pipecount;
 	int i = 0;
 	while (i < count->pipecount)
 	{
@@ -179,7 +183,7 @@ int	execute(t_parse **comm, t_mini *count, t_env **envp)
 	{
 		ex_struct.id[i] = fork();
 		if (ex_struct.id[i] == 0)
-			child(tmp, &ex_struct, i, count->pipecount, envp);
+			child(tmp, &ex_struct, i, envp);
 		tmp = tmp->next;
 		i++;
 	}
