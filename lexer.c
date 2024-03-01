@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:14:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/02/28 18:58:32 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/01 15:11:19 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	lexical_analyzer(t_shell *shell)
 		{
 			ft_strtok(shell, &i);
 		}
-		i++;
 	}
 	if (shell->tokens == NULL)
 		return (ERROR);

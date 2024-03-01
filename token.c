@@ -6,11 +6,10 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:26:46 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/02/29 14:45:55 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/01 17:10:27 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "parsing.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,6 +19,7 @@ void ft_strtok(t_shell *shell, int *i)
 	char	*line;
 	char	*copy;
 	size_t		k;
+	t_token	*last_token;
 
 	if (!shell)
 		return ;
@@ -29,27 +29,31 @@ void ft_strtok(t_shell *shell, int *i)
 	copy = line;
 	while (copy[*i] != '\0')
 	{
-		// if (k >= ft_strlen(shell->tokens->str))
-		// 	break;
 		if (quote_check(copy[*i], &shell->quotes) == CLOSED)
 		{
-			printf("quotes: %c\n", shell->quotes);
-			if (ft_strchr(DELIM, copy[*i]))
+			if (ft_is_space(copy[*i]))
 				(*i)++;
 			else
 			{
 				token_add(&shell->tokens);
-				ft_tokenizer(shell, i);
-				if (shell->tokens->type != PIPE)
+				last_token = get_last_token(&shell->tokens);
+				ft_tokenizer(shell, last_token, *i);
+				if (last_token->type != RANDOM)
 				{
-					shell->tokens->str = get_word(line, i);
+					if (last_token->type == APPEND || last_token->type == HEREDOC)
+						(*i)++;
+					(*i)++;
 				}
-				(*i)++;
+				while (ft_is_space(line[*i]) == true)
+					(*i)++;
+				if (last_token->type != PIPE)
+				{
+					last_token->str = get_word(copy, i);
+				}
 			}
 		}
 		else if (quote_check(copy[*i], &shell->quotes) == S_QUOTE)
 		{
-			printf("quotes: %c\n", shell->quotes);
 			while (copy[*i] != '\'' && copy[*i] != '\0')
 			{
 				shell->tokens->str[k++] = copy[(*i)++];
@@ -60,7 +64,6 @@ void ft_strtok(t_shell *shell, int *i)
 		}
 		else if (quote_check(copy[*i], &shell->quotes) == D_QUOTE)
 		{
-			printf("quotes: %c\n", shell->quotes);
 			while (copy[*i] != '\"' && copy[*i] != '\0')
 			{
 				shell->tokens->str[k++] = copy[(*i)++];
@@ -69,55 +72,57 @@ void ft_strtok(t_shell *shell, int *i)
 				(*i)++;
 		}
 	}
-	shell->tokens->str[k] = '\0';
 }
 
 char *get_word(char *line, int *i)
 {
-	t_shell	shell;
 	char	*word;
 	int len;
 	int index;
+	int tmp;
 
+	tmp = *i;
 	index = 0;
-	len = length_of_word(&shell, i);
+	//printf("line: %s\n", line);
+	len = length_of_word(line, tmp);
+	// word = ft_substr(line, *i, ft_strlen(line));
 	word = malloc(len + 1);
 	if (!word)
 		exit(-1);
-	while (len > 0)
+	while (index < len)
 	{
-		word[index++] = line[*i];
+		word[index] = line[*i];
+		printf("character at i=%d is: %c\n", *i, line[*i]);
 		(*i)++;
-		len--;
+		//len--;
+		index++;
 	}
 	word[index] = '\0';
-	// word = ft_substr(line, *i, ft_strlen(line));
+	//printf("word: %s\n", word);
 	return (word);
 }
 
-int	length_of_word(t_shell *shell, int *i)
+int	length_of_word(char *str, int i)
 {
 	char	*line;
 	int		len;
 	char	quotes;
 
-	printf("i is: %d\n", *i);
 	len = 0;
 	quotes = CLOSED;
-	line = shell->input;
-	printf("line[*i]: %c\n", line[*i]);
-	while (ft_is_space(line[*i]) == true)
-		(*i)++;
-	while (!(ft_is_space(line[*i])) && (quote_check(line[*i], &quotes) || !(ft_is_special(line[*i]))) && line[*i] != '\0')
+	line = str;
+	while (ft_is_space(line[i]) == true)
+		i++;
+	while (!(ft_is_space(line[i])) && (quote_check(line[i], &quotes) || !(ft_is_special(line[i]))) && line[i] != '\0')
 	{
 		len++;
-		printf("len: %d\n", len);
-		printf("line[*i]: %c\n", line[*i]);
-		(*i)++;
+		//printf("line[*i]: %c\n", line[i]);
+		i++;
 	}
 	if (quotes != CLOSED)
 	{
 		printf("unclosed quote\n");
 	}
+	printf("len: %d\n", len);
 	return (len);
 }
