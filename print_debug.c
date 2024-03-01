@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 14:06:06 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/02/28 19:35:57 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/01 16:17:11 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,21 @@ void print_everything(t_shell *shell)
     t_token *token;
 
     token = shell->tokens;
-    if (!shell || !shell->tokens)
+    if (!shell)
     {
         fprintf(stderr, "Error: shell, shell->input, or shell->tokens is NULL\n");
         return;
     }
-    if (token)
+    if (!shell->tokens)
     {
-        printf("token->type: %d\n", token->type);
+        fprintf(stderr, "Error: shell->tokens is NULL\n");
+        return;
+    }
+    while (token)
+    {
         printf("token->str: %s\n", token->str);
-        // token = token->next;
+        printf("token->type: %d\n\n", token->type);
+        token = token->next;
     }
 }
 

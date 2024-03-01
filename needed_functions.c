@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:32:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/02/28 19:42:11 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/01 15:50:30 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,22 @@ bool ft_is_redirection(t_tokentype type)
 	return (false);
 }
 
+t_token *get_last_token(t_token **tokens)
+{
+	t_token *tmp;
+
+	tmp = *tokens;
+	if (!tmp)
+	{
+		return (NULL);
+	}
+	while (tmp->next)
+	{
+		tmp = tmp->next;
+	}
+	return (tmp);
+}
+
 int token_add(t_token **tokens)
 {
 	t_token *new;
@@ -61,7 +77,7 @@ int token_add(t_token **tokens)
 		return (-1);
 	}
 	ft_bzero(new, sizeof(t_token));
-	if (*tokens == NULL)
+	if (tmp == NULL)
 	{
 		*tokens = new;
 		return (0);
@@ -71,9 +87,30 @@ int token_add(t_token **tokens)
 		tmp = tmp->next;
 	}
 	tmp->next = new;
-	*tokens = tmp;
+	//*tokens = new;
 	return (0);
 }
+
+void ft_tokenizer(t_shell *shell, t_token *last, int i)
+{
+	char *copy;
+
+	copy = shell->input;
+
+	if (copy[i] == '|')
+		last->type = PIPE;
+	else if (copy[i] == '>' && copy[i + 1] == '>')
+		last->type = APPEND;
+	else if (copy[i] == '<' && copy[i + 1] == '<')
+		last->type = HEREDOC;
+	else if (copy[i] == '>')
+		last->type = TRUNC;
+	else if (copy[i] == '<')
+		last->type = INPUT;
+	else
+		last->type = RANDOM;
+}
+
 
 // bool ft_is_redout(t_shell *shell)
 // {

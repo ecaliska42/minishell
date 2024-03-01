@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/02/28 18:59:41 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/01 16:41:02 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@
 typedef enum e_tokentype
 {
 	PIPE,    // |
-	APPEND,  // >>
-	TRUNC,   // >
-	INPUT,   // <
 	HEREDOC, // <<
+	APPEND,  // >>
+	INPUT,   // <
+	TRUNC,   // >
 	RANDOM,
 	// OUTFILE,
 	// INFILE,
@@ -73,10 +73,10 @@ void 	ft_init_shell(t_shell *shell);
 int 	ft_readline(t_shell *shell);
 
 //tokenizing
-void 	ft_tokenizer(t_shell *shell, int *i);
-void 	ft_strtok(t_shell *shell, int *i);
+void ft_tokenizer(t_shell *shell, t_token *last, int i);
+void 	ft_strtok(t_shell *shell_head, int *i);
 int		tokenizing_first_operator(char *str, t_shell *shell);
-int 	length_of_word(t_shell *shell, int *i);
+int 	length_of_word(char *str, int i);
 char 	*get_word(char *line, int *i);
 void 	print_tokens(t_shell *shell);
 int 	token_add(t_token **token);
@@ -105,5 +105,10 @@ char	*get_infile(t_shell *shell);
 char	*get_outfile(t_shell *shell);
 int		ft_strcmp(const char *s1, const char *s2);
 void 	print_everything(t_shell *shell);
+
+
+
+
+t_token *get_last_token(t_token **tokens);
 
 #endif

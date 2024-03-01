@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 17:03:33 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/02/28 18:00:04 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/01 15:12:51 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,3 @@ int	tokenizing_first_operator(char *str, t_shell *shell)
 	return (0);
 }
 
-void ft_tokenizer(t_shell *shell, int *i)
-{
-	char *copy;
-
-	copy = shell->input;
-	if (copy[*i] == '|')
-		shell->tokens->type = PIPE;
-	else if (copy[*i] == '>' && copy[(*i) + 1] == '>')
-		shell->tokens->type = APPEND;
-	else if (copy[*i] == '<' && copy[(*i) + 1] == '<')
-		shell->tokens->type = HEREDOC;
-	else if (copy[*i] == '>')
-		shell->tokens->type = TRUNC;
-	else if (copy[*i] == '<')
-		shell->tokens->type = INPUT;
-	else
-		shell->tokens->type = RANDOM;
-
-}
