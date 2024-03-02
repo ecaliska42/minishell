@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/28 18:42:16 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/01 20:52:47 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,12 @@ typedef struct parse
 	struct	parse *next;
 }	t_parse;
 
+typedef struct s_exe
+{
+	pid_t	*id;
+	int		**fd;
+	int		pipecount;
+}	t_exe;
 
 typedef struct s_mini
 {
@@ -121,7 +127,12 @@ void	printf_tripple(char ***str);
 /*
 	*BUILDIN_CHECK.C
 */
-bool	is_buildin(char **command, t_env **envp);
+bool	is_buildin(char **command);
 int		execute_buildin(char *s, t_env **envp);
+
+void	*dup_for_no_pipes(t_parse *comm);
+void	*dup_filedescriptor(t_parse *comm, t_exe *ex_utils, int i);
+void	*close_filedescriptor(t_parse *comm, t_exe *ex_utils);
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/29 15:24:27 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/01 21:35:33 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,15 @@
 
 int	parse_functions(char *s, t_env *environment, t_parse *com, t_env **envp)
 {
-	if (ft_strncmp("echo ", s, 6) == 0)
-		ft_echo(ft_strchr(s, ' '));
-	if (ft_strncmp("pwd", s, 4) == 0)
-		ft_pwd();
-	if (ft_strncmp("env", s, 4) == 0)
-		ft_env(&environment);
-	if (ft_strncmp("exit", s, 5) == 0)
-		ft_exit();
-	else
-	{
-		t_mini count;
-		parse_temp(s, &com, &count);
-		pathfinder(&com, &environment);
-		execute(&com, &count, envp);
-	}
+	t_mini count;
+	parse_temp(s, &com, &count);
+	pathfinder(&com, &environment);
+	execute(&com, &count, envp);
 	return 0;
 }
 
 int	copy_environment(char **envp, t_env **lst)
-{
+{//TODO PROTECTION
 	int	i;
 	t_env *new_node;
 	t_env	*tail;
@@ -59,12 +48,17 @@ int	copy_environment(char **envp, t_env **lst)
 
 int main(int ac, char **av, char **envp)
 {
+	t_env	*environment;
+	t_parse	*commands;
+	char *line;
+	
 	(void) av;
 	if (ac != 1)
 		return(write(2, "PLEASE EXECUTE MINISHELL WITH ./minishell only!\n", 49));
-	char *line;
-	t_env	*environment = NULL;
-	t_parse *commands = NULL;
+	if (!envp || !envp[0])
+		return (write(2, "No envp no Minishell :'(\n", 26));
+	environment = NULL;
+	commands = NULL;
 
 	copy_environment(envp, &environment);
 	while ((line = readline("shell > ")))
