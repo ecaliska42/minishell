@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/01 21:30:11 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/02 19:15:05 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,14 @@ char **parse_temp(char *s, t_parse **commands, t_mini *count)
 	while (temp[i])
 	{
 		node = malloc(sizeof(t_parse));
-		node->infile = get_first_word_after_char(temp[i], '<');
+		node->infile = get_first_word_after_char(temp[i], '<'); //TODO done by parsing part by MELIH
 		if (node->infile)
 		{
 			node->infd = open(node->infile, O_RDONLY);
 			if (node->infd == -1)
 				perror("");
 		}
-		node->outfile = get_first_word_after_char(temp[i], '>');
+		node->outfile = get_first_word_after_char(temp[i], '>'); //TODO done by parsing part by MELIH
 		if (node->outfile && node->infd != -1)
 		{
 			node->outfd = open(node->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -128,4 +128,21 @@ char **parse_temp(char *s, t_parse **commands, t_mini *count)
 		i++;
 	}
 	return NULL;
+}
+
+/*
+	TODO ARGUMENTS FOR PREPARE_FOR_EXECUTION ARE T_PARSE **COMMAND;;T_EXE FOR THE PIPECOUNT
+	TODO pipes are type 0
+	TODO count all pipes for correct redirection and put them in t_exe in pipecount
+	TODO in the struct t_parse open all infiles and outfiles with node->infile & node->outfile
+	TODO get the command (RANDOM) type 5 and put them together in a two dimensional array ending with NULL for execve in execution
+	TODO cat < infile | > outfile wc -l
+	TODO if type is 0 (PIPE) add the whole node to the command linked list
+	TODO 
+	TODO 
+*/
+
+int	prepare_for_execution()
+{
+	return 0;
 }
