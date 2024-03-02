@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/02 19:15:05 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/02 20:10:17 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ char **parse_temp(char *s, t_parse **commands, t_mini *count)
 }
 
 /*
-	TODO ARGUMENTS FOR PREPARE_FOR_EXECUTION ARE T_PARSE **COMMAND;;T_EXE FOR THE PIPECOUNT
+	TODO ARGUMENTS FOR PREPARE_FOR_EXECUTION ARE T_PARSE **COMMAND;;T_EXE FOR THE PIPECOUNT;;T_TOKEN
 	TODO pipes are type 0
 	TODO count all pipes for correct redirection and put them in t_exe in pipecount
 	TODO in the struct t_parse open all infiles and outfiles with node->infile & node->outfile
@@ -142,7 +142,46 @@ char **parse_temp(char *s, t_parse **commands, t_mini *count)
 	TODO 
 */
 
-int	prepare_for_execution()
+int	prepare_for_execution(t_parse **command, t_exe *exe, t_token **tokens)
 {
+	t_parse *node;
+	t_token	*tmp;
+	t_exe	*count;
+
+	tmp = *tokens;
+	count->pipecount = 0;
+	node = malloc(sizeof(t_parse));
+	while (tmp)
+	{
+		if (tmp -> type == INPUT)//TODO <
+		{
+			node->infd = open(tmp->str, O_RDONLY);
+			if (node->infd == -1)
+				perror("");
+		}
+		if (tmp -> type == TRUNC)//TODO >
+		{
+			node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (node->outfd == -1)
+				perror("");
+		}
+		if (tmp -> type == APPEND)//TODO >>
+		{
+			node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (node->outfd == -1)
+				perror("");
+		}
+		if (tmp -> type == HEREDOC)//TODO
+		{
+			return (0);
+		}
+		if (tmp -> type == PIPE)
+		{
+			count->pipecount++;
+			add_back(command, node);
+			node = malloc(sizeof(t_parse));
+		}
+		tmp = tmp ->next;
+	}
 	return 0;
 }
