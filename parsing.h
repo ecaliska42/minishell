@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/01 16:41:02 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/02 15:27:39 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 # define DELIM " \n\t\r\v\f"
 # define SYNTAX_ERROR 2
 # define MALLOC_ERROR 62
+# define left '<'
+# define right '>'
 
 typedef enum e_tokentype
 {
@@ -73,7 +75,7 @@ void 	ft_init_shell(t_shell *shell);
 int 	ft_readline(t_shell *shell);
 
 //tokenizing
-void ft_tokenizer(t_shell *shell, t_token *last, int i);
+void 	ft_tokenizer(t_shell *shell, t_token *last, int i);
 void 	ft_strtok(t_shell *shell_head, int *i);
 int		tokenizing_first_operator(char *str, t_shell *shell);
 int 	length_of_word(char *str, int i);

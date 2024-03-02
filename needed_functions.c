@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:32:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/01 15:50:30 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/02 15:37:34 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,9 @@ void ft_tokenizer(t_shell *shell, t_token *last, int i)
 
 	if (copy[i] == '|')
 		last->type = PIPE;
-	else if (copy[i] == '>' && copy[i + 1] == '>')
+	else if (copy[i] == '>' && copy[i + 1] != '\0' && copy[i + 1] == '>' && (copy[i + 2] == '\0' || copy[i + 2] != '>'))
 		last->type = APPEND;
-	else if (copy[i] == '<' && copy[i + 1] == '<')
+	else if (copy[i] == '<' && copy[i + 1] != '\0' && copy[i + 1] == '<')
 		last->type = HEREDOC;
 	else if (copy[i] == '>')
 		last->type = TRUNC;
