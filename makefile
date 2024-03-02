@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
+#    By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/31 15:50:49 by ecaliska          #+#    #+#              #
-#    Updated: 2024/03/01 20:54:09 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/03/02 14:17:19 by mesenyur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,9 +21,11 @@ SRC= minishell.c buildins/ft_echo.c buildins/ft_cd.c buildins/ft_env.c \
 	parser_temp.c execution_part/execute.c ms_utils.c \
 	get_first_word_after_char.c printf_double_tripple.c get_first_word.c\
 	buildin_check.c dup_and_close_functions.c\
-	
 
-OBJ= $(SRC:.c=.o)
+SRC2 = lexer.c needed_functions.c print_debug.c token.c readline.c quote_stuff.c \
+
+
+OBJ= $(SRC:.c=.o) $(SRC2:.c=.o)
 
 RM= rm -f
 
@@ -31,7 +33,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	make -C ./libft all
-	$(CC) $(FLAGS) -o $(NAME) $(SRC) libft/libft.a
+	$(CC) $(FLAGS) -o $(NAME) $(SRC) $(SRC2) libft/libft.a
 
 clean:
 	$(RM) $(OBJ)

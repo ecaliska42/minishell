@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/01 20:52:47 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/02 14:17:55 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define WHITE "\033[0;37m"
 
 # include "libft/libft.h"
+# include "parsing.h"
 
 // GNU Readline library
 # include <readline/readline.h>     //readline, rl_clear_history, rl_on_new_line, rl_replace_line, rl_redisplay, add_history
@@ -87,7 +88,7 @@ typedef struct s_exe
 typedef struct s_mini
 {
 	int	pipecount;
-	
+
 }	t_mini;
 /*
 	*BUILDINS
