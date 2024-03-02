@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/01 21:35:33 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/02 14:22:23 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,13 @@ int main(int ac, char **av, char **envp)
 {
 	t_env	*environment;
 	t_parse	*commands;
-	char *line;
-	
+  t_shell shell;
+	// char *line;
+
+	ft_bzero(&shell, sizeof(t_shell));
+	printf("Welcome to minishell!\n");
+	ft_readline(&shell);
+
 	(void) av;
 	if (ac != 1)
 		return(write(2, "PLEASE EXECUTE MINISHELL WITH ./minishell only!\n", 49));
@@ -61,15 +66,15 @@ int main(int ac, char **av, char **envp)
 	commands = NULL;
 
 	copy_environment(envp, &environment);
-	while ((line = readline("shell > ")))
-	{
-		add_history(line);
-		parse_functions(line, environment, commands, &environment);
-		continue;
-	}
-	if(!line)
-		return (write(2, "ERROR ON READLINE\n", 19));
-	free(line);
+	// while ((line = readline("shell > ")))
+	// {
+	// 	add_history(line);
+	// 	parse_functions(line, environment, commands, &environment);
+	// 	continue;
+	// }
+	// if(!line)
+	// 	return (write(2, "ERROR ON READLINE\n", 19));
+	// free(line);
 	return 0;
 }
 
@@ -79,7 +84,7 @@ int main(int ac, char **av, char **envp)
 //TODO BUILDINS: export with no options || unset with no options || env with no options or arguments
 //TODO BUILDINS: exit with no options
 
-//TODO DONE: pwd with no options || 
+//TODO DONE: pwd with no options ||
 
 //TODO MAKE THE PROMPT PRINT THE CORRECT HOSTNAME
 
