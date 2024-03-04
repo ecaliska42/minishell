@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:14:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/01 15:11:19 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/04 17:28:35 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,19 +51,26 @@ int	lexical_analyzer(t_shell *shell)
 	}
 	if (unclosed_quote_error(shell) == -1)
 		return (-1);
-	i = 0;
-	while (shell->input[i])
+	while (shell->input[i] != '\0')
 	{
-		if (shell->quotes == CLOSED && (ft_is_space(shell->input[i])))
-		{
-			i++;
-			continue;
-		}
-		else if (shell->quotes == CLOSED)// && (ft_is_special(shell->input[i])))
-		{
+		if (shell->input[i] == '\'' || shell->input[i] == '\"')
 			ft_strtok(shell, &i);
-		}
+		else
+			ft_str2tok(shell, &i);
 	}
+
+	// while (shell->input[i])
+	// {
+	// 	if (shell->quotes == CLOSED && (ft_is_space(shell->input[i])))
+	// 	{
+	// 		i++;
+	// 		continue;
+	// 	}
+	// 	else if (shell->quotes == CLOSED)
+	// 	{
+	// 		ft_strtok(shell, &i);
+	// 	}
+	// }
 	if (shell->tokens == NULL)
 		return (ERROR);
 	return (SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/02 15:27:39 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/04 17:21:06 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,10 @@ int 	ft_readline(t_shell *shell);
 //tokenizing
 void 	ft_tokenizer(t_shell *shell, t_token *last, int i);
 void 	ft_strtok(t_shell *shell_head, int *i);
+void 	ft_str2tok(t_shell *shell, int *i);
 int		tokenizing_first_operator(char *str, t_shell *shell);
 int 	length_of_word(char *str, int i);
-char 	*get_word(char *line, int *i);
+char 	*get_word(t_shell *quotes, char *line, int *i);
 void 	print_tokens(t_shell *shell);
 int 	token_add(t_token **token);
 // void 	ft_tokensfree(t_token *tokens);
@@ -91,7 +92,10 @@ int		syntax_check(t_shell *shell);
 //quotes
 void	d_quotes_closed(char index, char *quotes);
 void	s_quotes_closed(char index, char *quotes);
+int		squote_check(char index, char *quotes);
+int		dquote_check(char index, char *quotes);
 int		quote_check(char index, char *quotes);
+
 
 //bool
 bool	ft_is_quote(char c);

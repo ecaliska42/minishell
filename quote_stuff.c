@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 16:56:42 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/02/28 18:56:56 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/04 16:27:24 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,28 @@ void s_quotes_closed(char index, char *quotes)
 	}
 }
 
+int squote_check(char index, char *quotes)
+{
+	s_quotes_closed(index, quotes);
+	if (*quotes == S_QUOTE)
+		return (1);
+	return (0);
+}
+
+
+int dquote_check(char index, char *quotes)
+{
+	d_quotes_closed(index, quotes);
+	if (*quotes == D_QUOTE)
+		return (2);
+	return (0);
+}
+
 int quote_check(char index, char *quotes)
 {
 	s_quotes_closed(index, quotes);
 	d_quotes_closed(index, quotes);
 	if (*quotes == D_QUOTE || *quotes == S_QUOTE)
-		return (1);
+		return (3);
 	return (0);
 }
