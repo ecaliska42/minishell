@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/02 19:13:08 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/04 21:26:12 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,23 +99,19 @@ int	ft_exit(void);
 /*
 	*PARSE_TEMPORARY
 */
-char **parse_temp(char *s, t_parse **commands, t_mini *count);
-void pathfinder(t_parse **comm, t_env **envi);
 
 /*
 	*EXECUTION
 */
-int	execute(t_parse **comm, t_mini *count, t_env **envp);
+//int	execute(t_parse **comm, t_mini *count, t_env **envp);
+int	execute(t_parse **comm, int pipecount, t_env **envp);
+
 /*
 	*MS_UTILS
 */
-int		count_in_line(char *s, char c);
 char	*get_till(char *str, char character);
 char	*get_after(char *str, char character);
-void	ex(void);	//*DEBUGGING AND GHOST FUNCTION
-char	*search_for(t_env *stack, char *str);	//*GHOST FUNCTION
-char	*get_first_word_after_char(char *str, char c);
-char	*get_first_word(char *str);
+
 
 void	printf_double(char **str);
 void	printf_tripple(char ***str);
@@ -130,5 +126,7 @@ void	*dup_for_no_pipes(t_parse *comm);
 void	*dup_filedescriptor(t_parse *comm, t_exe *ex_utils, int i);
 void	*close_filedescriptor(t_parse *comm, t_exe *ex_utils);
 
+int ft_readline(t_shell *shell, t_parse *command, t_env *envp);
+int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_env **envp);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/02 18:14:53 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/04 19:22:08 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct s_shell
 //main
 
 //void 	ft_init_shell(t_shell *shell);
-int 	ft_readline(t_shell *shell);
+//int 	ft_readline(t_shell *shell);
 
 //tokenizing
 void ft_tokenizer(t_shell *shell, t_token *last, int i);

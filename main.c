@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 17:02:08 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/01 16:14:02 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/04 19:35:48 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "parsing.h"
 
 // void ft_init_shell(t_shell *shell)
@@ -28,6 +29,7 @@ int main(void)
 {
 	t_shell shell;
 
+	t_parse command;
 	ft_bzero(&shell, sizeof(t_shell));
 
 	//ft_init_shell(&shell);

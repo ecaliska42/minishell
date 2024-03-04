@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:26:46 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/01 17:10:27 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/04 21:28:20 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char *get_word(char *line, int *i)
 	while (index < len)
 	{
 		word[index] = line[*i];
-		printf("character at i=%d is: %c\n", *i, line[*i]);
+		//printf("character at i=%d is: %c\n", *i, line[*i]);
 		(*i)++;
 		//len--;
 		index++;
@@ -123,6 +123,6 @@ int	length_of_word(char *str, int i)
 	{
 		printf("unclosed quote\n");
 	}
-	printf("len: %d\n", len);
+	//printf("len: %d\n", len);
 	return (len);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+         #
+#    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/31 15:50:49 by ecaliska          #+#    #+#              #
-#    Updated: 2024/03/02 14:17:19 by mesenyur         ###   ########.fr        #
+#    Updated: 2024/03/04 19:58:07 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ NAME= minishell
 SRC= minishell.c buildins/ft_echo.c buildins/ft_cd.c buildins/ft_env.c \
 	buildins/ft_exit.c buildins/ft_export.c buildins/ft_pwd.c buildins/ft_unset.c \
 	parser_temp.c execution_part/execute.c ms_utils.c \
-	get_first_word_after_char.c printf_double_tripple.c get_first_word.c\
+	printf_double_tripple.c \
 	buildin_check.c dup_and_close_functions.c\
 
 SRC2 = lexer.c needed_functions.c print_debug.c token.c readline.c quote_stuff.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_debug.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 14:06:06 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/01 16:17:11 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/04 21:28:46 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void print_everything(t_shell *shell)
     }
     while (token)
     {
-        printf("token->str: %s\n", token->str);
-        printf("token->type: %d\n\n", token->type);
+        //printf("token->str: %s\n", token->str);
+        //printf("token->type: %d\n\n", token->type);
         token = token->next;
     }
 }
