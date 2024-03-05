@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 17:02:21 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/04 21:44:59 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/05 18:05:22 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,11 @@ void	*dup_for_no_pipes(t_parse *comm)
 {//TODO PROTECTION
 	if (comm->infd > 0)
 	{
-		ft_putstr_fd("INFD HERE\n", 2);
 		dup2(comm->infd, STDIN_FILENO);
 		close(comm->infd);
 	}
 	if (comm->outfd > 0)
 	{
-		ft_putstr_fd("OUTFD HERE\n", 2);
 		dup2(comm->outfd, STDOUT_FILENO);
 		close(comm->outfd);
 	}

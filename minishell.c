@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/04 21:20:03 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/05 18:07:11 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,13 @@ int	copy_environment(char **envp, t_env **lst)
 	{
 		new_node = malloc(sizeof(t_env));
 		if (!new_node)
-			break;
+			break;//TODO CORRECT MALLOC PROTECTION!!
 		new_node->name = get_till(envp[i], '=');
+		if (!new_node->name)
+			break;//TODO CORRECT MALLOC PROTECTION!!
 		new_node->values = ft_split(get_after(envp[i], '='), ':');
+		if (!new_node->values)
+			break;//TODO CORRECT MALLOC PROTECTION!!
 		new_node->next = NULL;
 		if (*lst == NULL)
 			*lst = new_node;

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/04 21:39:58 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/05 18:05:35 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, t_env **envp)
 	}
 	else
 	{
-		ft_putstr_fd("HERE\n", 2);
 		execve(comm->check, comm->command, NULL); //TODO 1: PATH WITH COMMAND ATTATCHED 2: command split with ' '
 		perror("execve : ");
 		write(2, comm->command[0], ft_strlen(comm->command[0]));
