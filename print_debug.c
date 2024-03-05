@@ -6,11 +6,25 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 14:06:06 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/01 16:17:11 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/05 12:54:06 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+void free_tokens(t_token *tokens)
+{
+    t_token *tmp;
+
+    while (tokens)
+    {
+        tmp = tokens;
+        tokens = tokens->next;
+        free(tmp->str);
+        // free();
+        free(tmp);
+    }
+}
 
 void print_everything(t_shell *shell)
 {
@@ -19,12 +33,12 @@ void print_everything(t_shell *shell)
     token = shell->tokens;
     if (!shell)
     {
-        fprintf(stderr, "Error: shell, shell->input, or shell->tokens is NULL\n");
+        ft_putstr_fd("Error: shell, shell->input, or shell->tokens is NULL\n", 2);
         return;
     }
     if (!shell->tokens)
     {
-        fprintf(stderr, "Error: shell->tokens is NULL\n");
+        ft_putstr_fd("Error: shell->tokens is NULL\n", 2);
         return;
     }
     while (token)
@@ -34,6 +48,7 @@ void print_everything(t_shell *shell)
         token = token->next;
     }
 }
+
 
 int ft_strcmp(const char *s1, const char *s2)
 {
