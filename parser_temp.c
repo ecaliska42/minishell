@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/04 21:42:21 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:31:40 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,9 +128,7 @@ int	array_size(char **array)
 	if (!array)
 		return 0;
 	while (array[i])
-	{
 		i++;
-	}
 	return (i);
 }
 
@@ -176,14 +174,12 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 			node->infd = open(tmp->str, O_RDONLY);
 			if (node->infd == -1)
 				perror("");
-			printf("infd is %zu\n", node->infd);
 		}
-		if (tmp -> type == TRUNC)//TODO >
+		if (tmp -> type == TRUNC)//TODO > CHANGE NAME AFTER MERGE
 		{
 			node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (node->outfd == -1)
 				perror("");
-			printf("outfd is %zu\n", node->outfd);
 		}
 		if (tmp -> type == APPEND)//TODO >>
 		{

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 17:44:50 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/09 17:49:54 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:09:29 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 			ft_lstclear(&list, del);
 			return (NULL);
 		}
-		ft_lstadd_back((void*)list, node);
+		ft_lstadd_back((void *)list, node);
 		lst = lst -> next;
 	}
 	return (list);
