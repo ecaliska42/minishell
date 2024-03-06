@@ -6,56 +6,14 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:26:46 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/05 15:24:13 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/06 17:08:10 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "parsing.h"
 #include <stdio.h>
 #include <stdlib.h>
-
-
-int get_dquote_len(char *str, int i)
-{
-	int len;
-	char *line;
-
-
-	line = str;
-	len = 0;
-
-	i++;
-	len++;
-	while (line [i] != D_QUOTE)
-	{
-		len++;
-		i++;
-	}
-	i++;
-	len++;
-	printf("len: %d\n", len);
-	return (len);
-}
-
-int get_squote_len(char *str, int i)
-{
-	int len;
-	char *line;
-
-	line = str;
-	len = 0;
-	i++;
-	len++;
-	while (line [i] != S_QUOTE)
-	{
-		len++;
-		i++;
-	}
-	i++;
-	len++;
-	printf("len: %d\n", len);
-	return (len);
-}
 
 int get_len(t_shell *shell, char *str, int i)
 {
@@ -101,8 +59,29 @@ char *get_word(t_shell *quotes, char *line, int *i)
 		(*i)++;
 		index++;
 	}
+	//(*i)++;
 	word[index] = '\0';
 	return (word);
+}
+
+int get_squote_len(char *str, int i)
+{
+	int len;
+	char *line;
+
+	line = str;
+	len = 0;
+	i++;
+	len++;
+	while (line [i] != S_QUOTE && line[i] != '\0')
+	{
+		len++;
+		i++;
+	}
+	i++;
+	len++;
+	printf("len: %d\n", len);
+	return (len);
 }
 
 char *get_s_word(char *line, int *i)
@@ -129,8 +108,31 @@ char *get_s_word(char *line, int *i)
 		(*i)++;
 		index++;
 	}
+	// (*i)--;
 	word[index] = '\0';
 	return (word);
+}
+
+int get_dquote_len(char *str, int i)
+{
+	int len;
+	char *line;
+
+
+	line = str;
+	len = 0;
+
+	i++;
+	len++;
+	while (line [i] != D_QUOTE && line[i] != '\0')
+	{
+		len++;
+		i++;
+	}
+	i++;
+	len++;
+	printf("len: %d\n", len);
+	return (len);
 }
 
 char *get_d_word(char *line, int *i)
@@ -157,39 +159,50 @@ char *get_d_word(char *line, int *i)
 		(*i)++;
 		index++;
 	}
+	// (*i)--;
 	word[index] = '\0';
 	return (word);
 }
 
-void ft_strtok(t_shell *shell, int *i)
-{
-	char	*line;
-	size_t	k;
-	t_token	*last_token;
+// void ft_strtok(t_shell *shell, int *i)
+// {
+// 	char	*line;
+// 	size_t	k;
+// 	t_token	*last_token;
 
-	if (!shell)
-		return ;
-	k = 0;
-	line = shell->input;
-	shell->quotes = CLOSED;
-	while (line[*i] != '\0')
-	{
-		token_add(&shell->tokens);
-		last_token = get_last_token(&shell->tokens);
-		if (squote_check(line[*i], &shell->quotes) == 1)
-		{
-			last_token->str = get_s_word(line, i);
-			last_token->type = RANDOM;
-			printf("line[i] is: %d\n", *i);
-		}
-		else if (dquote_check(line[*i], &shell->quotes) == 2)
-		{
-			last_token->str = get_d_word(line, i);
-			last_token->type = RANDOM;
-			printf("line[i] is: %d\n", *i);
-		}
-	}
-}
+// 	if (!shell)
+// 		return ;
+// 	k = 0;
+// 	line = shell->input;
+// 	//shell->quotes = CLOSED;
+// 	if (line[*i] != '\0')
+// 	{
+// 		// token_add(&shell->tokens);
+// 		last_token = get_last_token(&shell->tokens);
+// 		if (squote_check(line[*i], &shell->quotes) == 1)
+// 		{
+// 			last_token->str = get_s_word(line, i);
+// 			last_token->type = RANDOM;
+// 			shell->quotes = CLOSED;
+// 			// squote_check(line[*i], &shell->quotes);
+// 			printf("line[i] is: %d\n", *i);
+// 			// (*i)++;
+
+// 		}
+// 		else if (dquote_check(line[*i], &shell->quotes) == 2)
+// 		{
+// 			last_token->str = get_d_word(line, i);
+// 			last_token->type = RANDOM;
+// 			shell->quotes = CLOSED;
+// 			// dquote_check(line[*i], &shell->quotes);
+// 			printf("line[i] is: %d\n", *i);
+// 			// (*i)++;
+// 		}
+
+// 		// else
+// 		// 	(*i)++;
+// 	}
+// }
 
 void ft_str2tok(t_shell *shell, int *i)
 {
@@ -201,27 +214,75 @@ void ft_str2tok(t_shell *shell, int *i)
 		return ;
 	k = 0;
 	line = shell->input;
-
 	while (line[*i] != '\0' && ft_is_space(line[*i]))
 		(*i)++;
-	while (line[*i] != '\0')
+	while (ft_is_space(line[*i]) == true)
+			(*i)++;
+	token_add(&shell->tokens);
+	last_token = get_last_token(&shell->tokens);
+	last_token->str = ft_strdup("");
+	while (line[*i] != '\0')// && ft_is_quote(line[*i]) == false)
 	{
-		token_add(&shell->tokens);
-		last_token = get_last_token(&shell->tokens);
+		// printf("line[i] is: %d\n", *i);
+		if (ft_is_space(line[*i]) == true || ft_is_special(line[*i]) == true)
+		{
+			while (ft_is_space(line[*i]) == true)
+				(*i)++;
+			token_add(&shell->tokens);
+			last_token = get_last_token(&shell->tokens);
+			ft_tokenizer(shell, last_token, *i);
+			last_token->str = ft_strdup("");
+		}
 		ft_tokenizer(shell, last_token, *i);
-		printf("line[i] is: %d\n", *i);
+		if (ft_is_quote(line[*i]))
+		{
+		// token_add(&shell->tokens);
+			// last_token = get_last_token(&shell->tokens);
+			if (squote_check(line[*i], &shell->quotes) == 1)
+			{
+				last_token->str = get_s_word(line, i);
+				last_token->type = RANDOM;
+				shell->quotes = CLOSED;
+				// squote_check(line[*i], &shell->quotes);
+				printf("line[i] is: %d\n", *i);
+				// (*i)++;
+			}
+			else if (dquote_check(line[*i], &shell->quotes) == 2)
+			{
+				last_token->str = get_d_word(line, i);
+				last_token->type = RANDOM;
+				shell->quotes = CLOSED;
+				// dquote_check(line[*i], &shell->quotes);
+				printf("line[i] is: %d\n", *i);
+				// (*i)++;
+			}
+
+			// else
+			// 	(*i)++;
+		}
+		if (ft_is_space(line[*i]) == true || ft_is_special(line[*i]) == true)
+		{
+			while (ft_is_space(line[*i]) == true)
+				(*i)++;
+			token_add(&shell->tokens);
+			last_token = get_last_token(&shell->tokens);
+			ft_tokenizer(shell, last_token, *i);
+			last_token->str = ft_strdup("");
+		}
 		if (last_token->type != RANDOM)
 		{
 			if (last_token->type == APPEND || last_token->type == HEREDOC)
 				(*i)++;
 			(*i)++;
 		}
-		while (ft_is_space(line[*i]) == true)
-			(*i)++;
 		if (last_token->type != PIPE)
 		{
-			last_token->str = get_word(shell, line, i);
+			last_token->str = ft_strjoin(last_token->str, get_word(shell, line, i));
 		}
+		// while (ft_is_space(line[*i]) == true)
+		// {
+		// 	(*i)++;
+		// }
 	}
 }
 
