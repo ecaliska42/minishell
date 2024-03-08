@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/02 15:27:39 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/08 12:28:42 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 // # define EMPTY 0 // ""
 // # define PIPE 1 // |
 // # define APPEND 2 // >>
-// # define TRUNC 3 // >s
+// # define OUTPUT 3 // >s
 // # define INPUT 4 // <
 // # define HEREDOC 5 // <<
 
@@ -46,7 +46,7 @@ typedef enum e_tokentype
 	HEREDOC, // <<
 	APPEND,  // >>
 	INPUT,   // <
-	TRUNC,   // >
+	OUTPUT,   // >
 	RANDOM,
 	// OUTFILE,
 	// INFILE,
@@ -59,9 +59,6 @@ typedef struct s_token
 	struct s_token	*next;
 }			t_token;
 
-// tokens_functions:
-int 	token_add(t_token **tokenlist);
-
 typedef struct s_shell
 {
 	char	*input;
@@ -70,19 +67,19 @@ typedef struct s_shell
 }			t_shell;
 
 //main
-
 void 	ft_init_shell(t_shell *shell);
 int 	ft_readline(t_shell *shell);
 
 //tokenizing
+t_token *get_last_token(t_token **tokens);
+int 	token_add(t_token **tokenlist);
 void 	ft_tokenizer(t_shell *shell, t_token *last, int i);
 void 	ft_strtok(t_shell *shell_head, int *i);
-int		tokenizing_first_operator(char *str, t_shell *shell);
-int 	length_of_word(char *str, int i);
-char 	*get_word(char *line, int *i);
-void 	print_tokens(t_shell *shell);
+void 	ft_str2tok(t_shell *shell, int *i);
+char 	*get_word(t_shell *shell, char *line, int *i);
 int 	token_add(t_token **token);
-// void 	ft_tokensfree(t_token *tokens);
+void 	free_tokens(t_token *tokens);
+void 	tokenize(t_shell *shell, int *i, bool is_quote);
 
 //lexer
 int 	lexical_analyzer(t_shell *shell);
@@ -91,26 +88,23 @@ int		syntax_check(t_shell *shell);
 //quotes
 void	d_quotes_closed(char index, char *quotes);
 void	s_quotes_closed(char index, char *quotes);
+int		squote_check(char index, char *quotes);
+int		dquote_check(char index, char *quotes);
 int		quote_check(char index, char *quotes);
-
+void	handle_quote(t_shell *shell, t_token *last_token, char *line, int *i);
 //bool
 bool	ft_is_quote(char c);
 bool	ft_is_space(char c);
 bool	ft_is_special(char c);
 bool	ft_is_dollar(char c);
-
-// unsure
 bool	ft_is_redirection(t_tokentype shell);
-bool	ft_is_redin(t_shell *shell);
-bool	ft_is_redout(t_shell *shell);
-char	*get_infile(t_shell *shell);
-char	*get_outfile(t_shell *shell);
-int		ft_strcmp(const char *s1, const char *s2);
+
+//print - remove before push
 void 	print_everything(t_shell *shell);
 
+bool 	break_character(t_shell *shell, char *line, int i);
 
 
 
-t_token *get_last_token(t_token **tokens);
 
 #endif

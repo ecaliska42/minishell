@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:14:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/01 15:11:19 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/08 14:39:24 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,27 +42,29 @@ int unclosed_quote_error(t_shell *shell)
 int	lexical_analyzer(t_shell *shell)
 {
 	int	i;
+	// t_token	*last_token;
 
 	i = 0;
+	// last_token = NULL;
 	if (!shell || !shell->input) // temp
 	{
 		ft_putstr_fd("Error: shell->input is NULL\n", 2);
 		return(-1);
 	}
 	if (unclosed_quote_error(shell) == -1)
-		return (-1);
-	i = 0;
-	while (shell->input[i])
+		exit(1);
+	shell->quotes = CLOSED;
+	while (shell->input[i] != '\0')
 	{
-		if (shell->quotes == CLOSED && (ft_is_space(shell->input[i])))
-		{
-			i++;
-			continue;
-		}
-		else if (shell->quotes == CLOSED)// && (ft_is_special(shell->input[i])))
-		{
-			ft_strtok(shell, &i);
-		}
+		// token_add(&shell->tokens);
+		// last_token = get_last_token(&shell->tokens);
+		// ft_tokenizer(shell, last_token, i);
+		// if (shell->input[i] == S_QUOTE || shell->input[i] == D_QUOTE)
+		// 	ft_strtok(shell, &i);
+		// 	// tokenize(shell, &i, true);
+		// else
+			ft_str2tok(shell, &i);
+			// tokenize(shell, &i, false);
 	}
 	if (shell->tokens == NULL)
 		return (ERROR);
