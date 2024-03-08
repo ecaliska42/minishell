@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/01 21:04:49 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/05 18:05:35 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,18 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, t_env **envp)
 }
 
 
-int	execute(t_parse **comm, t_mini *count, t_env **envp)
+int	execute(t_parse **comm, int pipecount, t_env **envp)
 {//TODO protection
 	t_exe	ex_struct;
 	t_parse *tmp;
 	int		i;
 
 	tmp = *comm;
-	ex_struct.id = malloc(count->pipecount * sizeof(pid_t));
-	ex_struct.fd = malloc(count->pipecount * sizeof(int *) + 1);
-	ex_struct.pipecount = count->pipecount;
+	ex_struct.id = malloc(pipecount * sizeof(pid_t));
+	ex_struct.fd = malloc(pipecount * sizeof(int *) + 1);
+	ex_struct.pipecount = pipecount;
 	i = 0;
-	while (i < count->pipecount)
+	while (i < pipecount)
 	{
 		ex_struct.fd[i] = malloc(sizeof(int) * 2);
 		pipe(ex_struct.fd[i]);
@@ -61,6 +61,11 @@ int	execute(t_parse **comm, t_mini *count, t_env **envp)
 	while (tmp != NULL)
 	{
 		ex_struct.id[i] = fork();
+		if (ex_struct.id[i] == -1)
+		{
+			perror("");
+			exit (1);
+		}
 		if (ex_struct.id[i] == 0)
 			child(tmp, &ex_struct, i, envp);
 		tmp = tmp->next;

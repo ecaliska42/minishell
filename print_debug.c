@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   print_debug.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 14:06:06 by mesenyur          #+#    #+#             */
 /*   Updated: 2024/03/05 12:54:06 by mesenyur         ###   ########.fr       */
@@ -43,8 +43,8 @@ void print_everything(t_shell *shell)
     }
     while (token)
     {
-        printf("token->str: %s\n", token->str);
-        printf("token->type: %d\n\n", token->type);
+        //printf("token->str: %s\n", token->str);
+        //printf("token->type: %d\n\n", token->type);
         token = token->next;
     }
 }

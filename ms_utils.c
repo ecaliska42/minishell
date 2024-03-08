@@ -6,25 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 14:22:20 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/22 15:50:37 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/04 19:56:22 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	count_in_line(char *s, char c)
-{
-	int	count;
-
-	count = 0;
-	while(*s)
-	{
-		if (*s == c)
-			count++;
-		s++;
-	}
-	return count;
-}
 
 char	*get_till(char *str, char character)
 {
@@ -81,25 +67,3 @@ char	*get_after(char *str, char character)
 	ret[j] = '\0';
 	return (ret);
 }
-
-/*
-	*GHOST_FUNCTION
-*/
-char	*search_for(t_env *stack, char *str)
-{
-	while (stack->next)
-	{
-		if (ft_strncmp(stack->name, str, ft_strlen(str)) == 0)
-			return (stack->values[0]);
-		stack = stack ->next;
-	}
-	return (NULL);
-}
-/*
-	*GHOST_FUNCITON FOR DEBUGGING ONLY
-*/
-void	ex(void)
-{
-	printf("%sHERE\n%s", RED, WHITE);
-}
-

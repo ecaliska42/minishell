@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
 /*   Updated: 2024/03/05 14:14:52 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "parsing.h"
 
-int ft_readline(t_shell *shell)
+int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 {
+	t_exe	execution_utils;
 	if (shell == NULL) // temp
 	{
 		ft_putstr_fd("Error: shell is NULL\n", 2);
@@ -35,6 +37,7 @@ int ft_readline(t_shell *shell)
 		// 	// expand
 		// 	// exec
 		// }
+		prepare_for_execution(&command, &execution_utils, &shell->tokens, &envp);
 		print_everything(shell);
 		add_history(shell->input);
 		free(shell->input);

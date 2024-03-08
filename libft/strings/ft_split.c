@@ -74,13 +74,24 @@ static char	*duplic(const char *s, int c)
 	return (dup);
 }
 
-static char	**isnot(char **str)
+static char	**while_loop(int *j, char const *s, char c, char **str)
 {
-	free(str);
-	str = malloc(sizeof(char *));
-	if (!str)
-		return (NULL);
-	str[0] = NULL;
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+		{
+			i++;
+			continue ;
+		}
+		str[*j] = duplic(&s[i], c);
+		if (!str[*j])
+			return (freeing(str, *j));
+		i += ft_strlen(str[(*j)++]);
+	}
+	str[*j] = NULL;
 	return (str);
 }
 
@@ -92,34 +103,35 @@ char	**ft_split(char const *s, char c)
 
 	i = 0;
 	j = 0;
+	if (!s)
+		return (NULL);
 	str = malloc(sizeof(char *) * (count_word(s, c) + 1));
 	if (!str)
 		return (NULL);
-	while (s[i])
-	{
-		if (s[i] == c)
-		{
-			i++;
-			continue ;
-		}
-		str[j] = duplic(&s[i], c);
-		if (!str[j])
-			return (freeing(str, j));
-		i += ft_strlen(str[j++]);
-	}
-	str[j] = NULL;
+	str = while_loop(&j, s, c, str);
+	if (!str)
+		return (NULL);
 	if (j == 0)
-		return (isnot(str));
+	{
+		free(str);
+		str = NULL;
+		str = malloc(sizeof(char *));
+		if (!str)
+			return (NULL);
+		str[0] = NULL;
+		return (str);
+	}
 	return (str);
 }
-/*
 
-int    main(void)
+/*int    main(void)
 {
 	int i = 0;
 	
-	char    *tab = "\0aa\0bbb";
-	char **out = (char **)ft_split(tab, '\0');
+	//char    *tab = "\0aa\0bbb";
+	char **out = ft_split(NULL, '\0');
+	if (!out)
+		return 1;
 	while (out[i])
 	{
 		printf("%s\n", out[i]);

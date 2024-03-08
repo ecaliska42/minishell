@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 17:02:21 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/01 21:03:14 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/05 18:05:22 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 
 void	*dup_for_no_pipes(t_parse *comm)
 {//TODO PROTECTION
-	if (comm->infd > 0 && comm->infile)
+	if (comm->infd > 0)
 	{
 		dup2(comm->infd, STDIN_FILENO);
 		close(comm->infd);
 	}
-	if (comm->outfd > 0 && comm->outfile)
+	if (comm->outfd > 0)
 	{
 		dup2(comm->outfd, STDOUT_FILENO);
 		close(comm->outfd);
@@ -33,22 +33,22 @@ void	*dup_filedescriptor(t_parse *comm, t_exe *ex_utils, int i)
 {//TODO PROTECTION
 	if (i == 0)
 	{
-		if (comm->infd > 0 && comm->infile)
+		if (comm->infd > 0)
 			dup2(comm->infd, STDIN_FILENO);
-		if (comm->outfd > 0 && comm->outfile)
+		if (comm->outfd > 0)
 			dup2(comm->outfd, STDOUT_FILENO);
 		else
 			dup2(ex_utils->fd[i][1], STDOUT_FILENO);
 	}
 	else if (i < ex_utils->pipecount)
 	{
-		if (comm->infd > 0 && comm->infile)
+		if (comm->infd > 0)
 		{
 			dup2(comm->infd, STDIN_FILENO);
 			if (comm->outfd > 0 && comm->outfile)
 				dup2(comm->outfd, STDOUT_FILENO);
 		}
-		else if (comm->outfd > 0 && comm->outfile)
+		else if (comm->outfd > 0)
 		{
 			dup2(ex_utils->fd[i][0], STDIN_FILENO);
 			dup2(comm->outfd, STDOUT_FILENO);
@@ -61,13 +61,13 @@ void	*dup_filedescriptor(t_parse *comm, t_exe *ex_utils, int i)
 	}
 	else if(i == ex_utils->pipecount && i > 0)
 	{
-		if (comm->infd > 0 && comm->infile)
+		if (comm->infd > 0)
 		{
 			dup2(comm->infd, STDIN_FILENO);
-			if (comm->outfd > 0 && comm->outfile)
+			if (comm->outfd > 0)
 				dup2(comm->outfd, STDOUT_FILENO);
 		}
-		else if (comm->outfd > 0 && comm->outfile)
+		else if (comm->outfd > 0)
 		{
 			dup2(ex_utils->fd[i - 1][0], STDIN_FILENO);
 			dup2(comm->outfd, STDOUT_FILENO);
@@ -96,9 +96,9 @@ void	*close_filedescriptor(t_parse *comm, t_exe *ex_utils)
 	}
 	if(comm)
 	{
-		if (comm->infd > 0 && comm -> infile)
+		if (comm->infd > 0)
 			close(comm->infd);
-		if (comm->outfd > 0 && comm -> outfile)
+		if (comm->outfd > 0)
 			close(comm->outfd);
 	}
 	return ((void *)1);

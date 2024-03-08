@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 21:25:27 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/07 17:47:19 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:12:45 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	ft_putendl_fd(char *s, int fd)
 	int	i;
 
 	i = 0;
+	if (fd < 0 || !s)
+		return ;
 	while (s[i])
 	{
 		write(fd, &s[i], 1);

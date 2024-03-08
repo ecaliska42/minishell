@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
 /*   Updated: 2024/03/05 12:56:19 by mesenyur         ###   ########.fr       */
@@ -11,15 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	parse_functions(char *s, t_env *environment, t_parse *com, t_env **envp)
-{
-	t_mini count;
-	parse_temp(s, &com, &count);
-	pathfinder(&com, &environment);
-	execute(&com, &count, envp);
-	return 0;
-}
 
 int	copy_environment(char **envp, t_env **lst)
 {//TODO PROTECTION
@@ -32,9 +23,13 @@ int	copy_environment(char **envp, t_env **lst)
 	{
 		new_node = malloc(sizeof(t_env));
 		if (!new_node)
-			break;
+			break;//TODO CORRECT MALLOC PROTECTION!!
 		new_node->name = get_till(envp[i], '=');
+		if (!new_node->name)
+			break;//TODO CORRECT MALLOC PROTECTION!!
 		new_node->values = ft_split(get_after(envp[i], '='), ':');
+		if (!new_node->values)
+			break;//TODO CORRECT MALLOC PROTECTION!!
 		new_node->next = NULL;
 		if (*lst == NULL)
 			*lst = new_node;
@@ -48,24 +43,20 @@ int	copy_environment(char **envp, t_env **lst)
 
 int main(int ac, char **av, char **envp)
 {
+	(void)ac;
+	(void)av;
 	t_env	*environment;
 	t_parse	*commands;
-  t_shell shell;
+	t_shell shell;
 	// char *line;
 
+	environment = NULL;
+	copy_environment(envp, &environment);
+	commands = NULL;
 	ft_bzero(&shell, sizeof(t_shell));
 	printf("Welcome to minishell!\n");
-	ft_readline(&shell);
+	ft_readline(&shell, commands, environment);
 
-	(void) av;
-	if (ac != 1)
-		return(write(2, "PLEASE EXECUTE MINISHELL WITH ./minishell only!\n", 49));
-	if (!envp || !envp[0])
-		return (write(2, "No envp no Minishell :'(\n", 26));
-	environment = NULL;
-	commands = NULL;
-
-	copy_environment(envp, &environment);
 	// while ((line = readline("shell > ")))
 	// {
 	// 	add_history(line);

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   needed_functions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:32:55 by mesenyur          #+#    #+#             */
 /*   Updated: 2024/03/05 14:54:59 by mesenyur         ###   ########.fr       */
