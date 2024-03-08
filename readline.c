@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/05 14:14:52 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/08 18:49:35 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,13 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 	while (1)
 	{
 		shell->input = readline(PROMPT);
-		if (!shell->input)
-			return (0);
+		if (!shell->input || ft_strlen(shell->input) == 0)
+			continue ;
 		lexical_analyzer(shell);
 		if (syntax_check(shell) == SYNTAX_ERROR)
 		{
 			ft_putstr_fd("Syntax error\n", 2);
+			continue;
 		}
 		//if ((lexical_analyzer(shell)) == SUCCESS) // error message and everything
 		// {
@@ -38,9 +39,15 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 		// 	// exec
 		// }
 		prepare_for_execution(&command, &execution_utils, &shell->tokens, &envp);
-		print_everything(shell);
+		// print_everything(shell);
 		add_history(shell->input);
-		free(shell->input);
+		// if (shell->tokens)
+		// 	free_tokens(shell->tokens);
+		// if (shell->input)
+		// {
+		// 	free(shell->input);
+		// 	shell->input = NULL;
+		// }
 	}
 	return (0);
 }

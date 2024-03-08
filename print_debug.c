@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_debug.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 14:06:06 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/05 12:54:06 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/08 18:39:13 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void free_tokens(t_token *tokens)
     {
         tmp = tokens;
         tokens = tokens->next;
-        free(tmp->str);
-        // free();
+        if (tmp->str)
+            free(tmp->str);
         free(tmp);
     }
 }
@@ -43,8 +43,8 @@ void print_everything(t_shell *shell)
     }
     while (token)
     {
-        //printf("token->str: %s\n", token->str);
-        //printf("token->type: %d\n\n", token->type);
+        printf("token->str:%s\n", token->str);
+        printf("token->type:%d\n\n", token->type);
         token = token->next;
     }
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_temp.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/05 15:31:40 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/08 18:08:56 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,35 +90,35 @@ static void add_back(t_parse **com, t_parse *node)
 	TODO get the command (RANDOM) type 5 and put them together in a two dimensional array ending with NULL for execve in execution
 	TODO cat < infile | > outfile wc -l
 	TODO if type is 0 (PIPE) add the whole node to the command linked list
-	TODO 
-	TODO 
+	TODO
+	TODO
 */
 
-void	print_node(t_parse **head)
-{
-	t_parse *node;
-	node = *head;
-	int i = 0;
-	
-	printf("HERE\n");
-	while (node)
-	{
-		printf("i is %d\n", i);
-		printf("\n");
-		printf("check for %d is =%s\n", i , node->check);
-		printf("2D command for %d is=\n", i);
-		printf_double(node->command);
-		//printf("\n");
-		if (node->infd)
-			printf("infd for %i is=%zu\n", i , node->infd);
-		if (node->outfd)
-			printf("outfd for %i is=%zu\n", i , node->outfd);
-		printf("\n\n");
-		node = node->next;
-		i++;
-	}
-	exit(0);
-}
+// void	print_node(t_parse **head)
+// {
+// 	t_parse *node;
+// 	node = *head;
+// 	int i = 0;
+
+// 	// printf("HERE\n");
+// 	while (node)
+// 	{
+// 		// printf("i is %d\n", i);
+// 		// printf("\n");
+// 		// printf("check for %d is =%s\n", i , node->check);
+// 		// printf("2D command for %d is=\n", i);
+// 		// printf_double(node->command);
+// 		//printf("\n");
+// 		if (node->infd)
+// 			// printf("infd for %i is=%zu\n", i , node->infd);
+// 		if (node->outfd)
+// 			printf("outfd for %i is=%zu\n", i , node->outfd);
+// 		printf("\n\n");
+// 		node = node->next;
+// 		i++;
+// 	}
+// 	exit(0);
+// }
 
 int	array_size(char **array)
 {
@@ -173,19 +173,19 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 		{
 			node->infd = open(tmp->str, O_RDONLY);
 			if (node->infd == -1)
-				perror("");
+				perror("INFD ERROR1:");
 		}
-		if (tmp -> type == TRUNC)//TODO > CHANGE NAME AFTER MERGE
+		if (tmp -> type == OUTPUT)//TODO > CHANGE NAME AFTER MERGE
 		{
 			node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (node->outfd == -1)
-				perror("");
+				perror("OUTFD ERROR1: ");
 		}
 		if (tmp -> type == APPEND)//TODO >>
 		{
 			node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (node->outfd == -1)
-				perror("");
+				perror("OUTFD ERROR2:");
 		}
 		if (tmp -> type == HEREDOC)//TODO <<
 		{
@@ -211,4 +211,3 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 	execute(command, count->pipecount, envp);
 	return 0;
 }
-

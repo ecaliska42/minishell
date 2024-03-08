@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buildin_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/07 20:57:23 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/08 16:21:19 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int		parrent_buildin(char *s, t_env **envp)
 {
 	if (ft_strncmp("cd", s, 3) == 0)
 		ft_cd(envp, s);
+	return (0);
 }
 
 bool	is_buildin(char **command)

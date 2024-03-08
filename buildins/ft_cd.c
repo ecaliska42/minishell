@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:12 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/07 20:51:56 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/08 16:25:09 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_cd(t_env **lst, char *s)
 	int		i;
 	char	*current_dir;
 	char	*get_arg;
-	printf("HERE\n");
+	// printf("HERE\n");
 	i = 0;
 	tmp = *lst;
 	current_dir = malloc(FILENAME_MAX);
@@ -70,11 +70,11 @@ int	ft_cd(t_env **lst, char *s)
 			break;
 		tmp = tmp->next;
 	}
-	printf("OLDPWD=%s\n", tmp->values[0]);
+	// printf("OLDPWD=%s\n", tmp->values[0]);
 	if (!tmp)
 		return 1;
 	get_arg = get_after(s, ' ');
-	printf("get_arg=%s\n", get_arg);
+	// printf("get_arg=%s\n", get_arg);
 	if (ft_strncmp(get_arg, ".", 1) == 0)
 	{
 		if (ft_strncmp(get_arg, "..", 2) == 0)
@@ -82,6 +82,6 @@ int	ft_cd(t_env **lst, char *s)
 		else
 			dot();
 	}
-	
+
 	return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:14:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/08 14:39:24 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/08 16:40:52 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int unclosed_quote_error(t_shell *shell)
 	}
 	return (0);
 }
+
+
 
 int	lexical_analyzer(t_shell *shell)
 {

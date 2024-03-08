@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/08 12:28:42 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/08 18:44:43 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,12 @@
 
 typedef enum e_tokentype
 {
-	PIPE,    // |
+	PIPE,   // | 7
 	HEREDOC, // <<
 	APPEND,  // >>
 	INPUT,   // <
 	OUTPUT,   // >
 	RANDOM,
-	// OUTFILE,
-	// INFILE,
 }			t_tokentype;
 
 typedef struct s_token
@@ -68,7 +66,6 @@ typedef struct s_shell
 
 //main
 void 	ft_init_shell(t_shell *shell);
-int 	ft_readline(t_shell *shell);
 
 //tokenizing
 t_token *get_last_token(t_token **tokens);
@@ -103,6 +100,7 @@ bool	ft_is_redirection(t_tokentype shell);
 void 	print_everything(t_shell *shell);
 
 bool 	break_character(t_shell *shell, char *line, int i);
+void	skip_spaces(char *line, int *i);
 
 
 
