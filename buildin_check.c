@@ -6,11 +6,17 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/29 17:01:01 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/07 20:57:23 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		parrent_buildin(char *s, t_env **envp)
+{
+	if (ft_strncmp("cd", s, 3) == 0)
+		ft_cd(envp, s);
+}
 
 bool	is_buildin(char **command)
 {
