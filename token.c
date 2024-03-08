@@ -6,14 +6,11 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:26:46 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/08 14:25:04 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/08 15:57:14 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "parsing.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 int get_dquote_len(t_shell *shell, char *str, int **i)
 {
