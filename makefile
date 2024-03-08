@@ -6,7 +6,7 @@
 #    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/31 15:50:49 by ecaliska          #+#    #+#              #
-#    Updated: 2024/03/04 19:58:07 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/03/05 14:54:34 by mesenyur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRC= minishell.c buildins/ft_echo.c buildins/ft_cd.c buildins/ft_env.c \
 	buildin_check.c dup_and_close_functions.c\
 
 SRC2 = lexer.c needed_functions.c print_debug.c token.c readline.c quote_stuff.c \
-
+	syntax_check.c bool_functions.c
 
 OBJ= $(SRC:.c=.o) $(SRC2:.c=.o)
 

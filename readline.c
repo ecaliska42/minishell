@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/04 21:20:16 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/05 14:14:52 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 		if (!shell->input)
 			return (0);
 		lexical_analyzer(shell);
+		if (syntax_check(shell) == SYNTAX_ERROR)
+		{
+			ft_putstr_fd("Syntax error\n", 2);
+		}
 		//if ((lexical_analyzer(shell)) == SUCCESS) // error message and everything
 		// {
 		// 	// parser
