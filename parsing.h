@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/07 15:46:36 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/08 12:28:42 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,7 @@ int 	token_add(t_token **tokenlist);
 void 	ft_tokenizer(t_shell *shell, t_token *last, int i);
 void 	ft_strtok(t_shell *shell_head, int *i);
 void 	ft_str2tok(t_shell *shell, int *i);
-int 	length_of_word(char *str, int i);
-char 	*get_word(char *line, int *i);
+char 	*get_word(t_shell *shell, char *line, int *i);
 int 	token_add(t_token **token);
 void 	free_tokens(t_token *tokens);
 void 	tokenize(t_shell *shell, int *i, bool is_quote);
@@ -103,6 +102,7 @@ bool	ft_is_redirection(t_tokentype shell);
 //print - remove before push
 void 	print_everything(t_shell *shell);
 
+bool 	break_character(t_shell *shell, char *line, int i);
 
 
 
