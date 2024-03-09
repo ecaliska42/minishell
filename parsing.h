@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/08 18:44:43 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/09 18:52:31 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void 	ft_strtok(t_shell *shell_head, int *i);
 void 	ft_str2tok(t_shell *shell, int *i);
 char 	*get_word(t_shell *shell, char *line, int *i);
 int 	token_add(t_token **token);
-void 	free_tokens(t_token *tokens);
+void 	free_tokens(t_token **tokens);
 void 	tokenize(t_shell *shell, int *i, bool is_quote);
 
 //lexer

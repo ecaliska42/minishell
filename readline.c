@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/08 18:49:35 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/09 20:00:38 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parsing.h"
+
+void	remove_quotes(t_shell *shell)
+{
+	return ;
+}
 
 int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 {
@@ -38,16 +43,17 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 		// 	// expand
 		// 	// exec
 		// }
+		remove_quotes(shell); //? remove quotes function
 		prepare_for_execution(&command, &execution_utils, &shell->tokens, &envp);
 		// print_everything(shell);
-		add_history(shell->input);
 		// if (shell->tokens)
-		// 	free_tokens(shell->tokens);
-		// if (shell->input)
-		// {
-		// 	free(shell->input);
-		// 	shell->input = NULL;
-		// }
+		add_history(shell->input);
+		if (shell->input)
+		{
+			free(shell->input);
+			shell->input = NULL;
+		}
+		free_tokens(&shell->tokens);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:10 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/28 16:29:36 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/09 20:03:06 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 int	ft_env(t_env **envp)
 {
-	int i = 0;
+	int		i;
 	t_env	*tmp;
 
 	tmp = *envp;
 	while (tmp != NULL)
 	{
-		printf("%s=",tmp->name);
+		printf("%s=", tmp->name);
 		i = 0;
 		while (tmp->values[i])
 		{
@@ -34,5 +34,5 @@ int	ft_env(t_env **envp)
 		tmp = tmp->next;
 	}
 	tmp = *envp;
-	return 0;
+	return (0);
 }

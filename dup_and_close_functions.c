@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 17:02:21 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/05 18:05:22 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/09 16:45:54 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	*dup_filedescriptor(t_parse *comm, t_exe *ex_utils, int i)
 		if (comm->infd > 0)
 		{
 			dup2(comm->infd, STDIN_FILENO);
-			if (comm->outfd > 0 && comm->outfile)
+			if (comm->outfd > 0)
 				dup2(comm->outfd, STDOUT_FILENO);
 		}
 		else if (comm->outfd > 0)

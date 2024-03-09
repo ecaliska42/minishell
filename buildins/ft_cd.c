@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:12 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/08 16:25:09 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/09 20:01:51 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 // 	return 0;
 // }
 
-static char *remove_after_schrägstrich(char *s)
+static char *remove_after_schraegstrich(char *s)
 {
 	int i = ft_strlen(s);
 	while (--i)
@@ -42,7 +42,7 @@ static int dot_dot(char *current, char **old)
 	if (ft_strlen(current) == 1)//!WRONG
 		return 0;
 	char *new_old = malloc(FILENAME_MAX);
-	chdir(remove_after_schrägstrich(current));
+	chdir(remove_after_schraegstrich(current));
 	new_old = getcwd(new_old, FILENAME_MAX);
 	*old = ft_strdup(new_old);
 	return 0;

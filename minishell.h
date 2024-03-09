@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/04 21:26:12 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/09 16:45:34 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ typedef struct parse
 {
 	char	*check;		//TODO THE STRING OF THE PATH CHECKED WITH ACCESS IF EXECUTABLE WITH THE FIRST COMMAND ATTATCHED [FOR EXAMPLE /usr/bin/LS] HAVE TO DO
 	char	**command;	//TODO THE 2D ARRAY FOR EXECVE ENDING WITH NULL HAVE TO DO
-	char	*infile;	//TODO NAME OF THE INFILE (DONE BY MELIH CAN DELETE)
-	char	*outfile;	//TODO NAME OF THE INFILE (DONE BY MELIH CAN DELETE)
 	long	infd;		//TODO THE RETURN VALUE OF OPEN
 	long	outfd;		//TODO THE RETURN VALUE OF OPEN
 	struct	parse *next;
@@ -79,11 +77,6 @@ typedef struct s_exe
 	int		pipecount;
 }	t_exe;
 
-typedef struct s_mini
-{
-	int	pipecount;
-
-}	t_mini;
 
 /*
 	*BUILDINS
@@ -103,7 +96,6 @@ int	ft_exit(void);
 /*
 	*EXECUTION
 */
-//int	execute(t_parse **comm, t_mini *count, t_env **envp);
 int	execute(t_parse **comm, int pipecount, t_env **envp);
 
 /*

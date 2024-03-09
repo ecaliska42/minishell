@@ -3,26 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   print_debug.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 14:06:06 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/08 18:39:13 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/09 18:58:42 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void free_tokens(t_token *tokens)
+void free_tokens(t_token **tokens)
 {
     t_token *tmp;
 
-    while (tokens)
+	tmp = *tokens;
+    while (*tokens)
     {
-        tmp = tokens;
-        tokens = tokens->next;
-        if (tmp->str)
-            free(tmp->str);
-        free(tmp);
+       	*tokens = (*tokens)->next;
+		// if (tmp->str)
+		// 	printf("tmp->str:%s\n", tmp->str);
+		// if (tmp->type)
+		// 	printf("tmp->type:%d\n", tmp->type);
+        free(tmp->str);
+		tmp->str = NULL;
+		free(tmp);
+        tmp = *tokens;
     }
 }
 
