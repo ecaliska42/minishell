@@ -6,11 +6,12 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/05 12:56:19 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/09 16:53:12 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parsing.h"
 
 int	copy_environment(char **envp, t_env **lst)
 {//TODO PROTECTION

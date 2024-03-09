@@ -6,23 +6,28 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 14:06:06 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/05 12:54:06 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/09 18:58:42 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void free_tokens(t_token *tokens)
+void free_tokens(t_token **tokens)
 {
     t_token *tmp;
 
-    while (tokens)
+	tmp = *tokens;
+    while (*tokens)
     {
-        tmp = tokens;
-        tokens = tokens->next;
+       	*tokens = (*tokens)->next;
+		// if (tmp->str)
+		// 	printf("tmp->str:%s\n", tmp->str);
+		// if (tmp->type)
+		// 	printf("tmp->type:%d\n", tmp->type);
         free(tmp->str);
-        // free();
-        free(tmp);
+		tmp->str = NULL;
+		free(tmp);
+        tmp = *tokens;
     }
 }
 
@@ -43,8 +48,8 @@ void print_everything(t_shell *shell)
     }
     while (token)
     {
-        //printf("token->str: %s\n", token->str);
-        //printf("token->type: %d\n\n", token->type);
+        printf("token->str:%s\n", token->str);
+        printf("token->type:%d\n\n", token->type);
         token = token->next;
     }
 }

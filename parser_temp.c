@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/05 15:31:40 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/09 19:37:24 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,12 @@ char	*get_access(char *str, t_env **envi)
 	char	*temp;
 
 	i = 0;
+	if (access(str, X_OK | F_OK) == 0)
+		return (str);
 	path = get_path(envi);
 	if (!path)
 		return (NULL);
-	if (access(str, X_OK | F_OK) == 0)
-		return (str);
+	// ft_putendl_fd("HERE", 2);
 	while (path->values[i])
 	{
 		temp = ft_strdup("");
@@ -43,6 +44,7 @@ char	*get_access(char *str, t_env **envi)
 		temp = ft_strjoin(temp, str);
 		if (access(temp, X_OK | F_OK) == 0)
 			return (temp);
+		free(temp);
 		i++;
 	}
 	return (str);
@@ -53,12 +55,15 @@ char	*get_access(char *str, t_env **envi)
 void	get_check(t_parse **head, t_env **envi)//TODO get the char *check with char **command
 {
 	t_parse *node; //char **command should already be set up
+	int	i = 0;
 
 	node = *head;
 	while (node)
 	{
-		node -> check = get_access(node->command[0], envi);
+		// printf("node command is %s\n", node->command[0]);
+		node->check = get_access(node->command[0], envi);
 		node = node -> next;
+		i++;
 	}
 }
 
@@ -90,35 +95,7 @@ static void add_back(t_parse **com, t_parse *node)
 	TODO get the command (RANDOM) type 5 and put them together in a two dimensional array ending with NULL for execve in execution
 	TODO cat < infile | > outfile wc -l
 	TODO if type is 0 (PIPE) add the whole node to the command linked list
-	TODO 
-	TODO 
 */
-
-void	print_node(t_parse **head)
-{
-	t_parse *node;
-	node = *head;
-	int i = 0;
-	
-	printf("HERE\n");
-	while (node)
-	{
-		printf("i is %d\n", i);
-		printf("\n");
-		printf("check for %d is =%s\n", i , node->check);
-		printf("2D command for %d is=\n", i);
-		printf_double(node->command);
-		//printf("\n");
-		if (node->infd)
-			printf("infd for %i is=%zu\n", i , node->infd);
-		if (node->outfd)
-			printf("outfd for %i is=%zu\n", i , node->outfd);
-		printf("\n\n");
-		node = node->next;
-		i++;
-	}
-	exit(0);
-}
 
 int	array_size(char **array)
 {
@@ -135,6 +112,8 @@ int	array_size(char **array)
 char	**create_command(char *str, char **cmd)
 {
 	int	size = array_size(cmd);
+	if (ft_strlen(str) == 0)
+		return (cmd);
 	int	i = 0;
 	char **ret = ft_calloc (sizeof(char *), size + 2);
 	if (!ret)
@@ -151,6 +130,32 @@ char	**create_command(char *str, char **cmd)
 	return (ret);
 }
 
+void free_parsing_node(t_parse **head)
+{
+	t_parse	*tmp;
+	int		i;
+
+	i = 0;
+	tmp = *head;
+	while (*head)
+	{
+		*head = (*head) -> next;
+		free(tmp->check);
+		tmp->check = NULL;
+		i = 0;
+		while(tmp->command[i])
+		{
+			free(tmp->command[i]);
+			tmp->command[i] = NULL;
+			i++;
+		}
+		tmp->command = NULL;
+		free(tmp);
+		tmp = NULL;
+		tmp = *head;
+	}
+}
+
 int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_env **envp)
 {
 	t_parse *node;
@@ -165,27 +170,25 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 		exit(1);
 	}
 	ft_bzero(node, sizeof(*node));
-	//node -> next = NULL;
-	//node->command = NULL;
 	while (tmp)
 	{
 		if (tmp -> type == INPUT)//TODO <
 		{
 			node->infd = open(tmp->str, O_RDONLY);
 			if (node->infd == -1)
-				perror("");
+				perror("INFD ERROR1:");
 		}
-		if (tmp -> type == TRUNC)//TODO > CHANGE NAME AFTER MERGE
+		if (tmp -> type == OUTPUT)//TODO > CHANGE NAME AFTER MERGE
 		{
 			node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (node->outfd == -1)
-				perror("");
+				perror("OUTFD ERROR1: ");
 		}
 		if (tmp -> type == APPEND)//TODO >>
 		{
 			node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (node->outfd == -1)
-				perror("");
+				perror("OUTFD ERROR2:");
 		}
 		if (tmp -> type == HEREDOC)//TODO <<
 		{
@@ -201,14 +204,12 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 			add_back(command, node);
 			node = malloc(sizeof(t_parse));
 			ft_bzero(node, sizeof(*node));
-			//node -> next = NULL;
 		}
 		tmp = tmp ->next;
 	}
 	add_back(command, node);
 	get_check(command, envp);
-	//print_node(command);
 	execute(command, count->pipecount, envp);
+	free_parsing_node(command);
 	return 0;
 }
-

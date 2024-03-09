@@ -6,12 +6,17 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/05 14:14:52 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/09 20:00:38 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parsing.h"
+
+void	remove_quotes(t_shell *shell)
+{
+	return ;
+}
 
 int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 {
@@ -24,12 +29,13 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 	while (1)
 	{
 		shell->input = readline(PROMPT);
-		if (!shell->input)
-			return (0);
+		if (!shell->input || ft_strlen(shell->input) == 0)
+			continue ;
 		lexical_analyzer(shell);
 		if (syntax_check(shell) == SYNTAX_ERROR)
 		{
 			ft_putstr_fd("Syntax error\n", 2);
+			continue;
 		}
 		//if ((lexical_analyzer(shell)) == SUCCESS) // error message and everything
 		// {
@@ -37,10 +43,17 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 		// 	// expand
 		// 	// exec
 		// }
+		remove_quotes(shell); //? remove quotes function
 		prepare_for_execution(&command, &execution_utils, &shell->tokens, &envp);
-		print_everything(shell);
+		// print_everything(shell);
+		// if (shell->tokens)
 		add_history(shell->input);
-		free(shell->input);
+		if (shell->input)
+		{
+			free(shell->input);
+			shell->input = NULL;
+		}
+		free_tokens(&shell->tokens);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/08 12:28:42 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/09 18:52:31 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,12 @@
 
 typedef enum e_tokentype
 {
-	PIPE,    // |
+	PIPE,   // | 7
 	HEREDOC, // <<
 	APPEND,  // >>
 	INPUT,   // <
 	OUTPUT,   // >
 	RANDOM,
-	// OUTFILE,
-	// INFILE,
 }			t_tokentype;
 
 typedef struct s_token
@@ -68,7 +66,6 @@ typedef struct s_shell
 
 //main
 void 	ft_init_shell(t_shell *shell);
-int 	ft_readline(t_shell *shell);
 
 //tokenizing
 t_token *get_last_token(t_token **tokens);
@@ -78,7 +75,7 @@ void 	ft_strtok(t_shell *shell_head, int *i);
 void 	ft_str2tok(t_shell *shell, int *i);
 char 	*get_word(t_shell *shell, char *line, int *i);
 int 	token_add(t_token **token);
-void 	free_tokens(t_token *tokens);
+void 	free_tokens(t_token **tokens);
 void 	tokenize(t_shell *shell, int *i, bool is_quote);
 
 //lexer
@@ -103,6 +100,7 @@ bool	ft_is_redirection(t_tokentype shell);
 void 	print_everything(t_shell *shell);
 
 bool 	break_character(t_shell *shell, char *line, int i);
+void	skip_spaces(char *line, int *i);
 
 
 
