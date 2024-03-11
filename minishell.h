@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/09 16:45:34 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/11 20:01:16 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,8 @@ void	*close_filedescriptor(t_parse *comm, t_exe *ex_utils);
 
 int ft_readline(t_shell *shell, t_parse *command, t_env *envp);
 int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_env **envp);
+
+void	heredoc(t_parse *node, char *end);
+
 
 #endif

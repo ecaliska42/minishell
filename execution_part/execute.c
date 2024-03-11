@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/09 17:40:59 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/11 19:04:47 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ int	execute(t_parse **comm, int pipecount, t_env **envp)
 	int		i;
 
 	tmp = *comm;
-	ex_struct.id = malloc(pipecount * sizeof(pid_t));//TODO FREE
-	ex_struct.fd = malloc(pipecount * sizeof(int *) + 1);//TODO FREE DOUBLE
+	ex_struct.id = malloc((pipecount + 1) * sizeof(pid_t));//TODO FREE
+	ex_struct.fd = malloc((pipecount + 1) * sizeof(int *) + 1);//TODO FREE DOUBLE
 	ex_struct.pipecount = pipecount;
 	i = 0;
 	while (i < pipecount)
@@ -93,8 +93,8 @@ int	execute(t_parse **comm, int pipecount, t_env **envp)
 		waitpid(ex_struct.id[i], NULL, 0);
 		i--;
 	}
-	free_double(ex_struct.fd);
 	free(ex_struct.id);
 	ex_struct.id = NULL;
+	free_double(ex_struct.fd);
 	return 0;
 }

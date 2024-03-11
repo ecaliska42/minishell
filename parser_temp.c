@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/09 19:37:24 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/11 20:01:22 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,11 @@ char	**create_command(char *str, char **cmd)
 	while (i < size)
 	{
 		ret[i] = ft_strdup(cmd[i]);
+		//free(cmd[i]);
 		i++;
 	}
 	ret[i] = ft_strdup(str);
+	//free(str);
 	return (ret);
 }
 
@@ -140,18 +142,31 @@ void free_parsing_node(t_parse **head)
 	while (*head)
 	{
 		*head = (*head) -> next;
-		free(tmp->check);
-		tmp->check = NULL;
+		// if (tmp->check)
+		// {
+		// 	free(tmp->check);
+		// 	tmp->check = NULL;
+		// }
 		i = 0;
 		while(tmp->command[i])
 		{
-			free(tmp->command[i]);
-			tmp->command[i] = NULL;
+			if (tmp->command[i])
+			{
+				free(tmp->command[i]);
+				//tmp->command[i] = NULL;
+			}
 			i++;
 		}
-		tmp->command = NULL;
-		free(tmp);
-		tmp = NULL;
+		if (tmp->command)
+		{
+			free(tmp->command);
+			tmp->command = NULL;
+		}
+		if (tmp)
+		{
+			free(tmp);
+			tmp = NULL;
+		}
 		tmp = *head;
 	}
 }
@@ -172,27 +187,28 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 	ft_bzero(node, sizeof(*node));
 	while (tmp)
 	{
-		if (tmp -> type == INPUT)//TODO <
+		if (tmp -> type == INPUT && ft_strlen(tmp->str) > 0)//TODO <
 		{
 			node->infd = open(tmp->str, O_RDONLY);
 			if (node->infd == -1)
 				perror("INFD ERROR1:");
 		}
-		if (tmp -> type == OUTPUT)//TODO > CHANGE NAME AFTER MERGE
+		if (tmp -> type == OUTPUT && ft_strlen(tmp->str) > 0)//TODO > CHANGE NAME AFTER MERGE
 		{
 			node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (node->outfd == -1)
 				perror("OUTFD ERROR1: ");
 		}
-		if (tmp -> type == APPEND)//TODO >>
+		if (tmp -> type == APPEND && ft_strlen(tmp->str) > 0)//TODO >>
 		{
 			node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (node->outfd == -1)
 				perror("OUTFD ERROR2:");
 		}
-		if (tmp -> type == HEREDOC)//TODO <<
+		if (tmp -> type == HEREDOC && ft_strlen(tmp->str) > 0)//TODO <<
 		{
-			return (0); //TODO WRITE A SEPPERATE FUNCTION FOR HEREDOC
+			heredoc(node, tmp->str);
+			//return (0); //TODO WRITE A SEPPERATE FUNCTION FOR HEREDOC
 		}
 		if (tmp -> type == RANDOM)
 		{
