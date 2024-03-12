@@ -1,38 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   printf_double_tripple.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/02 18:21:10 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/12 14:11:54 by ecaliska         ###   ########.fr       */
+/*   Created: 2024/02/26 13:49:02 by ecaliska          #+#    #+#             */
+/*   Updated: 2024/03/12 14:14:28 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
 
-int	ft_env(t_env **envp)
+void	printf_double(char **str)
 {
-	int		i;
-	t_env	*tmp;
-
-	tmp = *envp;
-	while (tmp != NULL)
+	int	i;
+	
+	i = 0;
+	while(str[i])
 	{
-		printf("%s=", tmp->name);
-		i = 0;
-		while (tmp->values[i])
-		{
-			if (!tmp->values[i + 1])
-				printf("%s", tmp->values[i]);
-			else
-				printf("%s:", tmp->values[i]);
-			i++;
-		}
-		printf("\n");
-		tmp = tmp->next;
+		printf("%d is %s\n", i, str[i]);
+		i++;
 	}
-	tmp = *envp;
-	return (0);
+}
+
+void	printf_tripple(char ***str)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	i = 0;
+	while(str[i])
+	{
+		j = 0;
+		while (str[i][j])
+		{
+			printf("%d is %s\n", i, str[i][j]);
+			j++;
+		}
+		i++;
+	}
 }

@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:20:20 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/08 16:25:15 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/12 18:47:58 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../libraries/minishell.h"
 
 int ft_echo(char *str) //echo "hello"
 {
 	int i = 0;
 	int j = 0;
+	//int	x = 0;
 	int	space = 0;
 	while (str[i] == ' ')
 		i++;
@@ -36,7 +37,7 @@ int ft_echo(char *str) //echo "hello"
 		space = 0;
 	}
 	s[j] = '\0';
-	printf("echo is %s\n", s);
+	printf("%s\n", s);
 	free(s);
 	return 0;
 }

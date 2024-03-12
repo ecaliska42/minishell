@@ -6,12 +6,12 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/09 16:53:12 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/12 18:53:36 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "parsing.h"
+#include "./libraries/minishell.h"
+#include "./libraries/parsing.h"
 
 int	copy_environment(char **envp, t_env **lst)
 {//TODO PROTECTION
@@ -32,6 +32,8 @@ int	copy_environment(char **envp, t_env **lst)
 		if (!new_node->values)
 			break;//TODO CORRECT MALLOC PROTECTION!!
 		new_node->next = NULL;
+		if (ft_strncmp(new_node->name, "SHLVL", 5) == 0)
+			new_node->values[0] = ft_itoa(ft_atoi(new_node->values[0]) + 1);
 		if (*lst == NULL)
 			*lst = new_node;
 		else
@@ -58,6 +60,7 @@ int main(int ac, char **av, char **envp)
 	printf("Welcome to minishell!\n");
 	ft_readline(&shell, commands, environment);
 
+	write some buildins tomorrow
 	// while ((line = readline("shell > ")))
 	// {
 	// 	add_history(line);

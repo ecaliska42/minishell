@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   buildin_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/08 16:21:19 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/12 18:48:11 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "./libraries/minishell.h"
 
 int		parrent_buildin(char *s, t_env **envp)
 {
@@ -19,12 +19,21 @@ int		parrent_buildin(char *s, t_env **envp)
 	return (0);
 }
 
+bool	is_parrent_buildin(char *s)
+{
+	if (!s)
+		return false;
+	if (ft_strncmp("cd", s, 3) == 0)
+		return true;
+	return false;
+}
+
 bool	is_buildin(char **command)
 {
 	char	*s;
 
 	s = command[0];
-	if (ft_strncmp("echo ", s, 6) == 0)
+	if (ft_strncmp("echo ", s, 4) == 0)
 		return true;
 	if (ft_strncmp("pwd", s, 4) == 0)
 		return true;
@@ -35,15 +44,15 @@ bool	is_buildin(char **command)
 	return false;
 }
 
-int		execute_buildin(char *s, t_env **envp)
+int		execute_buildin(char **s, t_env **envp)
 {
-	if (ft_strncmp("echo ", s, 6) == 0)
-		ft_echo(ft_strchr(s, ' '));
-	if (ft_strncmp("pwd", s, 4) == 0)
+	if (ft_strncmp("echo ", s[0], 4) == 0)
+		ft_echo(s[1]);
+	if (ft_strncmp("pwd", s[0], 4) == 0)
 		ft_pwd();
-	if (ft_strncmp("env", s, 4) == 0)
+	if (ft_strncmp("env", s[0], 4) == 0)
 		ft_env(envp);
-	if (ft_strncmp("exit", s, 5) == 0)
+	if (ft_strncmp("exit", s[0], 5) == 0)
 		ft_exit();
 	return 0;
 }

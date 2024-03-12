@@ -6,11 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:32:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/09 18:49:07 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:10:55 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "./libraries/parsing.h"
 
 t_token *get_last_token(t_token **tokens)
 {

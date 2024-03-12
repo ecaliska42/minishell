@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   quote_stuff.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 16:56:42 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/05 15:07:23 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:10:09 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "./libraries/parsing.h"
 
 void change_dquote(char index, char *quotes)
 {

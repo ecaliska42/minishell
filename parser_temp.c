@@ -6,11 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/11 20:01:22 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:10:51 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "./libraries/minishell.h"
 
 t_env	*get_path(t_env **envi)
 {
@@ -61,6 +61,11 @@ void	get_check(t_parse **head, t_env **envi)//TODO get the char *check with char
 	while (node)
 	{
 		// printf("node command is %s\n", node->command[0]);
+		if (node->command == NULL)
+		{
+			node = node -> next;
+			continue;
+		}
 		node->check = get_access(node->command[0], envi);
 		node = node -> next;
 		i++;
@@ -147,15 +152,18 @@ void free_parsing_node(t_parse **head)
 		// 	free(tmp->check);
 		// 	tmp->check = NULL;
 		// }
-		i = 0;
-		while(tmp->command[i])
+		if (tmp->command)
 		{
-			if (tmp->command[i])
+			i = 0;
+			while(tmp->command[i])
 			{
-				free(tmp->command[i]);
-				//tmp->command[i] = NULL;
+				if (tmp->command[i])
+				{
+					free(tmp->command[i]);
+					//tmp->command[i] = NULL;
+				}
+				i++;
 			}
-			i++;
 		}
 		if (tmp->command)
 		{
