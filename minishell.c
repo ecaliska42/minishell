@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/12 18:53:36 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/13 13:45:36 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int main(int ac, char **av, char **envp)
 	printf("Welcome to minishell!\n");
 	ft_readline(&shell, commands, environment);
 
-	write some buildins tomorrow
+	//TODO swrite some buildins tomorrow
 	// while ((line = readline("shell > ")))
 	// {
 	// 	add_history(line);

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/12 18:39:43 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/13 18:03:50 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,18 +183,24 @@ int	execute(t_parse **comm, int pipecount, t_env **envp)
 	i = 0;
 	while (tmp != NULL)
 	{
-		ex_struct.id[i] = fork();
-		if (ex_struct.id[i] == -1)
+		if (tmp->command)
 		{
-			perror("");
-			exit (1);
+			if (is_parrent_buildin(tmp->command[0]) == true)
+				parrent_buildin(tmp->command[0], envp);
+			else
+			{
+				ex_struct.id[i] = fork();
+				if (ex_struct.id[i] == -1)
+				{
+					perror("");
+					exit (1);
+				}
+				if (ex_struct.id[i] == 0)
+					child(tmp, &ex_struct, i, envp);
+				i++;
+			}
 		}
-		// if (is_parrent_buildin(tmp->command[0]) == true)
-		// 	parrent_buildin(tmp->command[0], envp);
-		if (ex_struct.id[i] == 0)
-			child(tmp, &ex_struct, i, envp);
 		tmp = tmp->next;
-		i++;
 	}
 	close_filedescriptor(NULL, &ex_struct);
 	i--;
