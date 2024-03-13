@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/12 18:40:16 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/13 20:27:50 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,9 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp);
 int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_env **envp);
 
 void	heredoc(t_parse *node, char *end);
+
+//extras
+void	expand_variable(t_shell *shell, t_env *env);
+
 
 #endif

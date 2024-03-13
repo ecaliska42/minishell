@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/13 18:25:32 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/13 23:48:27 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,7 @@ void 	ft_init_shell(t_shell *shell);
 t_token *get_last_token(t_token **tokens);
 int 	token_add(t_token **tokenlist);
 void 	ft_tokenizer(t_shell *shell, t_token *last, int i);
-void 	ft_strtok(t_shell *shell_head, int *i);
-void 	ft_str2tok(t_shell *shell, int *i);
+void 	ft_strtok(t_shell *shell, int *i);
 char 	*get_word(t_shell *shell, char *line, int *i);
 int 	token_add(t_token **token);
 void 	free_tokens(t_token **tokens);
@@ -102,8 +101,7 @@ void 	print_everything(t_shell *shell);
 
 bool 	break_character(t_shell *shell, char *line, int i);
 void	skip_spaces(char *line, int *i);
-void	expand_variable(t_shell *shell);
-
+int ft_strcmp(const char *s1, const char *s2);
 
 
 #endif

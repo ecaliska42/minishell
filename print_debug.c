@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_debug.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 14:06:06 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/12 14:10:28 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/13 23:49:11 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,20 +58,4 @@ void print_everything(t_shell *shell)
         printf("token->type:%d\n\n", token->type);
         token = token->next;
     }
-}
-
-
-int ft_strcmp(const char *s1, const char *s2)
-{
-    if (!s1 || !s2)
-    {
-        ft_putstr_fd("Error: s1 or s2 is NULL\n", 2);
-        return (-1);
-    }
-    while (*s1 && *s2 && *s1 == *s2)
-    {
-        s1++;
-        s2++;
-    }
-    return (*s1 - *s2);
 }

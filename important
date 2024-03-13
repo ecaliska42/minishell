@@ -1,0 +1,11 @@
+1-) < infile cat > outfile | cat outfile --- if outfile not exists bash behaves different
+2-) Builtins
+3-) Signals
+4-) Expansion
+5-) Quote Removal
+6-) Edge cases if quotes get expanded
+7-) Ambiguous Redirect
+8-) Multiple pipes executing order
+9-) Norminette
+10-) Add, Commit, Push
+11-) Stuff which is not to handle ('\', '*', ...) - check for crash
