@@ -3,12 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 17:03:33 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/02 14:59:20 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:10:36 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "./libraries/parsing.h"
 

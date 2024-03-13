@@ -6,14 +6,14 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/09 18:52:31 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:30:48 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -31,7 +31,8 @@
 # define CLOSED 0
 # define D_QUOTE '\"'
 # define S_QUOTE '\''
-# define PROMPT "Minishell:~$ "
+//# define PROMPT "Minishell:~$ "
+# define PROMPT "🨀 ShellMate 🨁 :~ "
 # define SUCCESS 0
 # define ERROR 1
 # define DELIM " \n\t\r\v\f"

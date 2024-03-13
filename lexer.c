@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:14:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/08 16:40:52 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:11:04 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "./libraries/parsing.h"
 #include <stdlib.h>
 
 //change tokenizing_first_operator to strtok?

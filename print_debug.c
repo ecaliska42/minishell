@@ -6,29 +6,35 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 14:06:06 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/09 18:58:42 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:10:28 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "./libraries/parsing.h"
 
 void free_tokens(t_token **tokens)
 {
-    t_token *tmp;
+	t_token *tmp;
 
 	tmp = *tokens;
-    while (*tokens)
-    {
-       	*tokens = (*tokens)->next;
+	while (*tokens)
+	{
+		*tokens = (*tokens)->next;
 		// if (tmp->str)
 		// 	printf("tmp->str:%s\n", tmp->str);
 		// if (tmp->type)
 		// 	printf("tmp->type:%d\n", tmp->type);
-        free(tmp->str);
-		tmp->str = NULL;
-		free(tmp);
-        tmp = *tokens;
-    }
+		if (tmp->str)
+		{
+			free(tmp->str);
+			tmp->str = NULL;
+		}
+		if (tmp)
+		{
+			free(tmp);
+		}
+		tmp = *tokens;
+	}
 }
 
 void print_everything(t_shell *shell)

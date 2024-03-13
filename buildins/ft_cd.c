@@ -6,11 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:12 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/09 20:01:51 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:11:48 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../libraries/minishell.h"
 
 // static int full_path(char *s)
 // {

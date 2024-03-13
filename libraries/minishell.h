@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/09 16:45:34 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/12 18:40:16 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define CYAN "\033[0;36m"
 # define WHITE "\033[0;37m"
 
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # include "parsing.h"
 
 // GNU Readline library
@@ -112,7 +112,9 @@ void	printf_tripple(char ***str);
 	*BUILDIN_CHECK.C
 */
 bool	is_buildin(char **command);
-int		execute_buildin(char *s, t_env **envp);
+int		execute_buildin(char **s, t_env **envp);
+int		parrent_buildin(char *s, t_env **envp);
+bool	is_parrent_buildin(char *s);
 
 void	*dup_for_no_pipes(t_parse *comm);
 void	*dup_filedescriptor(t_parse *comm, t_exe *ex_utils, int i);
@@ -120,5 +122,7 @@ void	*close_filedescriptor(t_parse *comm, t_exe *ex_utils);
 
 int ft_readline(t_shell *shell, t_parse *command, t_env *envp);
 int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_env **envp);
+
+void	heredoc(t_parse *node, char *end);
 
 #endif

@@ -6,11 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 14:22:20 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/04 19:56:22 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:11:00 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "./libraries/minishell.h"
 
 char	*get_till(char *str, char character)
 {

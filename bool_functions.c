@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   bool_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 14:55:01 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/05 14:55:14 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:08:35 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "./libraries/parsing.h"
 
 bool ft_is_space(char c)
 {

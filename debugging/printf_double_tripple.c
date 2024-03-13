@@ -6,11 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 13:49:02 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/26 13:51:48 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:14:28 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../libraries/minishell.h"
 
 void	printf_double(char **str)
 {

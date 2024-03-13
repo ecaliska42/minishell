@@ -6,11 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 17:02:21 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/09 16:45:54 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:11:13 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "./libraries/minishell.h"
 
 //TODO add closing functions after each dup2
 
