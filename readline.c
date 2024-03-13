@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/12 14:09:59 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/13 18:33:47 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 		// 	// expand
 		// 	// exec
 		// }
-		remove_quotes(shell); //? remove quotes function
+		// remove_quotes(shell); //? remove quotes function
+		expand_variable(shell);
 		prepare_for_execution(&command, &execution_utils, &shell->tokens, &envp);
 		// print_everything(shell);
 		// if (shell->tokens)

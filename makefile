@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
+#    By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/31 15:50:49 by ecaliska          #+#    #+#              #
-#    Updated: 2024/03/12 14:28:15 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/03/13 18:25:07 by mesenyur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRC= minishell.c buildins/ft_echo.c buildins/ft_cd.c buildins/ft_env.c \
 	heredoc.c \
 
 SRC2 = lexer.c needed_functions.c print_debug.c token.c readline.c quote_stuff.c \
-	syntax_check.c bool_functions.c
+	syntax_check.c bool_functions.c expand.c
 
 OBJ= $(SRC:.c=.o) $(SRC2:.c=.o)
 

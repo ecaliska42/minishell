@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/12 14:30:48 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/13 18:25:32 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void 	print_everything(t_shell *shell);
 
 bool 	break_character(t_shell *shell, char *line, int i);
 void	skip_spaces(char *line, int *i);
-
+void	expand_variable(t_shell *shell);
 
 
 
