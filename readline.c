@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/13 23:15:52 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/14 22:50:56 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 			ft_putstr_fd("Syntax error\n", 2);
 			continue;
 		}
-		// remove_quotes(shell); //? remove quotes function
 		expand_variable(shell, envp);
+		// remove_quotes(shell); //? remove quotes function
 		prepare_for_execution(&command, &execution_utils, &shell->tokens, &envp);
 		// print_everything(shell);
 		// if (shell->tokens)
