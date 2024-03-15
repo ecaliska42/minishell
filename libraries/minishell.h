@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/15 21:45:41 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/15 21:49:47 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,9 @@ void	heredoc(t_parse *node, char *end);
 */
 int	t_env_size(t_env **envp);
 int	array_size(char **array);
+
+
+void expand_variable(t_token *token, t_env *envp);
 
 
 #endif

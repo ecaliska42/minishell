@@ -6,12 +6,11 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 20:17:14 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/15 21:37:12 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/15 21:51:43 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libraries/minishell.h"
-
 
 bool ft_is_dollar_nbr(char *c)
 {
