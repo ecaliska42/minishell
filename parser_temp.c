@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/15 15:30:07 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/15 17:25:47 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,17 +103,6 @@ static void add_back(t_parse **com, t_parse *node)
 	TODO if type is 0 (PIPE) add the whole node to the command linked list
 */
 
-int	array_size(char **array)
-{
-	int	i;
-
-	i = 0;
-	if (!array)
-		return 0;
-	while (array[i])
-		i++;
-	return (i);
-}
 
 char	**create_command(char *str, char **cmd)
 {

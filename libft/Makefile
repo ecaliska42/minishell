@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+         #
+#    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/07 18:00:21 by ecaliska          #+#    #+#              #
-#    Updated: 2024/03/06 16:27:47 by mesenyur         ###   ########.fr        #
+#    Updated: 2024/03/15 18:16:25 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,8 @@ CFLAGS+=	-Wall -Werror -Wextra -g
 
 SRC=	ft_fd/ft_putchar_fd.c ft_fd/ft_putendl_fd.c ft_fd/ft_putnbr_fd.c \
 		ft_fd/ft_putstr_fd.c \
-		utilitie/ft_atoi.c utilitie/ft_bzero.c utilitie/ft_calloc.c \
-		utilitie/ft_itoa.c \
+		utilities/ft_atoi.c utilities/ft_bzero.c utilities/ft_calloc.c \
+		utilities/ft_itoa.c \
 		to_is/ft_isalnum.c to_is/ft_isalpha.c to_is/ft_isascii.c to_is/ft_isdigit.c \
 		to_is/ft_isprint.c to_is/ft_tolower.c to_is/ft_toupper.c to_is/ft_iswhitespace.c\
 		lists/ft_lstadd_back.c lists/ft_lstadd_front.c lists/ft_lstclear.c \

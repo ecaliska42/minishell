@@ -6,7 +6,7 @@
 #    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/31 15:50:49 by ecaliska          #+#    #+#              #
-#    Updated: 2024/03/15 14:44:51 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/03/15 18:14:07 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRC= minishell.c buildins/ft_echo.c buildins/ft_cd.c buildins/ft_env.c \
 	parser_temp.c execution_part/execute.c ms_utils.c \
 	debugging/printf_double_tripple.c \
 	buildin_check.c dup_and_close_functions.c\
-	heredoc.c \
+	heredoc.c sizes/arrays.c sizes/lists.c\
 
 SRC2 = lexer.c needed_functions.c print_debug.c token.c readline.c quote_stuff.c \
 	syntax_check.c bool_functions.c
@@ -47,6 +47,4 @@ fclean:	clean
 re:	fclean all
 	$(MAKE) re -C libft
 
-only: all clean
-
-.PHONY: all clean fclean re only
+.PHONY: all clean fclean re

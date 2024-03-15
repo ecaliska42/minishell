@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/15 14:53:58 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/15 17:12:34 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,6 @@ void	free_double(int **fds)
 	fds = NULL;
 }
 
-int		list_size(t_env **envp)
-{
-	int	i;
-	t_env	*tmp;
-
-	i = 0;
-	tmp = *envp;	
-	while (tmp)
-	{
-		i++;
-		tmp = tmp->next;
-	}
-	return (i);
-}
 
 // void	print_envp(t_env **envp)
 // {
@@ -64,7 +50,7 @@ int		list_size(t_env **envp)
 
 char	**change_envp(t_env **envp)
 {
-	int	size = list_size(envp);
+	int	size = t_env_size(envp);
 	char	**new_envp;
 	t_env	*tmp;
 	int	i;
