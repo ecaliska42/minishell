@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/15 15:10:49 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/15 21:45:41 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,11 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 
 void	heredoc(t_parse *node, char *end);
 
-//extras
-void expand_variable(t_token *token, t_env *envp);
+/*
+	*./SIZES
+*/
+int	t_env_size(t_env **envp);
+int	array_size(char **array);
 
 
 #endif

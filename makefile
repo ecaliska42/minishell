@@ -6,7 +6,7 @@
 #    By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/31 15:50:49 by ecaliska          #+#    #+#              #
-#    Updated: 2024/03/13 18:25:07 by mesenyur         ###   ########.fr        #
+#    Updated: 2024/03/15 21:42:57 by mesenyur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRC= minishell.c buildins/ft_echo.c buildins/ft_cd.c buildins/ft_env.c \
 	parser_temp.c execution_part/execute.c ms_utils.c \
 	debugging/printf_double_tripple.c \
 	buildin_check.c dup_and_close_functions.c\
-	heredoc.c \
+	heredoc.c sizes/arrays.c sizes/lists.c\
 
 SRC2 = lexer.c needed_functions.c print_debug.c token.c readline.c quote_stuff.c \
 	syntax_check.c bool_functions.c expand.c

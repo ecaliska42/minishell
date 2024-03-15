@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/12 18:05:24 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/15 13:12:08 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*get_unique_heredoc_name(void)
 	}
 	name[i] = '\0';
 	close(dev_random);
-	name = ft_strjoin("/tmp/", name);
+	//name = ft_strjoin("/tmp/", name);
 	return (name);
 }
 

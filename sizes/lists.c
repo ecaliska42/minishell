@@ -1,21 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dollar.c                                           :+:      :+:    :+:   */
+/*   lists.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/13 20:17:14 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/15 21:37:12 by mesenyur         ###   ########.fr       */
+/*   Created: 2024/03/15 17:10:00 by ecaliska          #+#    #+#             */
+/*   Updated: 2024/03/15 17:11:56 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libraries/minishell.h"
+#include "../libraries/minishell.h"
 
-
-bool ft_is_dollar_nbr(char *c)
+int	t_env_size(t_env **envp)
 {
-	if (*c == '$' && ft_isdigit(*c + 1))
-		return (true);
-	return (false);
+	int	i;
+	t_env	*tmp;
+
+	i = 0;
+	tmp = *envp;	
+	while (tmp)
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	return (i);
 }
+

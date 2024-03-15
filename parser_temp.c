@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/12 14:10:51 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/15 17:25:47 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char	*get_access(char *str, t_env **envi)
 	t_env	*path;
 	int		i;
 	char	*temp;
+	char	**path_values;
 
 	i = 0;
 	if (access(str, X_OK | F_OK) == 0)
@@ -36,11 +37,11 @@ char	*get_access(char *str, t_env **envi)
 	path = get_path(envi);
 	if (!path)
 		return (NULL);
-	// ft_putendl_fd("HERE", 2);
-	while (path->values[i])
+	path_values = ft_split(path->values, ':');
+	while (path_values[i])
 	{
 		temp = ft_strdup("");
-		temp = ft_strjoin(path->values[i], "/");
+		temp = ft_strjoin(path_values[i], "/");
 		temp = ft_strjoin(temp, str);
 		if (access(temp, X_OK | F_OK) == 0)
 			return (temp);
@@ -102,17 +103,6 @@ static void add_back(t_parse **com, t_parse *node)
 	TODO if type is 0 (PIPE) add the whole node to the command linked list
 */
 
-int	array_size(char **array)
-{
-	int	i;
-
-	i = 0;
-	if (!array)
-		return 0;
-	while (array[i])
-		i++;
-	return (i);
-}
 
 char	**create_command(char *str, char **cmd)
 {
