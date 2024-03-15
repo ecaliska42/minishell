@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_iswhitespace.c                                  :+:      :+:    :+:   */
+/*   arrays.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/21 18:56:46 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/15 18:23:37 by ecaliska         ###   ########.fr       */
+/*   Created: 2024/03/15 17:10:18 by ecaliska          #+#    #+#             */
+/*   Updated: 2024/03/15 17:42:06 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "../libraries/minishell.h"
 
-bool	ft_is_white_space(char c)
+int	array_size(char **array)
 {
-	if (c == ' ' || (c >= 9 && c <= 13))
-		return (true);
-	return (false);
+	int	i;
+
+	i = 0;
+	if (!array)
+		return 0;
+	while (array[i])
+		i++;
+	return (i);
 }
+

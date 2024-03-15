@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_iswhitespace.c                                  :+:      :+:    :+:   */
+/*   lists.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/21 18:56:46 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/15 18:23:37 by ecaliska         ###   ########.fr       */
+/*   Created: 2024/03/15 17:10:00 by ecaliska          #+#    #+#             */
+/*   Updated: 2024/03/15 17:11:56 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "../libraries/minishell.h"
 
-bool	ft_is_white_space(char c)
+int	t_env_size(t_env **envp)
 {
-	if (c == ' ' || (c >= 9 && c <= 13))
-		return (true);
-	return (false);
+	int	i;
+	t_env	*tmp;
+
+	i = 0;
+	tmp = *envp;	
+	while (tmp)
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	return (i);
 }
+

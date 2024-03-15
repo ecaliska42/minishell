@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/15 14:32:30 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/15 17:25:56 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,12 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp);
 int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_env **envp);
 
 void	heredoc(t_parse *node, char *end);
+
+/*
+	*./SIZES
+*/
+int	t_env_size(t_env **envp);
+int	array_size(char **array);
+
 
 #endif
