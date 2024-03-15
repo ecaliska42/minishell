@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/15 15:12:55 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/15 15:30:07 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ char	*get_access(char *str, t_env **envi)
 	if (!path)
 		return (NULL);
 	path_values = ft_split(path->values, ':');
-	// ft_putendl_fd("HERE", 2);
-	while (path->values[i])
+	while (path_values[i])
 	{
 		temp = ft_strdup("");
 		temp = ft_strjoin(path_values[i], "/");
