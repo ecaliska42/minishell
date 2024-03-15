@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 18:23:48 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/15 00:04:05 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/15 15:00:05 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,40 +58,15 @@ void ft_skip_dollar(char **name)
 		(*name)++;
 }
 
-char *ft_strstr(const char *haystack, const char *needle)
-{
-    if (!*needle)
-    {
-        return (char *)haystack;
-    }
-
-    for (const char *h = haystack; *h != '\0'; h++)
-    {
-        if (*h == *needle)
-        {
-            const char *h2 = h;
-            const char *n = needle;
-            while (*h2 && *n && *h2 == *n)
-            {
-                h2++;
-                n++;
-            }
-            if (!*n)
-            {
-                return (char *)h;
-            }
-        }
-    }
-    return NULL;
-}
-
 char *str_replace(char *str, char *name, char *value)
 {
 	int len;
     char *pos;
 	char *new_str;
+	int name_len;
 
-	pos = ft_strstr(str, name);
+	name_len = ft_strlen(name);
+	pos = ft_strnstr(str, name, name_len);
     if (pos != NULL)
 	{
         len = ft_strlen(str) + ft_strlen(value) - ft_strlen(name) + 1;
@@ -101,7 +76,7 @@ char *str_replace(char *str, char *name, char *value)
 		ft_strlcpy(new_str, str, pos - str + 1);
         new_str[pos - str] = '\0';
 		ft_strlcat(new_str, value, len);
-		ft_strlcat(new_str, pos + ft_strlen(name), len);
+		ft_strlcat(new_str, pos + name_len, len);
         return (new_str);
     }
     return (str);

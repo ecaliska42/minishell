@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/14 16:53:19 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/15 15:10:49 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct t_commands
 typedef struct t_env
 {
 	char	*name;
-	char	**values;
+	char	*values;
 	struct t_env	*next;
 }	t_env;
 
