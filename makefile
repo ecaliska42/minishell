@@ -6,7 +6,7 @@
 #    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/31 15:50:49 by ecaliska          #+#    #+#              #
-#    Updated: 2024/03/12 14:28:15 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/03/15 14:44:51 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,4 +47,6 @@ fclean:	clean
 re:	fclean all
 	$(MAKE) re -C libft
 
-.PHONY: all clean fclean re
+only: all clean
+
+.PHONY: all clean fclean re only

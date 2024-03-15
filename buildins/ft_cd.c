@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:12 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/12 14:11:48 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/15 14:40:43 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,13 @@ int	ft_cd(t_env **lst, char *s)
 	if (ft_strncmp(get_arg, ".", 1) == 0)
 	{
 		if (ft_strncmp(get_arg, "..", 2) == 0)
-			dot_dot(current_dir, &tmp->values[0]);// CURRENT_DIR || OLDPWD VALUE
+			dot_dot(current_dir, &tmp->values);// CURRENT_DIR || OLDPWD VALUE
 		else
 			dot();
+	}
+	else
+	{
+		
 	}
 
 	return 0;

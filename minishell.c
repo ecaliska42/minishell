@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/13 13:45:36 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/15 15:13:22 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ int	copy_environment(char **envp, t_env **lst)
 		new_node->name = get_till(envp[i], '=');
 		if (!new_node->name)
 			break;//TODO CORRECT MALLOC PROTECTION!!
-		new_node->values = ft_split(get_after(envp[i], '='), ':');
+		new_node->values = get_after(envp[i], '=');
 		if (!new_node->values)
 			break;//TODO CORRECT MALLOC PROTECTION!!
 		new_node->next = NULL;
 		if (ft_strncmp(new_node->name, "SHLVL", 5) == 0)
-			new_node->values[0] = ft_itoa(ft_atoi(new_node->values[0]) + 1);
+			new_node->values = ft_itoa(ft_atoi(new_node->values) + 1);
 		if (*lst == NULL)
 			*lst = new_node;
 		else
@@ -60,7 +60,7 @@ int main(int ac, char **av, char **envp)
 	printf("Welcome to minishell!\n");
 	ft_readline(&shell, commands, environment);
 
-	//TODO swrite some buildins tomorrow
+	//TODO swrite some buildins tomorrow && fix exit function (SEGFAULT)
 	// while ((line = readline("shell > ")))
 	// {
 	// 	add_history(line);
