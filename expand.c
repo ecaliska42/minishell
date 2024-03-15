@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 18:23:48 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/15 15:00:05 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/15 15:58:18 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ void ft_skip_dollar(char **name)
 
 char *str_replace(char *str, char *name, char *value)
 {
-	int len;
-    char *pos;
-	char *new_str;
-	int name_len;
+	int		len;
+    char	*pos;
+	char	*new_str;
+	int		name_len;
 
 	name_len = ft_strlen(name);
 	pos = ft_strnstr(str, name, name_len);
@@ -84,10 +84,10 @@ char *str_replace(char *str, char *name, char *value)
 
 void expand_variable(t_token *token, t_env *envp)
 {
-	char *name;
-	char *value;
-	char *new;
-	int len;
+	char	*name;
+	char	*value;
+	char	*new;
+	int		len;
 
 	while (token)
 	{
