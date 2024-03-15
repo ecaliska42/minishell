@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/13 18:03:50 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/15 14:53:58 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,25 +42,25 @@ int		list_size(t_env **envp)
 	return (i);
 }
 
-void	print_envp(t_env **envp)
-{
-	t_env	*tmp;
-	int	i;
+// void	print_envp(t_env **envp)
+// {
+// 	t_env	*tmp;
+// 	int	i;
 
-	i = 0;
-	tmp = *envp;
-	while (tmp)
-	{
-		printf("name = %s\n", tmp->name);
-		while (tmp->values[i])
-		{
-			printf("values[%d] = %s\n", i, tmp->values[i]);
-			i++;
-		}
-		i = 0;
-		tmp = tmp->next;
-	}
-}
+// 	i = 0;
+// 	tmp = *envp;
+// 	while (tmp)
+// 	{
+// 		printf("name = %s\n", tmp->name);
+// 		while (tmp->values[i])
+// 		{
+// 			printf("values[%d] = %s\n", i, tmp->values[i]);
+// 			i++;
+// 		}
+// 		i = 0;
+// 		tmp = tmp->next;
+// 	}
+// }
 
 char	**change_envp(t_env **envp)
 {
@@ -86,9 +86,7 @@ char	**change_envp(t_env **envp)
 		new_envp[i] = ft_strjoin(tmp->name, "=");
 		while(tmp->values[j])
 		{
-			new_envp[i] = ft_strjoin(new_envp[i], tmp->values[j]);
-			if (tmp->values[j + 1])
-				new_envp[i] = ft_strjoin(new_envp[i], ":");
+			new_envp[i] = ft_strjoin(new_envp[i], tmp->values);
 			j++;
 		}
 		i++;

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:26:46 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/12 14:09:23 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/13 19:42:09 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,10 @@ int get_dquote_len(t_shell *shell, char *str, int **i)
 	{
 		len++;
 		(**i)++;
-		// printf("d_quote\n\n");
 	}
 	quote_check(line[**i], &shell->quotes);
 	(**i)++;
 	len++;
-	// printf("dquote_len: %d\n", len);
 	return (len);
 }
 
@@ -53,7 +51,6 @@ int get_squote_len(t_shell *shell, char *str, int **i)
 	quote_check(line[**i], &shell->quotes);
 	(**i)++;
 	len++;
-	// printf("squote_len: %d\n", len);
 	return (len);
 }
 
@@ -75,10 +72,6 @@ int get_len(t_shell *shell, char *str, int *i)
 	}
 	len = 0;
 	line = str;
-	// while (ft_is_space(line[*i]) == true && line[*i] != '\0')
-	// {
-	// 	(*i)++;
-	// }
 	while (line[*i] != '\0')
 	{
 		if (break_character(shell, line, *i) == true)
@@ -89,18 +82,15 @@ int get_len(t_shell *shell, char *str, int *i)
 			len += get_dquote_len(shell, line, &i);
 		while (line[*i] != '\0' && ft_is_space(line[*i]) == false && ft_is_special(line[*i]) == false && ft_is_quote(line[*i]) == false)
 		{
-			// printf("asdfafaf\n");
 			len++;
 			(*i)++;
 		}
 	}
-	// printf("len: %d\n", len);
 	return (len);
 }
 
 bool break_character(t_shell *shell, char *line, int i)
 {
-	// printf("quote status is: %d\n", shell->quotes);
 	if (quote_check(line[i], &shell->quotes) == 0)
 	{
 		if (ft_is_space(line[i]) == true || ft_is_special(line[i]) == true)

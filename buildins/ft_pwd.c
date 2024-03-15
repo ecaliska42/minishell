@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:04 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/12 14:12:02 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/14 11:51:12 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@ int	ft_pwd(void)
 	char *directory;
 
 	directory = malloc(FILENAME_MAX);
+	if (!directory)
+		return ERROR;
 	if (getcwd(directory, FILENAME_MAX) == NULL)
 	{
 		perror("");
 		free(directory);
-		return 1;
+		return ERROR;
 	}
 	printf("%s\n", directory);
 	free(directory);
-	return 0;
+	return SUCCESS;
 }
