@@ -6,42 +6,22 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/15 15:13:22 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/16 19:12:41 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
 #include "./libraries/parsing.h"
 
-int	copy_environment(char **envp, t_env **lst)
-{//TODO PROTECTION
-	int	i;
-	t_env *new_node;
-	t_env	*tail;
+void print_env(t_env **envp)
+{
+	t_env *tmp = *envp;
 
-	i = 0;
-	while(envp[i])
+	while (tmp)
 	{
-		new_node = malloc(sizeof(t_env));
-		if (!new_node)
-			break;//TODO CORRECT MALLOC PROTECTION!!
-		new_node->name = get_till(envp[i], '=');
-		if (!new_node->name)
-			break;//TODO CORRECT MALLOC PROTECTION!!
-		new_node->values = get_after(envp[i], '=');
-		if (!new_node->values)
-			break;//TODO CORRECT MALLOC PROTECTION!!
-		new_node->next = NULL;
-		if (ft_strncmp(new_node->name, "SHLVL", 5) == 0)
-			new_node->values = ft_itoa(ft_atoi(new_node->values) + 1);
-		if (*lst == NULL)
-			*lst = new_node;
-		else
-			tail->next = new_node;
-		tail = new_node;
-		i++;
+		printf("%s=%s\n", tmp->name, tmp->values);
+		tmp = tmp->next;
 	}
-	return (0);
 }
 
 int main(int ac, char **av, char **envp)
@@ -51,16 +31,14 @@ int main(int ac, char **av, char **envp)
 	t_env	*environment;
 	t_parse	*commands;
 	t_shell shell;
-	// char *line;
+	//char *line;
 
-	environment = NULL;
-	copy_environment(envp, &environment);
+	if (copy_environment(envp, &environment) == ERROR)
+		return (1);
 	commands = NULL;
 	ft_bzero(&shell, sizeof(t_shell));
 	printf("Welcome to minishell!\n");
 	ft_readline(&shell, commands, environment);
-
-	//TODO swrite some buildins tomorrow && fix exit function (SEGFAULT)
 	// while ((line = readline("shell > ")))
 	// {
 	// 	add_history(line);
@@ -70,6 +48,7 @@ int main(int ac, char **av, char **envp)
 	// if(!line)
 	// 	return (write(2, "ERROR ON READLINE\n", 19));
 	// free(line);
+	free_environment(&environment);
 	return 0;
 }
 

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:06 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/12 14:11:58 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/16 20:04:36 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 
 int	ft_unset(void)
 {
+	ft_putendl_fd("IN UNSET", 2);
 	return 0;
 }

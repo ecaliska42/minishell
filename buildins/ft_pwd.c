@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:04 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/14 11:51:12 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/16 20:04:42 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	ft_pwd(void)
 {
+	ft_putendl_fd("IN PWD", 2);
 	char *directory;
 
 	directory = malloc(FILENAME_MAX);
