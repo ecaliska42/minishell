@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:26:46 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/16 04:12:38 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/16 06:13:38 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,3 +256,5 @@ void ft_strtok(t_shell *shell, int *i)
 // 	word[index] = '\0';
 // 	return (word);
 // }
+
+
