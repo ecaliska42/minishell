@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/14 22:40:19 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/16 16:07:13 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,9 @@ void 	print_everything(t_shell *shell);
 
 bool 	break_character(t_shell *shell, char *line, int i);
 void	skip_spaces(char *line, int *i);
-int ft_strcmp(const char *s1, const char *s2);
+int		check_name_and_return_len(char *name);
+int		ft_strcmp(const char *s1, const char *s2);
+
 
 
 #endif

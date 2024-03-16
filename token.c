@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:26:46 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/16 06:13:38 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/16 14:59:11 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ char *get_word(t_shell *shell, char *line, int *i)
 		(*i)++;
 	if (ft_is_special(line[*i]) == true)
 		exit (2);
+
 	tmp = *i;
 	len = get_len(shell, line, i);
 	word = malloc(len + 1);
@@ -150,21 +151,6 @@ void not_pipe(t_shell *shell, t_token *last_token, int *i)
 	last_token->str = get_word(shell, shell->input, i);
 }
 
-// void handle_quote(t_shell *shell, t_token *last_token, char *line, int *i)
-// {
-// 	if (squote_check(line[*i], &shell->quotes) == 1)
-// 	{
-// 		last_token->str = get_word(shell, line, i);
-// 		last_token->type = RANDOM;
-// 		shell->quotes = CLOSED;
-// 	}
-// 	else if (dquote_check(line[*i], &shell->quotes) == 2)
-// 	{
-// 		last_token->str = get_word(shell, line, i);
-// 		last_token->type = RANDOM;
-// 		shell->quotes = CLOSED;
-// 	}
-// }
 
 void ft_strtok(t_shell *shell, int *i)
 {
@@ -174,7 +160,6 @@ void ft_strtok(t_shell *shell, int *i)
 	if (!shell)
 		return ;
 	line = shell->input;
-	// skip_spaces(line, i);
 	while (line[*i] != '\0')
 	{
 		while (ft_is_space(line[*i]) == true && line[*i] != '\0')
@@ -258,3 +243,18 @@ void ft_strtok(t_shell *shell, int *i)
 // }
 
 
+// void handle_quote(t_shell *shell, t_token *last_token, char *line, int *i)
+// {
+// 	if (squote_check(line[*i], &shell->quotes) == 1)
+// 	{
+// 		last_token->str = get_word(shell, line, i);
+// 		last_token->type = RANDOM;
+// 		shell->quotes = CLOSED;
+// 	}
+// 	else if (dquote_check(line[*i], &shell->quotes) == 2)
+// 	{
+// 		last_token->str = get_word(shell, line, i);
+// 		last_token->type = RANDOM;
+// 		shell->quotes = CLOSED;
+// 	}
+// }

@@ -6,7 +6,7 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/15 21:49:47 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/16 14:55:30 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ int	array_size(char **array);
 
 
 void expand_variable(t_token *token, t_env *envp);
+char	*get_env_value(char *name, t_env *envp, int len);
 
 
 #endif
