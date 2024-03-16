@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:20:20 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/13 13:46:46 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/16 20:05:04 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int ft_echo(char *str) //echo "hello"
 {
+	ft_putendl_fd("IN ECHO", 2);
 	int i = 0;
 	int j = 0;
 	//int	x = 0;

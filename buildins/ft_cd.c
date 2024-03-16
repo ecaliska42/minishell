@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:12 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/15 16:53:23 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/16 20:05:27 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ t_env	*get_from_env(t_env **lst, char *s)
 
 int	ft_cd(t_env **lst, char *s)
 {
+	ft_putendl_fd("IN CD", 2);
 	t_env	*tmp;	//get the oldpwd value
 	char	*current_dir;//get the current directory with getcwd
 	int		i;

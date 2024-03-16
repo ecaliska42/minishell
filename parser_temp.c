@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/15 17:25:47 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/16 16:06:03 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,12 @@ t_env	*get_path(t_env **envi)
 	t_env	*temp;
 
 	temp = *envi;
-	while (ft_strncmp(temp->name, "PATH", 4) != 0)
+	while(temp)
+	{
+		if (ft_strncmp(temp->name, "PATH", 4) == 0)
+			break;
 		temp = temp -> next;
+	}
 	if (!temp)
 		return NULL;
 	return temp;
@@ -53,7 +57,7 @@ char	*get_access(char *str, t_env **envi)
 
 
 
-void	get_check(t_parse **head, t_env **envi)//TODO get the char *check with char **command
+int	get_check(t_parse **head, t_env **envi)//TODO get the char *check with char **command
 {
 	t_parse *node; //char **command should already be set up
 	int	i = 0;
@@ -68,9 +72,12 @@ void	get_check(t_parse **head, t_env **envi)//TODO get the char *check with char
 			continue;
 		}
 		node->check = get_access(node->command[0], envi);
+		if (!node->check)
+			return (ERROR);
 		node = node -> next;
 		i++;
 	}
+	return (SUCCESS);
 }
 
 //execve ("/usr/bin/ls", {ls; -l; NULL}, ENVP)
@@ -223,7 +230,8 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 	}
 	add_back(command, node);
 	get_check(command, envp);
+		//return (ERROR);
 	execute(command, count->pipecount, envp);
 	free_parsing_node(command);
-	return 0;
+	return SUCCESS;
 }

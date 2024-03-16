@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:10 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/15 14:40:14 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/16 20:06:44 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,13 @@
 
 int	ft_env(t_env **envp)
 {
-	//int		i;
+	ft_putendl_fd("IN ENV", 2);
 	t_env	*tmp;
 
 	tmp = *envp;
 	while (tmp != NULL)
 	{
-		printf("%s=", tmp->name);
-		//i = 0;
-		printf("%s", tmp->values);
-		// while (tmp->values[i])
-		// {
-		// 	if (!tmp->values[i + 1])
-		// 		printf("%s", tmp->values);
-		// 	else
-		// 		printf("%s:", tmp->values);
-		// 	i++;
-		// }
-		printf("\n");
+		printf("%s=%s\n", tmp->name, tmp->values);
 		tmp = tmp->next;
 	}
 	tmp = *envp;
