@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/13 18:23:48 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/16 19:59:05 by mesenyur         ###   ########.fr       */
+/*   Created: 2024/03/17 12:02:15 by mesenyur          #+#    #+#             */
+/*   Updated: 2024/03/17 16:29:46 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 #include "libraries/parsing.h"
 
 int	check_name_and_return_len(char *name)
+// returns the len of the name
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (!name)
@@ -30,55 +31,25 @@ int	check_name_and_return_len(char *name)
 }
 
 char	*get_env_value(char *name, t_env *envp, int len)
+// returns the value of the variable
 {
 	(void)len;
 	while (envp)
 	{
 		if (ft_strcmp(name, envp->name) == 0)
-			return (envp->values); //
+			return (envp->values);
 		envp = envp->next;
 	}
 	return (NULL);
 }
 
-void	ft_skip_dollar(char **name)
-{
-	(*name)++;
-	while (**name == '$')
-		(*name)++;
-}
-
-char	*str_replace(char *str, char *name, char *value)
-{
-	int		len;
-	char	*pos;
-	char	*new_str;
-	int		name_len;
-
-	name_len = ft_strlen(name);
-	pos = ft_strnstr(str, name, name_len);
-	if (pos != NULL)
-	{
-		len = ft_strlen(str) - check_name_and_return_len(name)
-			+ ft_strlen(value) + 1;
-		new_str = (char *)malloc(len * sizeof(char));
-		if (new_str == NULL)
-			return (NULL);
-		ft_strlcpy(new_str, str, len);
-		new_str[pos - str] = '\0'; // + 1);
-		ft_strlcat(new_str, value, len);
-		ft_strlcat(new_str, pos + name_len, len);
-		return (new_str);
-	}
-	return (str);
-}
-
 t_token	*split_value(char *value, t_token *token)
+// splits the value and creates new tokens
 {
-	char	**words;
-	t_token	*last;
-	t_token	*new;
-	int		i;
+	char **words;
+	t_token *last;
+	t_token *new;
+	int i;
 
 	i = 0;
 	last = token;
@@ -99,66 +70,66 @@ t_token	*split_value(char *value, t_token *token)
 
 void	replace_variable_in_token(t_token *token, char *name)
 {
-	char	*new;
-
-	new = str_replace(token->str, name, "");
-	if (new == NULL)
-	{
-		ft_putstr_fd("Error: malloc failed\n", 2);
-		exit(1);
-	}
-	else
-	{
-		free(token->str);
-		token->str = new;
-	}
 }
 
-t_token	*expand_token(t_token *token, t_env *envp)
+t_token	*expand_token_and_remove_quotes(t_token *token, t_env *envp, char *quotes)
 {
-	t_token	*last_token;
-	char	*name;
-	char	*value;
-	int		len;
-	char 	*new;
-	char	*tmp;
+	int i;
+	int k;
+	int len;
+	char *new_str;
 
-	name = token->str;
-	tmp = name; //  original value of name
-	while ((name = ft_strchr(name, '$')) != NULL)
+	i = 0;
+	k = 0;
+	len = ft_strlen(token->str + 1);
+	new_str = malloc(len * sizeof(char) * 10);
+	quotes = CLOSED;
+	while (token->str)
 	{
-		// tmp = ft_substr(tmp, 0, name - tmp);
-		// printf("=========================================\n");
-		// printf("tmp: %s\n", tmp);
-		// printf("=========================================\n");
-		ft_skip_dollar(&name);
-		len = check_name_and_return_len(name);
-		if ((*name) != '\0' && len > 0)
+		quote_check(token->str[i], quotes);
+		if (token->str[i] == S_QUOTE)
 		{
-			if ((value = get_env_value(name, envp, len)) != NULL)
+			i++;
+			while (token->str[i] != S_QUOTE)
 			{
-				last_token = split_value(value, token);
-				last_token->type = 5;
-				replace_variable_in_token(token, name);
+				new_str[k] = token->str[i];
+				i++;
+				k++;
 			}
-			else
+			if (token->str[i] == S_QUOTE)
+				i++;
+			quotes = CLOSED;
+			new_str[k] = '\0';
+		} // single quotes removed new_str will be the new token->str in the end
+		if (token->str[i] == D_QUOTE)
+		{
+			quote_check(token->str[i], quotes);
+			i++;
+			while (token->str[i] != D_QUOTE)
 			{
-				new = str_replace(token->str, name, "");
-				if (new == NULL)
-				{
-					ft_putstr_fd("Error: malloc failed\n", 2);
-					exit(1);
-				}
-				else
-				{
-					free(token->str);
-					token->str = new;
-				}
+				new_str[k] = token->str[i];
+				i++;
+				k++;
 			}
-			name += len ;
+
 		}
+		if // check if token->str has a $ in it
+		{
+			if // $ + 1 is space or NULL
+				// leave dollar sign as it is
+			else if // $ + 1 is number
+				// remove dollar sign and the nbr  $1234 -> 234
+			else if // $ + 1 is '?'
+				// get the value of the $? (from envp?) and replace it
+		}
+
+		// check next token "token = token->next;"
 	}
-	return (token);
+	}
+
+
+
+	last_token = split_value(value, token);
 }
 
 void	expand_variable(t_token *token, t_env *envp)
@@ -168,40 +139,4 @@ void	expand_variable(t_token *token, t_env *envp)
 		token = expand_token(token, envp);
 		token = token->next;
 	}
-}
-
-void	remove_quotes(t_token *token)
-{
-	int		i;
-	char	*str;
-	char		quote;
-
-	i = 0;
-	quote = CLOSED;
-	str = token->str;
-	while (str[i] != '\0')
-	{
-		if (str[i] == '\'' || str[i] == '\"')
-		{
-			quote_check(str[i], &quote);
-			//remove quote and skip to next char
-			while (quote_check(str[i], &quote) != 0)
-			{
-				// skip while quote is open
-			}
-			// remove quote and check if word continues
-		}
-		i++;
-	}
-	token = token->next;
-}
-
-int ft_strcmp(const char *s1, const char *s2)
-{
-	while (*s1 && *s2 && *s1 == *s2)
-	{
-		s1++;
-		s2++;
-	}
-	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
