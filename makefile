@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+         #
+#    By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/31 15:50:49 by ecaliska          #+#    #+#              #
-#    Updated: 2024/03/15 21:42:57 by mesenyur         ###   ########.fr        #
+#    Updated: 2024/03/18 19:21:03 by mesenyur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 

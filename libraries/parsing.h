@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/16 16:07:13 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/18 18:13:40 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ bool 	break_character(t_shell *shell, char *line, int i);
 void	skip_spaces(char *line, int *i);
 int		check_name_and_return_len(char *name);
 int		ft_strcmp(const char *s1, const char *s2);
+t_token	*split_value(char *value, t_token *token);
 
 
 
