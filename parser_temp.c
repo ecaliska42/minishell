@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/16 16:06:03 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/18 19:47:03 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,20 +84,24 @@ int	get_check(t_parse **head, t_env **envi)//TODO get the char *check with char 
 
 static void add_back(t_parse **com, t_parse *node)
 {
-	t_parse	*temp;
+	// t_parse	*temp;
 
-	if (*com == NULL)
-		*com = node;
-	else
-	{
-		temp = *com;
-		while (temp -> next != NULL)
-		{
-			temp = temp -> next;
-		}
-		temp -> next = node;
-	}
-	temp = *com;
+	// if (*com == NULL)
+	// 	*com = node;
+	// else
+	// {
+	// 	temp = *com;
+	// 	while (temp -> next != NULL)
+	// 	{
+	// 		temp = temp -> next;
+	// 	}
+	// 	temp -> next = node;
+	// }
+	// temp = *com;
+	
+	
+	node->next = *com;
+	*com = node;
 }
 
 /*
@@ -192,28 +196,27 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 	ft_bzero(node, sizeof(*node));
 	while (tmp)
 	{
-		if (tmp -> type == INPUT && ft_strlen(tmp->str) > 0)//TODO <
+		if (tmp -> type == INPUT && ft_strlen(tmp->str) > 0)
 		{
 			node->infd = open(tmp->str, O_RDONLY);
 			if (node->infd == -1)
 				perror("INFD ERROR1:");
 		}
-		if (tmp -> type == OUTPUT && ft_strlen(tmp->str) > 0)//TODO > CHANGE NAME AFTER MERGE
+		if (tmp -> type == OUTPUT && ft_strlen(tmp->str) > 0)
 		{
 			node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (node->outfd == -1)
 				perror("OUTFD ERROR1: ");
 		}
-		if (tmp -> type == APPEND && ft_strlen(tmp->str) > 0)//TODO >>
+		if (tmp -> type == APPEND && ft_strlen(tmp->str) > 0)
 		{
 			node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (node->outfd == -1)
 				perror("OUTFD ERROR2:");
 		}
-		if (tmp -> type == HEREDOC && ft_strlen(tmp->str) > 0)//TODO <<
+		if (tmp -> type == HEREDOC && ft_strlen(tmp->str) > 0)
 		{
 			heredoc(node, tmp->str);
-			//return (0); //TODO WRITE A SEPPERATE FUNCTION FOR HEREDOC
 		}
 		if (tmp -> type == RANDOM)
 		{
@@ -231,7 +234,7 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 	add_back(command, node);
 	get_check(command, envp);
 		//return (ERROR);
-	execute(command, count->pipecount, envp);
+	execute(command, count->pipecount, envp, tokens);
 	free_parsing_node(command);
 	return SUCCESS;
 }

@@ -6,11 +6,12 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/16 19:47:38 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/18 21:22:26 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
+#include <unistd.h>
 
 void	free_fds(int **fds)
 {
@@ -60,7 +61,7 @@ char	**change_envp(t_env **envp)
 	return (new_envp);
 }
 
-void	child(t_parse *comm, t_exe *ex_utils, int i, t_env **envp)
+void	child(t_parse *comm, t_exe *ex_utils, int i, t_env **envp, t_token **token)
 {//TODO protection
 	if (ex_utils->pipecount != 0)
 	{
@@ -72,7 +73,10 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, t_env **envp)
 	if (comm->infd < 0)
 		exit (1);
 	if (is_buildin(comm->command) == true)
-		execute_buildin(comm->command, envp);
+	{
+		execute_buildin(comm->command, envp, token);
+		exit(0);
+	}
 	else
 	{
 		execve(comm->check, comm->command, change_envp(envp)); //TODO 1: PATH WITH COMMAND ATTATCHED 2: command split with ' '
@@ -95,6 +99,7 @@ static int malloc_ex_struct(t_exe *ex_struct, int pipecount)
 	if (!ex_struct->fd)
 	{
 		free(ex_struct->id);
+		ex_struct->id = NULL;
 		perror("ex_struct.fd malloc error (execute.c) :");
 		return (ERROR);
 	}
@@ -102,12 +107,12 @@ static int malloc_ex_struct(t_exe *ex_struct, int pipecount)
 	return (SUCCESS);
 }
 
-static int create_pipes(t_exe *ex_struct, int pipecount)
+static int create_pipes(t_exe *ex_struct)
 {
 	int	i;
 
 	i = 0;
-	while (i < pipecount)
+	while (i < ex_struct->pipecount)
 	{
 		ex_struct->fd[i] = malloc(sizeof(int) * 2);
 		if (!ex_struct->fd[i])
@@ -128,22 +133,44 @@ static int create_pipes(t_exe *ex_struct, int pipecount)
 	return (SUCCESS);
 }
 
-int	execute(t_parse **comm, int pipecount, t_env **envp)
+int	execute(t_parse **comm, int pipecount, t_env **envp, t_token **tokens)
 {//TODO protection
 	t_exe	ex_struct;
-	t_parse *tmp;
+	t_parse *parse;
+	t_token *token;
 	int		i;
 
 	if (malloc_ex_struct(&ex_struct, pipecount) == ERROR)
-		return (ERROR);//TODO CORRECT PROTECTION
-	if (create_pipes(&ex_struct, pipecount) == ERROR)
+		return (ERROR);
+	if (create_pipes(&ex_struct) == ERROR)
 		return (ERROR);//TODO CORRECT PROTECTION
 	i = 0;
-	tmp = *comm;
-	while (tmp != NULL)
+	parse = *comm;
+	token = *tokens;
+	while (parse != NULL)
 	{
-		if (is_parrent_buildin(tmp->command) == true)
-			parrent_buildin(tmp->command[0], envp);
+		if (is_buildin(parse->command) == true && pipecount == 0)
+		{
+			int orig_stdout = dup(1);
+			int orig_stdin = dup(0);
+			if (parse->infd > 0)
+			{
+				dup2(parse->infd, STDIN_FILENO);
+				close(parse->infd);
+				parse->infd = -1;
+				dup2(orig_stdin, STDIN_FILENO);
+				close (orig_stdin);
+			}
+			if (parse->outfd > 0)
+			{
+				dup2(parse->outfd, STDOUT_FILENO);
+				close(parse->outfd);
+				parse->outfd = -1;
+				dup2(orig_stdout, STDOUT_FILENO);
+				close (orig_stdout);
+			}
+			execute_buildin(parse->command, envp, &token);
+		}
 		else
 		{
 			ex_struct.id[i] = fork();
@@ -153,10 +180,10 @@ int	execute(t_parse **comm, int pipecount, t_env **envp)
 				exit (1);//TODO CORRECT PROTECTION
 			}
 			if (ex_struct.id[i] == 0)
-				child(tmp, &ex_struct, i, envp);
+				child(parse, &ex_struct, i, envp, &token);
 			i++;
 		}
-		tmp = tmp->next;
+		parse = parse->next;
 	}
 	close_filedescriptor(NULL, &ex_struct);
 	i--;

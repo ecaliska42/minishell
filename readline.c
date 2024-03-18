@@ -6,11 +6,13 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/16 19:13:10 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/18 21:18:42 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
+#include "libft/libft.h"
+#include "libraries/parsing.h"
 
 void	remove_quotes(t_shell *shell)
 {
@@ -50,5 +52,5 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 		}
 		free_tokens(&shell->tokens);
 	}
-	return (0);
+	return (SUCCESS);
 }
