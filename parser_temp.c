@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/16 16:06:03 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/19 20:23:43 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ char	**create_command(char *str, char **cmd)
 	while (i < size)
 	{
 		ret[i] = ft_strdup(cmd[i]);
-		//free(cmd[i]);
+		free(cmd[i]);
 		i++;
 	}
 	ret[i] = ft_strdup(str);
@@ -192,28 +192,27 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 	ft_bzero(node, sizeof(*node));
 	while (tmp)
 	{
-		if (tmp -> type == INPUT && ft_strlen(tmp->str) > 0)//TODO <
+		if (tmp -> type == INPUT && ft_strlen(tmp->str) > 0)
 		{
 			node->infd = open(tmp->str, O_RDONLY);
 			if (node->infd == -1)
 				perror("INFD ERROR1:");
 		}
-		if (tmp -> type == OUTPUT && ft_strlen(tmp->str) > 0)//TODO > CHANGE NAME AFTER MERGE
+		if (tmp -> type == OUTPUT && ft_strlen(tmp->str) > 0)
 		{
 			node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (node->outfd == -1)
 				perror("OUTFD ERROR1: ");
 		}
-		if (tmp -> type == APPEND && ft_strlen(tmp->str) > 0)//TODO >>
+		if (tmp -> type == APPEND && ft_strlen(tmp->str) > 0)
 		{
 			node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (node->outfd == -1)
 				perror("OUTFD ERROR2:");
 		}
-		if (tmp -> type == HEREDOC && ft_strlen(tmp->str) > 0)//TODO <<
+		if (tmp -> type == HEREDOC && ft_strlen(tmp->str) > 0)
 		{
 			heredoc(node, tmp->str);
-			//return (0); //TODO WRITE A SEPPERATE FUNCTION FOR HEREDOC
 		}
 		if (tmp -> type == RANDOM)
 		{
@@ -231,7 +230,7 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 	add_back(command, node);
 	get_check(command, envp);
 		//return (ERROR);
-	execute(command, count->pipecount, envp);
+	execute(command, count->pipecount, envp, tokens);
 	free_parsing_node(command);
 	return SUCCESS;
 }
