@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/18 19:20:55 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/19 16:04:41 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 			ft_putstr_fd("Syntax error\n", 2);
 			continue;
 		}
-		expand_var(shell->tokens, envp);
+		expansion(shell->tokens, envp, CLOSED);
 		// remove_quotes(shell); //? remove quotes function
 		prepare_for_execution(&command, &execution_utils, &shell->tokens, &envp);
 		print_everything(shell);

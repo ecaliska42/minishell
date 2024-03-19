@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 18:23:48 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/18 19:25:57 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/19 13:35:47 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,4 @@ void	remove_quotes(t_token *token)
 		i++;
 	}
 	token = token->next;
-}
-
-int ft_strcmp(const char *s1, const char *s2)
-{
-	while (*s1 && *s2 && *s1 == *s2)
-	{
-		s1++;
-		s2++;
-	}
-	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
