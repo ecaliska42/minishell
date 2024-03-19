@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 21:25:19 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/07 17:56:22 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/19 20:32:34 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		str[i] = s1[i];
 		i++;
 	}
+	free((char *)s1);
 	while (s2[j])
 	{
 		str[i + j] = s2[j];

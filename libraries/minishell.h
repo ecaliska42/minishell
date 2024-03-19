@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/18 19:48:24 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/19 20:05:39 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,18 +77,24 @@ typedef struct s_exe
 	int		pipecount;
 }	t_exe;
 
+typedef struct minishell
+{
+	t_exe	*exe;
+	t_parse	*parse;
+	t_env	*env;
+	t_command	*command;
+}	t_mini;
 
 /*
 	*BUILDINS
 */
-//int	ft_echo(char *str);
 int	ft_cd(t_env **lst, char *s);
 int	ft_env(t_env **envp);
-int	ft_unset(void);
+int	ft_unset(t_env **envp, t_token **tokens);
 int	ft_pwd(void);
 int	ft_export(t_env **lst);
 int	ft_exit(void);
-int ft_echo(char *new_line, t_token **head); //echo "hello"
+int ft_echo(t_token **head);
 
 /*
 	*PARSE_TEMPORARY
@@ -138,5 +144,7 @@ void expand_variable(t_token *token, t_env *envp);
 int	copy_environment(char **envp, t_env **lst);
 int	free_environment(t_env **lst);
 void	*dup_for_no_pipes(t_parse *comm);
+char	**change_envp(t_env **envp);
+
 
 #endif

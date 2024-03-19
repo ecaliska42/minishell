@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/18 21:18:42 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/19 19:58:27 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 	while (1)
 	{
 		shell->input = readline(PROMPT);
-		if (!shell->input || ft_strlen(shell->input) == 0)
+		if (!shell->input)
+			return (SUCCESS);
+		if (ft_strlen(shell->input) == 0)
 			continue ;
 		lexical_analyzer(shell);
 		if (syntax_check(shell) == SYNTAX_ERROR)

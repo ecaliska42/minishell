@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/18 19:23:39 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/19 13:47:17 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int		execute_buildin(char **command, t_env **envp, t_token **head)
 	if (!s)
 		return 0;
 	if (ft_strncmp("echo ", s, 4) == 0)
-		ft_echo(command[1], head);
+		ft_echo(head);
 	if (ft_strncmp("pwd", s, 4) == 0)
 		ft_pwd();
 	if (ft_strncmp("env", s, 4) == 0)

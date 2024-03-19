@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/18 21:22:26 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/19 20:16:21 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,8 @@ char	**change_envp(t_env **envp)
 	char	**new_envp;
 	t_env	*tmp;
 	int	i;
-	int	j;
 	
 	i = 0;
-
 	tmp = *envp;
 	new_envp = malloc(sizeof(char *) * (size + 1));
 	if (!new_envp)
@@ -48,13 +46,8 @@ char	**change_envp(t_env **envp)
 	new_envp[size] = NULL;
 	while (i < size)
 	{
-		j = 0;
 		new_envp[i] = ft_strjoin(tmp->name, "=");
-		while(tmp->values[j])
-		{
-			new_envp[i] = ft_strjoin(new_envp[i], tmp->values);
-			j++;
-		}
+		new_envp[i] = ft_strjoin(new_envp[i], tmp->values);
 		i++;
 		tmp = tmp->next;
 	}
@@ -158,18 +151,18 @@ int	execute(t_parse **comm, int pipecount, t_env **envp, t_token **tokens)
 				dup2(parse->infd, STDIN_FILENO);
 				close(parse->infd);
 				parse->infd = -1;
-				dup2(orig_stdin, STDIN_FILENO);
-				close (orig_stdin);
 			}
 			if (parse->outfd > 0)
 			{
 				dup2(parse->outfd, STDOUT_FILENO);
 				close(parse->outfd);
 				parse->outfd = -1;
-				dup2(orig_stdout, STDOUT_FILENO);
-				close (orig_stdout);
 			}
 			execute_buildin(parse->command, envp, &token);
+			dup2(orig_stdin, STDIN_FILENO);
+			close (orig_stdin);
+			dup2(orig_stdout, STDOUT_FILENO);
+			close (orig_stdout);
 		}
 		else
 		{
