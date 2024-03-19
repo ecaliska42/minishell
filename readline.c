@@ -11,14 +11,7 @@
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
-#include "libft/libft.h"
 #include "libraries/parsing.h"
-
-void	remove_quotes(t_shell *shell)
-{
-	(void)shell;
-	return ;
-}
 
 int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 {
@@ -38,13 +31,14 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 		lexical_analyzer(shell);
 		if (syntax_check(shell) == SYNTAX_ERROR)
 		{
+			print_everything(shell);
 			ft_putstr_fd("Syntax error\n", 2);
 			continue;
 		}
-		//expand_variable(shell->tokens, envp);
+		expansion(shell->tokens, envp, CLOSED);
 		// remove_quotes(shell); //? remove quotes function
 		prepare_for_execution(&command, &execution_utils, &shell->tokens, &envp);
-		// print_everything(shell);
+		print_everything(shell);
 		// if (shell->tokens)
 		add_history(shell->input);
 		if (shell->input)

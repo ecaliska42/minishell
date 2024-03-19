@@ -6,14 +6,12 @@
 /*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:14:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/13 20:28:15 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/16 06:18:02 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/parsing.h"
 #include <stdlib.h>
-
-//change tokenizing_first_operator to strtok?
 
 int unclosed_quote_error(t_shell *shell)
 {

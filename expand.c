@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/13 18:23:48 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/15 15:58:18 by mesenyur         ###   ########.fr       */
+/*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
+/*   Updated: 2024/03/19 20:29:17 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libraries/minishell.h"
-#include "libraries/parsing.h"
-
-bool env_exists(char *name, t_env *envp, int len)
-{
-	while (envp)
-	{
-		if (ft_strncmp(name, envp->name, len) == 0)
-			return (true);
-		envp = envp->next;
-	}
-	return (false);
-}
 
 int check_name_and_return_len(char *name)
 {
@@ -37,77 +25,183 @@ int check_name_and_return_len(char *name)
 			return (false);
 		i++;
 	}
-	return (i);
+	return (i); // not include dollar
 }
 
-char *get_env_value(char *name, t_env *envp, int len)
+char	*get_env_value(char *name, t_env *envp, int len)
 {
+	(void)len;
 	while (envp)
 	{
-		if (ft_strncmp(name, envp->name, len) == 0)
-			return (envp->values); //
+		if (ft_strcmp(name, envp->name) == 0)
+			return (envp->values);
 		envp = envp->next;
 	}
 	return (NULL);
 }
 
-void ft_skip_dollar(char **name)
-{
-	(*name)++;
-	while (**name == '$')
-		(*name)++;
-}
+// char *str_replace(char *str, char *name, char *value)
+// {
+// 	int		len;
+//     char	*pos;
+// 	char	*new_str;
+// 	int		name_len;
 
-char *str_replace(char *str, char *name, char *value)
-{
-	int		len;
-    char	*pos;
-	char	*new_str;
-	int		name_len;
+// 	name_len = ft_strlen(name);
+// 	pos = ft_strnstr(str, name, name_len);
+//     if (pos != NULL)
+// 	{
+//         len = ft_strlen(str) + ft_strlen(value) - ft_strlen(name) + 1;
+//         new_str = malloc(len);
+//         if (new_str == NULL)
+//             return NULL;
+// 		ft_strlcpy(new_str, str, pos - str + 1);
+//         new_str[pos - str] = '\0';
+// 		ft_strlcat(new_str, value, len);
+// 		ft_strlcat(new_str, pos + name_len, len);
+//         return (new_str);
+//     }
+//     return (str);
+// }
 
-	name_len = ft_strlen(name);
-	pos = ft_strnstr(str, name, name_len);
-    if (pos != NULL)
-	{
-        len = ft_strlen(str) + ft_strlen(value) - ft_strlen(name) + 1;
-        new_str = malloc(len);
-        if (new_str == NULL)
-            return NULL;
-		ft_strlcpy(new_str, str, pos - str + 1);
-        new_str[pos - str] = '\0';
-		ft_strlcat(new_str, value, len);
-		ft_strlcat(new_str, pos + name_len, len);
-        return (new_str);
-    }
-    return (str);
-}
-
-void expand_variable(t_token *token, t_env *envp)
+char *add_char(char *str, char new_char)
 {
-	char	*name;
-	char	*value;
+	
 	char	*new;
-	int		len;
+	int 	str_len;
 
-	while (token)
+	str_len = ft_strlen(str);
+	new = ft_calloc(str_len + 2, sizeof(char));
+	if (new == NULL)
+		return(NULL);
+	ft_memcpy(new, str, str_len);
+	new[str_len] = new_char;
+	free(str);
+	return (new);
+}
+
+t_token	*split_value(char *value, t_token *token)
+{
+	char **words;
+	t_token *last;
+	t_token *new;
+	int i;
+
+	i = 0;
+	last = token;
+	words = ft_split(value, ' ');
+	while (words[i] != NULL)
 	{
-		name = token->str;
-		while ((name = ft_strchr(name, '$')) != NULL)
+		new = malloc(sizeof(t_token));
+		new->str = words[i];
+		new->next = NULL;
+		new->type = token->type;
+		last->next = new;
+		last = new;
+		i++;
+	}
+	free(words);
+	return (last);
+}
+
+char *process_single_quotes(char *new, char *str, int *i)
+{
+    (*i)++; // skip opening s_quote
+    while (str[*i] && str[*i] != '\'')
+    {
+        new = add_char(new, str[*i]);
+        (*i)++;
+    }
+    if (str[*i] == '\'')
+        (*i)++; // skip closing s_quote
+    return new;
+}
+
+t_token expand_variable(t_token *token, t_env *envp, char quotes)
+{
+	char 	*new;
+	char	*value;
+	int		len;
+	int 	i;
+	t_token *last_token;
+
+	last_token = token;
+	i = 0;
+	quotes = CLOSED;
+	new = ft_strdup("");
+	while (token->str[i])
+	{
+		quote_check(token->str[i], &quotes);
+		if (token->str[i] == S_QUOTE)
 		{
-			ft_skip_dollar(&name);
-			len = check_name_and_return_len(name);
-			if ((*name) != '\0' && len > 0)
-			{
-				if (env_exists(name, envp, len))
-				{
-					value = get_env_value(name, envp, len);
-					new = str_replace(token->str, name, value);
-					free(token->str);
-					token->str = new;
-				}
-				name += len;
-			}
+			new = process_single_quotes(new, token->str, &i);
+			printf("new: %s\n", new);
+			quotes = CLOSED;
 		}
+		if (token->str[i] && quotes != S_QUOTE) // double, no quote, $ , random ,
+		{
+			if (token->str[i] == '$' && (token->str[i + 1] != '\0' && token->str[i + 1] != '$'))
+			{
+				i++;
+				printf("new: %s\n", new);
+				len = check_name_and_return_len(&token->str[i]);
+				if (quotes == D_QUOTE)
+				{
+					if ((value = get_env_value(&token->str[i], envp, len)) != NULL)
+					{
+						printf("new: %s\n", new);
+						new = ft_strjoin(new, value);
+					}
+					i += len;
+				}
+				else if (quotes == CLOSED)
+				{
+					if ((value = get_env_value(&token->str[i], envp, len)) != NULL)
+					{
+						printf("new: %s\n", new);
+						last_token = split_value(value, token);
+						
+					}
+					i += len;
+					printf("new: %s\n", new);
+				}
+			}
+			new = add_char(new, token->str[i]);
+			printf("new: %s\n", new);
+		}
+		i++;
+	}
+	free(token->str);
+	token->str = new;
+	return (*token);
+}
+			
+// 					new = str_replace(token->str, name, value);
+// 					free(token->str);
+// 					token->str = new;
+// 					i += len;
+// 
+
+void	expansion(t_token *token, t_env *envp, char quotes)
+{
+	// int i;
+
+	// i = 0;
+	quotes = CLOSED;
+	while (token != NULL)
+	{
+		// if (ft_strchr(token->str, '$') != NULL)
+		*token = expand_variable(token, envp, CLOSED);
 		token = token->next;
 	}
+}
+
+int ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 && *s2 && *s1 == *s2)
+	{
+		s1++;
+		s2++;
+	}
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }

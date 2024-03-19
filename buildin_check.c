@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   buildin_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
 /*   Updated: 2024/03/19 13:47:17 by ecaliska         ###   ########.fr       */
