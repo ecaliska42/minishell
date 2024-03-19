@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_stuff.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 16:56:42 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/12 14:10:09 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/17 16:18:52 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ int quote_check(char index, char *quotes)
 	squote_check(index, quotes);
 	dquote_check(index, quotes);
 	if (*quotes == D_QUOTE || *quotes == S_QUOTE)
-		return (3);
+	{
+		if (*quotes == D_QUOTE)
+			return (2);
+		else
+			return (1);
+	}
 	return (0);
 }

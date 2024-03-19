@@ -132,7 +132,10 @@ int	t_env_size(t_env **envp);
 int	array_size(char **array);
 
 
-void expand_variable(t_token *token, t_env *envp);
+void 	expansion(t_token *token, t_env *envp, char quotes);
+t_token	expand_variable(t_token *token, t_env *envp, char quotes);
+char	*get_env_value(char *name, t_env *envp, int len);
+char 	*add_char(char *str, char new_char);
 
 int	copy_environment(char **envp, t_env **lst);
 int	free_environment(t_env **lst);

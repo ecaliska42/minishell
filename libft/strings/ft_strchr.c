@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 19:31:58 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/02/07 17:56:15 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/15 21:59:46 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_strchr(const char *s, int c)
 	char	ch;
 
 	ch = c;
+	if (s == NULL)
+		return (NULL);
 	while (*s != '\0')
 	{
 		if (*s == ch)
@@ -37,5 +39,5 @@ int main(void)
 	printf("this is the orig. funct.: %s\n", strchr(s, c));
 	return 0;
 }
-The strchr() function returns a pointer to the first occurrence 
+The strchr() function returns a pointer to the first occurrence
 of the character c in the string s.*/

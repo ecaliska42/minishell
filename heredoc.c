@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/15 13:12:08 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/16 04:16:56 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*get_unique_heredoc_name(void)
 	char	*name;
 	int		dev_random;
 	int		i;
-	
+
 	i = 0;
 	dev_random = open("/dev/random", O_RDONLY);
 	if (dev_random < 0)
