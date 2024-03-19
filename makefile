@@ -22,6 +22,7 @@ SRC= minishell.c buildins/ft_echo.c buildins/ft_cd.c buildins/ft_env.c \
 	debugging/printf_double_tripple.c \
 	buildin_check.c dup_and_close_functions.c\
 	heredoc.c sizes/arrays.c sizes/lists.c\
+	environment.c\
 
 SRC2 = lexer.c needed_functions.c print_debug.c token.c readline.c quote_stuff.c \
 	syntax_check.c bool_functions.c 

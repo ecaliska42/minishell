@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/19 14:57:44 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/16 17:27:15 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	printf_tripple(char ***str);
 bool	is_buildin(char **command);
 int		execute_buildin(char **s, t_env **envp);
 int		parrent_buildin(char *s, t_env **envp);
-bool	is_parrent_buildin(char *s);
+bool	is_parrent_buildin(char **s);
 
 void	*dup_for_no_pipes(t_parse *comm);
 void	*dup_filedescriptor(t_parse *comm, t_exe *ex_utils, int i);
@@ -137,5 +137,7 @@ t_token	expand_variable(t_token *token, t_env *envp, char quotes);
 char	*get_env_value(char *name, t_env *envp, int len);
 char 	*add_char(char *str, char new_char);
 
+int	copy_environment(char **envp, t_env **lst);
+int	free_environment(t_env **lst);
 
 #endif
