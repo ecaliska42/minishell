@@ -6,11 +6,12 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/19 20:29:17 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/19 23:57:28 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libraries/minishell.h"
+#include "libraries/parsing.h"
 
 int check_name_and_return_len(char *name)
 {
@@ -22,7 +23,7 @@ int check_name_and_return_len(char *name)
 	while (name[i])
 	{
 		if (!ft_isalnum(name[i]) && name[i] != '_')
-			return (false);
+			return (i);
 		i++;
 	}
 	return (i); // not include dollar
@@ -114,10 +115,10 @@ char *process_single_quotes(char *new, char *str, int *i)
     }
     if (str[*i] == '\'')
         (*i)++; // skip closing s_quote
-    return new;
+    return (new);
 }
 
-t_token expand_variable(t_token *token, t_env *envp, char quotes)
+void expand_variable(t_token *token, t_env *envp, char quotes)
 {
 	char 	*new;
 	char	*value;
@@ -135,45 +136,48 @@ t_token expand_variable(t_token *token, t_env *envp, char quotes)
 		if (token->str[i] == S_QUOTE)
 		{
 			new = process_single_quotes(new, token->str, &i);
-			printf("new: %s\n", new);
 			quotes = CLOSED;
 		}
-		if (token->str[i] && quotes != S_QUOTE) // double, no quote, $ , random ,
+		else if (quotes == D_QUOTE)
 		{
-			if (token->str[i] == '$' && (token->str[i + 1] != '\0' && token->str[i + 1] != '$'))
+			i++;
+			while (token->str[i] && token->str[i] != '$' && token->str[i] != '\"')
+					new = add_char(new, token->str[i++]);
+			if (ft_is_dollar(token->str[i]) && (token->str[i + 1] && token->str[i + 1] != '$'))
 			{
 				i++;
-				printf("new: %s\n", new);
 				len = check_name_and_return_len(&token->str[i]);
-				if (quotes == D_QUOTE)
+				if ((value = get_env_value(&token->str[i], envp, len)) != NULL)
 				{
-					if ((value = get_env_value(&token->str[i], envp, len)) != NULL)
-					{
-						printf("new: %s\n", new);
-						new = ft_strjoin(new, value);
-					}
+					new = ft_strjoin(new, value);
 					i += len;
-				}
-				else if (quotes == CLOSED)
-				{
-					if ((value = get_env_value(&token->str[i], envp, len)) != NULL)
-					{
-						printf("new: %s\n", new);
-						last_token = split_value(value, token);
-						
-					}
-					i += len;
-					printf("new: %s\n", new);
 				}
 			}
-			new = add_char(new, token->str[i]);
-			printf("new: %s\n", new);
+			if (token->str[i] == '\"')
+			{
+				quotes = CLOSED;
+				i++;
+			}
 		}
-		i++;
+		else if (quotes == CLOSED)
+		{
+			while (token->str[i] && token->str[i] != '$' && token->str[i] != '\"' && token->str[i] != '\'')
+					new = add_char(new, token->str[i++]);
+			if (ft_is_dollar(token->str[i]) && (token->str[i + 1] && token->str[i + 1] != '$'))
+			{
+				i++;
+				len = check_name_and_return_len(&token->str[i]);
+				if ((value = get_env_value(&token->str[i], envp, len)) != NULL)
+				{
+					new = ft_strjoin(new, value);
+					i += len;
+					// last_token = split_value(value, token);
+				}
+			}
+		}
 	}
 	free(token->str);
 	token->str = new;
-	return (*token);
 }
 			
 // 					new = str_replace(token->str, name, value);
@@ -190,8 +194,9 @@ void	expansion(t_token *token, t_env *envp, char quotes)
 	quotes = CLOSED;
 	while (token != NULL)
 	{
+		if (token->str)
+			expand_variable(token, envp, CLOSED);
 		// if (ft_strchr(token->str, '$') != NULL)
-		*token = expand_variable(token, envp, CLOSED);
 		token = token->next;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/19 20:05:39 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/19 20:45:26 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ int	array_size(char **array);
 
 
 void 	expansion(t_token *token, t_env *envp, char quotes);
-t_token	expand_variable(t_token *token, t_env *envp, char quotes);
+void	expand_variable(t_token *token, t_env *envp, char quotes);
 char	*get_env_value(char *name, t_env *envp, int len);
 char 	*add_char(char *str, char new_char);
 

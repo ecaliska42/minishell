@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buildin_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/19 13:47:17 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/19 23:15:56 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ bool	is_buildin(char **command)
 	char	*s;
 
 	s = command[0];
-	if (ft_strncmp("echo ", s, 4) == 0)
+	if (ft_strcmp("echo", s) == 0)
 		return true;
 	if (ft_strncmp("pwd", s, 4) == 0)
 		return true;

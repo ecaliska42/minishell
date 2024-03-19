@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:26:46 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/16 14:59:11 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/19 22:16:24 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,7 @@ char *get_word(t_shell *shell, char *line, int *i)
 	while (ft_is_space(line[*i]) == true && line[*i] != '\0')
 		(*i)++;
 	if (ft_is_special(line[*i]) == true)
-		exit (2);
-
+		printf ("PROBLEM!!!special character at i=%d is: %c\n", *i, line[*i]);
 	tmp = *i;
 	len = get_len(shell, line, i);
 	word = malloc(len + 1);
