@@ -6,11 +6,12 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/20 13:43:05 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:57:20 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
+#include "libft/libft.h"
 #include "libraries/parsing.h"
 
 int		parrent_buildin(char *s, t_env **envp)
@@ -50,15 +51,15 @@ bool	is_buildin(char **command)
 	return false;
 }
 
-int		execute_buildin(char **command, t_env **envp, t_token **head)
+int		execute_buildin(t_parse **parse, t_env **envp, t_token **head)
 {
 	char	*s;
 
-	s = command[0];
+	s = (*parse)->command[0];
 	if (!s)
 		return 0;
 	if (ft_strcmp("echo", s) == 0)
-		ft_echo(head);
+		ft_echo(head, parse);
 	else if (ft_strcmp("pwd", s) == 0)
 		ft_pwd();
 	else if (ft_strcmp("env", s) == 0)

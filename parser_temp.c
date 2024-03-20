@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/20 14:43:43 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/20 20:18:09 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,20 +84,22 @@ int	get_check(t_parse **head, t_env **envi)//TODO get the char *check with char 
 
 static void add_back(t_parse **com, t_parse *node)
 {
-	t_parse	*temp;
+	// t_parse	*temp;
 
-	if (*com == NULL)
-		*com = node;
-	else
-	{
-		temp = *com;
-		while (temp -> next != NULL)
-		{
-			temp = temp -> next;
-		}
-		temp -> next = node;
-	}
-	temp = *com;
+	// if (*com == NULL)
+	// 	*com = node;
+	// else
+	// {
+	// 	temp = *com;
+	// 	while (temp -> next != NULL)
+	// 	{
+	// 		temp = temp -> next;
+	// 	}
+	// 	temp -> next = node;
+	// }
+	// temp = *com;
+	node->next = *com;
+	*com = node;
 }
 
 /*

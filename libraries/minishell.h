@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/19 20:05:39 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/20 19:21:55 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ int	ft_unset(t_env **envp, t_token **tokens);
 int	ft_pwd(void);
 int	ft_export(t_env **lst);
 int	ft_exit(void);
-int ft_echo(t_token **head);
+//int ft_echo(t_token **head);
+int	ft_echo(t_token **head, t_parse **node);
 
 /*
 	*PARSE_TEMPORARY
@@ -119,7 +120,8 @@ void	printf_tripple(char ***str);
 	*BUILDIN_CHECK.C
 */
 bool	is_buildin(char **command);
-int		execute_buildin(char **s, t_env **envp, t_token **head);
+//int		execute_buildin(char **s, t_env **envp, t_token **head);
+int		execute_buildin(t_parse **parse, t_env **envp, t_token **head);
 int		parrent_buildin(char *s, t_env **envp);
 bool	is_parrent_buildin(char **s);
 

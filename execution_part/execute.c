@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/20 15:24:38 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/20 23:32:25 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, t_env **envp, t_token **token)
 	if (ex_utils->pipecount != 0)
 	{
 		//ft_putendl_fd("IN CHILD WITH PIPES", 2);
-		dup_filedescriptor(comm, ex_utils, i);
+		dup_filedescriptor(comm, ex_utils, ex_utils->pipecount - i);
 		close_filedescriptor(comm, ex_utils);
 	}
 	else
@@ -69,13 +69,21 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, t_env **envp, t_token **token)
 		//ft_putendl_fd("NO INFILE IN CHILD", 2);
 		exit (1);
 	}
+	// for (int x = 0; comm->command[x]; x++)
+	// {
+	// 	ft_putendl_fd(comm->command[x], 2);
+	// }
+	// ft_putendl_fd("\n", 2);
 	if (is_buildin(comm->command) == true)
 	{
-		execute_buildin(comm->command, envp, token);
+		execute_buildin(&comm, envp, token);
 		exit(0);
 	}
 	else
 	{
+		// ft_putendl_fd(comm->check, 2);
+		// for (int i = 0; comm->command[i]; i++)
+		// 	ft_putendl_fd(comm->command[i], 2);
 		execve(comm->check, comm->command, change_envp(envp)); //TODO 1: PATH WITH COMMAND ATTATCHED 2: command split with ' '
 		//perror("execve : ");
 		write(2, comm->command[0], ft_strlen(comm->command[0]));
@@ -133,31 +141,31 @@ static int create_pipes(t_exe *ex_struct)
 int	lonely_buildin(t_parse *parse, t_env **envp, t_token *token)
 {
 	//ft_putendl_fd("IN LONELY BUILDIN", 2);
-	int orig_stdout = dup(STDOUT_FILENO);
-	int orig_stdin = dup(STDIN_FILENO);
-	if (parse->infd > 0)
-	{
-		dup2(parse->infd, STDIN_FILENO);
-		close(parse->infd);
-		//parse->infd = -1;
-	}
-	if (parse->outfd > 0)
-	{
-		if (dup2(parse->outfd, STDOUT_FILENO) == -1)
-			perror("dup2 error (execute.c) : ");
-		if (close(parse->outfd) == -1)
-			perror("close error (execute.c) : ");
-		//parse->outfd = -1;
-	}
-	execute_buildin(parse->command, envp, &token);
-	if (dup2(orig_stdin, STDIN_FILENO) == -1)
-		perror("dup2 error (execute.c) : ");
-	if (close (orig_stdin) == -1)
-		perror("close error (execute.c) : ");
-	if (dup2(orig_stdout, STDOUT_FILENO) == -1)
-		perror("dup2 error (execute.c) : ");
-	if (close (orig_stdout) == -1)
-		perror("close error (execute.c) : ");
+	// int orig_stdout = dup(STDOUT_FILENO);
+	// int orig_stdin = dup(STDIN_FILENO);
+	// if (parse->infd > 0)
+	// {
+	// 	dup2(parse->infd, STDIN_FILENO);
+	// 	close(parse->infd);
+	// 	//parse->infd = -1;
+	// }
+	// if (parse->outfd > 0)
+	// {
+	// 	if (dup2(parse->outfd, STDOUT_FILENO) == -1)
+	// 		perror("dup2 error (execute.c) : ");
+	// 	if (close(parse->outfd) == -1)
+	// 		perror("close error (execute.c) : ");
+	// 	//parse->outfd = -1;
+	// }
+	execute_buildin(&parse, envp, &token);
+	// if (dup2(orig_stdin, STDIN_FILENO) == -1)
+	// 	perror("dup2 error (execute.c) : ");
+	// if (close (orig_stdin) == -1)
+	// 	perror("close error (execute.c) : ");
+	// if (dup2(orig_stdout, STDOUT_FILENO) == -1)
+	// 	perror("dup2 error (execute.c) : ");
+	// if (close (orig_stdout) == -1)
+	// 	perror("close error (execute.c) : ");
 	return (SUCCESS);
 }
 
@@ -167,12 +175,14 @@ int	execute(t_parse **comm, int pipecount, t_env **envp, t_token **tokens)
 	t_parse *parse;
 	t_token *token;
 	int		i;
+	int		j;
 
 	if (malloc_ex_struct(&ex_struct, pipecount) == ERROR)
 		return (ERROR);
 	if (create_pipes(&ex_struct) == ERROR)
 		return (ERROR);
 	i = 0;
+	j = 0;
 	parse = *comm;
 	token = *tokens;
 	if (is_buildin(parse->command) == true && pipecount == 0)
@@ -196,9 +206,9 @@ int	execute(t_parse **comm, int pipecount, t_env **envp, t_token **tokens)
 		}
 	}
 	close_filedescriptor(NULL, &ex_struct);
-	i--;
-	while (i >= 0)
-		waitpid(ex_struct.id[i--], NULL, 0);
+	//i--;
+	while (j < i)//while (i >= 0)
+		waitpid(ex_struct.id[j++], NULL, 0);
 	free(ex_struct.id);
 	ex_struct.id = NULL;
 	free_fds(ex_struct.fd);

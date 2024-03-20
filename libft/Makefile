@@ -6,13 +6,13 @@
 #    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/07 18:00:21 by ecaliska          #+#    #+#              #
-#    Updated: 2024/03/15 18:16:25 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/03/20 18:58:31 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC=	cc
 
-CFLAGS+=	-Wall -Werror -Wextra -g
+CFLAGS=	-Wall -Werror -Wextra -g
 
 SRC=	ft_fd/ft_putchar_fd.c ft_fd/ft_putendl_fd.c ft_fd/ft_putnbr_fd.c \
 		ft_fd/ft_putstr_fd.c \

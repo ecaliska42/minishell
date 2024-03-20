@@ -97,11 +97,9 @@ static char	**while_loop(int *j, char const *s, char c, char **str)
 
 char	**ft_split(char const *s, char c)
 {
-	int		i;
 	int		j;
 	char	**str;
 
-	i = 0;
 	j = 0;
 	if (!s)
 		return (NULL);

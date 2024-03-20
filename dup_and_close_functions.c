@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 17:02:21 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/18 20:13:22 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:41:13 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	*dup_filedescriptor(t_parse *comm, t_exe *ex_utils, int i)
 	{
 		if (comm->infd > 0)
 			dup2(comm->infd, STDIN_FILENO);
+		else
+			dup2(STDIN_FILENO, STDIN_FILENO);
 		if (comm->outfd > 0)
 			dup2(comm->outfd, STDOUT_FILENO);
 		else
@@ -53,7 +55,7 @@ void	*dup_filedescriptor(t_parse *comm, t_exe *ex_utils, int i)
 		}
 		else if (comm->outfd > 0)
 		{
-			dup2(ex_utils->fd[i][0], STDIN_FILENO);
+			dup2(ex_utils->fd[i - 1][0], STDIN_FILENO);
 			dup2(comm->outfd, STDOUT_FILENO);
 		}
 		else

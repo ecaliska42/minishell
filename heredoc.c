@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/16 04:16:56 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/20 22:32:17 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	heredoc(t_parse *node, char *end)
 	while (1)
 	{
 		line = readline("heredoc> ");
+		if (!line)
+			break ;
 		if (ft_strncmp(line, end, ft_strlen(end)) == 0)
 		{
 			free(line);
