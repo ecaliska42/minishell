@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melsen6 <melsen6@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/20 18:00:41 by melsen6          ###   ########.fr       */
+/*   Updated: 2024/03/20 23:50:27 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@ int check_name_and_return_len(char *name)
 	return (i); // not include dollar
 }
 
-char	*get_env_value(char *name, t_env *envp, int len)
+char	*get_env_value(char *name, t_env *envp)
 {
-	(void)len;
 	while (envp)
 	{
 		if (ft_strcmp(name, envp->name) == 0)
@@ -87,19 +86,34 @@ t_token	*split_value(char *value, t_token *token)
 	t_token *last;
 	t_token *new;
 	int i;
+	int flag;
 
 	i = 0;
+	if (ft_is_space(value[0]) && ft_is_space(value[ft_strlen(value) - 1]))
+		flag = 2; // space at start and end
+	else if (ft_is_space(value[0]) && !ft_is_space(value[ft_strlen(value) - 1]))
+		flag = 1; // space at start
+	else if (!ft_is_space(value[0]) && ft_is_space(value[ft_strlen(value) - 1]))
+		flag = 3; // space at end
+	else
+		flag = 0; // no space at start and end
+	value = skip_starting_ending_spaces(value);
 	last = token;
 	words = ft_split(value, ' ');
+	if (words == NULL)
+		return (NULL);
 	while (words[i] != NULL)
 	{
-		new = malloc(sizeof(t_token));
-		new->str = words[i];
-		new->next = NULL;
-		new->type = token->type;
-		last->next = new;
-		last = new;
-		i++;
+		if (flag == 2)
+		{		
+			new = malloc(sizeof(t_token));
+			new->str = words[i];
+			new->next = NULL;
+			new->type = token->type;
+			last->next = new;
+			last = new;
+			i++;
+		}
 	}
 	free(words);
 	return (last);
@@ -124,9 +138,11 @@ void expand_variable(t_token *token, t_env *envp, char quotes)
 	char	*value;
 	int		len;
 	int 	i;
-	t_token *last_token;
+	// t_token *last_token;
+	char *tmp;
 
-	last_token = token;
+	tmp = NULL;
+	// last_token = token;
 	i = 0;
 	quotes = CLOSED;
 	new = ft_strdup("");
@@ -147,12 +163,17 @@ void expand_variable(t_token *token, t_env *envp, char quotes)
 			{
 				i++;
 				len = check_name_and_return_len(&token->str[i]);
-				if ((value = get_env_value(&token->str[i], envp, len)) != NULL)
+				tmp = ft_substr(token->str, i, len);
+				if (!tmp)
+					return ;
+				if ((value = get_env_value(tmp, envp)) != NULL)
 				{
 					new = ft_strjoin(new, value);
 					i += len;
 				}
 			}
+			while (token->str[i] && token->str[i] != '$' && token->str[i] != '\"')
+					new = add_char(new, token->str[i++]);
 			if (token->str[i] == '\"')
 			{
 				quotes = CLOSED;
@@ -167,11 +188,14 @@ void expand_variable(t_token *token, t_env *envp, char quotes)
 			{
 				i++;
 				len = check_name_and_return_len(&token->str[i]);
-				if ((value = get_env_value(&token->str[i], envp, len)) != NULL)
+				tmp = ft_substr(token->str, i, len);
+				if (!tmp)
+					return ;
+				if ((value = get_env_value(tmp, envp)) != NULL)
 				{
-					new = ft_strjoin(new, value);
+					// new = ft_strjoin(new, value);
+					split_value(value, token);
 					i += len;
-					// last_token = split_value(value, token);
 				}
 			}
 		}
@@ -179,7 +203,39 @@ void expand_variable(t_token *token, t_env *envp, char quotes)
 	free(token->str);
 	token->str = new;
 }
-			
+
+char *skip_starting_ending_spaces(char *value)
+{
+	int i;
+	int j;
+	int k;
+	char *new;
+
+	k = 0;
+	i = 0;
+	j = 0;
+	while (value[i] && ft_is_space(value[i]))
+		i++;
+	while (value[j])
+		j++;
+	j--;
+	while (j >= 0 && ft_is_space(value[j]))
+		j--;
+	new = malloc(j - i + 2);
+	if (new == NULL)
+		return (NULL);
+	while (i <= j)
+	{
+		new[k] = value[i];
+		i++;
+		k++;
+	}
+	new[k] = '\0';
+	free(value);
+	return (new);
+}
+
+
 // 					new = str_replace(token->str, name, value);
 // 					free(token->str);
 // 					token->str = new;

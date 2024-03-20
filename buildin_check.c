@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/19 23:15:56 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/20 20:25:06 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ bool	is_buildin(char **command)
 {
 	char	*s;
 
+	if (!command)
+		return false;
 	s = command[0];
 	if (ft_strcmp("echo", s) == 0)
 		return true;
