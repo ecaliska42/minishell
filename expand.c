@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melsen6 <melsen6@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/19 23:57:28 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/20 18:00:41 by melsen6          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ void expand_variable(t_token *token, t_env *envp, char quotes)
 // 					token->str = new;
 // 					i += len;
 // 
+//     				printf("git checkout expansion");
 
 void	expansion(t_token *token, t_env *envp, char quotes)
 {
