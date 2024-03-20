@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/19 20:23:43 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/20 14:43:43 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ char	**create_command(char *str, char **cmd)
 	while (i < size)
 	{
 		ret[i] = ft_strdup(cmd[i]);
-		free(cmd[i]);
+		//free(cmd[i]);
 		i++;
 	}
 	ret[i] = ft_strdup(str);
@@ -198,27 +198,23 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 			if (node->infd == -1)
 				perror("INFD ERROR1:");
 		}
-		if (tmp -> type == OUTPUT && ft_strlen(tmp->str) > 0)
+		else if (tmp -> type == OUTPUT && ft_strlen(tmp->str) > 0)
 		{
 			node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (node->outfd == -1)
 				perror("OUTFD ERROR1: ");
 		}
-		if (tmp -> type == APPEND && ft_strlen(tmp->str) > 0)
+		else if (tmp -> type == APPEND && ft_strlen(tmp->str) > 0)
 		{
 			node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (node->outfd == -1)
 				perror("OUTFD ERROR2:");
 		}
-		if (tmp -> type == HEREDOC && ft_strlen(tmp->str) > 0)
-		{
+		else if (tmp -> type == HEREDOC && ft_strlen(tmp->str) > 0)
 			heredoc(node, tmp->str);
-		}
-		if (tmp -> type == RANDOM)
-		{
+		else if (tmp -> type == RANDOM)
 			node -> command = create_command(tmp->str, node->command); //TODO PREPARE IT FOR THE EXECVE
-		}
-		if (tmp -> type == PIPE)
+		else if (tmp -> type == PIPE)
 		{
 			count->pipecount++;
 			add_back(command, node);

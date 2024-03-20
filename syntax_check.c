@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:16:58 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/12 14:09:43 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:27:35 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int pipe_start(t_shell *shell)
 	skip_spaces(shell->input, &i);
 	if (shell->input[i] == '|' || shell->input[i] == '\0')
 	{
-		printf("pipe_start\n");
+		//printf("pipe_start\n");
 		printf("minishell: syntax error near unexpected token `|'\n");
 		return (SYNTAX_ERROR);
 	}

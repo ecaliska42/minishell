@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buildin_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/19 13:47:17 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/20 13:43:05 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,15 @@ bool	is_buildin(char **command)
 	char	*s;
 
 	s = command[0];
-	if (ft_strncmp("echo ", s, 4) == 0)
+	if (ft_strcmp("echo", s) == 0)
 		return true;
-	if (ft_strncmp("pwd", s, 4) == 0)
+	else if (ft_strcmp("pwd", s) == 0)
 		return true;
-	if (ft_strncmp("env", s, 4) == 0)
+	else if (ft_strcmp("env", s) == 0)
 		return true;
-	if (ft_strncmp("cd", s, 3) == 0)
+	else if (ft_strcmp("cd", s) == 0)
 		return true;
-	if (ft_strncmp("exit", s, 5) == 0)
+	else if (ft_strcmp("exit", s) == 0)
 		return true;
 	return false;
 }
@@ -57,15 +57,15 @@ int		execute_buildin(char **command, t_env **envp, t_token **head)
 	s = command[0];
 	if (!s)
 		return 0;
-	if (ft_strncmp("echo ", s, 4) == 0)
+	if (ft_strcmp("echo", s) == 0)
 		ft_echo(head);
-	if (ft_strncmp("pwd", s, 4) == 0)
+	else if (ft_strcmp("pwd", s) == 0)
 		ft_pwd();
-	if (ft_strncmp("env", s, 4) == 0)
+	else if (ft_strcmp("env", s) == 0)
 		ft_env(envp);
-	if (ft_strncmp("cd", s, 3) == 0)
+	else if (ft_strcmp("cd", s) == 0)
 		ft_cd(envp, s);
-	if (ft_strncmp("exit", s, 4) == 0)
+	else if (ft_strcmp("exit", s) == 0)
 		ft_exit();
 	return (0);
 }

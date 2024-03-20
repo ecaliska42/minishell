@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/19 19:58:27 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:31:45 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,20 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 	{
 		shell->input = readline(PROMPT);
 		if (!shell->input)
-			return (SUCCESS);
+			ft_exit();
 		if (ft_strlen(shell->input) == 0)
 			continue ;
 		lexical_analyzer(shell);
 		if (syntax_check(shell) == SYNTAX_ERROR)
 		{
-			print_everything(shell);
-			ft_putstr_fd("Syntax error\n", 2);
+			//print_everything(shell);
+			//ft_putstr_fd("Syntax error\n", 2);
 			continue;
 		}
-		expansion(shell->tokens, envp, CLOSED);
+		//expansion(shell->tokens, envp, CLOSED);
 		// remove_quotes(shell); //? remove quotes function
 		prepare_for_execution(&command, &execution_utils, &shell->tokens, &envp);
-		print_everything(shell);
+		//print_everything(shell);
 		// if (shell->tokens)
 		add_history(shell->input);
 		if (shell->input)

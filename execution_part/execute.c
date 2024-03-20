@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/19 20:16:21 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:24:38 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,17 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, t_env **envp, t_token **token)
 {//TODO protection
 	if (ex_utils->pipecount != 0)
 	{
+		//ft_putendl_fd("IN CHILD WITH PIPES", 2);
 		dup_filedescriptor(comm, ex_utils, i);
 		close_filedescriptor(comm, ex_utils);
 	}
 	else
 		dup_for_no_pipes(comm);
 	if (comm->infd < 0)
+	{
+		//ft_putendl_fd("NO INFILE IN CHILD", 2);
 		exit (1);
+	}
 	if (is_buildin(comm->command) == true)
 	{
 		execute_buildin(comm->command, envp, token);
@@ -126,6 +130,37 @@ static int create_pipes(t_exe *ex_struct)
 	return (SUCCESS);
 }
 
+int	lonely_buildin(t_parse *parse, t_env **envp, t_token *token)
+{
+	//ft_putendl_fd("IN LONELY BUILDIN", 2);
+	int orig_stdout = dup(STDOUT_FILENO);
+	int orig_stdin = dup(STDIN_FILENO);
+	if (parse->infd > 0)
+	{
+		dup2(parse->infd, STDIN_FILENO);
+		close(parse->infd);
+		//parse->infd = -1;
+	}
+	if (parse->outfd > 0)
+	{
+		if (dup2(parse->outfd, STDOUT_FILENO) == -1)
+			perror("dup2 error (execute.c) : ");
+		if (close(parse->outfd) == -1)
+			perror("close error (execute.c) : ");
+		//parse->outfd = -1;
+	}
+	execute_buildin(parse->command, envp, &token);
+	if (dup2(orig_stdin, STDIN_FILENO) == -1)
+		perror("dup2 error (execute.c) : ");
+	if (close (orig_stdin) == -1)
+		perror("close error (execute.c) : ");
+	if (dup2(orig_stdout, STDOUT_FILENO) == -1)
+		perror("dup2 error (execute.c) : ");
+	if (close (orig_stdout) == -1)
+		perror("close error (execute.c) : ");
+	return (SUCCESS);
+}
+
 int	execute(t_parse **comm, int pipecount, t_env **envp, t_token **tokens)
 {//TODO protection
 	t_exe	ex_struct;
@@ -136,47 +171,29 @@ int	execute(t_parse **comm, int pipecount, t_env **envp, t_token **tokens)
 	if (malloc_ex_struct(&ex_struct, pipecount) == ERROR)
 		return (ERROR);
 	if (create_pipes(&ex_struct) == ERROR)
-		return (ERROR);//TODO CORRECT PROTECTION
+		return (ERROR);
 	i = 0;
 	parse = *comm;
 	token = *tokens;
-	while (parse != NULL)
+	if (is_buildin(parse->command) == true && pipecount == 0)
+		return (lonely_buildin(parse, envp, token));
+	else
 	{
-		if (is_buildin(parse->command) == true && pipecount == 0)
+		while (parse != NULL)
 		{
-			int orig_stdout = dup(1);
-			int orig_stdin = dup(0);
-			if (parse->infd > 0)
 			{
-				dup2(parse->infd, STDIN_FILENO);
-				close(parse->infd);
-				parse->infd = -1;
+				ex_struct.id[i] = fork();
+				if (ex_struct.id[i] == -1)
+				{
+					perror("");
+					exit (1);//TODO CORRECT PROTECTION
+				}
+				if (ex_struct.id[i] == 0)
+					child(parse, &ex_struct, i, envp, &token);
+				i++;
 			}
-			if (parse->outfd > 0)
-			{
-				dup2(parse->outfd, STDOUT_FILENO);
-				close(parse->outfd);
-				parse->outfd = -1;
-			}
-			execute_buildin(parse->command, envp, &token);
-			dup2(orig_stdin, STDIN_FILENO);
-			close (orig_stdin);
-			dup2(orig_stdout, STDOUT_FILENO);
-			close (orig_stdout);
+			parse = parse->next;
 		}
-		else
-		{
-			ex_struct.id[i] = fork();
-			if (ex_struct.id[i] == -1)
-			{
-				perror("");
-				exit (1);//TODO CORRECT PROTECTION
-			}
-			if (ex_struct.id[i] == 0)
-				child(parse, &ex_struct, i, envp, &token);
-			i++;
-		}
-		parse = parse->next;
 	}
 	close_filedescriptor(NULL, &ex_struct);
 	i--;
