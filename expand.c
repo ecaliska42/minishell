@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/20 23:50:27 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/21 18:39:42 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char *add_char(char *str, char new_char)
 	return (new);
 }
 
-t_token	*split_value(char *value, t_token *token)
+int	split_value(char *value, t_token *token)
 {
 	char **words;
 	t_token *last;
@@ -89,34 +89,44 @@ t_token	*split_value(char *value, t_token *token)
 	int flag;
 
 	i = 0;
-	if (ft_is_space(value[0]) && ft_is_space(value[ft_strlen(value) - 1]))
-		flag = 2; // space at start and end
-	else if (ft_is_space(value[0]) && !ft_is_space(value[ft_strlen(value) - 1]))
+	flag = 0;
+	// if (ft_is_space(value[0]) && ft_is_space(value[ft_strlen(value) - 1]))
+	// 	flag = 2; // space at start and end
+	if (ft_is_space(value[0])) 
+	{
 		flag = 1; // space at start
-	else if (!ft_is_space(value[0]) && ft_is_space(value[ft_strlen(value) - 1]))
-		flag = 3; // space at end
-	else
-		flag = 0; // no space at start and end
-	value = skip_starting_ending_spaces(value);
+		if (ft_is_space(value[ft_strlen(value) - 1]))
+			flag = 3; // space at start and end
+	}
+	else if (ft_is_space(value[ft_strlen(value) - 1]))
+		flag = 2;
+	// else if (!ft_is_space(value[0]) && ft_is_space(value[ft_strlen(value) - 1]))
+	// 	flag = 3; // space at end
+	// else
+	// 	flag = 0; // no space at start and end
+	// value = skip_starting_ending_spaces(value);
 	last = token;
+	// printf("last->str: %s\n", last->str);
 	words = ft_split(value, ' ');
 	if (words == NULL)
-		return (NULL);
+		return (-1);
+	if (flag != 1)
+	{
+		last->str = ft_strjoin(last->str, words[0]);
+		i++;
+	}
 	while (words[i] != NULL)
 	{
-		if (flag == 2)
-		{		
-			new = malloc(sizeof(t_token));
-			new->str = words[i];
-			new->next = NULL;
-			new->type = token->type;
-			last->next = new;
-			last = new;
-			i++;
-		}
+		new = malloc(sizeof(t_token));
+		new->str = words[i];
+		new->next = NULL;
+		new->type = token->type;
+		last->next = new;
+		last = new;
+		i++;
 	}
 	free(words);
-	return (last);
+	return (flag);
 }
 
 char *process_single_quotes(char *new, char *str, int *i)
@@ -166,10 +176,10 @@ void expand_variable(t_token *token, t_env *envp, char quotes)
 				tmp = ft_substr(token->str, i, len);
 				if (!tmp)
 					return ;
+				i += len;
 				if ((value = get_env_value(tmp, envp)) != NULL)
 				{
 					new = ft_strjoin(new, value);
-					i += len;
 				}
 			}
 			while (token->str[i] && token->str[i] != '$' && token->str[i] != '\"')
@@ -191,11 +201,13 @@ void expand_variable(t_token *token, t_env *envp, char quotes)
 				tmp = ft_substr(token->str, i, len);
 				if (!tmp)
 					return ;
+				i += len;
 				if ((value = get_env_value(tmp, envp)) != NULL)
 				{
 					// new = ft_strjoin(new, value);
-					split_value(value, token);
-					i += len;
+					if (split_value(value, token) == 2)
+						break ;	
+					// i += len;
 				}
 			}
 		}
