@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/21 18:39:42 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/22 17:42:49 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,39 +80,22 @@ char *add_char(char *str, char new_char)
 	return (new);
 }
 
-int	split_value(char *value, t_token *token)
+t_token *split_value(char *str, char *value, t_token *token, int flag)
 {
 	char **words;
 	t_token *last;
 	t_token *new;
 	int i;
-	int flag;
 
 	i = 0;
-	flag = 0;
-	// if (ft_is_space(value[0]) && ft_is_space(value[ft_strlen(value) - 1]))
-	// 	flag = 2; // space at start and end
-	if (ft_is_space(value[0])) 
-	{
-		flag = 1; // space at start
-		if (ft_is_space(value[ft_strlen(value) - 1]))
-			flag = 3; // space at start and end
-	}
-	else if (ft_is_space(value[ft_strlen(value) - 1]))
-		flag = 2;
-	// else if (!ft_is_space(value[0]) && ft_is_space(value[ft_strlen(value) - 1]))
-	// 	flag = 3; // space at end
-	// else
-	// 	flag = 0; // no space at start and end
-	// value = skip_starting_ending_spaces(value);
+
 	last = token;
-	// printf("last->str: %s\n", last->str);
 	words = ft_split(value, ' ');
 	if (words == NULL)
-		return (-1);
-	if (flag != 1)
+		return (NULL);
+	if (flag != 1 && flag != 3)
 	{
-		last->str = ft_strjoin(last->str, words[0]);
+		token->str = ft_strjoin(str, words[0]);
 		i++;
 	}
 	while (words[i] != NULL)
@@ -125,8 +108,12 @@ int	split_value(char *value, t_token *token)
 		last = new;
 		i++;
 	}
-	free(words);
-	return (flag);
+	// if (flag == 2 || flag == 3)
+	// {
+	// 	str = ft_strjoin(str, words[i - 1]);
+	// }
+	free(words); // free words
+	return (last);
 }
 
 char *process_single_quotes(char *new, char *str, int *i)
@@ -142,17 +129,122 @@ char *process_single_quotes(char *new, char *str, int *i)
     return (new);
 }
 
+char *process_double_quotes(char *new, char *str, int *i, t_env *envp)
+{
+	int	len;
+	char *tmp;
+	char *value;
+	
+	(*i)++;
+	while (str[*i] && str[*i] != '$' && str[*i] != '\"')
+	{
+		new = add_char(new, str[*i]);
+		(*i)++;
+	}
+	if ((ft_is_dollar(str[*i])) && (str[(*i) + 1] && (str[(*i) + 1] != '$')))
+	{
+		(*i)++;
+		len = check_name_and_return_len(&str[*i]);
+		tmp = ft_substr(str, *i, len);
+		if (!tmp)
+			return (NULL);
+		(*i) += len;
+		if ((value = get_env_value(tmp, envp)) != NULL)
+		{
+			new = ft_strjoin(new, value);
+		}
+	}
+	while (str[*i] && str[*i] != '$' && str[*i] != '\"')
+	{
+		new = add_char(new, str[*i]);
+		(*i)++;
+	}
+	if (str[*i] == '\"')
+		(*i)++;
+	return (new);
+}
+
+char *expand_heredoc(char *new, char *str, int *i, t_env *envp)
+{
+	int	len;
+	char *tmp;
+	char *value;
+	
+	while (str[*i])
+	{
+		while (str[*i] && str[*i] != '$')
+		{
+			new = add_char(new, str[*i]);
+			(*i)++;
+		}
+		if ((ft_is_dollar(str[*i])) && (str[(*i) + 1] && (str[(*i) + 1] != '$')))
+		{
+			(*i)++;
+			len = check_name_and_return_len(&str[*i]);
+			tmp = ft_substr(str, *i, len);
+			if (!tmp)
+				return (NULL);
+			(*i) += len;
+			if ((value = get_env_value(tmp, envp)) != NULL)
+			{
+				new = ft_strjoin(new, value);
+			}
+		}
+		while (str[*i] && str[*i] != '$' && str[*i])
+		{
+			new = add_char(new, str[*i]);
+			(*i)++;
+		}
+	}
+	return (new);
+}
+
+// char *process_no_quotes(char *new, char *str, int *i, t_env *envp)
+// {
+// 	t_token *token;
+// 	char *tmp;
+// 	char *value;
+// 	int len;
+
+// 	while (str[*i] && str[*i] != '$' && str[*i] != '\"' && str[*i] != '\'')
+// 	{
+// 		new = add_char(new, str[(*i)++]);	
+// 	}
+// 	if (ft_is_dollar(str[*i]) && (str[(*i) + 1] && str[(*i) + 1] != '$'))
+// 	{
+// 		(*i)++;
+// 		len = check_name_and_return_len(&str[*i]);
+// 		tmp = ft_substr(str, *i, len);
+// 		if (!tmp)
+// 			return (NULL);
+// 		(*i) += len;
+// 		if ((value = get_env_value(tmp, envp)) != NULL)
+// 		{
+// 			if (split_value(value, token) == 2) // space at end
+// 			{
+// 				printf("value[0]: %c\n", value[0]);
+// 				printf("value[last ]: %c\n", value[ft_strlen(value) - 1]);
+// 			}
+			// while (token->str[i] && token->str[i] != '$' && token->str[i] != '\"' && token->str[i] != '\'')
+			// {
+			// 	token->str = add_char(token->str, token->str[i]);
+			// 	i++;
+			// }
+// 		}
+// 	}
+
 void expand_variable(t_token *token, t_env *envp, char quotes)
 {
 	char 	*new;
 	char	*value;
 	int		len;
 	int 	i;
-	// t_token *last_token;
-	char *tmp;
+	char	*tmp;
+	int		flag;
+	char *temp;
 
+	flag = 0;
 	tmp = NULL;
-	// last_token = token;
 	i = 0;
 	quotes = CLOSED;
 	new = ft_strdup("");
@@ -166,29 +258,8 @@ void expand_variable(t_token *token, t_env *envp, char quotes)
 		}
 		else if (quotes == D_QUOTE)
 		{
-			i++;
-			while (token->str[i] && token->str[i] != '$' && token->str[i] != '\"')
-					new = add_char(new, token->str[i++]);
-			if (ft_is_dollar(token->str[i]) && (token->str[i + 1] && token->str[i + 1] != '$'))
-			{
-				i++;
-				len = check_name_and_return_len(&token->str[i]);
-				tmp = ft_substr(token->str, i, len);
-				if (!tmp)
-					return ;
-				i += len;
-				if ((value = get_env_value(tmp, envp)) != NULL)
-				{
-					new = ft_strjoin(new, value);
-				}
-			}
-			while (token->str[i] && token->str[i] != '$' && token->str[i] != '\"')
-					new = add_char(new, token->str[i++]);
-			if (token->str[i] == '\"')
-			{
-				quotes = CLOSED;
-				i++;
-			}
+			new = process_double_quotes(new, token->str, &i, envp);
+			quotes = CLOSED;
 		}
 		else if (quotes == CLOSED)
 		{
@@ -204,11 +275,24 @@ void expand_variable(t_token *token, t_env *envp, char quotes)
 				i += len;
 				if ((value = get_env_value(tmp, envp)) != NULL)
 				{
-					// new = ft_strjoin(new, value);
-					if (split_value(value, token) == 2)
-						break ;	
-					// i += len;
+					if (value[0] == ' ')
+					{
+						flag = 1;
+						if (value[ft_strlen(value) - 1] == ' ')
+							flag = 3;
+					}
+					else if (value[ft_strlen(value) - 1] == ' ')
+						flag = 2;
 				}
+				temp = token->str;
+				if (ft_strchr(value, ' ') != NULL)
+					token = split_value(new, value, token, flag);
+				if (flag != 2 && flag != 3)
+				{
+					ft_strjoin(&temp[i], token->str);
+				}
+				while (token->str[i] && token->str[i] != '$' && token->str[i] != '\"' && token->str[i] != '\'')
+					new = add_char(new, token->str[i++]);
 			}
 		}
 	}
@@ -216,56 +300,44 @@ void expand_variable(t_token *token, t_env *envp, char quotes)
 	token->str = new;
 }
 
-char *skip_starting_ending_spaces(char *value)
-{
-	int i;
-	int j;
-	int k;
-	char *new;
+// char *skip_starting_ending_spaces(char *value)
+// {
+// 	int i;
+// 	int j;
+// 	int k;
+// 	char *new;
 
-	k = 0;
-	i = 0;
-	j = 0;
-	while (value[i] && ft_is_space(value[i]))
-		i++;
-	while (value[j])
-		j++;
-	j--;
-	while (j >= 0 && ft_is_space(value[j]))
-		j--;
-	new = malloc(j - i + 2);
-	if (new == NULL)
-		return (NULL);
-	while (i <= j)
-	{
-		new[k] = value[i];
-		i++;
-		k++;
-	}
-	new[k] = '\0';
-	free(value);
-	return (new);
-}
-
-
-// 					new = str_replace(token->str, name, value);
-// 					free(token->str);
-// 					token->str = new;
-// 					i += len;
-// 
-//     				printf("git checkout expansion");
+// 	k = 0;
+// 	i = 0;
+// 	j = 0;
+// 	while (value[i] && ft_is_space(value[i]))
+// 		i++;
+// 	while (value[j])
+// 		j++;
+// 	j--;
+// 	while (j >= 0 && ft_is_space(value[j]))
+// 		j--;
+// 	new = malloc(j - i + 2);
+// 	if (new == NULL)
+// 		return (NULL);
+// 	while (i <= j)
+// 	{
+// 		new[k] = value[i];
+// 		i++;
+// 		k++;
+// 	}
+// 	new[k] = '\0';
+// 	free(value);
+// 	return (new);
+// }
 
 void	expansion(t_token *token, t_env *envp, char quotes)
 {
-	// int i;
-
-	// i = 0;
 	quotes = CLOSED;
 	while (token != NULL)
 	{
 		if (token->str)
 			expand_variable(token, envp, CLOSED);
-		// if (ft_strchr(token->str, '$') != NULL)
 		token = token->next;
 	}
 }

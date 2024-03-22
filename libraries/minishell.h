@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/20 23:24:56 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/22 16:49:22 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,8 @@ int	free_environment(t_env **lst);
 void	*dup_for_no_pipes(t_parse *comm);
 char	**change_envp(t_env **envp);
 char *skip_starting_ending_spaces(char *value);
+char *expand_heredoc(char *new_str, char *str, int *i, t_env *envp);
+
 
 
 
