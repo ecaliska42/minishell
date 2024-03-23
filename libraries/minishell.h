@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/22 16:49:22 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/24 00:42:19 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ int	array_size(char **array);
 
 
 void 	expansion(t_token *token, t_env *envp, char quotes);
-void	expand_variable(t_token *token, t_env *envp, char quotes);
+t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag);
 char	*get_env_value(char *name, t_env *envp);
 char 	*add_char(char *str, char new_char);
 

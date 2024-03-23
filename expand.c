@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/22 17:42:49 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/24 00:55:23 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,30 +40,6 @@ char	*get_env_value(char *name, t_env *envp)
 	return (NULL);
 }
 
-// char *str_replace(char *str, char *name, char *value)
-// {
-// 	int		len;
-//     char	*pos;
-// 	char	*new_str;
-// 	int		name_len;
-
-// 	name_len = ft_strlen(name);
-// 	pos = ft_strnstr(str, name, name_len);
-//     if (pos != NULL)
-// 	{
-//         len = ft_strlen(str) + ft_strlen(value) - ft_strlen(name) + 1;
-//         new_str = malloc(len);
-//         if (new_str == NULL)
-//             return NULL;
-// 		ft_strlcpy(new_str, str, pos - str + 1);
-//         new_str[pos - str] = '\0';
-// 		ft_strlcat(new_str, value, len);
-// 		ft_strlcat(new_str, pos + name_len, len);
-//         return (new_str);
-//     }
-//     return (str);
-// }
-
 char *add_char(char *str, char new_char)
 {
 	
@@ -86,16 +62,15 @@ t_token *split_value(char *str, char *value, t_token *token, int flag)
 	t_token *last;
 	t_token *new;
 	int i;
-
+	
 	i = 0;
-
 	last = token;
 	words = ft_split(value, ' ');
 	if (words == NULL)
 		return (NULL);
 	if (flag != 1 && flag != 3)
 	{
-		token->str = ft_strjoin(str, words[0]);
+		last->str = ft_strjoin(str, words[0]);
 		i++;
 	}
 	while (words[i] != NULL)
@@ -108,11 +83,7 @@ t_token *split_value(char *str, char *value, t_token *token, int flag)
 		last = new;
 		i++;
 	}
-	// if (flag == 2 || flag == 3)
-	// {
-	// 	str = ft_strjoin(str, words[i - 1]);
-	// }
-	free(words); // free words
+	free(words);
 	return (last);
 }
 
@@ -129,35 +100,39 @@ char *process_single_quotes(char *new, char *str, int *i)
     return (new);
 }
 
-char *process_double_quotes(char *new, char *str, int *i, t_env *envp)
+char *process_double_quotes(char *new, char *str, int *i, t_env *envp) // works
 {
 	int	len;
 	char *tmp;
 	char *value;
 	
 	(*i)++;
-	while (str[*i] && str[*i] != '$' && str[*i] != '\"')
+	while(str[*i] && str[*i] != '\"')
 	{
-		new = add_char(new, str[*i]);
-		(*i)++;
-	}
-	if ((ft_is_dollar(str[*i])) && (str[(*i) + 1] && (str[(*i) + 1] != '$')))
-	{
-		(*i)++;
-		len = check_name_and_return_len(&str[*i]);
-		tmp = ft_substr(str, *i, len);
-		if (!tmp)
-			return (NULL);
-		(*i) += len;
-		if ((value = get_env_value(tmp, envp)) != NULL)
+		
+		while (str[*i] && str[*i] != '$' && str[*i] != '\"')
 		{
-			new = ft_strjoin(new, value);
+			new = add_char(new, str[*i]);
+			(*i)++;
 		}
-	}
-	while (str[*i] && str[*i] != '$' && str[*i] != '\"')
-	{
-		new = add_char(new, str[*i]);
-		(*i)++;
+		if ((ft_is_dollar(str[*i])) && (str[(*i) + 1] && (str[(*i) + 1] != '$')))
+		{
+			(*i)++;
+			len = check_name_and_return_len(&str[*i]);
+			tmp = ft_substr(str, *i, len);
+			if (!tmp)
+				return (NULL);
+			(*i) += len;
+			if ((value = get_env_value(tmp, envp)) != NULL)
+			{
+				new = ft_strjoin(new, value);
+			}
+		}
+		while (str[*i] && str[*i] != '$' && str[*i] != '\"')
+		{
+			new = add_char(new, str[*i]);
+			(*i)++;
+		}
 	}
 	if (str[*i] == '\"')
 		(*i)++;
@@ -233,18 +208,22 @@ char *expand_heredoc(char *new, char *str, int *i, t_env *envp)
 // 		}
 // 	}
 
-void expand_variable(t_token *token, t_env *envp, char quotes)
+t_token *expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 {
 	char 	*new;
 	char	*value;
 	int		len;
 	int 	i;
 	char	*tmp;
-	int		flag;
-	char *temp;
+	t_token *last_token;
+	char *tmp_token;
 
 	flag = 0;
 	tmp = NULL;
+	last_token = NULL;
+	tmp_token = NULL;
+	len = 0;
+	value = NULL;
 	i = 0;
 	quotes = CLOSED;
 	new = ft_strdup("");
@@ -271,65 +250,53 @@ void expand_variable(t_token *token, t_env *envp, char quotes)
 				len = check_name_and_return_len(&token->str[i]);
 				tmp = ft_substr(token->str, i, len);
 				if (!tmp)
-					return ;
+					return (NULL);
 				i += len;
 				if ((value = get_env_value(tmp, envp)) != NULL)
 				{
 					if (value[0] == ' ')
 					{
-						flag = 1;
-						if (value[ft_strlen(value) - 1] == ' ')
-							flag = 3;
+						flag = 1; 					// space at start
+						if (value[ft_strlen(value) - 1] == ' ') 
+							flag = 3; 				// space at start and end
 					}
 					else if (value[ft_strlen(value) - 1] == ' ')
-						flag = 2;
+						flag = 2; 			// space at end
+					
+					if (ft_strchr(value, ' ') == NULL) // single word value
+					{
+						new = ft_strjoin(new, value);
+						continue ;
+					}	
+					else 
+					{
+						// value = skip_starting_ending_spaces(value);
+						tmp_token = &token->str[i];
+						token = split_value(new, value, token, flag);
+						if (tmp_token[i] && flag != 2 && flag != 3) // if has NO space at end
+						{
+							while (tmp_token[i] && tmp_token[i] != '$' && tmp_token[i] != '\"' && tmp_token[i] != '\'')
+							{	
+								token->str = add_char(token->str, tmp_token[i]);
+								i++;
+							}						
+						}	
+						else
+							return (token);
+					}
 				}
-				temp = token->str;
-				if (ft_strchr(value, ' ') != NULL)
-					token = split_value(new, value, token, flag);
-				if (flag != 2 && flag != 3)
-				{
-					ft_strjoin(&temp[i], token->str);
-				}
-				while (token->str[i] && token->str[i] != '$' && token->str[i] != '\"' && token->str[i] != '\'')
-					new = add_char(new, token->str[i++]);
+			}
+			else if (ft_is_dollar(token->str[i]))
+			{
+				new = add_char(new, token->str[i]);
+				i++;
 			}
 		}
 	}
 	free(token->str);
 	token->str = new;
+	return (token);
 }
-
-// char *skip_starting_ending_spaces(char *value)
-// {
-// 	int i;
-// 	int j;
-// 	int k;
-// 	char *new;
-
-// 	k = 0;
-// 	i = 0;
-// 	j = 0;
-// 	while (value[i] && ft_is_space(value[i]))
-// 		i++;
-// 	while (value[j])
-// 		j++;
-// 	j--;
-// 	while (j >= 0 && ft_is_space(value[j]))
-// 		j--;
-// 	new = malloc(j - i + 2);
-// 	if (new == NULL)
-// 		return (NULL);
-// 	while (i <= j)
-// 	{
-// 		new[k] = value[i];
-// 		i++;
-// 		k++;
-// 	}
-// 	new[k] = '\0';
-// 	free(value);
-// 	return (new);
-// }
 
 void	expansion(t_token *token, t_env *envp, char quotes)
 {
@@ -337,8 +304,12 @@ void	expansion(t_token *token, t_env *envp, char quotes)
 	while (token != NULL)
 	{
 		if (token->str)
-			expand_variable(token, envp, CLOSED);
-		token = token->next;
+		{
+			// if (token->type != HEREDOC) // test if works for heredoc delimeter
+			token = expand_variable(token, envp, CLOSED, 0);
+		}
+		if (token)
+			token = token->next;
 	}
 }
 
@@ -350,4 +321,35 @@ int ft_strcmp(const char *s1, const char *s2)
 		s2++;
 	}
 	return ((unsigned char)*s1 - (unsigned char)*s2);
+}
+
+char *skip_starting_ending_spaces(char *value)
+{
+	int i;
+	int j;
+	int k;
+	char *new;
+
+	k = 0;
+	i = 0;
+	j = 0;
+	while (value[i] && ft_is_space(value[i]))
+		i++;
+	while (value[j])
+		j++;
+	j--;
+	while (j >= 0 && ft_is_space(value[j]))
+		j--;
+	new = malloc(j - i + 2);
+	if (new == NULL)
+		return (NULL);
+	while (i <= j)
+	{
+		new[k] = value[i];
+		i++;
+		k++;
+	}
+	new[k] = '\0';
+	free(value);
+	return (new);
 }
