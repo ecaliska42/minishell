@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/24 16:05:06 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/24 16:39:47 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 		}
 		expansion(shell->tokens, envp, CLOSED);
 		prepare_for_execution(&command, &execution_utils, &shell->tokens, &envp);
-		// print_everything(shell);0
+		// print_everything(shell);
 		// if (shell->tokens)
 		add_history(shell->input);
 		if (shell->input)
