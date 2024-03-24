@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/20 14:43:43 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/24 15:02:04 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ char	*get_access(char *str, t_env **envi)
 int	get_check(t_parse **head, t_env **envi)//TODO get the char *check with char **command
 {
 	t_parse *node; //char **command should already be set up
-	int	i = 0;
 
 	node = *head;
 	while (node)
@@ -75,7 +74,6 @@ int	get_check(t_parse **head, t_env **envi)//TODO get the char *check with char 
 		if (!node->check)
 			return (ERROR);
 		node = node -> next;
-		i++;
 	}
 	return (SUCCESS);
 }
@@ -98,6 +96,9 @@ static void add_back(t_parse **com, t_parse *node)
 		temp -> next = node;
 	}
 	temp = *com;
+	
+	// node->next = *com;
+	// *com = node;
 }
 
 /*
@@ -128,6 +129,11 @@ char	**create_command(char *str, char **cmd)
 		ret[i] = ft_strdup(cmd[i]);
 		//free(cmd[i]);
 		i++;
+	}
+	while (size)
+	{
+		free(cmd[size]);
+		size--;
 	}
 	ret[i] = ft_strdup(str);
 	//free(str);
@@ -186,7 +192,7 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 	node = malloc(sizeof(t_parse));
 	if (!node)
 	{
-		ft_putstr_fd("malloc\n", 2);
+		ft_putendl_fd("malloc", 2);
 		exit(1);
 	}
 	ft_bzero(node, sizeof(*node));
@@ -194,24 +200,34 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 	{
 		if (tmp -> type == INPUT && ft_strlen(tmp->str) > 0)
 		{
-			node->infd = open(tmp->str, O_RDONLY);
-			if (node->infd == -1)
-				perror("INFD ERROR1:");
+			node->infile = tmp->str;
+			node->infile_type = INPUT;
+			// node->infd = open(tmp->str, O_RDONLY);
+			// if (node->infd == -1)
+			// 	perror("INFD ERROR1:");
 		}
 		else if (tmp -> type == OUTPUT && ft_strlen(tmp->str) > 0)
 		{
-			node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (node->outfd == -1)
-				perror("OUTFD ERROR1: ");
+			node->outfile = tmp->str;
+			node->outfile_type = OUTPUT;
+			// node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			// if (node->outfd == -1)
+			// 	perror("OUTFD ERROR1: ");
 		}
 		else if (tmp -> type == APPEND && ft_strlen(tmp->str) > 0)
 		{
-			node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (node->outfd == -1)
-				perror("OUTFD ERROR2:");
+			node->outfile = tmp->str;
+			node->outfile_type = APPEND;
+			// node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			// if (node->outfd == -1)
+			// 	perror("OUTFD ERROR2:");
 		}
 		else if (tmp -> type == HEREDOC && ft_strlen(tmp->str) > 0)
-			heredoc(node, tmp->str);
+		{
+			node->infile_type = HEREDOC;
+			node->infile = tmp->str;
+			//heredoc(node, tmp->str);
+		}
 		else if (tmp -> type == RANDOM)
 			node -> command = create_command(tmp->str, node->command); //TODO PREPARE IT FOR THE EXECVE
 		else if (tmp -> type == PIPE)

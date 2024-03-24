@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/19 18:37:55 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/24 15:13:48 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*get_pwd(void)
 		return (NULL);
 	if (getcwd(path, FILENAME_MAX) == NULL)
 	{
-		perror("");
+		perror("getcwd() error: ");
 		free(path);
 		return (NULL);
 	}
@@ -122,10 +122,6 @@ int main(int ac, char **av, char **envp)
 
 /*
 	* ALLOWED FUNCTIONS:
-	* add_history
-	* access
-	* wait
-	* waitpid
 	* wait3
 	* wait4
 	* signal
@@ -133,15 +129,10 @@ int main(int ac, char **av, char **envp)
 	* sigemptyset
 	* sigaddset
 	* kill
-	* getcwd
 	* chdir
 	* stat
 	* lstat
 	* fstat
-	* unlink
-	* execve
-	* dup
-	* dup2
 	* opendir
 	* readdir
 	* closedir
@@ -149,7 +140,6 @@ int main(int ac, char **av, char **envp)
 	* ttyname
 	* ttyslot
 	* ioctl
-	* getenv
 	* tcsetattr
 	* tcgetattr
 	* tgetent
@@ -175,4 +165,14 @@ int main(int ac, char **av, char **envp)
 	! pipe
 	! perror
 	! strerror
+	! add_history
+	! access
+	! wait
+	! waitpid
+	! unlink
+	! execve
+	! dup
+	! dup2
+	! getcwd
+	! getenv
 */

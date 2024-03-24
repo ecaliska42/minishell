@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/24 00:42:19 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/24 16:35:15 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,12 @@ typedef struct parse
 {
 	char	*check;		//TODO THE STRING OF THE PATH CHECKED WITH ACCESS IF EXECUTABLE WITH THE FIRST COMMAND ATTATCHED [FOR EXAMPLE /usr/bin/LS] HAVE TO DO
 	char	**command;	//TODO THE 2D ARRAY FOR EXECVE ENDING WITH NULL HAVE TO DO
-	long	infd;		//TODO THE RETURN VALUE OF OPEN
-	long	outfd;		//TODO THE RETURN VALUE OF OPEN
+	int		infd;		//TODO THE RETURN VALUE OF OPEN
+	char	*infile;	//TODO THE FILE NAME FOR THE INFDFD
+	int		infile_type;
+	int		outfd;		//TODO THE RETURN VALUE OF OPEN
+	char	*outfile;	//TODO THE FILE NAME FOR THE OUTFDFD
+	int		outfile_type;
 	struct	parse *next;
 }	t_parse;
 
@@ -90,12 +94,11 @@ typedef struct minishell
 */
 int	ft_cd(t_env **lst, char *s);
 int	ft_env(t_env **envp);
-int	ft_unset(t_env **envp, t_token **tokens);
+int	ft_unset(t_token **tokens, t_parse **parsing, t_env **environment);
 int	ft_pwd(void);
 int	ft_export(t_env **lst);
-int	ft_exit(void);
-int ft_echo(t_token **head);
-
+void	ft_exit(t_parse **node);
+int	ft_echo(t_token **head, t_parse **node);
 /*
 	*PARSE_TEMPORARY
 */
@@ -119,7 +122,8 @@ void	printf_tripple(char ***str);
 	*BUILDIN_CHECK.C
 */
 bool	is_buildin(char **command);
-int		execute_buildin(char **s, t_env **envp, t_token **head);
+//int		execute_buildin(char **s, t_env **envp, t_token **head);
+int	execute_buildin(t_parse **parse, t_env **envp, t_token **head, int pipecount);
 int		parrent_buildin(char *s, t_env **envp);
 bool	is_parrent_buildin(char **s);
 
@@ -151,6 +155,18 @@ char	**change_envp(t_env **envp);
 char *skip_starting_ending_spaces(char *value);
 char *expand_heredoc(char *new_str, char *str, int *i, t_env *envp);
 
+
+
+void	*dup_filedescriptors(t_parse *comm, t_exe *ex_utils, int i);
+int	lonely_buildin(t_parse *parse, t_env **envp, t_token **token);
+
+/*
+	*EXECUTION_UTILS
+*/
+void	free_fds(int **fds);
+char	**change_envp(t_env **envp);
+int		malloc_ex_struct(t_exe *ex_struct, int pipecount);
+int		create_pipes(t_exe *ex_struct);
 
 
 

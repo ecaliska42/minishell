@@ -6,7 +6,7 @@
 #    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/31 15:50:49 by ecaliska          #+#    #+#              #
-#    Updated: 2024/03/19 20:42:45 by mesenyur         ###   ########.fr        #
+#    Updated: 2024/03/22 16:20:48 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRC= minishell.c buildins/ft_echo.c buildins/ft_cd.c buildins/ft_env.c \
 	debugging/printf_double_tripple.c \
 	buildin_check.c dup_and_close_functions.c\
 	heredoc.c sizes/arrays.c sizes/lists.c\
-	environment.c\
+	environment.c execution_part/execution_utils.c\
 
 SRC2 = lexer.c needed_functions.c print_debug.c token.c readline.c quote_stuff.c \
 	syntax_check.c bool_functions.c expand.c
