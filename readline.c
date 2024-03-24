@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
 /*   Updated: 2024/03/24 16:52:33 by ecaliska         ###   ########.fr       */
@@ -31,14 +31,15 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 		lexical_analyzer(shell);
 		if (syntax_check(shell) == SYNTAX_ERROR)
 		{
-			//print_everything(shell);
-			//ft_putstr_fd("Syntax error\n", 2);
+			print_everything(shell);
+			ft_putstr_fd("Syntax error\n", 2);
+			free_tokens(&shell->tokens);
 			continue;
 		}
-		//expansion(shell->tokens, envp, CLOSED);
-		// remove_quotes(shell); //? remove quotes function
+		expansion(shell->tokens, envp, CLOSED);
 		prepare_for_execution(&command, &execution_utils, &shell->tokens, &envp);
-		//print_everything(shell);
+		// print_everything(shell);
+
 		// if (shell->tokens)
 		add_history(shell->input);
 		if (shell->input)
