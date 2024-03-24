@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:16:58 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/20 15:27:35 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/19 22:42:31 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,22 @@ int pipe_start(t_shell *shell)
 	return (0);
 }
 
+// int only_special(t_shell *shell)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while (shell->input[i] != '\0')
+// 	{
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
 int syntax_check(t_shell *shell)
 {
+	// if (only_special(shell) == SYNTAX_ERROR)
+	// 	return (SYNTAX_ERROR);
 	if (pipe_start(shell) == SYNTAX_ERROR)
 		return (SYNTAX_ERROR);
 	if (pipe_valid(shell) == SYNTAX_ERROR)
@@ -135,6 +149,6 @@ int syntax_check(t_shell *shell)
 		return (SYNTAX_ERROR);
 	if (redir_pipe(shell) == SYNTAX_ERROR)
 		return (SYNTAX_ERROR);
-
+	
 	return (0);
 }

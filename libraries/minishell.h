@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/19 20:05:39 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/24 00:42:19 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,14 +140,18 @@ int	array_size(char **array);
 
 
 void 	expansion(t_token *token, t_env *envp, char quotes);
-t_token	expand_variable(t_token *token, t_env *envp, char quotes);
-char	*get_env_value(char *name, t_env *envp, int len);
+t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag);
+char	*get_env_value(char *name, t_env *envp);
 char 	*add_char(char *str, char new_char);
 
 int	copy_environment(char **envp, t_env **lst);
 int	free_environment(t_env **lst);
 void	*dup_for_no_pipes(t_parse *comm);
 char	**change_envp(t_env **envp);
+char *skip_starting_ending_spaces(char *value);
+char *expand_heredoc(char *new_str, char *str, int *i, t_env *envp);
+
+
 
 
 #endif
