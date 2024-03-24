@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/24 00:55:23 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/24 16:31:11 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ char *add_char(char *str, char new_char)
 	ft_memcpy(new, str, str_len);
 	new[str_len] = new_char;
 	free(str);
+	str = NULL;
 	return (new);
 }
 
@@ -68,19 +69,30 @@ t_token *split_value(char *str, char *value, t_token *token, int flag)
 	words = ft_split(value, ' ');
 	if (words == NULL)
 		return (NULL);
-	if (flag != 1 && flag != 3)
+	if ((flag != 1 && flag != 3) && i == 0) // if has NO space at start
 	{
 		last->str = ft_strjoin(str, words[0]);
+		i++;
+	}
+	if ((flag == 1 || flag == 3) && (ft_strlen(str) == 0) && i == 0) // str is empty so use new instead new token
+	{
+		last->str = ft_strjoin(str, words[0]); 
 		i++;
 	}
 	while (words[i] != NULL)
 	{
 		new = malloc(sizeof(t_token));
-		new->str = words[i];
+		new->str = ft_strdup(words[i]);
 		new->next = NULL;
 		new->type = token->type;
 		last->next = new;
 		last = new;
+		i++;
+	}
+	i = 0;
+	while (words[i] != NULL)
+	{
+		free(words[i]);
 		i++;
 	}
 	free(words);
@@ -100,7 +112,7 @@ char *process_single_quotes(char *new, char *str, int *i)
     return (new);
 }
 
-char *process_double_quotes(char *new, char *str, int *i, t_env *envp) // works
+char *process_double_quotes(char *new, char *str, int *i, t_env *envp)
 {
 	int	len;
 	char *tmp;
@@ -109,13 +121,7 @@ char *process_double_quotes(char *new, char *str, int *i, t_env *envp) // works
 	(*i)++;
 	while(str[*i] && str[*i] != '\"')
 	{
-		
-		while (str[*i] && str[*i] != '$' && str[*i] != '\"')
-		{
-			new = add_char(new, str[*i]);
-			(*i)++;
-		}
-		if ((ft_is_dollar(str[*i])) && (str[(*i) + 1] && (str[(*i) + 1] != '$')))
+		if ((ft_is_dollar(str[*i])) && (str[(*i) + 1] && (str[(*i) + 1] != '$' && str[(*i) + 1] != '\"')))
 		{
 			(*i)++;
 			len = check_name_and_return_len(&str[*i]);
@@ -128,6 +134,11 @@ char *process_double_quotes(char *new, char *str, int *i, t_env *envp) // works
 				new = ft_strjoin(new, value);
 			}
 		}
+		else if (ft_is_dollar(str[*i]))
+		{
+			new = add_char(new, str[*i]);
+			(*i)++;
+		}
 		while (str[*i] && str[*i] != '$' && str[*i] != '\"')
 		{
 			new = add_char(new, str[*i]);
@@ -138,6 +149,7 @@ char *process_double_quotes(char *new, char *str, int *i, t_env *envp) // works
 		(*i)++;
 	return (new);
 }
+
 
 char *expand_heredoc(char *new, char *str, int *i, t_env *envp)
 {
@@ -215,12 +227,10 @@ t_token *expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 	int		len;
 	int 	i;
 	char	*tmp;
-	t_token *last_token;
 	char *tmp_token;
 
 	flag = 0;
 	tmp = NULL;
-	last_token = NULL;
 	tmp_token = NULL;
 	len = 0;
 	value = NULL;
@@ -268,22 +278,23 @@ t_token *expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 						new = ft_strjoin(new, value);
 						continue ;
 					}	
-					else 
-					{
-						// value = skip_starting_ending_spaces(value);
-						tmp_token = &token->str[i];
-						token = split_value(new, value, token, flag);
-						if (tmp_token[i] && flag != 2 && flag != 3) // if has NO space at end
-						{
-							while (tmp_token[i] && tmp_token[i] != '$' && tmp_token[i] != '\"' && tmp_token[i] != '\'')
-							{	
-								token->str = add_char(token->str, tmp_token[i]);
-								i++;
-							}						
-						}	
-						else
-							return (token);
-					}
+					// else 
+					// {
+					// 	// value = skip_starting_ending_spaces(value);
+					// 	tmp_token = &token->str[i];
+					// 	printf("tmp_token: %s\n", tmp_token);
+					// 	token = split_value(new, value, token, flag);
+					// 	if (tmp_token[i] && flag != 2 && flag != 3) // if has NO space at end
+					// 	{
+					// 		while (tmp_token[i] && tmp_token[i] != '$' && tmp_token[i] != '\"' && tmp_token[i] != '\'')
+					// 		{	
+					// 			token->str = add_char(token->str, tmp_token[i]);
+					// 			i++;
+					// 		}						
+					// 	}	
+					// 	else
+					// 		return (token);
+					// }
 				}
 			}
 			else if (ft_is_dollar(token->str[i]))
