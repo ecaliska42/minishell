@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:10 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/16 20:06:44 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/20 15:24:19 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_env(t_env **envp)
 {
-	ft_putendl_fd("IN ENV", 2);
+	//ft_putendl_fd("IN ENV", 2);
 	t_env	*tmp;
 
 	tmp = *envp;

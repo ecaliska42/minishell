@@ -25,7 +25,7 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 	{
 		shell->input = readline(PROMPT);
 		if (!shell->input)
-			return (SUCCESS);
+			ft_exit();
 		if (ft_strlen(shell->input) == 0)
 			continue ;
 		lexical_analyzer(shell);
@@ -39,6 +39,7 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 		expansion(shell->tokens, envp, CLOSED);
 		prepare_for_execution(&command, &execution_utils, &shell->tokens, &envp);
 		// print_everything(shell);
+
 		// if (shell->tokens)
 		add_history(shell->input);
 		if (shell->input)

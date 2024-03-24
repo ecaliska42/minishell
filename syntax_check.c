@@ -114,7 +114,7 @@ int pipe_start(t_shell *shell)
 	skip_spaces(shell->input, &i);
 	if (shell->input[i] == '|' || shell->input[i] == '\0')
 	{
-		printf("pipe_start\n");
+		//printf("pipe_start\n");
 		printf("minishell: syntax error near unexpected token `|'\n");
 		return (SYNTAX_ERROR);
 	}
