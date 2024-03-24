@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/20 15:31:45 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/24 16:52:33 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 	{
 		shell->input = readline(PROMPT);
 		if (!shell->input)
-			ft_exit();
+			exit (0);//TODO EXITCODE
 		if (ft_strlen(shell->input) == 0)
 			continue ;
 		lexical_analyzer(shell);

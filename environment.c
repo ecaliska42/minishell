@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 17:25:26 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/19 18:37:47 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/24 13:29:08 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	increase_shell_level(char *envp, t_env **node)
 
 int	get_value(t_env **node, char *envp, t_env **lst)
 {
-	if (strncmp((*node)->name, "SHLVL", 5) == 0)
+	if (ft_strncmp((*node)->name, "SHLVL", 5) == 0)
 	{
 		if (increase_shell_level(envp, node) == ERROR)
 		{
