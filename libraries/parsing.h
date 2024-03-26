@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/22 17:40:08 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/26 16:23:07 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef enum e_tokentype
 typedef struct s_token
 {
 	char	*str;
+	bool 	ambiguous;
 	t_tokentype	type;
 	struct s_token	*next;
 }			t_token;

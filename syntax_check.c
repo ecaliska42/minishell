@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:16:58 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/19 22:42:31 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/26 14:40:58 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,27 @@ int pipe_start(t_shell *shell)
 	skip_spaces(shell->input, &i);
 	if (shell->input[i] == '|' || shell->input[i] == '\0')
 	{
-		//printf("pipe_start\n");
+		printf("pipe_start\n");
 		printf("minishell: syntax error near unexpected token `|'\n");
 		return (SYNTAX_ERROR);
+	}
+	return (0);
+}
+
+int invalid_word(t_shell *shell)
+{
+	t_token	*tmp;
+
+	tmp = shell->tokens;
+	while (tmp)
+	{
+		if (tmp->type != PIPE && tmp->str[0] == '\0')
+		{
+			printf("INVALID WORD\n");
+			printf("minishell: syntax error near unexpected token `<|>'\n");
+			return (SYNTAX_ERROR);
+		}
+		tmp = tmp->next;
 	}
 	return (0);
 }
@@ -148,6 +166,8 @@ int syntax_check(t_shell *shell)
 	if (three_inputs(shell) == SYNTAX_ERROR)
 		return (SYNTAX_ERROR);
 	if (redir_pipe(shell) == SYNTAX_ERROR)
+		return (SYNTAX_ERROR);
+	if (invalid_word(shell) == SYNTAX_ERROR)
 		return (SYNTAX_ERROR);
 	
 	return (0);

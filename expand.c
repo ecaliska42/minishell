@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/25 20:51:38 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:52:25 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,7 @@ char *expand_heredoc(char *new, char *str, int *i, t_env *envp)
 
 t_token *expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 {
+	char 	*joker;
 	char 	*new;
 	char	*value;
 	int		len;
@@ -239,40 +240,43 @@ t_token *expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 	value = NULL;
 	i = 0;
 	quotes = CLOSED;
+	joker = token->str;
 	new = ft_strdup("");
-	while (token->str[i])
+	while (joker[i])
 	{
 		// if (tmp_token != NULL)
 		// {
-		// 	token->str = tmp_token;
+		// 	joker = tmp_token;
 		// }
-		quote_check(token->str[i], &quotes);
-		if (token->str[i] == S_QUOTE)
+		quote_check(joker[i], &quotes);
+		if (joker[i] == S_QUOTE)
 		{
-			new = process_single_quotes(new, token->str, &i);
+			new = process_single_quotes(new, joker, &i);
 			quotes = CLOSED;
 		}
 		else if (quotes == D_QUOTE)
 		{
-			new = process_double_quotes(new, token->str, &i, envp);
+			new = process_double_quotes(new, joker, &i, envp);
 			quotes = CLOSED;
 		}
 		else if (quotes == CLOSED)
 		{
-			while (token->str[i] && token->str[i] != '\"' && token->str[i] != '\'')
+			while (joker[i] && joker[i] != '\"' && joker[i] != '\'')
 			{
-				while (token->str[i] && token->str[i] != '$' && token->str[i] != '\"' && token->str[i] != '\'')
-						new = add_char(new, token->str[i++]);
-				if (ft_is_dollar(token->str[i]) && (token->str[i + 1] && token->str[i + 1] != '$'))
+				while (joker[i] && joker[i] != '$' && joker[i] != '\"' && joker[i] != '\'')
+						new = add_char(new, joker[i++]);
+				if (ft_is_dollar(joker[i]) && (joker[i + 1] && joker[i + 1] != '$'))
 				{
 					i++;
-					len = check_name_and_return_len(&token->str[i]);
-					tmp = ft_substr(token->str, i, len);
+					len = check_name_and_return_len(&joker[i]);
+					tmp = ft_substr(joker, i, len);
 					if (!tmp)
 						return (NULL);
 					i += len;
 					if ((value = get_env_value(tmp, envp)) != NULL)
 					{
+						if (value[0] == '\0')
+							token->ambiguous = true;
 						if (value[0] == ' ')
 						{
 							flag = 1; 					// space at start
@@ -282,6 +286,7 @@ t_token *expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 						else if (value[ft_strlen(value) - 1] == ' ')
 							flag = 2; 			// space at end
 						
+						value = skip_starting_ending_spaces(value);
 						if (ft_strchr(value, ' ') == NULL) // single word value
 						{
 							new = ft_strjoin(new, value);
@@ -289,7 +294,11 @@ t_token *expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 						}	
 						else 
 						{
-							tmp_token = &token->str[i];
+							if (token->type != HEREDOC && token->type != RANDOM)
+							{
+								token->ambiguous = true;
+							}
+							tmp_token = &joker[i];
 							// token = split_value(new, value, token, flag);
 							last_token = split_value(new, value, token, flag);
 							// printf("last_token: %s\n", last_token->str);
@@ -331,14 +340,15 @@ t_token *expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 						}
 					}
 				}
-				else if (ft_is_dollar(token->str[i]))
+				else if (ft_is_dollar(joker[i]))
 				{
-					new = add_char(new, token->str[i]);
+					new = add_char(new, joker[i]);
 					i++;
 				}
 			}
 		}
 	}
+	printf("token ambig: %d\n", token->ambiguous);
 	// free(token->str);
 	token->str = new;
 	return (token);

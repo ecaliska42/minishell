@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:26:46 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/19 22:16:24 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/26 14:51:11 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,8 +161,11 @@ void ft_strtok(t_shell *shell, int *i)
 	line = shell->input;
 	while (line[*i] != '\0')
 	{
-		while (ft_is_space(line[*i]) == true && line[*i] != '\0')
+		if (ft_is_space(line[*i]) == true && line[*i] != '\0')
+		{	
 			(*i)++;
+			continue ;
+		}
 		last_token = add_new_empty_token(shell);
 		ft_tokenizer(shell, last_token, *i);
 		if (last_token->type != RANDOM)
