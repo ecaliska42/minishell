@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/24 15:13:48 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/26 12:29:50 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int main(int ac, char **av, char **envp)
 		return (1);
 	commands = NULL;
 	ft_bzero(&shell, sizeof(t_shell));
-	printf("Welcome to minishell!\n");
+	//printf("Welcome to minishell!\n");
 	ft_readline(&shell, commands, environment);
 	// while ((line = readline("shell > ")))
 	// {

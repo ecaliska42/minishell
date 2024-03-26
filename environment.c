@@ -6,10 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 17:25:26 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/24 13:29:08 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/26 13:04:33 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "libraries/minishell.h"
 
 int	free_environment(t_env **lst)
@@ -36,12 +37,23 @@ int	free_environment(t_env **lst)
 int	increase_shell_level(char *envp, t_env **node)
 {
 	char	*temp;
+	int		nbr;
 
 	temp = NULL;
 	temp = get_after(envp, '=');
 	if (!temp)
 		return (ERROR);
-	(*node)->values = ft_itoa(ft_atoi(temp) + 1);
+	nbr = ft_atoi(temp) + 1;
+	if (nbr > 9999)
+	{
+		write(2, "warning: shell level (", 23);
+		ft_putnbr_fd(nbr, 2);
+		write(2, ") too high, resetting to 1\n", 28);
+		nbr = 1;
+	}
+	if (nbr < 0)
+		nbr = 0;
+	(*node)->values = ft_itoa(nbr);
 	if (!(*node)->values)
 		return (free(temp), ERROR);
 	free(temp);

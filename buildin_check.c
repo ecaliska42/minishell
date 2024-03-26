@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buildin_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/24 16:34:37 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/26 19:44:26 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ bool	is_buildin(char **command)
 		return true;
 	else if (ft_strcmp("unset", s) == 0)
 		return true;
+	else if (ft_strcmp("export", s) == 0)
+		return true;
 	return false;
 }
 
@@ -85,10 +87,12 @@ int	execute_buildin(t_parse **parse, t_env **envp, t_token **head, int pipecount
 	else if (ft_strcmp("env", s) == 0)
 		ft_env(envp);
 	else if (ft_strcmp("cd", s) == 0)//?NOT IN CHILD
-		ft_cd(envp, s);
+		ft_cd(envp, parse);
 	else if (ft_strcmp("exit", s) == 0)
 		ft_exit(parse);
 	else if (ft_strcmp("unset", s) == 0 && pipecount == 0)
 		ft_unset(head, parse, envp);
+	else if (ft_strcmp("export", s) == 0)
+		ft_export(envp, parse);
 	return (0);
 }

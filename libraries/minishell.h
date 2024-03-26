@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/24 16:35:15 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/26 19:10:54 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,12 @@
 // Terminal control library
 # include <termios.h>   //tcsetattr, tcgetattr
 # include <stdbool.h>
+
+typedef enum t_env_type
+{
+	ENVIRONMENT,
+	EXPORT,
+}	t_envs;
 
 typedef struct t_commands
 {
@@ -92,11 +98,11 @@ typedef struct minishell
 /*
 	*BUILDINS
 */
-int	ft_cd(t_env **lst, char *s);
+int	ft_cd(t_env **lst, t_parse **node);
 int	ft_env(t_env **envp);
 int	ft_unset(t_token **tokens, t_parse **parsing, t_env **environment);
 int	ft_pwd(void);
-int	ft_export(t_env **lst);
+int	ft_export(t_env **lst, t_parse **node);
 void	ft_exit(t_parse **node);
 int	ft_echo(t_token **head, t_parse **node);
 /*
