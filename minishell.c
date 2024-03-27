@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/26 12:29:50 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/27 18:47:12 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,31 +42,6 @@ char	*get_pwd(void)
 	return (path);
 }
 
-// int  create_if_no_envp(t_env **envp)
-// {
-// 	printf("HERE\n");
-// 	t_env *node = malloc(sizeof(t_env));
-// 	if (!node)
-// 		return (ERROR);
-// 	t_env *node2 = malloc(sizeof(t_env));
-// 	if (!node2)
-// 		return (free(node), ERROR);
-// 	t_env *node3 = malloc(sizeof(t_env));
-// 	if (!node3)
-// 		return (free(node), free(node2), ERROR);
-// 	node->name = ft_strdup("PWD");
-// 	node->values = get_pwd();
-// 	node2->name = ft_strdup("SHLVL");
-// 	node2->values = ft_itoa(1);
-// 	node3->name = ft_strdup("_");
-// 	node3->values = ft_strdup("/usr/bin/env");
-// 	node->next = node2;
-// 	node2->next = node3;
-// 	node3->next = NULL;
-// 	*envp = node;
-// 	return (SUCCESS);
-// }
-
 char	**create_if_no_envp(char **envp)
 {
 	envp = ft_calloc (4, sizeof(char **));
@@ -75,7 +50,6 @@ char	**create_if_no_envp(char **envp)
 	envp[2] = ft_strdup("_=/usr/bin/env");
 	return (envp);
 }
-
 
 int main(int ac, char **av, char **envp)
 {

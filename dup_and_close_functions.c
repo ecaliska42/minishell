@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 17:02:21 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/22 16:23:00 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/27 18:46:08 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,87 +117,6 @@ void	*dup_filedescriptor(t_parse *comm, t_exe *ex_utils, int i)
 	}
 	return ((void *)1);
 }
-
-// void	*dup_filedescriptors(t_parse *comm, t_exe *ex_utils, int i)
-// {//TODO PROTECTION
-// 	if (i == 0)
-// 	{
-// 		if (comm->infd > 0)
-// 		{
-// 			comm->infd = dup(STDIN_FILENO);
-// 			close(comm->infd);
-// 		}
-// 		if (comm->outfd > 0)
-// 		{
-// 			comm->outfd = dup(STDOUT_FILENO);
-// 			close(comm->outfd);
-// 		}
-// 		else
-// 		{
-// 			ex_utils->fd[i][1] = dup(STDOUT_FILENO);
-// 			close(ex_utils->fd[i][1]);
-// 		}			
-
-// 	}
-// 	else if (i < ex_utils->pipecount && i > 0)
-// 	{
-// 		if (comm->infd > 0)
-// 		{
-// 			comm->infd = dup(STDIN_FILENO);
-// 			close(comm->infd);
-// 			if (comm->outfd > 0)
-// 			{
-// 				comm->outfd = dup(STDOUT_FILENO);
-// 				close(comm->outfd);
-// 			}
-// 		}
-// 		else if (comm->outfd > 0)
-// 		{
-// 			ex_utils->fd[i][i - 1] = dup(STDIN_FILENO);
-// 			close(ex_utils->fd[i][i - 1]);
-// 			comm->outfd = dup(STDOUT_FILENO);
-// 			close(comm->outfd);
-// 		}
-// 		else
-// 		{
-// 			ex_utils->fd[i - 1][0] = dup(STDIN_FILENO);
-// 			close(ex_utils->fd[i - 1][0]);
-// 			ex_utils->fd[i][1] = dup(STDOUT_FILENO);
-// 			close(ex_utils->fd[i][1]);
-// 		}
-// 	}
-// 	else if(i == ex_utils->pipecount && i > 0)
-// 	{
-// 		if (comm->infd > 0)
-// 		{
-// 			comm->infd = dup(STDIN_FILENO);
-// 			close(comm->infd);
-// 			if (comm->outfd > 0)
-// 			{
-// 				comm->outfd = dup(STDOUT_FILENO);
-// 				close(comm->outfd);
-// 			}
-// 		}
-// 		else if (comm->outfd > 0)
-// 		{
-// 			ex_utils->fd[i - 1][0] = dup(STDIN_FILENO);
-// 			close(ex_utils->fd[i - 1][0]);
-// 			comm->outfd = dup(STDOUT_FILENO);
-// 			close(comm->outfd);
-// 		}
-// 		else
-// 		{
-// 			// ft_putendl_fd("HERE2", 2);
-// 			// ft_putnbr_fd(i, 2);
-// 			// write(2, "\n", 1);
-// 			dup2(ex_utils->fd[i - 1][0], STDIN_FILENO);
-// 			ex_utils->fd[i - 1][0] = dup(STDIN_FILENO);
-// 			close(ex_utils->fd[i - 1][0]);
-// 			//dup2(STDOUT_FILENO, STDOUT_FILENO);
-// 		}
-// 	}
-// 	return ((void *)1);
-// }
 
 
 void	*close_filedescriptor(t_parse *comm, t_exe *ex_utils)

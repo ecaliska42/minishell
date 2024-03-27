@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/26 19:44:26 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/27 18:51:47 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	execute_buildin(t_parse **parse, t_env **envp, t_token **head, int pipecount
 		ft_pwd();
 	else if (ft_strcmp("env", s) == 0)
 		ft_env(envp);
-	else if (ft_strcmp("cd", s) == 0)//?NOT IN CHILD
+	else if (ft_strcmp("cd", s) == 0 && pipecount == 0)//?NOT IN CHILD
 		ft_cd(envp, parse);
 	else if (ft_strcmp("exit", s) == 0)
 		ft_exit(parse);

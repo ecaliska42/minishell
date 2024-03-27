@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:20:20 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/24 14:55:28 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:24:25 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	check_newline(char *new_line)
 		return (0);
 	if (new_line[0] != '-')
 		return (0);
+	if (!new_line[i])
+		return (2);
 	while (new_line[i])
 	{
 		if (new_line[i] != 'n')
@@ -188,9 +190,10 @@ int	ft_echo(t_token **head, t_parse **node)
 	line = true;
 	if (!(*head))
 		return (write(1, "\n", 1));
-	while (check_newline((*node)->command[i]) == 1)
+	while (check_newline((*node)->command[i]) != 0)
 	{
-		line = false;
+		if (check_newline((*node)->command[i])==1)
+			line = false;
 		i++;
 	}
 	while ((*node)->command[i])
