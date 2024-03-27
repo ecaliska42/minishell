@@ -9,3 +9,7 @@
 9-) Norminette
 10-) Add, Commit, Push
 11-) Stuff which is not to handle ('\', '*', ...) - check for crash
+
+
+🨀 ShellMate 🨁 :~ echo -$a-
+two three-🨀 ShellMate 🨁                works as -n  $a="one two three"

@@ -6,10 +6,11 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/26 17:52:25 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/27 19:13:47 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "libraries/minishell.h"
 #include "libraries/parsing.h"
 
@@ -71,7 +72,9 @@ t_token *split_value(char *str, char *value, t_token *token, int flag)
 		return (NULL);
 	if ((flag != 1 && flag != 3) && i == 0) // if has NO space at start
 	{
+		printf("str: %s\n", str);
 		last->str = ft_strjoin(str, words[0]);
+		printf("last->str: %s\n", last->str);
 		i++;
 	}
 	if ((flag == 1 || flag == 3) && (ft_strlen(str) == 0) && i == 0) // str is empty so use new instead new token
@@ -83,10 +86,9 @@ t_token *split_value(char *str, char *value, t_token *token, int flag)
 	{
 		new = malloc(sizeof(t_token));
 		new->str = ft_strdup(words[i]);
-		new->next = NULL;
+		new->next = token->next;
 		new->type = token->type;
 		last->next = new;
-		last = new;
 		i++;
 	}
 	i = 0;
@@ -96,8 +98,41 @@ t_token *split_value(char *str, char *value, t_token *token, int flag)
 		i++;
 	}
 	free(words);
+	while (last->next)
+		last = last->next;
 	return (last);
 }
+
+// void split_value(char *str, t_token *token)//, int flag)
+// {
+// 	char **words;
+// 	t_token *last;
+// 	t_token *new;
+// 	int i;
+	
+// 	i = 0;
+// 	last = token;
+// 	words = ft_split(str, ' ');
+// 	if (words == NULL)
+// 		return ;
+// 	while (words[i] != NULL)
+// 	{
+// 		new = malloc(sizeof(t_token));
+// 		new->str = ft_strdup(words[i]);
+// 		new->next = NULL;
+// 		new->type = token->type;
+// 		last->next = new;
+// 		last = new;
+// 		i++;
+// 	}
+// 	i = 0;
+// 	while (words[i] != NULL)
+// 	{
+// 		free(words[i]);
+// 		i++;
+// 	}
+// 	free(words);
+// }
 
 char *process_single_quotes(char *new, char *str, int *i)
 {
@@ -223,31 +258,27 @@ char *expand_heredoc(char *new, char *str, int *i, t_env *envp)
 
 t_token *expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 {
-	char 	*joker;
-	char 	*new;
+	char	*joker;
+	char	*new;
 	char	*value;
-	int		len;
-	int 	i;
+	char	*tmp_i;
 	char	*tmp;
-	char *tmp_token;
-	t_token *last_token;
+	int		len;
+	int		i;
+	t_token	*last_token;
 
-	last_token = NULL;
-	flag = 0;
-	tmp = NULL;
-	tmp_token = NULL;
-	len = 0;
-	value = NULL;
-	i = 0;
-	quotes = CLOSED;
-	joker = token->str;
-	new = ft_strdup("");
+	len			=	0;
+	i			=	0;
+	flag		=	0;
+	last_token	=	NULL;
+	tmp			=	NULL;
+	tmp_i		=	NULL;
+	value		=	NULL;
+	quotes		=	CLOSED;
+	joker		=	token->str;
+	new			=	ft_strdup("");
 	while (joker[i])
 	{
-		// if (tmp_token != NULL)
-		// {
-		// 	joker = tmp_token;
-		// }
 		quote_check(joker[i], &quotes);
 		if (joker[i] == S_QUOTE)
 		{
@@ -298,45 +329,25 @@ t_token *expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 							{
 								token->ambiguous = true;
 							}
-							tmp_token = &joker[i];
-							// token = split_value(new, value, token, flag);
+							tmp_i = &joker[i];
 							last_token = split_value(new, value, token, flag);
-							// printf("last_token: %s\n", last_token->str);
-							// printf("token: %s\n", token->str);
-
-							// free(new);
-							// new = ft_strdup("");
-							if (*tmp_token && flag != 2 && flag != 3) // if has NO space at end
+							if (*tmp_i && flag != 2 && flag != 3) // if has NO space at end
 							{
-								while (*tmp_token && *tmp_token != '$' && *tmp_token != '\"' && *tmp_token != '\'')
+								while (*tmp_i && *tmp_i != '$' && *tmp_i != '\"' && *tmp_i != '\'')
 								{
-									last_token->str = add_char(last_token->str, *tmp_token);
+									last_token->str = add_char(last_token->str, *tmp_i);
 									i++;
-									tmp_token++;
+									tmp_i++;
 								}
-								if (ft_is_dollar(*tmp_token) || *tmp_token == '\"' || *tmp_token == '\'')
+								if (ft_is_dollar(*tmp_i) || *tmp_i == '\"' || *tmp_i == '\'')
 								{
-									printf("tmp_token: %s\n", tmp_token);
-									printf("last_token: %s\n", last_token->str);
-									printf("token: %s\n", token->str);
-									// new = last_token->str;
-									break ;
+									token = token->next;
+									last_token = token;
+									// new = ft_strdup("");
+									continue ;
 								}
-							}
-							// else 
 								return (last_token);
-							// if (*tmp_token && flag != 2 && flag != 3) // if has NO space at end
-							// {
-							// 	while (*tmp_token && *tmp_token != '$' && *tmp_token != '\"' && *tmp_token != '\'')
-							// 	{
-							// 		token->str = add_char(token->str, *tmp_token);
-							// 		tmp_token++;
-							// 	}
-							// 	if (ft_is_dollar(*tmp_token) || *tmp_token == '\"' || *tmp_token == '\'')
-							// 		continue ;
-							// }
-							// // else
-							// 	return (token);
+							}
 						}
 					}
 				}
@@ -348,11 +359,119 @@ t_token *expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 			}
 		}
 	}
-	printf("token ambig: %d\n", token->ambiguous);
-	// free(token->str);
-	token->str = new;
+	
+	// token->str = new;
 	return (token);
 }
+
+// t_token *expand_variable(t_token *token, t_env *envp, char quotes, int flag)
+// {
+// 	char	*joker;
+// 	char	*new;
+// 	char	*value;
+// 	char	*tmp;
+// 	int		len;
+// 	int		i;
+// 	t_token	*last_token;
+
+// 	len			=	0;
+// 	i			=	0;
+// 	flag		=	0;
+// 	last_token	=	NULL;
+// 	tmp			=	NULL;
+// 	value		=	NULL;
+// 	quotes		=	CLOSED;
+// 	joker		=	token->str;
+// 	new			=	ft_strdup("");
+// 	while (joker[i])
+// 	{
+// 		quote_check(joker[i], &quotes);
+// 		if (joker[i] == S_QUOTE)
+// 		{
+// 			new = process_single_quotes(new, joker, &i);
+// 			quotes = CLOSED;
+// 		}
+// 		else if (quotes == D_QUOTE)
+// 		{
+// 			new = process_double_quotes(new, joker, &i, envp);
+// 			quotes = CLOSED;
+// 		}
+// 		else if (quotes == CLOSED)
+// 		{
+// 			while (joker[i] && joker[i] != '\"' && joker[i] != '\'')
+// 			{
+// 				while (joker[i] && joker[i] != '$' && joker[i] != '\"' && joker[i] != '\'')
+// 						new = add_char(new, joker[i++]);
+// 				if (ft_is_dollar(joker[i]) && (joker[i + 1] && joker[i + 1] != '$'))
+// 				{
+// 					i++;
+// 					len = check_name_and_return_len(&joker[i]);
+// 					tmp = ft_substr(joker, i, len);
+// 					if (!tmp)
+// 						return (NULL);
+// 					i += len;
+// 					if ((value = get_env_value(tmp, envp)) != NULL)
+// 					{
+// 							new = ft_strjoin(new, value);
+// 							if (token->type != HEREDOC && token->type != RANDOM)
+// 								token->ambiguous = true;
+// 					}
+// 				}
+// 			}
+			
+// 		}
+// 	}
+// 	insert_token(new, token, token->next);
+// 	return (token);
+// }
+
+// void insert_token(char *str, t_token *token, t_token *new)
+// {
+// 	// t_token *tmp;
+// 	char **words;
+// 	int i;
+
+// 	i = 0;	
+// 	words =	ft_split(str, ' ');
+// 	if (words == NULL)
+// 		return ;
+// 	token->str = ft_strdup(words[i]);
+// 	i++;
+// 	while (words[i] != NULL && token->next != NULL)
+// 	{
+// 		new = malloc(sizeof(t_token));
+// 		new->type = token->type;
+// 		new->str = ft_strdup(words[i]);
+// 		token->next = new;
+// 		new->next = token->next;
+// 		i++;
+		
+// 	}
+// }
+
+// void split_not_quoted(char *str, t_token *token)
+// {
+// 	t_token *last;
+// 	t_token *new;
+// 	int i;
+
+// 	i = 0;
+// 	last = token;
+// 	while (str[i])
+// 	{
+// 		new = malloc(sizeof(t_token));
+// 		new->str = ft_strdup("");
+// 		new->next = NULL;
+// 		new->type = token->type;
+// 		while (str[i] && str[i] != '$' && str[i] != '\"' && str[i] != '\'')
+// 		{
+// 			new->str = add_char(new->str, str[i]);
+// 			i++;
+// 		}
+// 		last->next = new;
+// 		last = new;
+// 	}
+// }
 
 void	expansion(t_token *token, t_env *envp, char quotes)
 {
@@ -406,6 +525,7 @@ char *skip_starting_ending_spaces(char *value)
 		k++;
 	}
 	new[k] = '\0';
-	free(value);
+	// free(value);
+	// value = NULL;
 	return (new);
 }
