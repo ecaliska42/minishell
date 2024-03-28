@@ -6,11 +6,10 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 17:25:26 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/26 13:04:33 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/28 22:18:18 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "libraries/minishell.h"
 
 int	free_environment(t_env **lst)
@@ -112,4 +111,18 @@ int	copy_environment(char **envp, t_env **lst)
 		i++;
 	}
 	return (SUCCESS);
+}
+
+t_env	*get_from_env(t_env **lst, char *s)
+{
+	t_env	*tmp;
+
+	tmp = *lst;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->name, s) == 0)
+			return (tmp);
+		tmp = tmp->next;
+	}
+	return (NULL);
 }

@@ -6,14 +6,12 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/27 18:47:12 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/28 20:35:06 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
 #include "./libraries/parsing.h"
-#include "libft/libft.h"
-#include <stdio.h>
 
 void print_env(t_env **envp)
 {

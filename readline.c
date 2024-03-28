@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/26 18:39:58 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/28 20:28:39 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 {
+	bool	tester = false;
 	t_exe	execution_utils;
 	if (shell == NULL) // temp
 	{
@@ -24,8 +25,20 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 	while (1)
 	{
 		// shell->input = readline(NULL);
-		if (isatty(fileno(stdin)))
+		if (tester == true)
+		{
+			if (isatty(fileno(stdin)))
+				shell->input = readline(PROMPT);
+		}
+		else
+		{
 			shell->input = readline(PROMPT);
+			if (!shell->input)
+			{
+				free_environment(&envp);
+				exit (0);
+			}
+		}
 		if (!shell->input)
 			exit (0);//TODO EXITCODE
 		if (ft_strlen(shell->input) == 0)

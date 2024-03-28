@@ -6,13 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 17:02:21 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/27 18:46:08 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/28 17:35:09 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
-#include "libft/libft.h"
-#include <unistd.h>
 
 //TODO add closing functions after each dup2
 

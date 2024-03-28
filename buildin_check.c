@@ -6,14 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/27 18:51:47 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/28 17:35:31 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
-#include "libft/libft.h"
-#include "libraries/parsing.h"
-#include <ncurses.h>
 
 int	lonely_buildin(t_parse *parse, t_env **envp, t_token **token)
 {

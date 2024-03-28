@@ -6,14 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:20:20 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/27 14:24:25 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/28 17:34:51 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
-#include <stdbool.h>
-#include <stdio.h>
-#include <unistd.h>
 
 int	check_newline(char *new_line)
 {
