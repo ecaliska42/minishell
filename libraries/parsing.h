@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/27 18:50:35 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/28 16:34:41 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int		check_name_and_return_len(char *name);
 int		ft_strcmp(const char *s1, const char *s2);
 t_token	*split_value(char *str, char *value, t_token *token, int flag);
 // void	split_value(char *str, t_token *token);
-void 	insert_token(char *str, t_token *token, t_token *n_token);
+void 	insert_token(char **str, t_token *token, t_token *n_token);
 
 
 
