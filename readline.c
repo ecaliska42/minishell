@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/28 20:28:39 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/29 15:25:55 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 {
 	bool	tester = false;
+	char	*temp;
 	t_exe	execution_utils;
 	if (shell == NULL) // temp
 	{
@@ -32,15 +33,17 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 		}
 		else
 		{
-			shell->input = readline(PROMPT);
-			if (!shell->input)
+			temp = readline(PROMPT);
+			if (!temp)
 			{
 				free_environment(&envp);
+				clear_history();
 				exit (0);
 			}
+			shell->input = ft_strdup(temp);
+			if (!shell->input)
+				exit (0);
 		}
-		if (!shell->input)
-			exit (0);//TODO EXITCODE
 		if (ft_strlen(shell->input) == 0)
 			continue ;
 		lexical_analyzer(shell);

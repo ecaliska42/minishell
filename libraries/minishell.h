@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/28 22:18:36 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/29 19:21:09 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,11 @@ typedef struct minishell
 */
 int	ft_cd(t_env **lst, t_parse **node);
 int	ft_env(t_env **envp);
-int	ft_unset(t_token **tokens, t_parse **parsing, t_env **environment);
+int	ft_unset(t_parse **parsing, t_env **environment);
 int	ft_pwd(void);
 int	ft_export(t_env **lst, t_parse **node);
 void	ft_exit(t_parse **node);
-int	ft_echo(t_token **head, t_parse **node);
+int	ft_echo(t_parse **node);
 /*
 	*PARSE_TEMPORARY
 */
@@ -129,7 +129,7 @@ void	printf_tripple(char ***str);
 */
 bool	is_buildin(char **command);
 //int		execute_buildin(char **s, t_env **envp, t_token **head);
-int	execute_buildin(t_parse **parse, t_env **envp, t_token **head, int pipecount);
+int	execute_buildin(t_parse **parse, t_env **env, t_token **head, int pc);
 int		parrent_buildin(char *s, t_env **envp);
 bool	is_parrent_buildin(char **s);
 

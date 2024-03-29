@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:12 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/28 22:34:44 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/29 17:46:05 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,29 @@ static char	*remove_after_schraegstrich(char *s)
 }
 
 //set current directory to the value of OLDPWD
-static int	dot_dot(char *current, char **old, char **pwd)
+static int	dot_dot(t_env **old, t_env **current)
 {
-	char	*go_back;
-	char	*new_pwd;
+	//char	*new_pwd;
+	// char	*tmp;
 
-	*old = ft_strdup(current);
-	new_pwd = malloc(FILENAME_MAX);
-	go_back = remove_after_schraegstrich(current);
-	chdir(go_back);
-	getcwd(new_pwd, FILENAME_MAX);
-	*pwd = new_pwd;
+	//tmp = remove_after_schraegstrich((*current)->values);
+	free((*old)->values);
+	(*old)->values = ft_strdup((*current)->values);
+	(*current)->values = remove_after_schraegstrich((*current)->values);
+	if (chdir((*current)->values) == -1)
+	{
+		perror("CD..: CHDIR");
+		return (ERROR);
+	}
+	//new_pwd = malloc(FILENAME_MAX);
+	free((*current)->values);
+	(*current)->values = malloc(FILENAME_MAX);
+	if (getcwd((*current)->values, FILENAME_MAX) == NULL)
+	{
+		perror("CD..: GETCWD");
+		return (ERROR);
+	}
+	//(*current)->values=ft_strdup(new_pwd);
 	return (SUCCESS);
 }
 
@@ -79,8 +91,8 @@ static int	only_cd(t_env *home, t_env **current, t_env **old)
 */
 
 /*
-	TODO CD				returns you to your login directory
-	TODO CD ~				also returns you to your login directory
+	?CD					returns you to your login directory
+	?CD ~				also returns you to your login directory
 	?CD -				takes you back to the oldpwd
 	?CD /				takes you to the entire system's root directory
 	?CD /root			takes you to the home directory of the root, or superuser, account created at installation 
@@ -90,20 +102,6 @@ static int	only_cd(t_env *home, t_env **current, t_env **old)
 	?CD /dir1/subdirfoo	regardless of which directory you are in, this absolute path would take you straight to subdirfoo, a subdirectory of dir1
 	?CD ../../dir3/X11	this relative path would take you up two directories to root, then to dir3, then to the X11 directory.
 */
-
-static int	get_mallocs(char **new)
-{
-	*new = malloc(FILENAME_MAX);
-	if (!new)
-		return (ERROR);
-	if (getcwd(*new, FILENAME_MAX) == NULL)
-	{
-		perror("ft_cd getcwd");
-		free (new);
-		return (ERROR);
-	}
-	return (SUCCESS);
-}
 
 static int	go_back(t_env **old, t_env **current)
 {
@@ -115,8 +113,16 @@ static int	go_back(t_env **old, t_env **current)
 		return (ERROR);
 	}
 	now = malloc(FILENAME_MAX);
-	getcwd(now, FILENAME_MAX);
-	chdir((*old)->values);
+	if (getcwd(now, FILENAME_MAX) == NULL)
+	{
+		perror("CD -: GETCWD");
+		return (ERROR);
+	}
+	if (chdir((*old)->values) == -1)
+	{
+		perror("CD -: CHDIR");
+		return (ERROR);
+	}
 	free((*old)->values);
 	if (!(*current))
 		(*old)->values = ft_strdup(now);
@@ -142,7 +148,6 @@ int	ft_cd(t_env **lst, t_parse **node)
 {
 	t_parse	*parse;
 	t_env	*old;
-	char	*new;
 	t_env	*home;
 	t_env	*current;
 
@@ -150,12 +155,10 @@ int	ft_cd(t_env **lst, t_parse **node)
 	if (array_size(parse->command) > 2)
 		return (write(2, "ShellMate: cd: too many arguments\n", 35));
 	initialize_env_values(&home, &old, &current, lst);
-	if (array_size(parse->command) == 1)
+	if (array_size(parse->command) == 1 || ft_strcmp(parse->command[1], "~") == 0)
 		return (only_cd(home, &current, &old));
-	if (get_mallocs(&new) == ERROR)
-		return (ERROR);
 	if (ft_strcmp(parse->command[1], "..") == 0)
-		return (dot_dot(new, &old->values, &current->values));
+		return (dot_dot(&old, &current));
 	else if (ft_strcmp(parse->command[1], ".") == 0)
 		return (dot(&old));
 	else if (ft_strcmp(parse->command[1], "-") == 0)

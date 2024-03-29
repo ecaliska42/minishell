@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:06 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/28 18:18:33 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/29 19:23:35 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,11 @@ static void	delete_node(t_env **envp, char *name)
 	}
 }
 
-int	ft_unset(t_token **tokens, t_parse **parsing, t_env **environment)
+int	ft_unset(t_parse **parsing, t_env **environment)
 {
-	(void) tokens;
 	t_parse	*parse;
 	int		i;
 
-	if (!parsing)
-		return (ERROR);
 	parse = *parsing;
 	i = 1;
 	while (parse->command[i])
@@ -72,6 +69,5 @@ int	ft_unset(t_token **tokens, t_parse **parsing, t_env **environment)
 			delete_node(environment, parse->command[i]);
 		i++;
 	}
-	//ft_putendl_fd("IN UNSET", 2);
 	return (SUCCESS);
 }

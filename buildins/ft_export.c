@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:07 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/28 17:34:58 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/29 23:59:15 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 static void	print_list(t_env **list)
 {
-	t_env *tmp;
+	t_env	*tmp;
 	
 	tmp = *list;
 	while (tmp)
 	{
+		// tmp = *list;
 		if (ft_strcmp(tmp->name, "_") == 0)
 			tmp=tmp->next;
 		else
@@ -59,10 +60,59 @@ static void	sort_list(t_env **head)
 	}
 }
 
+void	tenv_add_back(t_env ***lst, t_env *new_l)
+{
+	t_env	*temp;
+
+	if (**lst == NULL)
+		**lst = new_l;
+	else
+	{
+		temp = **lst;
+		while (temp->next != NULL)
+		{
+			temp = temp->next;
+		}
+		temp->next = new_l;
+	}
+}
+
+static int copied_struct(t_env **src, t_env **copy)
+{	
+	t_env *tmp;
+
+	tmp = *src;
+	while (tmp)
+	{
+		t_env *node = malloc(sizeof(t_env));
+		if (!node)
+			return (ERROR);
+		node->name = ft_strdup(tmp->name);
+		if (!node->name)
+		{
+			free(node);
+			return (ERROR);
+		}
+		node->values = ft_strdup(tmp->values);
+		if (!node->values)
+		{
+			free(node->name);
+			free(node);
+			return (ERROR);
+		}
+		node->next = NULL;
+		tenv_add_back(&copy, node);
+		tmp = tmp->next;
+	}
+	return (SUCCESS);
+}
+
 static int print_export(t_env *head)
 {
-	sort_list(&head);
-	print_list(&head);
+	t_env *copy = NULL;
+	copied_struct(&head, &copy);
+	sort_list(&copy);
+	print_list(&copy);
 	return (SUCCESS);
 }
 
@@ -102,7 +152,6 @@ static int get_before_after(char **before, char **after, char *s)
 
 int	ft_export(t_env **lst, t_parse **node)
 {
-	//ft_putendl_fd("IN EXPORT", 2);
 	t_env	*envp;
 	t_parse	*command;
 	char	*before;
@@ -138,3 +187,5 @@ int	ft_export(t_env **lst, t_parse **node)
 	}
 	return 0;
 }
+
+//TODO only characters are allowed!
