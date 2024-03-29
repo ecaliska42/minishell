@@ -6,13 +6,54 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/28 20:43:11 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/29 23:19:54 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "libraries/minishell.h"
 #include "libraries/parsing.h"
+
+
+// void	last_exit_status(char *str)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == '$' && str[i + 1] == '?')
+// 		{
+// 			str[i] = last_exit_code;
+// 		}
+// 		i += 2;
+// 	}
+// }
+
+char	*dollar_number(char *str, int *index, char *quotes)
+{
+	char *copy;
+	int i;
+
+	i = 0;
+	copy = ft_strdup("");
+	if (!copy)
+		return (NULL);
+	while (str[*index] && (str[*index] != '$' && !ft_is_space(str[*index])))
+	{
+		while (quote_check(str[*index], quotes) != CLOSED)
+		{
+			(*index)++;
+			if (quote_check(str[*index], quotes) != CLOSED)
+				copy[i++] = str[(*index)];
+			else
+				(*index)++;
+		}
+		copy[i++] = str[(*index)++];
+	}
+	copy[i] = '\0';
+	return (copy);	
+}
 
 int	check_name_and_return_len(char *name)
 {
@@ -69,29 +110,16 @@ t_token	*split_value(char *str, char *value, t_token *token, int flag)
 	words = ft_split(value, ' ');
 	if (words == NULL)
 		return (NULL);
-	if ((flag != 1 && flag != 3) && i == 0) // if has NO space at start
-	{
-		// printf("str: %s\n", str);
-		last->str = ft_strjoin(str, words[0]);
-		// printf("last->str: %s\n", last->str);
-		i++;
-	}
-	if ((flag == 1 || flag == 3) && (ft_strlen(str) == 0) && i == 0)
-	// str is empty so use new instead new token
+	if ((flag != 1 && flag != 3) && i == 0) // no space at start	 
 	{
 		last->str = ft_strjoin(str, words[0]);
 		i++;
 	}
-	// if ((flag == 1 || flag == 3) && i == 0)
-	// {
-	// 	new = malloc(sizeof(t_token));
-	// 	new->str = ft_strdup(words[i]);
-	// 	new->next = token->next;
-	// 	new->type = token->type;
-	// 	last->next = new;
-	// 	last = new;
-	// 	i++;
-	// }
+	if ((flag == 1 || flag == 3) && (ft_strlen(str) == 0) && i == 0)  // if token is empty use the existing token 
+	{
+		last->str = ft_strjoin(str, words[0]);
+		i++;
+	}
 	while (words[i] != NULL)
 	{
 		new = malloc(sizeof(t_token));
@@ -111,37 +139,6 @@ t_token	*split_value(char *str, char *value, t_token *token, int flag)
 	free(words);
 	return (last);
 }
-
-// void split_value(char *str, t_token *token)//, int flag)
-// {
-// 	char **words;
-// 	t_token *last;
-// 	t_token *new;
-// 	int i;
-
-// 	i = 0;
-// 	last = token;
-// 	words = ft_split(str, ' ');
-// 	if (words == NULL)
-// 		return ;
-// 	while (words[i] != NULL)
-// 	{
-// 		new = malloc(sizeof(t_token));
-// 		new->str = ft_strdup(words[i]);
-// 		new->next = NULL;
-// 		new->type = token->type;
-// 		last->next = new;
-// 		last = new;
-// 		i++;
-// 	}
-// 	i = 0;
-// 	while (words[i] != NULL)
-// 	{
-// 		free(words[i]);
-// 		i++;
-// 	}
-// 	free(words);
-// }
 
 char	*process_single_quotes(char *new, char *str, int *i)
 {
@@ -241,11 +238,13 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 	int		len;
 	int		i;
 	t_token	*last_token;
+	t_token *space_token;
 
 	len = 0;
 	i = 0;
 	flag = 0;
 	last_token = NULL;
+	space_token = NULL;
 	tmp = NULL;
 	tmp_i = NULL;
 	value = NULL;
@@ -254,6 +253,16 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 	new = ft_strdup("");
 	while (joker[i])
 	{
+		if (joker[i] == '$' && joker[i + 1] == '?')
+		{
+			new = ft_strjoin(new, ft_itoa(envp->exit_status));
+			i += 2;
+		}
+		if (joker[i] == '$' && ft_isdigit(joker[i + 1]))
+		{
+			i += 2;
+			new = ft_strjoin(new, dollar_number(joker, &i, &quotes));
+		}
 		quote_check(joker[i], &quotes);
 		if (joker[i] == S_QUOTE)
 		{
@@ -290,7 +299,15 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 								flag = 3; // space at start and end
 						}
 						else if (value[ft_strlen(value) - 1] == ' ')
-							flag = 2;                      // space at end
+							flag = 2;       // space at end
+						if (flag == 3 || flag == 2)
+						{
+							tmp_i = &joker[i];
+							space_token = split_value(new, value, token, flag);
+														
+							token = space_token;
+							continue ;
+						}
 						if (ft_strchr(value, ' ') == NULL) // single word value
 						{
 							new = ft_strjoin(new, value);
@@ -302,14 +319,8 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 								token->ambiguous = true;
 							tmp_i = &joker[i];
 							last_token = split_value(new, value, token, flag);
-							// if (flag == 2 || flag == 3)
-							// {
-							// }
 							if (*tmp_i)
 							{
-								// if (*tmp_i && flag != 2 && flag != 3)
-								// // if has NO space at end
-								// {
 									while (*tmp_i && *tmp_i != '$' && *tmp_i != '\"' && *tmp_i != '\'')
 									{
 										last_token->str = add_char(last_token->str, *tmp_i);
@@ -324,10 +335,8 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 									}
 									else
 									{
-										printf("else str: %s\n", token->str);
 										return (last_token);
 									}
-								// }
 								if (ft_is_dollar(*tmp_i) || *tmp_i == '\"' || *tmp_i == '\'')
 								{
 									token = last_token;
@@ -335,7 +344,7 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 								}
 							}
 							token = last_token;
-							return (token);
+							return (last_token);
 						}
 					}
 				}

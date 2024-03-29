@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/24 16:35:15 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/29 22:57:13 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct t_env
 {
 	char	*name;
 	char	*values;
+	int		exit_status;
 	struct t_env	*next;
 }	t_env;
 
