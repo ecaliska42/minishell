@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/29 19:21:09 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/30 20:25:28 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,6 @@
 # include <termios.h>   //tcsetattr, tcgetattr
 # include <stdbool.h>
 
-typedef enum t_env_type
-{
-	ENVIRONMENT,
-	EXPORT,
-}	t_envs;
-
-typedef struct t_commands
-{
-	char	**command;
-	struct t_commands	*next;
-} t_command;
-
 typedef struct t_env
 {
 	char	*name;
@@ -92,7 +80,6 @@ typedef struct minishell
 	t_exe	*exe;
 	t_parse	*parse;
 	t_env	*env;
-	t_command	*command;
 }	t_mini;
 
 /*
@@ -105,9 +92,6 @@ int	ft_pwd(void);
 int	ft_export(t_env **lst, t_parse **node);
 void	ft_exit(t_parse **node);
 int	ft_echo(t_parse **node);
-/*
-	*PARSE_TEMPORARY
-*/
 
 /*
 	*EXECUTION
@@ -166,6 +150,8 @@ char *expand_heredoc(char *new_str, char *str, int *i, t_env *envp);
 
 void	*dup_filedescriptors(t_parse *comm, t_exe *ex_utils, int i);
 int	lonely_buildin(t_parse *parse, t_env **envp, t_token **token);
+bool	is_only_numbers(char *s);
+bool	is_alpha_numbers(char *s);
 
 /*
 	*EXECUTION_UTILS

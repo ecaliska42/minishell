@@ -6,27 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:08 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/29 19:09:48 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/30 17:59:28 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
-
-static bool	is_only_numbers(char *s)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-		return (true);
-	while (s[i])
-	{
-		if (s[i] != '-' && s[i] != '+' && ft_isdigit(s[i]) == 0)
-			return (false);
-		i++;
-	}
-	return (true);
-}
 
 void	ft_exit(t_parse **node)
 {
@@ -47,7 +31,7 @@ void	ft_exit(t_parse **node)
 		write(2, "exit: ", 7);
 		write(2, parse->command[1], ft_strlen(parse->command[1]));
 		write(2, ": numeric arguments required\n", 29);
-		exit (2);
+		exit (0);
 	}
 	exit_code = ft_atoi(parse->command[1]);//TODO OVERFLOW MAYBE WITH ATOL
 	exit_code = exit_code % 256;

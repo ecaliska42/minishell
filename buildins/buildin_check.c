@@ -6,11 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/29 19:20:52 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/30 20:13:46 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./libraries/minishell.h"
+#include "../libraries/minishell.h"
 
 int	open_lonely_files(t_parse **parse)
 {

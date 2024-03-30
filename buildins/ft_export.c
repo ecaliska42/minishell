@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:07 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/29 23:59:15 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/30 20:27:23 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,29 @@ static int copied_struct(t_env **src, t_env **copy)
 	return (SUCCESS);
 }
 
+static void free_list(t_env **head)
+{
+	t_env *tmp;
+	t_env *next;
+
+	tmp = *head;
+	while (tmp)
+	{
+		next = tmp->next;
+		free(tmp->name);
+		free(tmp->values);
+		free(tmp);
+		tmp = next;
+	}
+}
+
 static int print_export(t_env *head)
 {
 	t_env *copy = NULL;
 	copied_struct(&head, &copy);
 	sort_list(&copy);
 	print_list(&copy);
+	free_list(&copy);
 	return (SUCCESS);
 }
 
@@ -171,7 +188,7 @@ int	ft_export(t_env **lst, t_parse **node)
 			return (write(2, "export : '=': not a valid identifier\n", 38));
 		if (ft_strchr(command->command[i], '=') != NULL)
 		{
-			if (ft_strlen(before) == 0)
+			if (ft_strlen(before) == 0 || is_alpha_numbers(before) == false)
 			{
 				write(2, "export: ", 9);
 				write(2, command->command[i], ft_strlen(command->command[i]));

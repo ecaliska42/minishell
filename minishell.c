@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/28 20:35:06 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/30 18:37:25 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,21 @@ void print_env(t_env **envp)
 	}
 }
 
-char	*get_pwd(void)
-{
-	char *path;
+// char	*get_pwd(void)
+// {
+// 	char *path;
 
-	path = malloc(FILENAME_MAX);
-	if (!path)
-		return (NULL);
-	if (getcwd(path, FILENAME_MAX) == NULL)
-	{
-		perror("getcwd() error: ");
-		free(path);
-		return (NULL);
-	}
-	return (path);
-}
+// 	path = malloc(FILENAME_MAX);
+// 	if (!path)
+// 		return (NULL);
+// 	if (getcwd(path, FILENAME_MAX) == NULL)
+// 	{
+// 		perror("getcwd() error: ");
+// 		free(path);
+// 		return (NULL);
+// 	}
+// 	return (path);
+// }
 
 char	**create_if_no_envp(char **envp)
 {
@@ -66,12 +66,6 @@ int main(int ac, char **av, char **envp)
 	ft_bzero(&shell, sizeof(t_shell));
 	//printf("Welcome to minishell!\n");
 	ft_readline(&shell, commands, environment);
-	// while ((line = readline("shell > ")))
-	// {
-	// 	add_history(line);
-	// 	parse_functions(line, environment, commands, &environment);
-	// 	continue;
-	// }
 	// if(!line)
 	// 	return (write(2, "ERROR ON READLINE\n", 19));
 	// free(line);
