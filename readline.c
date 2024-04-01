@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/29 15:25:55 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/01 17:18:07 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 			if (!temp)
 			{
 				free_environment(&envp);
-				clear_history();
+				//clear_history();
 				exit (0);
 			}
 			shell->input = ft_strdup(temp);

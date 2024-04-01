@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/25 19:53:09 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/01 16:34:01 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,11 @@ t_token *split_value(char *str, char *value, t_token *token, int flag)
 	while (words[i] != NULL)
 	{
 		free(words[i]);
+		words[i] = NULL;
 		i++;
 	}
 	free(words);
+	words = NULL;
 	return (last);
 }
 
@@ -306,6 +308,7 @@ t_token *expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 		}
 	}
 	free(token->str);
+	token->str = NULL;
 	token->str = new;
 	return (token);
 }
@@ -363,5 +366,6 @@ char *skip_starting_ending_spaces(char *value)
 	}
 	new[k] = '\0';
 	free(value);
+	value = NULL;
 	return (new);
 }

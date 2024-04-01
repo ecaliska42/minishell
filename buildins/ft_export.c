@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:07 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/30 20:27:23 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/01 16:36:19 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,16 @@ static int copied_struct(t_env **src, t_env **copy)
 		if (!node->name)
 		{
 			free(node);
+			node=NULL;
 			return (ERROR);
 		}
 		node->values = ft_strdup(tmp->values);
 		if (!node->values)
 		{
 			free(node->name);
+			node->name = NULL;
 			free(node);
+			node = NULL;
 			return (ERROR);
 		}
 		node->next = NULL;
@@ -117,8 +120,11 @@ static void free_list(t_env **head)
 	{
 		next = tmp->next;
 		free(tmp->name);
+		tmp->name = NULL;
 		free(tmp->values);
+		tmp->values = NULL;
 		free(tmp);
+		tmp = NULL;
 		tmp = next;
 	}
 }
@@ -163,7 +169,7 @@ static int get_before_after(char **before, char **after, char *s)
 		return (ERROR);
 	*after = get_after(s, '=');
 	if (!after)
-		return (free(before), ERROR);
+		return (free(before), before=NULL, ERROR);
 	return (SUCCESS);
 }
 

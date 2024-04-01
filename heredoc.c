@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/30 20:20:53 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/01 16:34:12 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,13 @@ void	heredoc(t_parse *node, char *end)
 		if (ft_strncmp(line, end, ft_strlen(end)) == 0)
 		{
 			free(line);
+			line = NULL;
 			break ;
 		}
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
+		line = NULL;
 	}
 	close(fd);
 	node->infd = open(name, O_RDONLY);

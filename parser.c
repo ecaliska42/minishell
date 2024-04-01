@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/30 20:29:59 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/01 18:54:23 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char	*get_access(char *str, t_env **envi)
 		if (access(temp, X_OK | F_OK) == 0)
 			return (temp);
 		free(temp);
+		temp = NULL;
 		i++;
 	}
 	return (str);
@@ -129,10 +130,12 @@ char	**create_command(char *str, char **cmd)
 	while (size)
 	{
 		free(cmd[size]);
+		cmd[size] = NULL;
 		size--;
 	}
 	ret[i] = ft_strdup(str);
 	free(str);
+	str = NULL;
 	return (ret);
 }
 
@@ -159,13 +162,10 @@ void free_parsing_node(t_parse **head)
 				if (tmp->command[i])
 				{
 					free(tmp->command[i]);
-					//tmp->command[i] = NULL;
+					tmp->command[i] = NULL;
 				}
 				i++;
 			}
-		}
-		if (tmp->command)
-		{
 			free(tmp->command);
 			tmp->command = NULL;
 		}
@@ -225,7 +225,7 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 			//heredoc(node, tmp->str);
 		}
 		else if (tmp -> type == RANDOM)
-			node -> command = create_command(tmp->str, node->command); //TODO PREPARE IT FOR THE EXECVE
+			node->command = create_command(tmp->str, node->command);
 		else if (tmp -> type == PIPE)
 		{
 			count->pipecount++;

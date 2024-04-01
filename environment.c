@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 17:25:26 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/28 22:18:18 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/01 16:33:14 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,20 @@ int	free_environment(t_env **lst)
 	{
 		*lst = (*lst)->next;
 		if (tmp->name)
+		{
 			free(tmp->name);
+			tmp->name = NULL;
+		}
 		if (tmp->values)
+		{
 			free(tmp->values);
+			tmp->values = NULL;
+		}
 		if (tmp)
+		{
 			free(tmp);
+			tmp = NULL;
+		}
 		tmp = *lst;
 	}
 	return (ERROR);
@@ -54,8 +63,9 @@ int	increase_shell_level(char *envp, t_env **node)
 		nbr = 0;
 	(*node)->values = ft_itoa(nbr);
 	if (!(*node)->values)
-		return (free(temp), ERROR);
+		return (free(temp), temp=NULL, ERROR);
 	free(temp);
+	temp = NULL;
 	return (SUCCESS);
 }
 
@@ -66,7 +76,9 @@ int	get_value(t_env **node, char *envp, t_env **lst)
 		if (increase_shell_level(envp, node) == ERROR)
 		{
 			free((*node)->name);
+			(*node)->name = NULL;
 			free(*node);
+			*node = NULL;
 			return (free_environment(lst));
 		}
 	}
@@ -76,7 +88,9 @@ int	get_value(t_env **node, char *envp, t_env **lst)
 		if (!(*node)->values)
 		{
 			free((*node)->name);
+			(*node)->name = NULL;
 			free(*node);
+			*node = NULL;
 			return (free_environment(lst));
 		}
 	}
