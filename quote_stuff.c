@@ -6,13 +6,13 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 16:56:42 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/20 19:01:31 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/28 18:04:03 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/parsing.h"
 
-void change_dquote(char index, char *quotes)
+void	change_dquote(char index, char *quotes)
 {
 	if (index == '\"')
 	{
@@ -23,7 +23,7 @@ void change_dquote(char index, char *quotes)
 	}
 }
 
-void change_squote(char index, char *quotes)
+void	change_squote(char index, char *quotes)
 {
 	if (index == '\'')
 	{
@@ -34,7 +34,7 @@ void change_squote(char index, char *quotes)
 	}
 }
 
-int squote_check(char index, char *quotes)
+int	squote_check(char index, char *quotes)
 {
 	change_squote(index, quotes);
 	if (*quotes == S_QUOTE)
@@ -42,7 +42,7 @@ int squote_check(char index, char *quotes)
 	return (0);
 }
 
-int dquote_check(char index, char *quotes)
+int	dquote_check(char index, char *quotes)
 {
 	change_dquote(index, quotes);
 	if (*quotes == D_QUOTE)
@@ -50,7 +50,7 @@ int dquote_check(char index, char *quotes)
 	return (0);
 }
 
-int quote_check(char index, char *quotes)
+int	quote_check(char index, char *quotes)
 {
 	squote_check(index, quotes);
 	dquote_check(index, quotes);

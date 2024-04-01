@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/30 18:37:25 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/01 20:34:28 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
 #include "./libraries/parsing.h"
 
-void print_env(t_env **envp)
+void	print_env(t_env **envp)
 {
-	t_env *tmp = *envp;
+	t_env	*tmp;
 
+	tmp = *envp;
 	while (tmp)
 	{
 		printf("%s=%s\n", tmp->name, tmp->values);
@@ -26,7 +27,7 @@ void print_env(t_env **envp)
 
 // char	*get_pwd(void)
 // {
-// 	char *path;
+// 	char	*path;
 
 // 	path = malloc(FILENAME_MAX);
 // 	if (!path)
@@ -42,22 +43,22 @@ void print_env(t_env **envp)
 
 char	**create_if_no_envp(char **envp)
 {
-	envp = ft_calloc (4, sizeof(char **));
+	envp = ft_calloc(4, sizeof(char **));
 	envp[0] = ft_strdup("PWD=/home/ecaliska/42/Common_Core/circle_three/minishell");
 	envp[1] = ft_strdup("SHLVL=1");
 	envp[2] = ft_strdup("_=/usr/bin/env");
 	return (envp);
 }
 
-int main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
-	(void)ac;
-	(void)av;
 	t_env	*environment;
 	t_parse	*commands;
-	t_shell shell;
-	//char *line;
+	t_shell	shell;
 
+	(void)ac;
+	(void)av;
+	// char *line;
 	if (envp == NULL || envp[0] == NULL)
 		envp = create_if_no_envp(envp);
 	if (copy_environment(envp, &environment) == ERROR)
@@ -70,21 +71,21 @@ int main(int ac, char **av, char **envp)
 	// 	return (write(2, "ERROR ON READLINE\n", 19));
 	// free(line);
 	free_environment(&environment);
-	return 0;
+	return (0);
 }
 
+// TODO BUILDINS: echo with -n || cd with only relative or absolout path
+// TODO BUILDINS: export with no options || unset with no option || env with no options or arguments
+// TODO BUILDINS: exit with no options
 
-//TODO BUILDINS: echo with -n || cd with only relative or absolout path
-//TODO BUILDINS: export with no options || unset with no options || env with no options or arguments
-//TODO BUILDINS: exit with no options
+// TODO DONE: pwd with no options ||
 
-//TODO DONE: pwd with no options ||
-
-//TODO MAKE THE PROMPT PRINT THE CORRECT HOSTNAME
+// TODO MAKE THE PROMPT PRINT THE CORRECT HOSTNAME
 
 /*
+
 	* can you give me a description of these function and its return values if they have one
-*/
+ */
 
 /*
 	* ALLOWED FUNCTIONS:

@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/05 12:18:29 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/29 23:25:57 by mesenyur         ###   ########.fr       */
+/*   Created: 2024/03/29 14:07:20 by mesenyur          #+#    #+#             */
+/*   Updated: 2024/03/29 14:13:21 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "libraries/minishell.h"
 
-int	ft_isdigit(int c)
+void    signal_handler(int signal_num)
 {
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
+    if (signal_num == SIGINT)
+    {
+        ft_putstr_fd("\n", 1);
+        ft_putstr_fd(PROMPT, 1);
+    }
 }
+
+

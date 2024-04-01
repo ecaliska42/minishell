@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/01 17:18:07 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/01 20:34:56 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
 #include "libraries/parsing.h"
 
-int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
+int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 {
 	bool	tester = false;
 	char	*temp;
 	t_exe	execution_utils;
+
 	if (shell == NULL) // temp
 	{
 		ft_putstr_fd("Error: shell is NULL\n", 2);
@@ -52,12 +53,12 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 			print_everything(shell);
 			ft_putstr_fd("Syntax error\n", 2);
 			free_tokens(&shell->tokens);
-			continue;
+			continue ;
 		}
 		expansion(shell->tokens, envp, CLOSED);
-		prepare_for_execution(&command, &execution_utils, &shell->tokens, &envp);
+		prepare_for_execution(&command, &execution_utils, &shell->tokens,
+			&envp);
 		// print_everything(shell);
-
 		// if (shell->tokens)
 		add_history(shell->input);
 		if (shell->input)

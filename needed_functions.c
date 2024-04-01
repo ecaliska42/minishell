@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   needed_functions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:32:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/16 16:07:17 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/28 18:04:10 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/parsing.h"
 
-t_token *get_last_token(t_token **tokens)
+t_token	*get_last_token(t_token **tokens)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	tmp = *tokens;
 	if (!tmp)
@@ -28,10 +28,10 @@ t_token *get_last_token(t_token **tokens)
 	return (tmp);
 }
 
-int token_add(t_token **tokens)
+int	token_add(t_token **tokens)
 {
-	t_token *new;
-	t_token *tmp;
+	t_token	*new;
+	t_token	*tmp;
 
 	tmp = *tokens;
 	new = malloc(sizeof(t_token));
@@ -54,17 +54,18 @@ int token_add(t_token **tokens)
 	return (0);
 }
 
-void ft_tokenizer(t_shell *shell, t_token *last, int i)
+void	ft_tokenizer(t_shell *shell, t_token *last, int i)
 {
-	char *copy;
+	char	*copy;
 
 	copy = shell->input;
-
 	if (copy[i] == '|')
 		last->type = PIPE;
-	else if (copy[i] == '>' && copy[i + 1] != '\0' && copy[i + 1] == '>' && (copy[i + 2] == '\0' || copy[i + 2] != '>'))
+	else if (copy[i] == '>' && copy[i + 1] != '\0' && copy[i + 1] == '>'
+		&& (copy[i + 2] == '\0' || copy[i + 2] != '>'))
 		last->type = APPEND;
-	else if (copy[i] == '<' && copy[i + 1] != '\0' && copy[i + 1] == '<' && (copy[i + 2] == '\0' || copy[i + 2] != '<'))
+	else if (copy[i] == '<' && copy[i + 1] != '\0' && copy[i + 1] == '<'
+		&& (copy[i + 2] == '\0' || copy[i + 2] != '<'))
 		last->type = HEREDOC;
 	else if (copy[i] == '>')
 		last->type = OUTPUT;

@@ -6,13 +6,13 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:16:58 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/19 22:42:31 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/28 18:03:41 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/parsing.h"
 
-int pipe_valid(t_shell *shell)
+int	pipe_valid(t_shell *shell)
 {
 	t_token	*tmp;
 
@@ -30,7 +30,7 @@ int pipe_valid(t_shell *shell)
 	return (0);
 }
 
-int too_many_pipes(t_shell *shell)
+int	too_many_pipes(t_shell *shell)
 {
 	t_token	*tmp;
 
@@ -48,7 +48,7 @@ int too_many_pipes(t_shell *shell)
 	return (0);
 }
 
-int three_outputs(t_shell *shell)
+int	three_outputs(t_shell *shell)
 {
 	t_token	*tmp;
 
@@ -66,7 +66,7 @@ int three_outputs(t_shell *shell)
 	return (0);
 }
 
-int three_inputs(t_shell *shell)
+int	three_inputs(t_shell *shell)
 {
 	t_token	*tmp;
 
@@ -84,9 +84,9 @@ int three_inputs(t_shell *shell)
 	return (0);
 }
 
-int redir_pipe(t_shell *shell)
+int	redir_pipe(t_shell *shell)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (shell->input[i] != '\0')
@@ -106,17 +106,35 @@ int redir_pipe(t_shell *shell)
 	return (0);
 }
 
-int pipe_start(t_shell *shell)
+int	pipe_start(t_shell *shell)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	skip_spaces(shell->input, &i);
 	if (shell->input[i] == '|' || shell->input[i] == '\0')
 	{
-		//printf("pipe_start\n");
+		printf("pipe_start\n");
 		printf("minishell: syntax error near unexpected token `|'\n");
 		return (SYNTAX_ERROR);
+	}
+	return (0);
+}
+
+int	invalid_word(t_shell *shell)
+{
+	t_token	*tmp;
+
+	tmp = shell->tokens;
+	while (tmp)
+	{
+		if (tmp->type != PIPE && tmp->str[0] == '\0')
+		{
+			printf("INVALID WORD\n");
+			printf("minishell: syntax error near unexpected token `<|>'\n");
+			return (SYNTAX_ERROR);
+		}
+		tmp = tmp->next;
 	}
 	return (0);
 }
@@ -133,7 +151,7 @@ int pipe_start(t_shell *shell)
 // 	return (0);
 // }
 
-int syntax_check(t_shell *shell)
+int	syntax_check(t_shell *shell)
 {
 	// if (only_special(shell) == SYNTAX_ERROR)
 	// 	return (SYNTAX_ERROR);
@@ -149,6 +167,7 @@ int syntax_check(t_shell *shell)
 		return (SYNTAX_ERROR);
 	if (redir_pipe(shell) == SYNTAX_ERROR)
 		return (SYNTAX_ERROR);
-	
+	if (invalid_word(shell) == SYNTAX_ERROR)
+		return (SYNTAX_ERROR);
 	return (0);
 }

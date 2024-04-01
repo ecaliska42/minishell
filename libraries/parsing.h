@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/22 17:40:08 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/03/28 16:34:41 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef enum e_tokentype
 typedef struct s_token
 {
 	char	*str;
+	bool 	ambiguous;
 	t_tokentype	type;
 	struct s_token	*next;
 }			t_token;
@@ -104,6 +105,8 @@ void	skip_spaces(char *line, int *i);
 int		check_name_and_return_len(char *name);
 int		ft_strcmp(const char *s1, const char *s2);
 t_token	*split_value(char *str, char *value, t_token *token, int flag);
+// void	split_value(char *str, t_token *token);
+void 	insert_token(char **str, t_token *token, t_token *n_token);
 
 
 
