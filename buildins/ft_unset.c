@@ -6,13 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:06 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/24 16:19:54 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/29 19:23:35 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
-#include <ncurses.h>
-#include <stdbool.h>
 
 static bool	was_found(t_env **envp, char *name)
 {
@@ -30,7 +28,7 @@ static bool	was_found(t_env **envp, char *name)
 	return (false);
 }
 
-void	delete_node(t_env **envp, char *name)
+static void	delete_node(t_env **envp, char *name)
 {
 	t_env	*temp;
 	t_env	*prev;
@@ -46,8 +44,11 @@ void	delete_node(t_env **envp, char *name)
 			else
 				*envp = temp->next;
 			free(temp->name);
+			temp->name = NULL;
 			free(temp->values);
+			temp->values = NULL;
 			free(temp);
+			temp = NULL;
 			return ;
 		}
 		prev = temp;
@@ -55,17 +56,11 @@ void	delete_node(t_env **envp, char *name)
 	}
 }
 
-int	ft_unset(t_token **tokens, t_parse **parsing, t_env **environment)
+int	ft_unset(t_parse **parsing, t_env **environment)
 {
-	t_token *token;
-	t_env	*envp;
 	t_parse	*parse;
 	int		i;
 
-	if (!tokens || !parsing)
-		return (ERROR);
-	token = *tokens;
-	envp = *environment;
 	parse = *parsing;
 	i = 1;
 	while (parse->command[i])
@@ -74,6 +69,5 @@ int	ft_unset(t_token **tokens, t_parse **parsing, t_env **environment)
 			delete_node(environment, parse->command[i]);
 		i++;
 	}
-	//ft_putendl_fd("IN UNSET", 2);
 	return (SUCCESS);
 }

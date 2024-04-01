@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:13:38 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/22 16:16:56 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/29 19:05:40 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_fds(int **fds)
 	int	i;
 
 	i = 0;
-	while(fds[i])
+	while (fds[i])
 	{
 		free(fds[i]);
 		fds[i] = NULL;
@@ -29,13 +29,14 @@ void	free_fds(int **fds)
 
 char	**change_envp(t_env **envp)
 {
-	int	size = t_env_size(envp);
+	int		size;
 	char	**new_envp;
 	t_env	*tmp;
-	int	i;
-	
+	int		i;
+
 	i = 0;
 	tmp = *envp;
+	size = t_env_size(envp);
 	new_envp = malloc(sizeof(char *) * (size + 1));
 	if (!new_envp)
 	{
@@ -55,13 +56,13 @@ char	**change_envp(t_env **envp)
 
 int	malloc_ex_struct(t_exe *ex_struct, int pipecount)
 {
-	ex_struct->id = malloc((pipecount + 1) * sizeof(pid_t));//TODO FREE
+	ex_struct->id = malloc((pipecount + 1) * sizeof(pid_t));
 	if (!ex_struct->id)
 	{
 		perror("ex_struct.id malloc error (execute.c) :");
 		return (ERROR);
 	}
-	ex_struct->fd = malloc((pipecount * sizeof(int *)) + 1);//TODO FREE DOUBLE
+	ex_struct->fd = malloc((pipecount * sizeof(int *)) + 1);
 	if (!ex_struct->fd)
 	{
 		free(ex_struct->id);

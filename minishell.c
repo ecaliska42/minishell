@@ -6,14 +6,12 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/24 15:13:48 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/30 18:37:25 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
 #include "./libraries/parsing.h"
-#include "libft/libft.h"
-#include <stdio.h>
 
 void print_env(t_env **envp)
 {
@@ -26,45 +24,20 @@ void print_env(t_env **envp)
 	}
 }
 
-char	*get_pwd(void)
-{
-	char *path;
-
-	path = malloc(FILENAME_MAX);
-	if (!path)
-		return (NULL);
-	if (getcwd(path, FILENAME_MAX) == NULL)
-	{
-		perror("getcwd() error: ");
-		free(path);
-		return (NULL);
-	}
-	return (path);
-}
-
-// int  create_if_no_envp(t_env **envp)
+// char	*get_pwd(void)
 // {
-// 	printf("HERE\n");
-// 	t_env *node = malloc(sizeof(t_env));
-// 	if (!node)
-// 		return (ERROR);
-// 	t_env *node2 = malloc(sizeof(t_env));
-// 	if (!node2)
-// 		return (free(node), ERROR);
-// 	t_env *node3 = malloc(sizeof(t_env));
-// 	if (!node3)
-// 		return (free(node), free(node2), ERROR);
-// 	node->name = ft_strdup("PWD");
-// 	node->values = get_pwd();
-// 	node2->name = ft_strdup("SHLVL");
-// 	node2->values = ft_itoa(1);
-// 	node3->name = ft_strdup("_");
-// 	node3->values = ft_strdup("/usr/bin/env");
-// 	node->next = node2;
-// 	node2->next = node3;
-// 	node3->next = NULL;
-// 	*envp = node;
-// 	return (SUCCESS);
+// 	char *path;
+
+// 	path = malloc(FILENAME_MAX);
+// 	if (!path)
+// 		return (NULL);
+// 	if (getcwd(path, FILENAME_MAX) == NULL)
+// 	{
+// 		perror("getcwd() error: ");
+// 		free(path);
+// 		return (NULL);
+// 	}
+// 	return (path);
 // }
 
 char	**create_if_no_envp(char **envp)
@@ -75,7 +48,6 @@ char	**create_if_no_envp(char **envp)
 	envp[2] = ft_strdup("_=/usr/bin/env");
 	return (envp);
 }
-
 
 int main(int ac, char **av, char **envp)
 {
@@ -92,14 +64,8 @@ int main(int ac, char **av, char **envp)
 		return (1);
 	commands = NULL;
 	ft_bzero(&shell, sizeof(t_shell));
-	printf("Welcome to minishell!\n");
+	//printf("Welcome to minishell!\n");
 	ft_readline(&shell, commands, environment);
-	// while ((line = readline("shell > ")))
-	// {
-	// 	add_history(line);
-	// 	parse_functions(line, environment, commands, &environment);
-	// 	continue;
-	// }
 	// if(!line)
 	// 	return (write(2, "ERROR ON READLINE\n", 19));
 	// free(line);

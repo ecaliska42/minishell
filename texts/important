@@ -1,4 +1,4 @@
-1-) < infile cat > outfile | cat outfile --- if outfile not exists bash behaves different
+1-) < infile cat > outfile | cat outfile --- if outfile not exists bash behaves different //not anymore
 2-) Builtins
 3-) Signals
 4-) Expansion
@@ -9,3 +9,5 @@
 9-) Norminette
 10-) Add, Commit, Push
 11-) Stuff which is not to handle ('\', '*', ...) - check for crash
+
+12-) create a big main struct to make freeing more easier :)

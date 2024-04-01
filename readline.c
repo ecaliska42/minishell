@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/24 16:52:33 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/01 17:18:07 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 {
+	bool	tester = false;
+	char	*temp;
 	t_exe	execution_utils;
 	if (shell == NULL) // temp
 	{
@@ -23,9 +25,25 @@ int ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 	}
 	while (1)
 	{
-		shell->input = readline(PROMPT);
-		if (!shell->input)
-			exit (0);//TODO EXITCODE
+		// shell->input = readline(NULL);
+		if (tester == true)
+		{
+			if (isatty(fileno(stdin)))
+				shell->input = readline(PROMPT);
+		}
+		else
+		{
+			temp = readline(PROMPT);
+			if (!temp)
+			{
+				free_environment(&envp);
+				//clear_history();
+				exit (0);
+			}
+			shell->input = ft_strdup(temp);
+			if (!shell->input)
+				exit (0);
+		}
 		if (ft_strlen(shell->input) == 0)
 			continue ;
 		lexical_analyzer(shell);

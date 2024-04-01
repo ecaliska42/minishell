@@ -6,101 +6,175 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:12 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/20 15:24:10 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/29 17:46:05 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
-// static int full_path(char *s)
-// {
-// 	(void)s;
-// 	return 0;
-// }
-
-static char *remove_after_schraegstrich(char *s)
+static char	*remove_after_schraegstrich(char *s)
 {
-	int i = ft_strlen(s);
+	int	i;
+
+	i = ft_strlen(s);
 	while (--i)
 	{
 		if (s[i] == '/')
 		{
 			s[i] = 0;
-			break;
+			break ;
 		}
 	}
 	return (s);
 }
 
-static int dot(void)
+//set current directory to the value of OLDPWD
+static int	dot_dot(t_env **old, t_env **current)
 {
-	return 0;
+	//char	*new_pwd;
+	// char	*tmp;
+
+	//tmp = remove_after_schraegstrich((*current)->values);
+	free((*old)->values);
+	(*old)->values = ft_strdup((*current)->values);
+	(*current)->values = remove_after_schraegstrich((*current)->values);
+	if (chdir((*current)->values) == -1)
+	{
+		perror("CD..: CHDIR");
+		return (ERROR);
+	}
+	//new_pwd = malloc(FILENAME_MAX);
+	free((*current)->values);
+	(*current)->values = malloc(FILENAME_MAX);
+	if (getcwd((*current)->values, FILENAME_MAX) == NULL)
+	{
+		perror("CD..: GETCWD");
+		return (ERROR);
+	}
+	//(*current)->values=ft_strdup(new_pwd);
+	return (SUCCESS);
 }
 
-static int dot_dot(char *current, char **old)//set current directory to the value of OLDPWD
+//TODO set OLDPWD to current pwd
+static int	dot(t_env **old)
 {
-	if (ft_strlen(current) == 1)//!WRONG
-		return 0;
-	char *new_old = malloc(FILENAME_MAX);
-	char *go_back;//get the directory before the last schraegstrich
-	go_back = remove_after_schraegstrich(current);
-	printf("go_back=%s\n", go_back);
-	chdir(go_back);
-	new_old = getcwd(new_old, FILENAME_MAX);
-	*old = ft_strdup(new_old);
-	return 0;
+	if (!(*old))
+		return (SUCCESS);
+	free((*old)->values);
+	(*old)->values = malloc(FILENAME_MAX);
+	getcwd((*old)->values, FILENAME_MAX);
+	return (SUCCESS);
 }
 
-t_env	*get_from_env(t_env **lst, char *s)
+static int	only_cd(t_env *home, t_env **current, t_env **old)
 {
-	t_env	*tmp;
-
-	tmp = *lst;
-	while (tmp)
+	if (!home)
 	{
-		if (ft_strncmp(tmp->name, s, ft_strlen(s)) == 0)
-			return tmp;
-		tmp = tmp->next;
+		write(2, "ShellMate: cd: HOME not set\n", 29);
+		return (ERROR);
 	}
-	return NULL;
+	free((*old)->values);
+	(*old)->values = ft_strdup((*current)->values);
+	free((*current)->values);
+	chdir(home->values);
+	(*current)->values = malloc(FILENAME_MAX);
+	getcwd((*current)->values, FILENAME_MAX);
+	return (SUCCESS);
 }
 
-int	ft_cd(t_env **lst, char *s)
+/*
+	TODO	LOOK FOR WRONG INPUT SIZE
+	TODO	IF NO OLDPWD ErrMes:(bash: cd: OLDPWD not set) WITH 'CD -' 
+*/
+
+/*
+	?CD					returns you to your login directory
+	?CD ~				also returns you to your login directory
+	?CD -				takes you back to the oldpwd
+	?CD /				takes you to the entire system's root directory
+	?CD /root			takes you to the home directory of the root, or superuser, account created at installation 
+	?CD /home			takes you to the home directory, where user login directories are usually stored
+	?CD ..				moves you up one directory
+	!CD ~otheruser		takes you to otheruser's login directory, if otheruser has granted you permission
+	?CD /dir1/subdirfoo	regardless of which directory you are in, this absolute path would take you straight to subdirfoo, a subdirectory of dir1
+	?CD ../../dir3/X11	this relative path would take you up two directories to root, then to dir3, then to the X11 directory.
+*/
+
+static int	go_back(t_env **old, t_env **current)
 {
-	//ft_putendl_fd("IN CD", 2);
-	t_env	*tmp;	//get the oldpwd value
-	char	*current_dir;//get the current directory with getcwd
-	int		i;
-	char	*get_arg;//get the argument after cd like cd .. or cd . or cd ~ that means get_arg is . or .. or ~
-	// printf("HERE\n");
-	i = 0;
-	tmp = *lst;
-	current_dir = malloc(FILENAME_MAX);
-	if(getcwd(current_dir, FILENAME_MAX) == NULL)
+	char	*now;
+
+	if (!(*old))
 	{
-		perror("");
-		free(current_dir);
-		return 1;
+		write(2, "ShellMate: cd: OLDPWD not set\n", 31);
+		return (ERROR);
 	}
-	tmp = get_from_env(lst, "OLDPWD");
-	if (!tmp)
-		return 1;
-	// printf("OLDPWD=%s\n", tmp->values[0]);
-	get_arg = get_after(s, ' ');
-	//get_arg = ft_strchr(s, ' ');
-	printf("s=%s\n", s);
-	printf("get_arg=%s\n", get_arg);
-	if (ft_strncmp(get_arg, ".", 1) == 0)
+	now = malloc(FILENAME_MAX);
+	if (getcwd(now, FILENAME_MAX) == NULL)
 	{
-		if (ft_strncmp(get_arg, "..", 2) == 0)
-			dot_dot(current_dir, &tmp->values);// CURRENT_DIR || OLDPWD VALUE
-		else
-			dot();
+		perror("CD -: GETCWD");
+		return (ERROR);
 	}
+	if (chdir((*old)->values) == -1)
+	{
+		perror("CD -: CHDIR");
+		return (ERROR);
+	}
+	free((*old)->values);
+	if (!(*current))
+		(*old)->values = ft_strdup(now);
 	else
 	{
-		
+		(*old)->values = ft_strdup((*current)->values);
+		free((*current)->values);
+		(*current)->values = malloc(FILENAME_MAX);
+		getcwd((*current)->values, FILENAME_MAX);
 	}
+	return (SUCCESS);
+}
 
-	return 0;
+static void	initialize_env_values(t_env **h, t_env **o, t_env **c, t_env **lst)
+{
+	*h = get_from_env(lst, "HOME");
+	*o = get_from_env(lst, "OLDPWD");
+	*c = get_from_env(lst, "PWD");
+}
+
+//ft_putstr_fd("IN FT_CD\n", 2);
+int	ft_cd(t_env **lst, t_parse **node)
+{
+	t_parse	*parse;
+	t_env	*old;
+	t_env	*home;
+	t_env	*current;
+
+	parse = *node;
+	if (array_size(parse->command) > 2)
+		return (write(2, "ShellMate: cd: too many arguments\n", 35));
+	initialize_env_values(&home, &old, &current, lst);
+	if (array_size(parse->command) == 1 || ft_strcmp(parse->command[1], "~") == 0)
+		return (only_cd(home, &current, &old));
+	if (ft_strcmp(parse->command[1], "..") == 0)
+		return (dot_dot(&old, &current));
+	else if (ft_strcmp(parse->command[1], ".") == 0)
+		return (dot(&old));
+	else if (ft_strcmp(parse->command[1], "-") == 0)
+		return (go_back(&old, &current));
+	else
+	{
+		chdir(parse->command[1]);
+		free(old->values);
+		old->values = ft_strdup(current->values);
+		free(current->values);
+		current->values = malloc(FILENAME_MAX);
+		getcwd(current->values, FILENAME_MAX);
+		return (SUCCESS);
+	}
+	write(2, "ShellMate: cd: ", 16);
+	write(2, parse->command[1], ft_strlen(parse->command[1]));
+	write(2, ": No such file or directory", 28);
+	return (SUCCESS);
 }

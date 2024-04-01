@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/24 16:35:15 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/03/30 20:25:28 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,6 @@
 # include <termios.h>   //tcsetattr, tcgetattr
 # include <stdbool.h>
 
-typedef struct t_commands
-{
-	char	**command;
-	struct t_commands	*next;
-} t_command;
-
 typedef struct t_env
 {
 	char	*name;
@@ -86,22 +80,18 @@ typedef struct minishell
 	t_exe	*exe;
 	t_parse	*parse;
 	t_env	*env;
-	t_command	*command;
 }	t_mini;
 
 /*
 	*BUILDINS
 */
-int	ft_cd(t_env **lst, char *s);
+int	ft_cd(t_env **lst, t_parse **node);
 int	ft_env(t_env **envp);
-int	ft_unset(t_token **tokens, t_parse **parsing, t_env **environment);
+int	ft_unset(t_parse **parsing, t_env **environment);
 int	ft_pwd(void);
-int	ft_export(t_env **lst);
+int	ft_export(t_env **lst, t_parse **node);
 void	ft_exit(t_parse **node);
-int	ft_echo(t_token **head, t_parse **node);
-/*
-	*PARSE_TEMPORARY
-*/
+int	ft_echo(t_parse **node);
 
 /*
 	*EXECUTION
@@ -123,7 +113,7 @@ void	printf_tripple(char ***str);
 */
 bool	is_buildin(char **command);
 //int		execute_buildin(char **s, t_env **envp, t_token **head);
-int	execute_buildin(t_parse **parse, t_env **envp, t_token **head, int pipecount);
+int	execute_buildin(t_parse **parse, t_env **env, t_token **head, int pc);
 int		parrent_buildin(char *s, t_env **envp);
 bool	is_parrent_buildin(char **s);
 
@@ -147,6 +137,7 @@ void 	expansion(t_token *token, t_env *envp, char quotes);
 t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag);
 char	*get_env_value(char *name, t_env *envp);
 char 	*add_char(char *str, char new_char);
+t_env	*get_from_env(t_env **lst, char *s);
 
 int	copy_environment(char **envp, t_env **lst);
 int	free_environment(t_env **lst);
@@ -159,6 +150,8 @@ char *expand_heredoc(char *new_str, char *str, int *i, t_env *envp);
 
 void	*dup_filedescriptors(t_parse *comm, t_exe *ex_utils, int i);
 int	lonely_buildin(t_parse *parse, t_env **envp, t_token **token);
+bool	is_only_numbers(char *s);
+bool	is_alpha_numbers(char *s);
 
 /*
 	*EXECUTION_UTILS

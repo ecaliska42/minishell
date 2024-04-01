@@ -1,0 +1,59 @@
+
+mkdir test1; cd test1; mkdir test2; cd ..;cd test1/test2; rm -rf ../../test1; cd ..; cd ..; cd -;
+1
+
+<< eof
+> ^C
+130
+
+cat asdfa
+1
+
+< infile
+bash: infile: No such file or directory
+1
+
+<< |
+bash: syntax error near unexpected token `|'
+2
+
+<<
+bash: syntax error near unexpected token `newline'
+2
+
+chmod 000 infile
+< infile cat
+bash: infile: Permission denied
+1
+
+SYNTAX ERROR (till now)
+2
+
+chmod 999 infile
+chmod: invalid mode: ‘999’
+Try 'chmod --help' for more information.
+1
+
+export =
+bash: export: `=': not a valid identifier
+1
+
+export a="hello world"
+echo hi > $a
+bash: $a: ambiguous redirect
+1
+
+rm -asdf infile
+rm: invalid option -- 'a'
+Try 'rm --help' for more information.
+1
+
+unset HOME
+cd
+bash: cd: HOME not set
+1
+
+man asdag
+No manual entry for asdag
+16
+

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 17:25:26 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/24 13:29:08 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/01 16:33:14 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,20 @@ int	free_environment(t_env **lst)
 	{
 		*lst = (*lst)->next;
 		if (tmp->name)
+		{
 			free(tmp->name);
+			tmp->name = NULL;
+		}
 		if (tmp->values)
+		{
 			free(tmp->values);
+			tmp->values = NULL;
+		}
 		if (tmp)
+		{
 			free(tmp);
+			tmp = NULL;
+		}
 		tmp = *lst;
 	}
 	return (ERROR);
@@ -36,15 +45,27 @@ int	free_environment(t_env **lst)
 int	increase_shell_level(char *envp, t_env **node)
 {
 	char	*temp;
+	int		nbr;
 
 	temp = NULL;
 	temp = get_after(envp, '=');
 	if (!temp)
 		return (ERROR);
-	(*node)->values = ft_itoa(ft_atoi(temp) + 1);
+	nbr = ft_atoi(temp) + 1;
+	if (nbr > 9999)
+	{
+		write(2, "warning: shell level (", 23);
+		ft_putnbr_fd(nbr, 2);
+		write(2, ") too high, resetting to 1\n", 28);
+		nbr = 1;
+	}
+	if (nbr < 0)
+		nbr = 0;
+	(*node)->values = ft_itoa(nbr);
 	if (!(*node)->values)
-		return (free(temp), ERROR);
+		return (free(temp), temp=NULL, ERROR);
 	free(temp);
+	temp = NULL;
 	return (SUCCESS);
 }
 
@@ -55,7 +76,9 @@ int	get_value(t_env **node, char *envp, t_env **lst)
 		if (increase_shell_level(envp, node) == ERROR)
 		{
 			free((*node)->name);
+			(*node)->name = NULL;
 			free(*node);
+			*node = NULL;
 			return (free_environment(lst));
 		}
 	}
@@ -65,7 +88,9 @@ int	get_value(t_env **node, char *envp, t_env **lst)
 		if (!(*node)->values)
 		{
 			free((*node)->name);
+			(*node)->name = NULL;
 			free(*node);
+			*node = NULL;
 			return (free_environment(lst));
 		}
 	}
@@ -100,4 +125,18 @@ int	copy_environment(char **envp, t_env **lst)
 		i++;
 	}
 	return (SUCCESS);
+}
+
+t_env	*get_from_env(t_env **lst, char *s)
+{
+	t_env	*tmp;
+
+	tmp = *lst;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->name, s) == 0)
+			return (tmp);
+		tmp = tmp->next;
+	}
+	return (NULL);
 }

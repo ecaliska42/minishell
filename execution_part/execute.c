@@ -6,15 +6,19 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/24 16:22:24 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/01 16:47:15 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
-#include <unistd.h>
 
 static int	child_files(t_parse **comm)
 {
+	int	trunc;
+	int	append;
+
+	trunc = O_WRONLY | O_CREAT | O_TRUNC;
+	append = O_WRONLY | O_CREAT | O_APPEND;
 	if ((*comm)->infile)
 	{
 		if ((*comm)->infile_type == INPUT)
@@ -27,9 +31,9 @@ static int	child_files(t_parse **comm)
 	if ((*comm)->outfile)
 	{
 		if ((*comm)->outfile_type == OUTPUT)
-			(*comm)->outfd = open((*comm)->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			(*comm)->outfd = open((*comm)->outfile, trunc, 0644);
 		else if ((*comm)->outfile_type == APPEND)
-			(*comm)->outfd = open((*comm)->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			(*comm)->outfd = open((*comm)->outfile, append, 0644);
 		if ((*comm)->outfd == -1)
 			perror("OUTFD ERROR1:");
 	}
@@ -37,25 +41,7 @@ static int	child_files(t_parse **comm)
 }
 
 void	child(t_parse *comm, t_exe *ex_utils, int i, t_env **envp, t_token **token)
-{//TODO protection
-	// if (comm->infile)
-	// {
-	// 	if (comm->infile_type == INPUT)
-	// 		comm->infd = open(comm->infile, O_RDONLY);
-	// 	else if (comm->infile_type == HEREDOC)
-	// 		heredoc(comm, comm->infile);
-	// 	if (comm->infile_type == INPUT && comm->infd == -1)
-	// 		perror("INFD ERROR1:");
-	// }
-	// if (comm->outfile)
-	// {
-	// 	if (comm->outfile_type == OUTPUT)
-	// 		comm->outfd = open(comm->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	// 	else if (comm->outfile_type == APPEND)
-	// 		comm->outfd = open(comm->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	// 	if (comm->outfd == -1)
-	// 		perror("OUTFD ERROR1:");
-	// }
+{
 	child_files(&comm);
 	if (ex_utils->pipecount != 0)
 	{
@@ -71,17 +57,17 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, t_env **envp, t_token **token)
 		exit (SUCCESS);
 	}
 	close_filedescriptor(comm, ex_utils);
-	execve(comm->check, comm->command, change_envp(envp)); //TODO 1: PATH WITH COMMAND ATTATCHED 2: command split with ' '
+	execve(comm->check, comm->command, change_envp(envp));
 	write(2, comm->command[0], ft_strlen(comm->command[0]));
-	write(2, " : command not found\n", 22);
-	exit(127);//TODO look into correct exit status with echo $?
+	write(2, ": command not found\n", 21);
+	exit(127);
 }
 
 int	execute(t_parse **comm, int pipecount, t_env **envp, t_token **tokens)
-{//TODO protection
+{
 	t_exe	ex_struct;
-	t_parse *parse;
-	t_token *token;
+	t_parse	*parse;
+	t_token	*token;
 	int		i;
 
 	parse = *comm;
@@ -108,5 +94,5 @@ int	execute(t_parse **comm, int pipecount, t_env **envp, t_token **tokens)
 	free(ex_struct.id);
 	ex_struct.id = NULL;
 	free_fds(ex_struct.fd);
-	return 0;
+	return (0);
 }

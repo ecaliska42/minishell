@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_temp.c                                      :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/24 15:02:04 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/01 18:54:23 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,11 @@ char	*get_access(char *str, t_env **envi)
 		if (access(temp, X_OK | F_OK) == 0)
 			return (temp);
 		free(temp);
+		temp = NULL;
 		i++;
 	}
 	return (str);
 }
-
-
 
 int	get_check(t_parse **head, t_env **envi)//TODO get the char *check with char **command
 {
@@ -111,7 +110,6 @@ static void add_back(t_parse **com, t_parse *node)
 	TODO if type is 0 (PIPE) add the whole node to the command linked list
 */
 
-
 char	**create_command(char *str, char **cmd)
 {
 	int	size = array_size(cmd);
@@ -127,16 +125,17 @@ char	**create_command(char *str, char **cmd)
 	while (i < size)
 	{
 		ret[i] = ft_strdup(cmd[i]);
-		//free(cmd[i]);
 		i++;
 	}
 	while (size)
 	{
 		free(cmd[size]);
+		cmd[size] = NULL;
 		size--;
 	}
 	ret[i] = ft_strdup(str);
-	//free(str);
+	free(str);
+	str = NULL;
 	return (ret);
 }
 
@@ -163,13 +162,10 @@ void free_parsing_node(t_parse **head)
 				if (tmp->command[i])
 				{
 					free(tmp->command[i]);
-					//tmp->command[i] = NULL;
+					tmp->command[i] = NULL;
 				}
 				i++;
 			}
-		}
-		if (tmp->command)
-		{
 			free(tmp->command);
 			tmp->command = NULL;
 		}
@@ -229,7 +225,7 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 			//heredoc(node, tmp->str);
 		}
 		else if (tmp -> type == RANDOM)
-			node -> command = create_command(tmp->str, node->command); //TODO PREPARE IT FOR THE EXECVE
+			node->command = create_command(tmp->str, node->command);
 		else if (tmp -> type == PIPE)
 		{
 			count->pipecount++;
@@ -241,7 +237,6 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 	}
 	add_back(command, node);
 	get_check(command, envp);
-		//return (ERROR);
 	execute(command, count->pipecount, envp, tokens);
 	free_parsing_node(command);
 	return SUCCESS;

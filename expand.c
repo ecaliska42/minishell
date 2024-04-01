@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/24 16:31:11 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/01 16:34:01 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,11 @@ t_token *split_value(char *str, char *value, t_token *token, int flag)
 	while (words[i] != NULL)
 	{
 		free(words[i]);
+		words[i] = NULL;
 		i++;
 	}
 	free(words);
+	words = NULL;
 	return (last);
 }
 
@@ -284,13 +286,14 @@ t_token *expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 					// 	tmp_token = &token->str[i];
 					// 	printf("tmp_token: %s\n", tmp_token);
 					// 	token = split_value(new, value, token, flag);
-					// 	if (tmp_token[i] && flag != 2 && flag != 3) // if has NO space at end
+					// 	if (*tmp_token && flag != 2 && flag != 3) // if has NO space at end
 					// 	{
-					// 		while (tmp_token[i] && tmp_token[i] != '$' && tmp_token[i] != '\"' && tmp_token[i] != '\'')
+					// 		while (*tmp_token && *tmp_token != '$' && *tmp_token != '\"' && *tmp_token != '\'')
 					// 		{	
-					// 			token->str = add_char(token->str, tmp_token[i]);
-					// 			i++;
-					// 		}						
+					// 			token->str = add_char(token->str, *tmp_token);
+					// 			tmp_token++;
+					// 			j++;
+					// 		}
 					// 	}	
 					// 	else
 					// 		return (token);
@@ -305,6 +308,7 @@ t_token *expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 		}
 	}
 	free(token->str);
+	token->str = NULL;
 	token->str = new;
 	return (token);
 }
@@ -362,5 +366,6 @@ char *skip_starting_ending_spaces(char *value)
 	}
 	new[k] = '\0';
 	free(value);
+	value = NULL;
 	return (new);
 }
