@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:14:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/28 18:04:23 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/01 18:59:32 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int	lexical_analyzer(t_shell *shell)
 		return (-1);
 	}
 	if (unclosed_quote_error(shell) == -1)
-		exit(1);
+		return (SYNTAX_ERROR); // free everything
+		// exit(1);
 	shell->quotes = CLOSED;
 	while (shell->input[i] != '\0')
 	{

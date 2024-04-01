@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/29 23:19:54 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/01 19:20:07 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,18 @@
 #include "libraries/minishell.h"
 #include "libraries/parsing.h"
 
+char *replace_exit_code(char *str, int *i, t_env *envp)
+{
+	int exit_status;
 
-// void	last_exit_status(char *str)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] == '$' && str[i + 1] == '?')
-// 		{
-// 			str[i] = last_exit_code;
-// 		}
-// 		i += 2;
-// 	}
-// }
+	exit_status = envp->exit_status;
+	if (str[*i] && str[*i] == '$' && str[(*i) + 1] && str[(*i) + 1] == '?')
+	{
+		(*i) += 2;
+		return (ft_itoa(exit_status));
+	}
+	return (0);
+}
 
 char	*dollar_number(char *str, int *index, char *quotes)
 {
@@ -36,7 +33,8 @@ char	*dollar_number(char *str, int *index, char *quotes)
 	int i;
 
 	i = 0;
-	copy = ft_strdup("");
+	// copy = ft_strdup("");
+	copy = ft_calloc(ft_strlen(str) - *index, sizeof(char));	
 	if (!copy)
 		return (NULL);
 	while (str[*index] && (str[*index] != '$' && !ft_is_space(str[*index])))
@@ -163,7 +161,7 @@ char	*process_double_quotes(char *new, char *str, int *i, t_env *envp)
 	while (str[*i] && str[*i] != '\"')
 	{
 		if ((ft_is_dollar(str[*i])) && (str[(*i) + 1] && (str[(*i) + 1] != '$'
-					&& str[(*i) + 1] != '\"')))
+					&& str[(*i) + 1] != '\"' && str[(*i) + 1] != '?')))
 		{
 			(*i)++;
 			len = check_name_and_return_len(&str[*i]);
@@ -175,6 +173,10 @@ char	*process_double_quotes(char *new, char *str, int *i, t_env *envp)
 			{
 				new = ft_strjoin(new, value);
 			}
+		}
+		else if (str[*i] == '$' && str[(*i) + 1] == '?')
+		{
+			new = ft_strjoin(new ,replace_exit_code(str, i, envp));
 		}
 		else if (ft_is_dollar(str[*i]))
 		{
@@ -238,13 +240,11 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 	int		len;
 	int		i;
 	t_token	*last_token;
-	t_token *space_token;
 
 	len = 0;
 	i = 0;
 	flag = 0;
 	last_token = NULL;
-	space_token = NULL;
 	tmp = NULL;
 	tmp_i = NULL;
 	value = NULL;
@@ -255,8 +255,9 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 	{
 		if (joker[i] == '$' && joker[i + 1] == '?')
 		{
-			new = ft_strjoin(new, ft_itoa(envp->exit_status));
-			i += 2;
+			// new = ft_strjoin(new, ft_itoa(envp->exit_status));
+			// i += 2;
+			new = ft_strjoin(new ,replace_exit_code(joker, &i, envp));
 		}
 		if (joker[i] == '$' && ft_isdigit(joker[i + 1]))
 		{
@@ -280,7 +281,7 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 			{
 				while (joker[i] && joker[i] != '$' && joker[i] != '\"' && joker[i] != '\'')
 					new = add_char(new, joker[i++]);
-				if (ft_is_dollar(joker[i]) && (joker[i + 1] && joker[i + 1] != '$'))
+				if (ft_is_dollar(joker[i]) && (joker[i + 1] && joker[i + 1] != '$' && joker[i + 1] != '?' && !ft_isdigit(joker[i + 1])))
 				{
 					i++;
 					len = check_name_and_return_len(&joker[i]);
@@ -292,22 +293,7 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 					{
 						if (value[0] == '\0')
 							token->ambiguous = true;
-						if (value[0] == ' ')
-						{
-							flag = 1; // space at start
-							if (value[ft_strlen(value) - 1] == ' ')
-								flag = 3; // space at start and end
-						}
-						else if (value[ft_strlen(value) - 1] == ' ')
-							flag = 2;       // space at end
-						if (flag == 3 || flag == 2)
-						{
-							tmp_i = &joker[i];
-							space_token = split_value(new, value, token, flag);
-														
-							token = space_token;
-							continue ;
-						}
+						value = skip_starting_ending_spaces(value);
 						if (ft_strchr(value, ' ') == NULL) // single word value
 						{
 							new = ft_strjoin(new, value);
@@ -347,6 +333,17 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 							return (last_token);
 						}
 					}
+				}
+				else if (joker[i] == '$' && joker[i + 1] == '?')
+				{
+					// new = ft_strjoin(new, ft_itoa(envp->exit_status));
+					// i += 2;
+					new = ft_strjoin(new ,replace_exit_code(joker, &i, envp));
+				}
+				if (joker[i] == '$' && ft_isdigit(joker[i + 1]))
+				{
+					i += 2;
+					new = ft_strjoin(new, dollar_number(joker, &i, &quotes));
 				}
 				else if (ft_is_dollar(joker[i]))
 				{
@@ -417,3 +414,5 @@ char	*skip_starting_ending_spaces(char *value)
 	// value = NULL;
 	return (new);
 }
+
+
