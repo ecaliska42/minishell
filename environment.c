@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 17:25:26 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/01 16:33:14 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/01 21:42:12 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	copy_environment(char **envp, t_env **lst)
 			return (free_environment(lst));
 		new_node->name = get_till(envp[i], '=');
 		if (!new_node->name)
-			return (free(new_node), free_environment(lst));
+			return (free(new_node), new_node=NULL, free_environment(lst));
 		if (get_value(&new_node, envp[i], lst) == ERROR)
 			return (ERROR);
 		new_node->next = NULL;

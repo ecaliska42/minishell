@@ -3,37 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   print_debug.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 14:06:06 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/28 18:04:06 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/02 12:18:55 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/parsing.h"
 
+// void	free_tokens(t_token **tokens)
+// {
+// 	t_token	*tmp;
+
+// 	while (*tokens != NULL)
+// 	{
+// 		tmp = *tokens;
+// 		*tokens = (*tokens)->next;
+// 		if (tmp->str)
+// 		{
+// 			printf("freeing tmp->str:%s\n", tmp->str);
+// 			free(tmp->str);
+// 			tmp->str = NULL;
+// 		}
+// 		if (tmp)
+// 		{
+// 			free(tmp);
+// 			tmp = NULL;
+// 		}
+// 	}
+// }
+
 void	free_tokens(t_token **tokens)
 {
 	t_token	*tmp;
 
-	tmp = *tokens;
-	while (*tokens)
+	while (*tokens != NULL)
 	{
-		*tokens = (*tokens)->next;
-		// if (tmp->str)
-		// 	printf("tmp->str:%s\n", tmp->str);
-		// if (tmp->type)
-		// 	printf("tmp->type:%d\n", tmp->type);
-		if (tmp->str)
-		{
-			free(tmp->str);
-			tmp->str = NULL;
-		}
-		if (tmp)
-		{
-			free(tmp);
-		}
 		tmp = *tokens;
+		*tokens = (*tokens)->next;
+		if (tmp->str != NULL)
+		{
+			// printf("freeing tmp->str:%s\n", tmp->str);
+			free(tmp->str);
+		}
+		free(tmp);
 	}
 }
 

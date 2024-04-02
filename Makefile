@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    makefile                                           :+:      :+:    :+:    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/31 15:50:49 by ecaliska          #+#    #+#              #
-#    Updated: 2024/03/30 20:30:11 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/04/02 10:01:29 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,5 +51,8 @@ re:	fclean all
 
 leak: $(NAME)
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=texts/readline.supp ./$(NAME)
+
+exec: $(NAME)
+	./$(NAME)
 
 .PHONY: all clean fclean re

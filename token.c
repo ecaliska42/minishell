@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:26:46 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/28 18:03:37 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/02 09:51:02 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,12 @@ char	*get_word(t_shell *shell, char *line, int *i)
 		printf("PROBLEM!!!special character at i=%d is: %c\n", *i, line[*i]);
 	tmp = *i;
 	len = get_len(shell, line, i);
-	word = malloc(len + 1);
+	word = ft_calloc(len + 2, sizeof(char));
 	if (!word)
 	{
 		printf("Get word error: malloc failed\n");
-		exit(-1);
+		return (NULL);
+		// exit(-1);
 	}
 	while (index < len)
 	{
@@ -125,7 +126,7 @@ char	*get_word(t_shell *shell, char *line, int *i)
 		tmp++;
 		index++;
 	}
-	word[index] = '\0';
+	// word[index] = '\0';
 	return (word);
 }
 
@@ -133,7 +134,11 @@ t_token	*add_new_empty_token(t_shell *shell)
 {
 	t_token	*last_token;
 
-	token_add(&shell->tokens);
+	if (token_add(&shell->tokens) == -1)
+	{
+		printf("Error: Token add failed\n");
+		return (NULL);
+	}
 	last_token = get_last_token(&shell->tokens);
 	return (last_token);
 }
@@ -145,18 +150,24 @@ void	not_random(t_token *last_token, int *i)
 	(*i)++;
 }
 
-void	not_pipe(t_shell *shell, t_token *last_token, int *i)
+int	not_pipe(t_shell *shell, t_token *last_token, int *i)
 {
 	last_token->str = get_word(shell, shell->input, i);
+	if (last_token->str == NULL)
+	{
+		printf("Error: get_word failed\n");
+		return (ERROR);
+	}
+	return (SUCCESS);
 }
 
-void	ft_strtok(t_shell *shell, int *i)
+int	ft_strtok(t_shell *shell, int *i)
 {
 	char	*line;
 	t_token	*last_token;
 
 	if (!shell)
-		return ;
+		return (ERROR);
 	line = shell->input;
 	while (line[*i] != '\0')
 	{
@@ -166,6 +177,11 @@ void	ft_strtok(t_shell *shell, int *i)
 			continue ;
 		}
 		last_token = add_new_empty_token(shell);
+		if (!last_token)
+		{
+			printf("Error: Token add failed\n");
+			return (ERROR);
+		}
 		ft_tokenizer(shell, last_token, *i);
 		if (last_token->type != RANDOM)
 			not_random(last_token, i);
@@ -181,8 +197,10 @@ void	ft_strtok(t_shell *shell, int *i)
 					not_random(last_token, i);
 			}
 		}
-		not_pipe(shell, last_token, i);
+		if (not_pipe(shell, last_token, i) == ERROR)
+			return (ERROR);
 	}
+	return (SUCCESS);
 }
 
 // char *get_s_word(char *line, int *i)
