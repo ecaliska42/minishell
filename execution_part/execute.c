@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/01 16:47:15 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/02 12:16:56 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,13 @@ int	execute(t_parse **comm, int pipecount, t_env **envp, t_token **tokens)
 	if (malloc_ex_struct(&ex_struct, pipecount) == ERROR)
 		return (ERROR);
 	if (is_buildin(parse->command) == true && pipecount == 0)
-		return (lonely_buildin(parse, envp, &token));
+	{
+		lonely_buildin(parse, envp, &token);
+		free(ex_struct.id);
+		ex_struct.id = NULL;
+		free_fds(ex_struct.fd);
+		return (SUCCESS);
+	}
 	if (create_pipes(&ex_struct) == ERROR)
 		return (ERROR);
 	i = 0;

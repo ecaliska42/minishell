@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:07 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/01 16:36:19 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/01 21:43:46 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,15 +94,20 @@ static int copied_struct(t_env **src, t_env **copy)
 			node=NULL;
 			return (ERROR);
 		}
-		node->values = ft_strdup(tmp->values);
-		if (!node->values)
+		if (tmp->values)
 		{
-			free(node->name);
-			node->name = NULL;
-			free(node);
-			node = NULL;
-			return (ERROR);
+			node->values = ft_strdup(tmp->values);
+			if (!node->values)
+			{
+				free(node->name);
+				node->name = NULL;
+				free(node);
+				node = NULL;
+				return (ERROR);
+			}	
 		}
+		else
+			node->values = NULL;
 		node->next = NULL;
 		tenv_add_back(&copy, node);
 		tmp = tmp->next;
@@ -112,20 +117,34 @@ static int copied_struct(t_env **src, t_env **copy)
 
 static void free_list(t_env **head)
 {
+	// t_env *tmp;
+	// t_env *next;
+
+	// tmp = *head;
+	// while (tmp)
+	// {
+	// 	next = tmp->next;
+	// 	free(tmp->name);
+	// 	tmp->name = NULL;
+	// 	free(tmp->values);
+	// 	tmp->values = NULL;
+	// 	free(tmp);
+	// 	tmp = NULL;
+	// 	tmp = next;
+	// }
 	t_env *tmp;
-	t_env *next;
 
 	tmp = *head;
-	while (tmp)
+	while (*head)
 	{
-		next = tmp->next;
+		*head = (*head)->next;
 		free(tmp->name);
 		tmp->name = NULL;
 		free(tmp->values);
 		tmp->values = NULL;
 		free(tmp);
 		tmp = NULL;
-		tmp = next;
+		tmp = *head;
 	}
 }
 

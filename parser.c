@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/01 18:54:23 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/02 12:26:41 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,23 @@ char	*get_access(char *str, t_env **envi)
 {//TODO maybe change the if statement if the str is already a whole path so my char **command contains the command only
 	t_env	*path;
 	int		i;
+	int	j;
 	char	*temp;
 	char	**path_values;
 
 	i = 0;
+	j = 0;
 	if (access(str, X_OK | F_OK) == 0)
 		return (str);
 	path = get_path(envi);
 	if (!path)
 		return (NULL);
 	path_values = ft_split(path->values, ':');
+	if (!path_values)
+	{
+		ft_putstr_fd("malloc error get_access\n", 2);
+		return (NULL);
+	}
 	while (path_values[i])
 	{
 		temp = ft_strdup("");
@@ -50,8 +57,17 @@ char	*get_access(char *str, t_env **envi)
 		if (access(temp, X_OK | F_OK) == 0)
 			return (temp);
 		free(temp);
-		temp = NULL;
+		// temp = NULL;
 		i++;
+	}
+	while (j < i)
+	{
+		if (path_values[j])
+		{
+			free(path_values[j]);
+			path_values[j] = NULL;
+		}
+		j++;
 	}
 	return (str);
 }
@@ -116,7 +132,7 @@ char	**create_command(char *str, char **cmd)
 	if (ft_strlen(str) == 0)
 		return (cmd);
 	int	i = 0;
-	char **ret = ft_calloc (sizeof(char *), size + 2);
+	char **ret = ft_calloc (size + 2, sizeof(char *));
 	if (!ret)
 	{
 		ft_putstr_fd("malloc error create command\n", 2);
@@ -145,15 +161,15 @@ void free_parsing_node(t_parse **head)
 	int		i;
 
 	i = 0;
-	tmp = *head;
-	while (*head)
+	while (*head != NULL)
 	{
+		tmp = *head;
 		*head = (*head) -> next;
-		// if (tmp->check)
-		// {
-		// 	free(tmp->check);
-		// 	tmp->check = NULL;
-		// }
+		if (tmp->check)
+		{
+			free(tmp->check);
+			tmp->check = NULL;
+		}
 		if (tmp->command)
 		{
 			i = 0;
@@ -174,7 +190,6 @@ void free_parsing_node(t_parse **head)
 			free(tmp);
 			tmp = NULL;
 		}
-		tmp = *head;
 	}
 }
 

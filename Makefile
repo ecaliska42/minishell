@@ -3,12 +3,13 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+         #
+#    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/01/31 15:50:49 by ecaliska          #+#    #+#              #
-#    Updated: 2024/04/01 22:18:34 by mesenyur         ###   ########.fr        #
+#    Created: Invalid date        by                   #+#    #+#              #
+#    Updated: 2024/04/02 12:30:08 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 CC= cc
 #REMOVE -G FLAG (MAY SLOW DOWN PROGRAMM)
@@ -51,5 +52,8 @@ re:	fclean all
 
 leak: $(NAME)
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=texts/readline.supp ./$(NAME)
+
+exec: $(NAME)
+	./$(NAME)
 
 .PHONY: all clean fclean re

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:14:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/01 18:59:32 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/01 22:51:01 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int	lexical_analyzer(t_shell *shell)
 	shell->quotes = CLOSED;
 	while (shell->input[i] != '\0')
 	{
-		ft_strtok(shell, &i);
+		if (ft_strtok(shell, &i) == ERROR)
+			return (ERROR);
 	}
 	if (shell->tokens == NULL)
 		return (ERROR);
