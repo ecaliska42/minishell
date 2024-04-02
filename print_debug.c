@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 14:06:06 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/28 18:04:06 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/02 11:48:05 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,6 @@ void	free_tokens(t_token **tokens)
 	while (*tokens)
 	{
 		*tokens = (*tokens)->next;
-		// if (tmp->str)
-		// 	printf("tmp->str:%s\n", tmp->str);
-		// if (tmp->type)
-		// 	printf("tmp->type:%d\n", tmp->type);
 		if (tmp->str)
 		{
 			free(tmp->str);

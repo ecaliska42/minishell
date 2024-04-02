@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/01 20:34:56 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/02 12:00:17 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 		}
 		if (ft_strlen(shell->input) == 0)
 			continue ;
+		add_history(shell->input);
 		lexical_analyzer(shell);
 		if (syntax_check(shell) == SYNTAX_ERROR)
 		{
@@ -60,13 +61,12 @@ int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 			&envp);
 		// print_everything(shell);
 		// if (shell->tokens)
-		add_history(shell->input);
 		if (shell->input)
 		{
 			free(shell->input);
 			shell->input = NULL;
 		}
-		free_tokens(&shell->tokens);
+		//free_tokens(&shell->tokens);
 	}
 	return (SUCCESS);
 }

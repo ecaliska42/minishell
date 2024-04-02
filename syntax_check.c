@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:16:58 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/28 18:03:41 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/02 11:48:52 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,22 +139,8 @@ int	invalid_word(t_shell *shell)
 	return (0);
 }
 
-// int only_special(t_shell *shell)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (shell->input[i] != '\0')
-// 	{
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
 int	syntax_check(t_shell *shell)
 {
-	// if (only_special(shell) == SYNTAX_ERROR)
-	// 	return (SYNTAX_ERROR);
 	if (pipe_start(shell) == SYNTAX_ERROR)
 		return (SYNTAX_ERROR);
 	if (pipe_valid(shell) == SYNTAX_ERROR)

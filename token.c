@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:26:46 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/28 18:03:37 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/02 11:46:55 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ char	*get_word(t_shell *shell, char *line, int *i)
 	while (ft_is_space(line[*i]) == true && line[*i] != '\0')
 		(*i)++;
 	if (ft_is_special(line[*i]) == true)
-		printf("PROBLEM!!!special character at i=%d is: %c\n", *i, line[*i]);
+		return (NULL);
+		// printf("PROBLEM!!!special character at i=%d is: %c\n", *i, line[*i]);
 	tmp = *i;
 	len = get_len(shell, line, i);
 	word = malloc(len + 1);
@@ -121,9 +122,7 @@ char	*get_word(t_shell *shell, char *line, int *i)
 	}
 	while (index < len)
 	{
-		word[index] = line[tmp];
-		tmp++;
-		index++;
+		word[index++] = line[tmp++];
 	}
 	word[index] = '\0';
 	return (word);
@@ -184,73 +183,3 @@ void	ft_strtok(t_shell *shell, int *i)
 		not_pipe(shell, last_token, i);
 	}
 }
-
-// char *get_s_word(char *line, int *i)
-// {
-// 	char	*word;
-// 	int len;
-// 	int index;
-// 	int tmp;
-
-// 	tmp = *i;
-// 	index = 0;
-// 	len = get_squote_len(line, tmp);
-// 	word = malloc(len + 1);
-// 	if (!word)
-// 	{
-// 		printf("Get word error: malloc failed\n");
-// 		exit(-1);
-// 	}
-// 	while (index < len)
-// 	{
-// 		word[index] = line[*i];
-// 		printf("character at i=%d is: %c\n", *i, line[*i]);
-// 		(*i)++;
-// 		index++;
-// 	}
-// 	word[index] = '\0';
-// 	return (word);
-// }
-
-// char *get_d_word(char *line, int *i)
-// {
-// 	char	*word;
-// 	int len;
-// 	int index;
-// 	int tmp;
-
-// 	tmp = *i;
-// 	index = 0;
-// 	len = get_dquote_len(line, tmp);
-// 	word = malloc(len + 1);
-// 	if (!word)
-// 	{
-// 		printf("Get word error: malloc failed\n");
-// 		exit(-1);
-// 	}
-// 	while (index < len)
-// 	{
-// 		word[index] = line[*i];
-// 		printf("character at i=%d is: %c\n", *i, line[*i]);
-// 		(*i)++;
-// 		index++;
-// 	}
-// 	word[index] = '\0';
-// 	return (word);
-// }
-
-// void handle_quote(t_shell *shell, t_token *last_token, char *line, int *i)
-// {
-// 	if (squote_check(line[*i], &shell->quotes) == 1)
-// 	{
-// 		last_token->str = get_word(shell, line, i);
-// 		last_token->type = RANDOM;
-// 		shell->quotes = CLOSED;
-// 	}
-// 	else if (dquote_check(line[*i], &shell->quotes) == 2)
-// 	{
-// 		last_token->str = get_word(shell, line, i);
-// 		last_token->type = RANDOM;
-// 		shell->quotes = CLOSED;
-// 	}
-// }
