@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/02 12:35:00 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/02 14:29:38 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 		}
 		if (syntax_check(shell) == SYNTAX_ERROR)
 		{
-			//print_everything(shell);
+			print_everything(shell);
 			printf("syntax_check error\n");
 			ft_putstr_fd("Syntax error\n", 2);
 			free_tokens(&shell->tokens);
@@ -78,7 +78,7 @@ int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 		prepare_for_execution(&command, &execution_utils, &shell->tokens, &envp);
 		// (void)command;
 		// (void)execution_utils;
-		// print_everything(shell);
+		print_everything(shell);
 		// if (shell->tokens)
 		if (shell->input)
 		{

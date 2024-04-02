@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/02 12:03:42 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/02 14:21:26 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*dollar_number(char *str, int *index, char *quotes)
 
 	i = 0;
 	// copy = ft_strdup("");
-	copy = ft_calloc(ft_strlen(str) - *index, sizeof(char));	
+	copy = ft_calloc((ft_strlen(str) - *index) + 1, sizeof(char));	
 	if (!copy)
 		return (NULL);
 	while (str[*index] && (str[*index] != '$' && !ft_is_space(str[*index])))

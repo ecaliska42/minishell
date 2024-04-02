@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_debug.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 14:06:06 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/02 12:30:51 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/02 13:47:51 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void	print_everything(t_shell *shell)
 	while (token)
 	{
 		printf("token->str:%s\n", token->str);
-		printf("token->type:%d\n\n", token->type);
+		printf("token->type:%d\n", token->type);
+		printf("ambiguous_redirect:%d\n\n", token->ambiguous);
 		token = token->next;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/02 12:26:41 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/02 14:14:41 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,15 @@ char	*get_access(char *str, t_env **envi)
 		// temp = NULL;
 		i++;
 	}
-	while (j < i)
-	{
-		if (path_values[j])
-		{
-			free(path_values[j]);
-			path_values[j] = NULL;
-		}
-		j++;
-	}
+	// while (j < i)
+	// {
+	// 	if (path_values[j])
+	// 	{
+	// 		free(path_values[j]);
+	// 		path_values[j] = NULL;
+	// 	}
+	// 	j++;
+	// }
 	return (str);
 }
 
@@ -150,8 +150,8 @@ char	**create_command(char *str, char **cmd)
 		size--;
 	}
 	ret[i] = ft_strdup(str);
-	free(str);
-	str = NULL;
+	// free(str);
+	// str = NULL;
 	return (ret);
 }
 
@@ -165,11 +165,11 @@ void free_parsing_node(t_parse **head)
 	{
 		tmp = *head;
 		*head = (*head) -> next;
-		if (tmp->check)
-		{
-			free(tmp->check);
-			tmp->check = NULL;
-		}
+		// if (tmp->check)
+		// {
+		// 	free(tmp->check);
+		// 	tmp->check = NULL;
+		// }
 		if (tmp->command)
 		{
 			i = 0;
