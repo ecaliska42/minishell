@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/02 14:21:26 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/04 18:06:42 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char *replace_exit_code(char *str, int *i, t_env *envp)
 	if (str[*i] && str[*i] == '$' && str[(*i) + 1] && str[(*i) + 1] == '?')
 	{
 		(*i) += 2;
-		return (ft_itoa(exit_status));
+		return (ft_itoa(exit_status)); //protect
 	}
 	return (0);
 }

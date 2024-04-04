@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/02 14:29:38 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/04 15:15:20 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 	while (1)
 	{
 		// shell->input = readline(NULL);
+		//interactive 
 		if (tester == true)
 		{
 			if (isatty(fileno(stdin)))
@@ -49,6 +50,7 @@ int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 				exit (0);
 			}
 		}
+		//non interactive
 		if (ft_strlen(shell->input) == 0)
 			continue ;
 		add_history(shell->input);
@@ -78,7 +80,7 @@ int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 		prepare_for_execution(&command, &execution_utils, &shell->tokens, &envp);
 		// (void)command;
 		// (void)execution_utils;
-		print_everything(shell);
+		// print_everything(shell);
 		// if (shell->tokens)
 		if (shell->input)
 		{

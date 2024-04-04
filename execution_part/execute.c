@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/02 12:16:56 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/04 14:31:48 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
+#include <stdlib.h>
 
 static int	child_files(t_parse **comm)
 {
@@ -96,7 +97,11 @@ int	execute(t_parse **comm, int pipecount, t_env **envp, t_token **tokens)
 	close_filedescriptor(NULL, &ex_struct);
 	i--;
 	while (i >= 0)
-		waitpid(ex_struct.id[i--], NULL, 0);
+		waitpid(ex_struct.id[i--], &(*envp)->exit_status, 0);
+	if(WIFEXITED((*envp)->exit_status))
+		(*envp)->exit_status = WEXITSTATUS((*envp)->exit_status);
+	else if(WIFSIGNALED((*envp)->exit_status))
+		(*envp)->exit_status = 128 + WTERMSIG((*envp)->exit_status);
 	free(ex_struct.id);
 	ex_struct.id = NULL;
 	free_fds(ex_struct.fd);

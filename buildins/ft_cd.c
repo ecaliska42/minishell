@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:12 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/29 17:46:05 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/04 14:50:14 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ static int	go_back(t_env **old, t_env **current)
 
 	if (!(*old))
 	{
-		write(2, "ShellMate: cd: OLDPWD not set\n", 31);
+		write(2, "ShellMate: cd: OLDPWD not set\n", 31); // this is shit
 		return (ERROR);
 	}
 	now = malloc(FILENAME_MAX);
