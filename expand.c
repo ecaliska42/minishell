@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/04 18:06:42 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/05 16:55:27 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,7 +295,8 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 					{
 						if (value[0] == '\0')
 							token->ambiguous = true;
-						value = skip_starting_ending_spaces(value);
+						// value = skip_starting_ending_spaces(value);
+						value = ft_strtrim(value, " ");
 						if (ft_strchr(value, ' ') == NULL) // single word value
 						{
 							new = ft_strjoin(new, value);
@@ -402,7 +403,7 @@ char	*skip_starting_ending_spaces(char *value)
 	j--;
 	while (j >= 0 && ft_is_space(value[j]))
 		j--;
-	new = malloc(j - i + 2);
+	new = malloc(j - i + 2); // Problematic if value is only spaces
 	if (new == NULL)
 		return (NULL);
 	while (i <= j)

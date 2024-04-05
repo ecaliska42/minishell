@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:16:58 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/02 11:48:52 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/05 16:34:01 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	pipe_start(t_shell *shell)
 
 	i = 0;
 	skip_spaces(shell->input, &i);
-	if (shell->input[i] == '|' || shell->input[i] == '\0')
+	if (shell->input[i] && shell->input[i] == '|')
 	{
 		printf("pipe_start\n");
 		printf("minishell: syntax error near unexpected token `|'\n");

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
+#    By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2024/04/02 12:30:08 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/04/05 17:05:22 by mesenyur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@
 CC= cc
 #REMOVE -G FLAG (MAY SLOW DOWN PROGRAMM)
 FLAGS= -Wall -Werror -Wextra -lreadline -g
+FLAGS+= -fsanitize=address,undefined,leak
 
 NAME= minishell
 
