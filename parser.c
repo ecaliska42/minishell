@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/02 14:14:41 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/06 14:12:23 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*get_access(char *str, t_env **envi)
 		ft_putstr_fd("malloc error get_access\n", 2);
 		return (NULL);
 	}
-	while (path_values[i])
+	while (path_values[i]) // possible leaks
 	{
 		temp = ft_strdup("");
 		temp = ft_strjoin(path_values[i], "/");

@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/05 16:55:27 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/06 14:15:06 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -336,6 +336,7 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 							return (last_token);
 						}
 					}
+					free (tmp);
 				}
 				else if (joker[i] == '$' && joker[i + 1] == '?')
 				{
