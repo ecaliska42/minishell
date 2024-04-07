@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   arrays.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <melih.senyurt@gmail.com>         +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/03/15 21:40:12 by mesenyur         ###   ########.fr       */
+/*   Created: 2024/04/02 17:47:27 by ecaliska          #+#    #+#             */
+/*   Updated: 2024/04/02 17:47:45 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../libraries/minishell.h"
 
@@ -19,7 +18,7 @@ int	array_size(char **array)
 
 	i = 0;
 	if (!array)
-		return 0;
+		return (0);
 	while (array[i])
 		i++;
 	return (i);

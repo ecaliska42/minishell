@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:13:38 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/02 11:40:27 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/02 18:01:10 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ char	**change_envp(t_env **envp)
 	i = 0;
 	tmp = *envp;
 	size = t_env_size(envp);
-	new_envp = malloc(sizeof(char *) * (size + 1));
+	new_envp = ft_calloc(size + 1, sizeof(char *));
 	if (!new_envp)
 	{
 		perror("new_envp malloc error (execute.c) :");
 		exit (1);
 	}
-	new_envp[size] = NULL;
+	// new_envp[size] = NULL;
 	while (i < size)
 	{
 		new_envp[i] = ft_strjoin(tmp->name, "=");

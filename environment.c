@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 17:25:26 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/01 21:42:12 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/03 18:25:46 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	increase_shell_level(char *envp, t_env **node)
 	if (!temp)
 		return (ERROR);
 	nbr = ft_atoi(temp) + 1;
-	if (nbr > 9999)
+	if (nbr > 999)
 	{
 		write(2, "warning: shell level (", 23);
 		ft_putnbr_fd(nbr, 2);

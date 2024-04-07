@@ -1,0 +1,12 @@
+ls > out1 >> out1 > out2
+
+MINISHELL:
+three_outputs
+minishell: syntax error near unexpected token `>>'
+Syntax error
+
+BASH:
+Schreibt in out2 und erstellt out1
+
+
+

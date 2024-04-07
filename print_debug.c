@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 14:06:06 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/02 12:30:51 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/02 17:49:21 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ void	free_tokens(t_token **tokens)
 		tmp = *tokens;
 		*tokens = (*tokens)->next;
 		if (tmp->str != NULL)
-		{
-			// printf("freeing tmp->str:%s\n", tmp->str);
 			free(tmp->str);
-		}
 		free(tmp);
 	}
 }
