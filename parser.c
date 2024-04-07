@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/06 14:12:23 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/07 15:41:18 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ char	*get_access(char *str, t_env **envi)
 	int		i;
 	int	j;
 	char	*temp;
+	char	*temp2;
 	char	**path_values;
 
 	i = 0;
@@ -53,11 +54,11 @@ char	*get_access(char *str, t_env **envi)
 	{
 		temp = ft_strdup("");
 		temp = ft_strjoin(path_values[i], "/");
-		temp = ft_strjoin(temp, str);
-		if (access(temp, X_OK | F_OK) == 0)
-			return (temp);
+		temp2 = ft_strjoin(temp, str);
 		free(temp);
-		// temp = NULL;
+		temp = NULL;
+		if (access(temp2, X_OK | F_OK) == 0)
+			return (temp2);
 		i++;
 	}
 	// while (j < i)
@@ -211,33 +212,40 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 	{
 		if (tmp -> type == INPUT && ft_strlen(tmp->str) > 0)
 		{
-			node->infile = tmp->str;
-			node->infile_type = INPUT;
-			// node->infd = open(tmp->str, O_RDONLY);
-			// if (node->infd == -1)
-			// 	perror("INFD ERROR1:");
+			// node->infile = tmp->str;
+			// node->infile_type = INPUT;
+			node->infd = open(tmp->str, O_RDONLY);
+			if (node->infd == -1)
+				perror("");
 		}
-		else if (tmp -> type == OUTPUT && ft_strlen(tmp->str) > 0)
+		else if (tmp -> type == OUTPUT && ft_strlen(tmp->str) > 0 && node->execute == EXECUTE)
 		{
-			node->outfile = tmp->str;
-			node->outfile_type = OUTPUT;
-			// node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			// if (node->outfd == -1)
-			// 	perror("OUTFD ERROR1: ");
+			// node->outfile = tmp->str;
+			// node->outfile_type = OUTPUT;
+			node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (node->outfd == -1)
+			{
+				perror("");
+				node->execute = IGNORE;
+			}
 		}
-		else if (tmp -> type == APPEND && ft_strlen(tmp->str) > 0)
+		else if (tmp -> type == APPEND && ft_strlen(tmp->str) > 0 && node->execute == EXECUTE)
 		{
-			node->outfile = tmp->str;
-			node->outfile_type = APPEND;
-			// node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			// if (node->outfd == -1)
+			// node->outfile = tmp->str;
+			// node->outfile_type = APPEND;
+			node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (node->outfd == -1)
+			{
+				perror("");
+				node->execute = IGNORE;
+			}
 			// 	perror("OUTFD ERROR2:");
 		}
 		else if (tmp -> type == HEREDOC && ft_strlen(tmp->str) > 0)
 		{
-			node->infile_type = HEREDOC;
-			node->infile = tmp->str;
-			//heredoc(node, tmp->str);
+			// node->infile_type = HEREDOC;
+			// node->infile = tmp->str;
+			heredoc(node, tmp->str);
 		}
 		else if (tmp -> type == RANDOM)
 			node->command = create_command(tmp->str, node->command);
@@ -246,7 +254,7 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 			count->pipecount++;
 			add_back(command, node);
 			node = malloc(sizeof(t_parse));
-			ft_bzero(node, sizeof(*node));
+			ft_bzero(node, sizeof(t_parse));
 		}
 		tmp = tmp ->next;
 	}

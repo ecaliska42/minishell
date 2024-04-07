@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_debug.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 14:06:06 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/02 13:47:51 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/07 15:41:28 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ void	free_tokens(t_token **tokens)
 		tmp = *tokens;
 		*tokens = (*tokens)->next;
 		if (tmp->str != NULL)
-		{
-			// printf("freeing tmp->str:%s\n", tmp->str);
 			free(tmp->str);
-		}
 		free(tmp);
 	}
 }

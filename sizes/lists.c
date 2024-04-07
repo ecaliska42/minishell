@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 17:10:00 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/15 17:11:56 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/02 17:48:30 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int	t_env_size(t_env **envp)
 {
-	int	i;
+	int		i;
 	t_env	*tmp;
 
 	i = 0;
-	tmp = *envp;	
+	tmp = *envp;
 	while (tmp)
 	{
 		i++;
@@ -26,4 +26,3 @@ int	t_env_size(t_env **envp)
 	}
 	return (i);
 }
-

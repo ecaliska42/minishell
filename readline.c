@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/06 14:05:21 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/07 15:43:38 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,14 @@ int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 		add_history(shell->input);
 		if (lexical_analyzer(shell) == ERROR)
 		{
-			printf("lexical_analyzer error\n");
-			//print_everything(shell);
+			// printf("lexical_analyzer error\n");
+			// print_everything(shell);
 			ft_putstr_fd("Error: lexical_analyzer\n", 2);
 			free_tokens(&shell->tokens);
 			free_environment(&envp);//TODO REMOVE
 			//free(temp);
 			free(shell->input);
+			continue;
 			exit(0) ;//todo continue
 		}
 		if (syntax_check(shell) == SYNTAX_ERROR)

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:07 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/01 21:43:46 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/07 15:39:43 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,26 +117,11 @@ static int copied_struct(t_env **src, t_env **copy)
 
 static void free_list(t_env **head)
 {
-	// t_env *tmp;
-	// t_env *next;
-
-	// tmp = *head;
-	// while (tmp)
-	// {
-	// 	next = tmp->next;
-	// 	free(tmp->name);
-	// 	tmp->name = NULL;
-	// 	free(tmp->values);
-	// 	tmp->values = NULL;
-	// 	free(tmp);
-	// 	tmp = NULL;
-	// 	tmp = next;
-	// }
 	t_env *tmp;
 
-	tmp = *head;
 	while (*head)
 	{
+		tmp = *head;
 		*head = (*head)->next;
 		free(tmp->name);
 		tmp->name = NULL;
@@ -174,8 +159,16 @@ static int	env_addback(t_env **head, char *name, char *value)
 	node = malloc(sizeof(t_env));
 	if (!node)
 		return (ERROR);
-	node->name = name;
+	node->name = ft_strdup(name);
+	if (!node->name)
+	{
+		free(node);
+		node=NULL;
+		return (ERROR);
+	}
+	free(name);
 	node->values = value;
+	
 	node->next = NULL;
 	tmp->next = node;
 	return (SUCCESS);
@@ -197,12 +190,14 @@ int	ft_export(t_env **lst, t_parse **node)
 	t_env	*envp;
 	t_parse	*command;
 	char	*before;
+	int		fail;
 	char	*after;
 	int		i;
 
 	i = 1;
 	envp = *lst;
 	command = *node;
+	fail = 0;
 	if (array_size(command->command) < 2)
 		return (print_export(envp));
 	while (command->command[i])
@@ -210,23 +205,29 @@ int	ft_export(t_env **lst, t_parse **node)
 		if (get_before_after(&before, &after, command->command[i]) == ERROR)
 			return (ERROR);
 		if (ft_strchr(command->command[i], '=') != NULL && ft_strlen(command->command[i]) == 1)
-			return (write(2, "export : '=': not a valid identifier\n", 38));
+		{
+			write(2, "export : '=': not a valid identifier\n", 38);
+			exit(1);
+		}
+		if (ft_strlen(before) == 0 || is_alpha_numbers(before) == false)
+		{
+			write(2, "export: '", 10);
+			write(2, command->command[i], ft_strlen(command->command[i]));
+			write(2, "': not a valid identifier\n", 26);
+			i++;
+			fail = 1;
+			continue;
+		}
 		if (ft_strchr(command->command[i], '=') != NULL)
 		{
-			if (ft_strlen(before) == 0 || is_alpha_numbers(before) == false)
-			{
-				write(2, "export: ", 9);
-				write(2, command->command[i], ft_strlen(command->command[i]));
-				write(2, "': not a valid identifier\n", 26);
-				i++;
-				continue;
-			}
 			env_addback(&envp, before, after);
 		}
 		else
 			env_addback(&envp, before, NULL);
 		i++;
 	}
+	if (fail == 1)
+		exit (1);
 	return 0;
 }
 

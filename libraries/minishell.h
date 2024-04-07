@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/01 20:36:04 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/03 18:48:21 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # define PURPLE "\033[0;35m"
 # define CYAN "\033[0;36m"
 # define WHITE "\033[0;37m"
+
+# define EXECUTE 0
+# define IGNORE 1
 
 # include "../libft/libft.h"
 # include "parsing.h"
@@ -66,6 +69,7 @@ typedef struct parse
 	int		outfd;		//TODO THE RETURN VALUE OF OPEN
 	char	*outfile;	//TODO THE FILE NAME FOR THE OUTFDFD
 	int		outfile_type;
+	int		execute;		//TODO THE FLAG FOR APPEND
 	struct	parse *next;
 }	t_parse;
 
@@ -112,9 +116,9 @@ void	printf_tripple(char ***str);
 /*
 	*BUILDIN_CHECK.C
 */
+int	lonely_buildin(t_parse *parse, t_env **envp);
 bool	is_buildin(char **command);
-//int		execute_buildin(char **s, t_env **envp, t_token **head);
-int	execute_buildin(t_parse **parse, t_env **env, t_token **head, int pc);
+int		execute_buildin(t_parse **parse, t_env **env, int pc);
 int		parrent_buildin(char *s, t_env **envp);
 bool	is_parrent_buildin(char **s);
 
@@ -150,7 +154,6 @@ char *expand_heredoc(char *new_str, char *str, int *i, t_env *envp);
 
 
 void	*dup_filedescriptors(t_parse *comm, t_exe *ex_utils, int i);
-int	lonely_buildin(t_parse *parse, t_env **envp, t_token **token);
 bool	is_only_numbers(char *s);
 bool	is_alpha_numbers(char *s);
 

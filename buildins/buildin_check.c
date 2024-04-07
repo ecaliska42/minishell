@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/30 20:13:46 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/07 15:38:06 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	open_lonely_files(t_parse **parse)
 	return (SUCCESS);
 }
 
-int	lonely_buildin(t_parse *parse, t_env **envp, t_token **token)
+int	lonely_buildin(t_parse *parse, t_env **envp)
 {
 	int	orig_stdout;
 	int	orig_stdin;
@@ -45,7 +45,7 @@ int	lonely_buildin(t_parse *parse, t_env **envp, t_token **token)
 	orig_stdout = dup(STDOUT_FILENO);
 	if (open_lonely_files(&parse) == ERROR)
 		return (ERROR);
-	execute_buildin(&parse, envp, token, 0);
+	execute_buildin(&parse, envp, 0);
 	if (dup2(orig_stdin, STDIN_FILENO) == -1)
 		perror("dup2 error (execute.c) : ");
 	if (close (orig_stdin) == -1)
@@ -81,24 +81,24 @@ bool	is_buildin(char **command)
 	return (false);
 }
 
-int	execute_buildin(t_parse **parse, t_env **env, t_token **head, int pc)
+int	execute_buildin(t_parse **parse, t_env **env, int pc)
 {
 	char	*s;
 
 	s = (*parse)->command[0];
 	if (!s)
 		return (0);
-	if (head && ft_strcmp("echo", s) == 0)
+	if (ft_strcmp("echo", s) == 0)
 		ft_echo(parse);
 	else if (ft_strcmp("pwd", s) == 0)
 		ft_pwd();
 	else if (ft_strcmp("env", s) == 0)
 		ft_env(env);
-	else if (ft_strcmp("cd", s) == 0 && pc == 0)
+	else if (ft_strcmp("cd", s) == 0 && pc == 0)//! not executed in child
 		ft_cd(env, parse);
 	else if (ft_strcmp("exit", s) == 0)
 		ft_exit(parse);
-	else if (ft_strcmp("unset", s) == 0 && pc == 0)
+	else if (ft_strcmp("unset", s) == 0 && pc == 0)//! not executed in child
 		ft_unset( parse, env);
 	else if (ft_strcmp("export", s) == 0)
 		ft_export(env, parse);
