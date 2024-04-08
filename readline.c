@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/08 14:36:02 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/08 14:49:53 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
 #include "libraries/parsing.h"
+
+#include "GNL/get_next_line.h"
 
 int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 {
@@ -32,7 +34,14 @@ int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 		if (tester == true)
 		{
 			if (isatty(fileno(stdin)))
-				shell->input = readline(PROMPT);
+			shell->input = readline(PROMPT);
+			else
+			{
+				char *line;
+				line = get_next_line(fileno(stdin));
+				shell->input = ft_strtrim(line, "\n");
+				free(line);
+			}
 		}
 		else
 		{
@@ -44,13 +53,15 @@ int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 				exit (0);
 			}
 			shell->input = ft_strdup(temp);
-			// free(temp);
+			//free(temp);
 		}
 		if (!shell->input)
 		{
 			free_environment(&envp);
 			exit (0);
 		}
+
+		
 		//non interactive
 		if (ft_strlen(shell->input) == 0)
 			continue ;
@@ -65,7 +76,6 @@ int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 			//free(temp);
 			free(shell->input);
 			continue;
-			exit(0) ;//todo continue
 		}
 		if (syntax_check(shell) == SYNTAX_ERROR)
 		{
@@ -84,8 +94,6 @@ int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 			expansion(shell->tokens, envp, CLOSED);
 			prepare_for_execution(&command, &execution_utils, &shell->tokens, &envp);
 		}	
-		// (void)command;
-		// (void)execution_utils;
 		// print_everything(shell);
 		// if (shell->tokens)
 		if (shell->input)
