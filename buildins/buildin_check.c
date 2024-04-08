@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buildin_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/08 14:40:28 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/08 18:06:06 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,19 @@ int	open_lonely_files(t_parse **parse)
 	int	trunc;
 
 	trunc = O_WRONLY | O_CREAT | O_TRUNC;
-	if ((*parse)->outfile)
+	if ((*parse)->outfd > 0)
 	{
-		(*parse)->outfd = open((*parse)->outfile, trunc, 0644);
-		if ((*parse)->outfd == -1)
-			perror("OUTFD ERROR1:");
+		// (*parse)->outfd = open((*parse)->outfile, trunc, 0644);
+		// if ((*parse)->outfd == -1)
+		// 	perror("OUTFD ERROR1:");
 		dup2((*parse)->outfd, 1);
 		close((*parse)->outfd);
 	}
-	if ((*parse)->infile)
+	if ((*parse)->infd > 0)
 	{
-		(*parse)->infd = open((*parse)->infile, O_RDONLY);
-		if ((*parse)->infd == -1)
-			perror("INFD ERROR1:");
+		// (*parse)->infd = open((*parse)->infile, O_RDONLY);
+		// if ((*parse)->infd == -1)
+		// 	perror("INFD ERROR1:");
 		dup2((*parse)->infd, 0);
 		close((*parse)->infd);
 	}

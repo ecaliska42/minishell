@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:26:46 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/02 12:34:19 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/08 17:54:15 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,23 @@ int	get_len(t_shell *shell, char *str, int *i)
 			len += get_squote_len(shell, line, &i);
 		if (line[*i] == D_QUOTE)
 			len += get_dquote_len(shell, line, &i);
-		while (line[*i] != '\0' && ft_is_space(line[*i]) == false
+		// while (line[*i] != '\0' && ft_is_space(line[*i]) == false
+		// 	&& ft_is_special(line[*i]) == false
+		// 	&& ft_is_quote(line[*i]) == false)
+		// {
+		// 	len++;
+		// 	(*i)++;
+		// }
+		else if (line[*i] != '\0' && ft_is_space(line[*i]) == false
 			&& ft_is_special(line[*i]) == false
 			&& ft_is_quote(line[*i]) == false)
 		{
 			len++;
 			(*i)++;
 		}
+		else
+			break;
+		// printf("line[*i] = '%c'\n", line[*i]);
 	}
 	return (len);
 }
@@ -154,7 +164,8 @@ int	not_pipe(t_shell *shell, t_token *last_token, int *i)
 	last_token->str = get_word(shell, shell->input, i);
 	if (last_token->str == NULL)
 	{
-		printf("Error: get_word failed\n");
+		ft_putendl_fd("Error: get_word failes", 2);
+		// printf("Error: get_word failed\n");
 		return (ERROR);
 	}
 	return (SUCCESS);
