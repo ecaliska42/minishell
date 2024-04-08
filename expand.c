@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/07 15:41:10 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/08 17:44:19 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ char	*process_double_quotes(char *new, char *str, int *i, t_env *envp)
 	while (str[*i] && str[*i] != '\"')
 	{
 		if ((ft_is_dollar(str[*i])) && (str[(*i) + 1] && (str[(*i) + 1] != '$'
-					&& str[(*i) + 1] != '\"' && str[(*i) + 1] != '?')))
+					&& str[(*i) + 1] != '\"' && str[(*i) + 1] != '?' && ft_isalnum(str[(*i) + 1]))))
 		{
 			(*i)++;
 			len = check_name_and_return_len(&str[*i]);

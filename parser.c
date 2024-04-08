@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/07 15:41:18 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/08 17:48:33 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ char	*get_access(char *str, t_env **envi)
 		if (access(temp2, X_OK | F_OK) == 0)
 			return (temp2);
 		i++;
+		free (temp2);
 	}
 	// while (j < i)
 	// {
@@ -70,6 +71,7 @@ char	*get_access(char *str, t_env **envi)
 	// 	}
 	// 	j++;
 	// }
+	
 	return (str);
 }
 
