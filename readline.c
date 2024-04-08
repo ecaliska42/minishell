@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/08 14:46:50 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/08 17:21:22 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 {
-	bool	tester = false;
+	bool	tester = true;
 	char	*temp;
 	t_exe	execution_utils;
 
@@ -59,8 +59,6 @@ int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 			free_environment(&envp);
 			exit (0);
 		}
-
-		
 		//non interactive
 		if (ft_strlen(shell->input) == 0)
 			continue ;
@@ -71,21 +69,22 @@ int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 			// print_everything(shell);
 			ft_putstr_fd("Error: lexical_analyzer\n", 2);
 			free_tokens(&shell->tokens);
-			free_environment(&envp);//TODO REMOVE
+			//free_environment(&envp);//TODO REMOVE
 			//free(temp);
 			free(shell->input);
 			continue;
 		}
 		if (syntax_check(shell) == SYNTAX_ERROR)
 		{
-			print_everything(shell);
-			printf("syntax_check error\n");
+			// print_everything(shell);
+			// printf("syntax_check error\n");
 			ft_putstr_fd("Syntax error\n", 2);
 			free_tokens(&shell->tokens);
-			free_environment(&envp);//TODO REMOVE
+			//free_environment(&envp);//TODO REMOVE
 			//free(temp);
 			free(shell->input);
-			exit(0) ;//todo continue
+			continue;
+			// exit(0) ;//todo continue
 		}
 		if (shell->tokens)
 		{
