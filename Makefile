@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+         #
+#    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2024/04/05 17:05:22 by mesenyur         ###   ########.fr        #
+#    Updated: 2024/04/08 14:44:51 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 CC= cc
 #REMOVE -G FLAG (MAY SLOW DOWN PROGRAMM)
 FLAGS= -Wall -Werror -Wextra -lreadline -g
-FLAGS+= -fsanitize=address,undefined,leak
+#FLAGS+= -fsanitize=address,undefined,leak
 
 NAME= minishell
 
@@ -26,6 +26,7 @@ SRC= minishell.c buildins/ft_echo.c buildins/ft_cd.c buildins/ft_env.c \
 	heredoc.c sizes/arrays.c sizes/lists.c\
 	environment.c execution_part/execution_utils.c\
 	booleans/bool_functions2.c\
+	GNL/get_next_line.c GNL/get_next_line_utils.c\
 
 SRC2 = lexer.c needed_functions.c print_debug.c token.c readline.c quote_stuff.c \
 	syntax_check.c bool_functions.c expand.c
