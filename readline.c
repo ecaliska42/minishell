@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/07 15:43:38 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/08 14:36:02 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 
 int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 {
-	bool	tester = false;
+	bool	tester = true;
 	char	*temp;
+	envp->exit_status = 0;
 	t_exe	execution_utils;
 
 	if (shell == NULL) // temp
@@ -43,12 +44,12 @@ int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 				exit (0);
 			}
 			shell->input = ft_strdup(temp);
-			//free(temp);
-			if (!shell->input)
-			{
-				free_environment(&envp);
-				exit (0);
-			}
+			// free(temp);
+		}
+		if (!shell->input)
+		{
+			free_environment(&envp);
+			exit (0);
 		}
 		//non interactive
 		if (ft_strlen(shell->input) == 0)
@@ -68,8 +69,9 @@ int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 		}
 		if (syntax_check(shell) == SYNTAX_ERROR)
 		{
-			print_everything(shell);
-			printf("syntax_check error\n");
+			envp->exit_status = 2;
+			// print_everything(shell);
+			// printf("syntax_check error\n");
 			ft_putstr_fd("Syntax error\n", 2);
 			free_tokens(&shell->tokens);
 			free_environment(&envp);//TODO REMOVE
