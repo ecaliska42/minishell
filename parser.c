@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/08 18:05:36 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/09 14:19:11 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,8 +132,8 @@ static void add_back(t_parse **com, t_parse *node)
 char	**create_command(char *str, char **cmd)
 {
 	int	size = array_size(cmd);
-	if (ft_strlen(str) == 0)
-		return (cmd);
+	// if (ft_strlen(str) == 0)
+	// 	return (cmd);
 	int	i = 0;
 	char **ret = ft_calloc (size + 2, sizeof(char *));
 	if (!ret)

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 17:58:46 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/03 16:39:25 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/09 14:02:50 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ bool	is_alpha_numbers(char *s)
 		return (true);
 	while (s[i])
 	{
-		if (ft_isalnum(s[i]) == 0)
+		if (ft_isalnum(s[i]) == 0 && s[i] != '_')
 			return (false);
 		i++;
 	}

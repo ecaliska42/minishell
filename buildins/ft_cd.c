@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:12 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/04 14:50:14 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:11:48 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,25 +34,27 @@ static char	*remove_after_schraegstrich(char *s)
 //set current directory to the value of OLDPWD
 static int	dot_dot(t_env **old, t_env **current)
 {
-	//char	*new_pwd;
-	// char	*tmp;
-
-	//tmp = remove_after_schraegstrich((*current)->values);
-	free((*old)->values);
-	(*old)->values = ft_strdup((*current)->values);
-	(*current)->values = remove_after_schraegstrich((*current)->values);
-	if (chdir((*current)->values) == -1)
+	if ((*old) && (*old)->values)
 	{
-		perror("CD..: CHDIR");
-		return (ERROR);
+		free((*old)->values);
+		(*old)->values = ft_strdup((*current)->values);
 	}
-	//new_pwd = malloc(FILENAME_MAX);
-	free((*current)->values);
-	(*current)->values = malloc(FILENAME_MAX);
-	if (getcwd((*current)->values, FILENAME_MAX) == NULL)
+	if ((*current) && (*current)->values)
 	{
-		perror("CD..: GETCWD");
-		return (ERROR);
+		(*current)->values = remove_after_schraegstrich((*current)->values);
+		if (chdir((*current)->values) == -1)
+		{
+			perror("CD..: CHDIR");
+			return (ERROR);
+		}
+		//new_pwd = malloc(FILENAME_MAX);
+		free((*current)->values);
+		(*current)->values = malloc(FILENAME_MAX);
+		if (getcwd((*current)->values, FILENAME_MAX) == NULL)
+		{
+			perror("CD..: GETCWD");
+			return (ERROR);
+		}
 	}
 	//(*current)->values=ft_strdup(new_pwd);
 	return (SUCCESS);
@@ -76,12 +78,18 @@ static int	only_cd(t_env *home, t_env **current, t_env **old)
 		write(2, "ShellMate: cd: HOME not set\n", 29);
 		return (ERROR);
 	}
-	free((*old)->values);
-	(*old)->values = ft_strdup((*current)->values);
-	free((*current)->values);
-	chdir(home->values);
-	(*current)->values = malloc(FILENAME_MAX);
-	getcwd((*current)->values, FILENAME_MAX);
+	if ((*old) && (*old)->values)
+	{
+		free((*old)->values);
+		(*old)->values = ft_strdup((*current)->values);
+	}
+	if ((*current) && (*current)->values)
+	{
+		free((*current)->values);
+		chdir(home->values);
+		(*current)->values = malloc(FILENAME_MAX);
+		getcwd((*current)->values, FILENAME_MAX);
+	}
 	return (SUCCESS);
 }
 
@@ -166,11 +174,17 @@ int	ft_cd(t_env **lst, t_parse **node)
 	else
 	{
 		chdir(parse->command[1]);
-		free(old->values);
-		old->values = ft_strdup(current->values);
-		free(current->values);
-		current->values = malloc(FILENAME_MAX);
-		getcwd(current->values, FILENAME_MAX);
+		if (old && old->values)
+		{
+			free(old->values);
+			old->values = ft_strdup(current->values);
+		}
+		if (current && current->values)
+		{
+			free(current->values);
+			current->values = malloc(FILENAME_MAX);
+			getcwd(current->values, FILENAME_MAX);
+		}
 		return (SUCCESS);
 	}
 	write(2, "ShellMate: cd: ", 16);

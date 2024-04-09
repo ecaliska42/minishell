@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:07 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/08 17:57:10 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/09 14:07:26 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,7 @@ int	ft_export(t_env **lst, t_parse **node)
 		{
 			write(2, "export : '=': not a valid identifier\n", 38);
 			return (ERROR);
-			exit(1);
+			// exit(1);
 		}
 		if (ft_strlen(before) == 0 || is_alpha_numbers(before) == false)
 		{
@@ -232,4 +232,4 @@ int	ft_export(t_env **lst, t_parse **node)
 	return 0;
 }
 
-//TODO only characters are allowed!
+//? export a=hello b=world =adf c=again
