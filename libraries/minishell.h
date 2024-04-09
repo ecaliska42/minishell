@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/08 14:40:42 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:34:33 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct parse
 	int		outfd;		//TODO THE RETURN VALUE OF OPEN
 	char	*outfile;	//TODO THE FILE NAME FOR THE OUTFDFD
 	int		outfile_type;
-	int		execute;		//TODO THE FLAG FOR APPEND
+	int		execute;	//TODO THE FLAG FOR APPEND
 	struct	parse *next;
 }	t_parse;
 
@@ -85,6 +85,8 @@ typedef struct minishell
 	t_exe	*exe;
 	t_parse	*parse;
 	t_env	*env;
+	t_shell	*shell;
+	t_token	*tokens;
 }	t_mini;
 
 /*
@@ -101,7 +103,7 @@ int	ft_echo(t_parse **node);
 /*
 	*EXECUTION
 */
-int	execute(t_parse **comm, int pipecount, t_env **envp, t_token **tokens);
+int	execute(t_parse **comm, int pipecount, t_env **envp);
 
 /*
 	*MS_UTILS

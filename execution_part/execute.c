@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/07 15:44:24 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:34:13 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,13 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, t_env **envp)
 	exit(127);
 }
 
-int	execute(t_parse **comm, int pipecount, t_env **envp, t_token **tokens)
+int	execute(t_parse **comm, int pipecount, t_env **envp)
 {
 	t_exe	ex_struct;
 	t_parse	*parse;
-	t_token	*token;
 	int		i;
 
 	parse = *comm;
-	token = *tokens;
 	if (malloc_ex_struct(&ex_struct, pipecount) == ERROR)
 		return (ERROR);
 	if (is_buildin(parse->command) == true && pipecount == 0)

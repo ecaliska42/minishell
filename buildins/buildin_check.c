@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/08 18:06:06 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:33:40 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 int	open_lonely_files(t_parse **parse)
 {
-	int	trunc;
-
-	trunc = O_WRONLY | O_CREAT | O_TRUNC;
 	if ((*parse)->outfd > 0)
 	{
 		// (*parse)->outfd = open((*parse)->outfile, trunc, 0644);

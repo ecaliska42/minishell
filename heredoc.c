@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/01 16:34:12 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:35:10 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,8 @@ void	heredoc(t_parse *node, char *end)
 {
 	char	*line;
 	int		fd;
-	int		i;
 	char	*name;
 
-	i = 0;
 	name = get_unique_heredoc_name();
 	fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	while (1)

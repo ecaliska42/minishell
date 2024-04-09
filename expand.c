@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/08 17:44:19 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:35:52 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -363,7 +363,8 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 
 void	expansion(t_token *token, t_env *envp, char quotes)
 {
-	quotes = CLOSED;
+	(void)quotes;
+	// quotes = CLOSED;
 	while (token != NULL)
 	{
 		if (token->str)

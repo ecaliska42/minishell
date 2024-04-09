@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/09 14:19:11 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:34:51 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,11 @@ char	*get_access(char *str, t_env **envi)
 {//TODO maybe change the if statement if the str is already a whole path so my char **command contains the command only
 	t_env	*path;
 	int		i;
-	int	j;
 	char	*temp;
 	char	*temp2;
 	char	**path_values;
 
 	i = 0;
-	j = 0;
 	if (access(str, X_OK | F_OK) == 0)
 		return (str);
 	path = get_path(envi);
@@ -262,7 +260,7 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 	}
 	add_back(command, node);
 	get_check(command, envp);
-	execute(command, count->pipecount, envp, tokens);
+	execute(command, count->pipecount, envp);
 	free_parsing_node(command);
 	return SUCCESS;
 }
