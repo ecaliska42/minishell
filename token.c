@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:26:46 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/08 17:54:15 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:28:26 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,6 @@ int	get_len(t_shell *shell, char *str, int *i)
 			len += get_squote_len(shell, line, &i);
 		if (line[*i] == D_QUOTE)
 			len += get_dquote_len(shell, line, &i);
-		// while (line[*i] != '\0' && ft_is_space(line[*i]) == false
-		// 	&& ft_is_special(line[*i]) == false
-		// 	&& ft_is_quote(line[*i]) == false)
-		// {
-		// 	len++;
-		// 	(*i)++;
-		// }
 		else if (line[*i] != '\0' && ft_is_space(line[*i]) == false
 			&& ft_is_special(line[*i]) == false
 			&& ft_is_quote(line[*i]) == false)
@@ -93,8 +86,7 @@ int	get_len(t_shell *shell, char *str, int *i)
 			(*i)++;
 		}
 		else
-			break;
-		// printf("line[*i] = '%c'\n", line[*i]);
+			break ;
 	}
 	return (len);
 }
@@ -165,50 +157,110 @@ int	not_pipe(t_shell *shell, t_token *last_token, int *i)
 	if (last_token->str == NULL)
 	{
 		ft_putendl_fd("Error: get_word failes", 2);
-		// printf("Error: get_word failed\n");
 		return (ERROR);
 	}
 	return (SUCCESS);
 }
 
-int	ft_strtok(t_shell *shell, int *i)
-{
-	char	*line;
-	t_token	*last_token;
+// int	ft_strtok(t_shell *shell, int *i)
+// {
+// 	char	*line;
+// 	t_token	*last_token;
 
-	if (!shell)
-		return (ERROR);
-	line = shell->input;
-	while (line[*i] != '\0')
-	{
-		if (ft_is_space(line[*i]) == true && line[*i] != '\0')
+// 	if (!shell)
+// 		return (ERROR);
+// 	line = shell->input;
+// 	while (line[*i] != '\0')
+// 	{
+// 		if (ft_is_space(line[*i]) == true && line[*i] != '\0')
+// 		{
+// 			(*i)++;
+// 			continue ;
+// 		}
+// 		last_token = add_new_empty_token(shell);
+// 		if (!last_token)
+// 		{
+// 			printf("Error: Token add failed\n");
+// 			return (ERROR);
+// 		}
+// 		ft_tokenizer(shell, last_token, *i);
+// 		if (last_token->type != RANDOM)
+// 			not_random(last_token, i);
+// 		if (last_token->type == PIPE)
+// 		{
+// 			while (ft_is_space(line[*i]) == true && line[*i] != '\0')
+// 				(*i)++;
+// 			if (line[*i] != '\0')
+// 			{
+// 				last_token = add_new_empty_token(shell);
+// 				ft_tokenizer(shell, last_token, *i);
+// 				if (last_token->type != RANDOM)
+// 					not_random(last_token, i);
+// 			}
+// 		}
+// 		if (not_pipe(shell, last_token, i) == ERROR)
+// 			return (ERROR);
+// 	}
+// 	return (SUCCESS);
+// }
+
+t_token *add_token_and_check(t_shell *shell)
+{
+    t_token *last_token = add_new_empty_token(shell);
+    if (!last_token)
+    {
+        printf("Error: Token add failed\n");
+        return NULL;
+    }
+    return last_token;
+}
+
+void handle_token_type(t_shell *shell, t_token **last_token, int **i)
+{
+    ft_tokenizer(shell, *last_token, **i);
+    if ((*last_token)->type != RANDOM)
+        not_random(*last_token, *i);
+}
+
+int handle_pipe(t_shell *shell, t_token **last_token, char **line, int **i)
+{
+    if ((*last_token)->type == PIPE)
+    {
+        skip_spaces(*line, *i);
+        if ((*line)[**i] != '\0')
+        {
+            *last_token = add_token_and_check(shell);
+            if (!*last_token)
+                return ERROR;
+            handle_token_type(shell, last_token, i);
+        }
+    }
+    return SUCCESS;
+}
+
+int ft_strtok(t_shell *shell, int *i)
+{
+    char *line;
+    t_token *last_token;
+
+    if (!shell)
+        return (ERROR);
+    line = shell->input;
+    while (line[*i] != '\0')
+    {
+        if (ft_is_space(line[*i]) == true && line[*i] != '\0')
 		{
 			(*i)++;
 			continue ;
 		}
-		last_token = add_new_empty_token(shell);
-		if (!last_token)
-		{
-			printf("Error: Token add failed\n");
-			return (ERROR);
-		}
-		ft_tokenizer(shell, last_token, *i);
-		if (last_token->type != RANDOM)
-			not_random(last_token, i);
-		if (last_token->type == PIPE)
-		{
-			while (ft_is_space(line[*i]) == true && line[*i] != '\0')
-				(*i)++;
-			if (line[*i] != '\0')
-			{
-				last_token = add_new_empty_token(shell);
-				ft_tokenizer(shell, last_token, *i);
-				if (last_token->type != RANDOM)
-					not_random(last_token, i);
-			}
-		}
-		if (not_pipe(shell, last_token, i) == ERROR)
-			return (ERROR);
-	}
-	return (SUCCESS);
+        last_token = add_token_and_check(shell);
+        if (!last_token)
+            return (ERROR);
+        handle_token_type(shell, &last_token, &i);
+        if (handle_pipe(shell, &last_token, &line, &i) == ERROR)
+            return (ERROR);
+        if (not_pipe(shell, last_token, i) == ERROR)
+            return (ERROR);
+    }
+    return (SUCCESS);
 }
