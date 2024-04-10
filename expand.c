@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/10 11:04:50 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/10 17:06:14 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*add_char(char *str, char new_char)
 	return (new);
 }
 
-t_token	*split_value(char *str, char *value, t_token *token, int flag)
+t_token	*split_value(char *str, char *value, t_token *token)//, int flag)
 {
 	char	**words;
 	t_token	*last;
@@ -82,12 +82,7 @@ t_token	*split_value(char *str, char *value, t_token *token, int flag)
 	words = ft_split(value, ' ');
 	if (words == NULL)
 		return (NULL);
-	if ((flag != 1 && flag != 3) && i == 0) // no space at start	 
-	{
-		last->str = ft_strjoin(str, words[0]);
-		i++;
-	}
-	if ((flag == 1 || flag == 3) && (ft_strlen(str) == 0) && i == 0)  // if token is empty use the existing token 
+	if (i == 0) // no space at start	 
 	{
 		last->str = ft_strjoin(str, words[0]);
 		i++;
@@ -170,43 +165,67 @@ char	*process_double_quotes(char *new, char *str, int *i, t_env *envp)
 	return (new);
 }
 
-char	*expand_heredoc(char *new, char *str, int *i, t_env *envp)
-{
-	int		len;
-	char	*tmp;
-	char	*value;
+// char	*expand_heredoc(char *new, char *str, int *i, t_env *envp)
+// {
+// 	int		len;
+// 	char	*tmp;
+// 	char	*value;
 
+// 	while (str[*i])
+// 	{
+// 		while (str[*i] && str[*i] != '$')
+// 		{
+// 			new = add_char(new, str[*i]);
+// 			(*i)++;
+// 		}
+// 		if ((ft_is_dollar(str[*i])) && (str[(*i) + 1] && (str[(*i)
+// 					+ 1] != '$')))
+// 		{
+// 			(*i)++;
+// 			len = check_name_and_return_len(&str[*i]);
+// 			tmp = ft_substr(str, *i, len);
+// 			if (!tmp)
+// 				return (NULL);
+// 			(*i) += len;
+// 			if ((value = get_env_value(tmp, envp)) != NULL)
+// 			{
+// 				new = ft_strjoin(new, value);
+// 			}
+// 		}
+// 		while (str[*i] && str[*i] != '$' && str[*i])
+// 		{
+// 			new = add_char(new, str[*i]);
+// 			(*i)++;
+// 		}
+// 	}
+// 	return (new);
+// }
+
+char	*expand_heredoc_delimeter(char *new, char *str, int *i, char quotes)
+{
 	while (str[*i])
 	{
-		while (str[*i] && str[*i] != '$')
+		if (quote_check(str[*i], &quotes) != 0)
 		{
-			new = add_char(new, str[*i]);
-			(*i)++;
-		}
-		if ((ft_is_dollar(str[*i])) && (str[(*i) + 1] && (str[(*i)
-					+ 1] != '$')))
-		{
-			(*i)++;
-			len = check_name_and_return_len(&str[*i]);
-			tmp = ft_substr(str, *i, len);
-			if (!tmp)
-				return (NULL);
-			(*i) += len;
-			if ((value = get_env_value(tmp, envp)) != NULL)
+			(*i)++; // quote
+			// struct->flag_exp = false;
+			while (quote_check(str[*i], &quotes) != 0)
 			{
-				new = ft_strjoin(new, value);
+				new = add_char(new, str[*i]);
+				(*i)++;
 			}
+			(*i)++; // quote
 		}
-		while (str[*i] && str[*i] != '$' && str[*i])
+		else
 		{
 			new = add_char(new, str[*i]);
 			(*i)++;
 		}
-	}
+	} 
 	return (new);
 }
 
-t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
+t_token	*expand_variable(t_token *token, t_env *envp, char quotes)
 {
 	char	*joker;
 	char	*new;
@@ -219,7 +238,6 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 
 	len = 0;
 	i = 0;
-	flag = 0;
 	last_token = NULL;
 	tmp = NULL;
 	tmp_i = NULL;
@@ -229,6 +247,10 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 	new = ft_strdup("");
 	while (joker[i])
 	{
+		if (token->type == HEREDOC)
+		{
+			new = expand_heredoc_delimeter(new, joker, &i, quotes);
+		}
 		if (joker[i] == '$' && joker[i + 1] == '?')
 		{
 			new = ft_strjoin(new ,replace_exit_code(joker, &i, envp));
@@ -273,7 +295,7 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 							if (token->type != HEREDOC && token->type != RANDOM)
 								token->ambiguous = true;
 							tmp_i = &joker[i];
-							last_token = split_value(new, value, token, flag);
+							last_token = split_value(new, value, token);
 							if (*tmp_i)
 							{
 									while (*tmp_i && *tmp_i != '$' && *tmp_i != '\"' && *tmp_i != '\'')
@@ -323,15 +345,11 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 void	expansion(t_token *token, t_env *envp, char quotes)
 {
 	(void)quotes;
-	// quotes = CLOSED;
+	
 	while (token != NULL)
 	{
 		if (token->str)
-		{
-			// if (token->type != HEREDOC)
-			// test if works for heredoc delimeter
-			token = expand_variable(token, envp, CLOSED, 0);
-		}
+			token = expand_variable(token, envp, CLOSED);//, 0);
 		if (token)
 			token = token->next;
 	}
