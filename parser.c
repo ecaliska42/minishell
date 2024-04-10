@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/10 16:58:55 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/10 18:03:53 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,20 +60,10 @@ char	*get_access(char *str, t_env **envi)
 		i++;
 		free (temp2);
 	}
-	// while (j < i)
-	// {
-	// 	if (path_values[j])
-	// 	{
-	// 		free(path_values[j]);
-	// 		path_values[j] = NULL;
-	// 	}
-	// 	j++;
-	// }
-	
 	return (str);
 }
 
-int	get_check(t_parse **head, t_env **envi)//TODO get the char *check with char **command
+static int	get_check(t_parse **head, t_env **envi)//TODO get the char *check with char **command
 {
 	t_parse *node; //char **command should already be set up
 
@@ -94,8 +84,6 @@ int	get_check(t_parse **head, t_env **envi)//TODO get the char *check with char 
 	return (SUCCESS);
 }
 
-//execve ("/usr/bin/ls", {ls; -l; NULL}, ENVP)
-
 static void add_back(t_parse **com, t_parse *node)
 {
 	t_parse	*temp;
@@ -112,9 +100,6 @@ static void add_back(t_parse **com, t_parse *node)
 		temp -> next = node;
 	}
 	temp = *com;
-	
-	// node->next = *com;
-	// *com = node;
 }
 
 /*
