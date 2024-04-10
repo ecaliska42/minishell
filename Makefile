@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
+#    By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2024/04/09 15:36:20 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/04/10 12:32:44 by mesenyur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ SRC= minishell.c buildins/ft_echo.c buildins/ft_cd.c buildins/ft_env.c \
 	GNL/get_next_line.c GNL/get_next_line_utils.c\
 
 SRC2 = lexer.c needed_functions.c print_debug.c token.c readline.c quote_stuff.c \
-	syntax_check.c bool_functions.c expand.c
+	syntax_check.c bool_functions.c expand.c signal.c
 
 OBJ= $(SRC:.c=.o) $(SRC2:.c=.o)
 
