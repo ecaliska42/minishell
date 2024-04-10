@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/10 16:31:43 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/10 17:19:55 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	heredoc(t_parse *node, char *end)
 	fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	while (1)
 	{
-		line = readline("heredoc> ");
+		line = readline("> ");
 		if (!line)
 			break ;
 		//TODO expand variables in heredoc???
