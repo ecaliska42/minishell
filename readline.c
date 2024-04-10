@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/09 20:27:57 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/10 12:37:19 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 {
-	bool	tester = false;
+	bool	tester = true;
 	char	*temp;
 	envp->exit_status = 0;
 	t_exe	execution_utils;
