@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/09 20:37:04 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/10 16:53:25 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef struct s_exe
 
 typedef struct minishell
 {
-	t_exe	*exe;
+	t_exe	exe;
 	t_parse	*parse;
 	t_env	*env;
 	t_shell	shell;
@@ -129,8 +129,8 @@ void	*dup_for_no_pipes(t_parse *comm);
 void	*dup_filedescriptor(t_parse *comm, t_exe *ex_utils, int i);
 void	*close_filedescriptor(t_parse *comm, t_exe *ex_utils);
 
-int ft_readline(t_shell *shell, t_parse *command, t_env *envp);
-int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_env **envp);
+int	ft_readline(t_mini *mini);//(t_shell *shell, t_parse *command, t_env *envp)//(t_mini *mini)//;
+int	prepare_for_execution(t_mini **shell);//(t_parse **command, t_exe *count, t_token **tokens, t_env **envp)
 
 void	heredoc(t_parse *node, char *end);
 
@@ -141,7 +141,7 @@ int	t_env_size(t_env **envp);
 int	array_size(char **array);
 
 
-void 	expansion(t_token *token, t_env *envp, char quotes);
+void	expansion(t_token *token, t_env *envp);
 t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag);
 char	*get_env_value(char *name, t_env *envp);
 char 	*add_char(char *str, char new_char);

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/09 15:35:10 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/10 16:31:43 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	heredoc(t_parse *node, char *end)
 		if (!line)
 			break ;
 		//TODO expand variables in heredoc???
-		if (ft_strncmp(line, end, ft_strlen(end)) == 0)
+		if (ft_strcmp(line, end) == 0)
 		{
 			free(line);
 			line = NULL;

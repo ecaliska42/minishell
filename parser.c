@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/09 15:34:51 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/10 16:58:55 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,13 +194,14 @@ void free_parsing_node(t_parse **head)
 	}
 }
 
-int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_env **envp)
+int	prepare_for_execution(t_mini **shell)//(t_parse **command, t_exe *count, t_token **tokens, t_env **envp)
 {
 	t_parse *node;
 	t_token	*tmp;
 
-	tmp = *tokens;
-	count->pipecount = 0;
+	t_mini *mini = *shell;
+	tmp = mini->shell.tokens;
+	mini->exe.pipecount = 0;
 	node = malloc(sizeof(t_parse));
 	if (!node)
 	{
@@ -251,16 +252,21 @@ int	prepare_for_execution(t_parse **command, t_exe *count, t_token **tokens, t_e
 			node->command = create_command(tmp->str, node->command);
 		else if (tmp -> type == PIPE)
 		{
-			count->pipecount++;
-			add_back(command, node);
+			mini->exe.pipecount++;
+			add_back(&mini->parse, node);
 			node = malloc(sizeof(t_parse));
+			if (!node)
+			{
+				ft_putendl_fd("malloc", 2);
+				return (ERROR);
+			}
 			ft_bzero(node, sizeof(t_parse));
 		}
 		tmp = tmp ->next;
 	}
-	add_back(command, node);
-	get_check(command, envp);
-	execute(command, count->pipecount, envp);
-	free_parsing_node(command);
-	return SUCCESS;
+	add_back(&mini->parse, node);
+	get_check(&mini->parse, &mini->env);
+	execute(&mini->parse, mini->exe.pipecount, &mini->env);
+	free_parsing_node(&mini->parse);
+	return (SUCCESS);
 }

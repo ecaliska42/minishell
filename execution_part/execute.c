@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/09 15:34:13 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/10 15:16:57 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,10 @@ int	execute(t_parse **comm, int pipecount, t_env **envp)
 	{
 		ex_struct.id[i] = fork();
 		if (ex_struct.id[i] == 0)
+		{
+			signal_handler(2);
 			child(parse, &ex_struct, i, envp);
+		}
 		i++;
 		parse = parse->next;
 	}

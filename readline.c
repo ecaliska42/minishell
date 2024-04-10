@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/10 12:40:23 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/10 16:55:05 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,29 @@
 
 #include "GNL/get_next_line.h"
 
-int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
+int	ft_readline(t_mini *mini)//(t_shell *shell, t_parse *command, t_env *envp)//(t_mini *mini)//
 {
 	bool	tester = true;
 	char	*temp;
-	envp->exit_status = 0;
-	t_exe	execution_utils;
+	mini->env->exit_status = 0;
 
-	if (shell == NULL) // temp
-	{
-		ft_putstr_fd("Error: shell is NULL\n", 2);
-		exit(1);
-	}
+	// if (shell == NULL) // temp
+	// {
+	// 	ft_putstr_fd("Error: shell is NULL\n", 2);
+	// 	exit(1);
+	// }
 	while (1)
 	{
-		// shell->input = readline(NULL);
 		signal_handler(1);
 		if (tester == true)
 		{
 			if (isatty(fileno(stdin)))
-			shell->input = readline(PROMPT);
+			mini->shell.input = readline(PROMPT);
 			else
 			{
 				char *line;
 				line = get_next_line(fileno(stdin));
-				shell->input = ft_strtrim(line, "\n");
+				mini->shell.input = ft_strtrim(line, "\n");
 				free(line);
 			}
 		}
@@ -48,59 +46,59 @@ int	ft_readline(t_shell *shell, t_parse *command, t_env *envp)
 			temp = readline(PROMPT);
 			if (!temp)
 			{
-				free_environment(&envp);
+				free_environment(&mini->env);
 				//clear_history();
 				exit (0);
 			}
-			shell->input = ft_strdup(temp);
-			//free(temp);
+			mini->shell.input = ft_strdup(temp);
+			free(temp);
 		}
-		if (!shell->input)
+		if (!mini->shell.input)
 		{
-			free_environment(&envp);
+			free_environment(&mini->env);
 			exit (0);
 		}
 		//non interactive
-		if (ft_strlen(shell->input) == 0)
+		if (ft_strlen(mini->shell.input) == 0)
 			continue ;
-		add_history(shell->input);
-		if (lexical_analyzer(shell) == ERROR)
+		add_history(mini->shell.input);
+		if (lexical_analyzer(&mini->shell) == ERROR)
 		{
 			// printf("lexical_analyzer error\n");
 			// print_everything(shell);
 			ft_putstr_fd("Error: lexical_analyzer\n", 2);
-			free_tokens(&shell->tokens);
-			//free_environment(&envp);//TODO REMOVE
-			//free(temp);
-			free(shell->input);
+			free_tokens(&mini->shell.tokens);
+			free(mini->shell.input);
 			continue;
 		}
-		if (syntax_check(shell) == SYNTAX_ERROR)
+		if (syntax_check(&mini->shell) == SYNTAX_ERROR)
 		{
-			envp->exit_status = 2;
+			mini->env->exit_status = 2;
 			// print_everything(shell);
 			// printf("syntax_check error\n");
 			ft_putstr_fd("Syntax error\n", 2);
-			free_tokens(&shell->tokens);
-			//free_environment(&envp);//TODO REMOVE
-			//free(temp);
-			free(shell->input);
+			free_tokens(&mini->shell.tokens);
+			free(mini->shell.input);
 			continue;
-			// exit(0) ;//todo continue
 		}
-		if (shell->tokens)
+		if (mini->shell.tokens)
 		{
-			expansion(shell->tokens, envp, CLOSED);
-			prepare_for_execution(&command, &execution_utils, &shell->tokens, &envp);
+			expansion(mini->shell.tokens, mini->env);
+			if (prepare_for_execution(&mini) == ERROR)
+			{
+				// print_everything(shell);
+				ft_putstr_fd("Error: prepare_for_execution\n", 2);
+				free_tokens(&mini->shell.tokens);
+				free(mini->shell.input);
+				exit (1);
+			}
 		}	
-		// print_everything(shell);
-		// if (shell->tokens)
-		if (shell->input)
+		if (mini->shell.input)
 		{
-			free(shell->input);
-			shell->input = NULL;
+			free(mini->shell.input);
+			mini->shell.input = NULL;
 		}
-		free_tokens(&shell->tokens);
+		free_tokens(&mini->shell.tokens);
 	}
 	return (SUCCESS);
 }
