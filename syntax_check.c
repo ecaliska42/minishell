@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:16:58 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/09 14:38:44 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/10 11:05:05 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	pipe_valid(t_shell *shell)
 	{
 		if (tmp->type == PIPE && !tmp->next)
 		{
-			printf("pipe_valid\n");
 			printf("minishell: syntax error near unexpected token `|'\n");
 			return (SYNTAX_ERROR);
 		}
@@ -39,7 +38,6 @@ int	too_many_pipes(t_shell *shell)
 	{
 		if (tmp->type == PIPE && tmp->next && tmp->next->type == PIPE)
 		{
-			printf("too_many_pipes\n");
 			printf("minishell: syntax error near unexpected token `|'\n");
 			return (SYNTAX_ERROR);
 		}
@@ -57,7 +55,6 @@ int	three_outputs(t_shell *shell)
 	{
 		if (tmp->type == OUTPUT && tmp->next && tmp->next->type == APPEND)
 		{
-			printf("three_outputs\n");
 			printf("minishell: syntax error near unexpected token `>>'\n");
 			return (SYNTAX_ERROR);
 		}
@@ -75,7 +72,6 @@ int	three_inputs(t_shell *shell)
 	{
 		if (tmp->type == INPUT && tmp->next && tmp->next->type == HEREDOC)
 		{
-			printf("three_inputs\n");
 			printf("minishell: syntax error near unexpected token `>>'\n");
 			return (SYNTAX_ERROR);
 		}
@@ -96,7 +92,6 @@ int	redir_pipe(t_shell *shell)
 			skip_spaces(shell->input, &i);
 			if (shell->input[i] == '|')
 			{
-				printf("redir_pipe\n");
 				printf("minishell: syntax error near unexpected token `|'\n");
 				return (SYNTAX_ERROR);
 			}
@@ -114,7 +109,6 @@ int	pipe_start(t_shell *shell)
 	skip_spaces(shell->input, &i);
 	if (shell->input[i] && shell->input[i] == '|')
 	{
-		printf("pipe_start\n");
 		printf("minishell: syntax error near unexpected token `|'\n");
 		return (SYNTAX_ERROR);
 	}
@@ -130,7 +124,6 @@ int	invalid_word(t_shell *shell)
 	{
 		if (tmp->type != PIPE && tmp->str[0] == '\0')
 		{
-			printf("INVALID WORD\n");
 			printf("minishell: syntax error near unexpected token `<|>'\n");
 			return (SYNTAX_ERROR);
 		}

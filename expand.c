@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/09 15:35:52 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/10 11:04:50 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,32 +25,6 @@ char *replace_exit_code(char *str, int *i, t_env *envp)
 		return (ft_itoa(exit_status)); //protect
 	}
 	return (0);
-}
-
-char	*dollar_number(char *str, int *index, char *quotes)
-{
-	char *copy;
-	int i;
-
-	i = 0;
-	// copy = ft_strdup("");
-	copy = ft_calloc((ft_strlen(str) - *index) + 1, sizeof(char));	
-	if (!copy)
-		return (NULL);
-	while (str[*index] && (str[*index] != '$' && !ft_is_space(str[*index])))
-	{
-		while (quote_check(str[*index], quotes) != CLOSED)
-		{
-			(*index)++;
-			if (quote_check(str[*index], quotes) != CLOSED)
-				copy[i++] = str[(*index)];
-			else
-				(*index)++;
-		}
-		copy[i++] = str[(*index)++];
-	}
-	copy[i] = '\0';
-	return (copy);	
 }
 
 int	check_name_and_return_len(char *name)
@@ -257,14 +231,7 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 	{
 		if (joker[i] == '$' && joker[i + 1] == '?')
 		{
-			// new = ft_strjoin(new, ft_itoa(envp->exit_status));
-			// i += 2;
 			new = ft_strjoin(new ,replace_exit_code(joker, &i, envp));
-		}
-		if (joker[i] == '$' && ft_isdigit(joker[i + 1]))
-		{
-			i += 2;
-			new = ft_strjoin(new, dollar_number(joker, &i, &quotes));
 		}
 		quote_check(joker[i], &quotes);
 		if (joker[i] == S_QUOTE)
@@ -295,7 +262,6 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 					{
 						if (value[0] == '\0')
 							token->ambiguous = true;
-						// value = skip_starting_ending_spaces(value);
 						value = ft_strtrim(value, " ");
 						if (ft_strchr(value, ' ') == NULL) // single word value
 						{
@@ -340,14 +306,7 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes, int flag)
 				}
 				else if (joker[i] == '$' && joker[i + 1] == '?')
 				{
-					// new = ft_strjoin(new, ft_itoa(envp->exit_status));
-					// i += 2;
 					new = ft_strjoin(new ,replace_exit_code(joker, &i, envp));
-				}
-				if (joker[i] == '$' && ft_isdigit(joker[i + 1]))
-				{
-					i += 2;
-					new = ft_strjoin(new, dollar_number(joker, &i, &quotes));
 				}
 				else if (ft_is_dollar(joker[i]))
 				{
@@ -387,37 +346,3 @@ int	ft_strcmp(const char *s1, const char *s2)
 	}
 	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
-
-char	*skip_starting_ending_spaces(char *value)
-{
-	int		i;
-	int		j;
-	int		k;
-	char	*new;
-
-	k = 0;
-	i = 0;
-	j = 0;
-	while (value[i] && ft_is_space(value[i]))
-		i++;
-	while (value[j])
-		j++;
-	j--;
-	while (j >= 0 && ft_is_space(value[j]))
-		j--;
-	new = malloc(j - i + 2); // Problematic if value is only spaces
-	if (new == NULL)
-		return (NULL);
-	while (i <= j)
-	{
-		new[k] = value[i];
-		i++;
-		k++;
-	}
-	new[k] = '\0';
-	// free(value);
-	// value = NULL;
-	return (new);
-}
-
-
