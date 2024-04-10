@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/01 20:34:28 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/10 12:35:32 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,31 +52,21 @@ char	**create_if_no_envp(char **envp)
 
 int	main(int ac, char **av, char **envp)
 {
-	t_env	*environment;
-	t_parse	*commands;
-	t_shell	shell;
+	t_mini mini;
 
 	(void)ac;
 	(void)av;
-	// char *line;
 	if (envp == NULL || envp[0] == NULL)
 		envp = create_if_no_envp(envp);
-	if (copy_environment(envp, &environment) == ERROR)
+	if (copy_environment(envp, &mini.env) == ERROR)
 		return (1);
-	commands = NULL;
-	ft_bzero(&shell, sizeof(t_shell));
-	//printf("Welcome to minishell!\n");
-	ft_readline(&shell, commands, environment);
-	// if(!line)
-	// 	return (write(2, "ERROR ON READLINE\n", 19));
-	// free(line);
-	free_environment(&environment);
+	ft_bzero(&mini.shell, sizeof(t_shell));
+	mini.parse = NULL;
+	ft_readline(&mini.shell, mini.parse, mini.env);
+	free_environment(&mini.env);
 	return (0);
 }
 
-// TODO BUILDINS: echo with -n || cd with only relative or absolout path
-// TODO BUILDINS: export with no options || unset with no option || env with no options or arguments
-// TODO BUILDINS: exit with no options
 
 // TODO DONE: pwd with no options ||
 
@@ -115,22 +105,12 @@ int	main(int ac, char **av, char **envp)
 	* tgetstr
 	* tgoto
 	* tputs
-	! readline
 	! rl_clear_history
 	! rl_on_new_line
 	! rl_replace_line
 	! rl_redisplay
 	! printf
-	! malloc
-	! free
-	! write
-	! open
-	! read
-	! close
 	! fork
-	! exit
-	! pipe
-	! perror
 	! strerror
 	! add_history
 	! access
@@ -138,8 +118,6 @@ int	main(int ac, char **av, char **envp)
 	! waitpid
 	! unlink
 	! execve
-	! dup
-	! dup2
 	! getcwd
 	! getenv
 */

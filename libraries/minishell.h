@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/09 15:34:33 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/09 20:37:04 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,9 @@ typedef struct minishell
 	t_exe	*exe;
 	t_parse	*parse;
 	t_env	*env;
-	t_shell	*shell;
+	t_shell	shell;
 	t_token	*tokens;
+	int	exit_status;
 }	t_mini;
 
 /*
