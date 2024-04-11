@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/10 18:03:53 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:25:49 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ char	*get_access(char *str, t_env **envi)
 	return (str);
 }
 
-static int	get_check(t_parse **head, t_env **envi)//TODO get the char *check with char **command
+static int	get_check(t_mini **mini)//(t_parse **head, t_env **envi)//TODO get the char *check with char **command
 {
 	t_parse *node; //char **command should already be set up
 
-	node = *head;
+	node = (*mini)->parse;
 	while (node)
 	{
 		// printf("node command is %s\n", node->command[0]);
@@ -76,7 +76,7 @@ static int	get_check(t_parse **head, t_env **envi)//TODO get the char *check wit
 			node = node -> next;
 			continue;
 		}
-		node->check = get_access(node->command[0], envi);
+		node->check = get_access(node->command[0], &(*mini)->env);
 		if (!node->check)
 			return (ERROR);
 		node = node -> next;
@@ -151,11 +151,6 @@ void free_parsing_node(t_parse **head)
 	{
 		tmp = *head;
 		*head = (*head) -> next;
-		// if (tmp->check)
-		// {
-		// 	free(tmp->check);
-		// 	tmp->check = NULL;
-		// }
 		if (tmp->command)
 		{
 			i = 0;
@@ -179,7 +174,7 @@ void free_parsing_node(t_parse **head)
 	}
 }
 
-int	prepare_for_execution(t_mini **shell)//(t_parse **command, t_exe *count, t_token **tokens, t_env **envp)
+int	prepare_for_execution(t_mini **shell)
 {
 	t_parse *node;
 	t_token	*tmp;
@@ -250,8 +245,8 @@ int	prepare_for_execution(t_mini **shell)//(t_parse **command, t_exe *count, t_t
 		tmp = tmp ->next;
 	}
 	add_back(&mini->parse, node);
-	get_check(&mini->parse, &mini->env);
-	execute(&mini->parse, mini->exe.pipecount, &mini->env);
+	get_check(&mini);
+	execute(&mini);
 	free_parsing_node(&mini->parse);
 	return (SUCCESS);
 }

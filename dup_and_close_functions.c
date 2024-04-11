@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 17:02:21 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/30 20:15:32 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:22:20 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,9 @@ void	*close_filedescriptor(t_parse *comm, t_exe *ex_utils)
 		}
 		i++;
 	}
-	if(comm)
-	{
-		if (comm->infd > 0)
-			close(comm->infd);
-		if (comm->outfd > 0)
-			close(comm->outfd);
-	}
+	if (comm && comm->infd > 0)
+		close(comm->infd);
+	if (comm && comm->outfd > 0)
+		close(comm->outfd);
 	return ((void *)1);
 }

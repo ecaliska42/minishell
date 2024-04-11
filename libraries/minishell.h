@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/11 12:16:28 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:24:36 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct t_env
 {
 	char	*name;
 	char	*values;
-	int		exit_status;
+	//int		exit_status;
 	struct t_env	*next;
 }	t_env;
 
@@ -104,7 +104,7 @@ int	ft_echo(t_parse **node);
 /*
 	*EXECUTION
 */
-int	execute(t_parse **comm, int pipecount, t_env **envp);
+int	execute(t_mini **mini);//(t_parse **comm, int pipecount, t_env **envp)
 
 /*
 	*MS_UTILS

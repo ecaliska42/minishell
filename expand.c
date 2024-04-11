@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/10 17:19:41 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:13:50 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ char *replace_exit_code(char *str, int *i, t_env *envp)
 {
 	int exit_status;
 
-	exit_status = envp->exit_status;
+	exit_status = 0;//envp->exit_status;
+	(void)envp;
 	if (str[*i] && str[*i] == '$' && str[(*i) + 1] && str[(*i) + 1] == '?')
 	{
 		(*i) += 2;

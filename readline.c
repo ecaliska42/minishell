@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/10 17:19:49 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:10:56 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_readline(t_mini *mini)//(t_shell *shell, t_parse *command, t_env *envp)//
 {
 	bool	tester = true;
 	char	*temp;
-	mini->env->exit_status = 0;
+	mini->exit_status = 0;
 
 	// if (shell == NULL) // temp
 	// {
@@ -73,7 +73,7 @@ int	ft_readline(t_mini *mini)//(t_shell *shell, t_parse *command, t_env *envp)//
 		}
 		if (syntax_check(&mini->shell) == SYNTAX_ERROR)
 		{
-			mini->env->exit_status = 2;
+			mini->exit_status = 2;
 			// print_everything(shell);
 			// printf("syntax_check error\n");
 			ft_putstr_fd("Syntax error\n", 2);

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/10 17:20:08 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:27:21 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,47 +63,47 @@ void	child(t_parse *comm, t_exe *ex_utils, int i, t_env **envp)
 	exit(127);
 }
 
-int	execute(t_parse **comm, int pipecount, t_env **envp)
+int	execute(t_mini **mini)//(t_parse **comm, int pipecount, t_env **envp)
 {
-	t_exe	ex_struct;
+	// t_exe	ex_struct;
 	t_parse	*parse;
 	int		i;
 
-	parse = *comm;
-	if (malloc_ex_struct(&ex_struct, pipecount) == ERROR)
+	parse = (*mini)->parse;
+	if (malloc_ex_struct(&(*mini)->exe, 0) == ERROR)
 		return (ERROR);
-	if (is_buildin(parse->command) == true && pipecount == 0)
+	if (is_buildin(parse->command) == true && (*mini)->exe.pipecount == 0)
 	{
-		lonely_buildin(parse, envp);
-		free(ex_struct.id);
-		ex_struct.id = NULL;
-		free_fds(ex_struct.fd);
+		lonely_buildin(parse, &(*mini)->env);
+		free((*mini)->exe.id);
+		(*mini)->exe.id = NULL;
+		free_fds((*mini)->exe.fd);
 		return (SUCCESS);
 	}
-	if (create_pipes(&ex_struct) == ERROR)
+	if (create_pipes(&(*mini)->exe) == ERROR)
 		return (ERROR);
 	i = 0;
 	while (parse != NULL)
 	{
-		ex_struct.id[i] = fork();
-		if (ex_struct.id[i] == 0)
+		(*mini)->exe.id[i] = fork();
+		if ((*mini)->exe.id[i] == 0)
 		{
 			signal_handler(2);
-			child(parse, &ex_struct, i, envp);
+			child(parse, &(*mini)->exe, i, &(*mini)->env);
 		}
 		i++;
 		parse = parse->next;
 	}
-	close_filedescriptor(NULL, &ex_struct);
+	close_filedescriptor(NULL, &(*mini)->exe);
 	i--;
 	while (i >= 0)
-		waitpid(ex_struct.id[i--], &(*envp)->exit_status, 0);
-	if(WIFEXITED((*envp)->exit_status))
-		(*envp)->exit_status = WEXITSTATUS((*envp)->exit_status);
-	else if(WIFSIGNALED((*envp)->exit_status))
-		(*envp)->exit_status = 128 + WTERMSIG((*envp)->exit_status);
-	free(ex_struct.id);
-	ex_struct.id = NULL;
-	free_fds(ex_struct.fd);
+		waitpid((*mini)->exe.id[i--], &(*mini)->exit_status, 0);
+	if(WIFEXITED((*mini)->exit_status))
+		(*mini)->exit_status = WEXITSTATUS((*mini)->exit_status);
+	else if(WIFSIGNALED((*mini)->exit_status))
+		(*mini)->exit_status = 128 + WTERMSIG((*mini)->exit_status);
+	free((*mini)->exe.id);
+	(*mini)->exe.id = NULL;
+	free_fds((*mini)->exe.fd);
 	return (SUCCESS);
 }
