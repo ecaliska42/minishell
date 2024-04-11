@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/10 17:48:05 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/11 12:16:28 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ int	array_size(char **array);
 
 
 void 	expansion(t_token *token, t_env *envp);
-t_token	*expand_variable(t_token *token, t_env *envp, char quotes);//, int flag);
+t_token	*expand_variable(t_token *token, t_env *envp, char quotes);
 char	*get_env_value(char *name, t_env *envp);
 char 	*add_char(char *str, char new_char);
 t_env	*get_from_env(t_env **lst, char *s);
