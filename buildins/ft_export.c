@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:07 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/09 14:07:26 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:12:29 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ static int get_before_after(char **before, char **after, char *s)
 	return (SUCCESS);
 }
 
-int	ft_export(t_env **lst, t_parse **node)
+int	ft_export(t_env **lst, t_parse **node, t_mini **mini)
 {
 	t_env	*envp;
 	t_parse	*command;
@@ -229,6 +229,7 @@ int	ft_export(t_env **lst, t_parse **node)
 	}
 	if (fail == 1)
 		exit (1);
+	(*mini)->exit_status = 0;
 	return 0;
 }
 

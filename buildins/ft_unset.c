@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:06 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/29 19:23:35 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:11:02 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	delete_node(t_env **envp, char *name)
 	}
 }
 
-int	ft_unset(t_parse **parsing, t_env **environment)
+int	ft_unset(t_parse **parsing, t_env **environment, t_mini **mini)
 {
 	t_parse	*parse;
 	int		i;
@@ -69,5 +69,6 @@ int	ft_unset(t_parse **parsing, t_env **environment)
 			delete_node(environment, parse->command[i]);
 		i++;
 	}
+	(*mini)->exit_status = 0;
 	return (SUCCESS);
 }

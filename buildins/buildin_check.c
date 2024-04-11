@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/09 15:33:40 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:16:56 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	open_lonely_files(t_parse **parse)
 	return (SUCCESS);
 }
 
-int	lonely_buildin(t_parse *parse, t_env **envp)
+int	lonely_buildin(t_parse *parse, t_env **envp, t_mini **mini)
 {
 	int	orig_stdout;
 	int	orig_stdin;
@@ -42,7 +42,7 @@ int	lonely_buildin(t_parse *parse, t_env **envp)
 	orig_stdout = dup(STDOUT_FILENO);
 	if (open_lonely_files(&parse) == ERROR)
 		return (ERROR);
-	execute_buildin(&parse, envp, 0);
+	execute_buildin(&parse, envp, 0, mini);
 	if (dup2(orig_stdin, STDIN_FILENO) == -1)
 		perror("dup2 error (execute.c) : ");
 	if (close (orig_stdin) == -1)
@@ -78,7 +78,7 @@ bool	is_buildin(char **command)
 	return (false);
 }
 
-int	execute_buildin(t_parse **parse, t_env **env, int pc)
+int	execute_buildin(t_parse **parse, t_env **env, int pc, t_mini **mini)
 {
 	char	*s;
 
@@ -86,18 +86,18 @@ int	execute_buildin(t_parse **parse, t_env **env, int pc)
 	if (!s)
 		return (0);
 	if (ft_strcmp("echo", s) == 0)
-		ft_echo(parse);
+		ft_echo(parse, mini);
 	else if (ft_strcmp("pwd", s) == 0)
-		ft_pwd();
+		ft_pwd(mini);
 	else if (ft_strcmp("env", s) == 0)
-		ft_env(env);
+		ft_env(env, mini, parse);
 	else if (ft_strcmp("cd", s) == 0 && pc == 0)//! not executed in child
-		ft_cd(env, parse);
+		ft_cd(env, parse, mini);
 	else if (ft_strcmp("exit", s) == 0)
 		ft_exit(parse);
 	else if (ft_strcmp("unset", s) == 0 && pc == 0)//! not executed in child
-		ft_unset( parse, env);
+		ft_unset( parse, env, mini);
 	else if (ft_strcmp("export", s) == 0)
-		ft_export(env, parse);
+		ft_export(env, parse, mini);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/11 13:27:21 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/11 17:10:07 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,26 @@
 // 	return (SUCCESS);
 // }
 
-void	child(t_parse *comm, t_exe *ex_utils, int i, t_env **envp)
+void	child(t_parse *comm, int i, t_mini **mini)
 {
 	// child_files(&comm);
-	if (ex_utils->pipecount != 0)
+	t_mini *ms = *mini;
+	char **envp = change_envp(&ms->env);
+	if (ms->exe.pipecount != 0)
 	{
-		dup_filedescriptor(comm, ex_utils, i);
-		close_filedescriptor(comm, ex_utils);
+		dup_filedescriptor(comm, &ms->exe, i);
+		close_filedescriptor(comm, &ms->exe);
 	}
 	else
 		dup_for_no_pipes(comm);
 	if (is_buildin(comm->command) == true)
 	{
-		execute_buildin(&comm, envp, ex_utils->pipecount);
+		execute_buildin(&comm, &ms->env, ms->exe.pipecount, &ms);
 		//close_filedescriptor(comm, ex_utils);
 		exit (SUCCESS);
 	}
-	close_filedescriptor(comm, ex_utils);
-	execve(comm->check, comm->command, change_envp(envp));
+	close_filedescriptor(comm, &ms->exe);
+	execve(comm->check, comm->command, envp);
 	write(2, comm->command[0], ft_strlen(comm->command[0]));
 	write(2, ": command not found\n", 21);
 	exit(127);
@@ -74,7 +76,7 @@ int	execute(t_mini **mini)//(t_parse **comm, int pipecount, t_env **envp)
 		return (ERROR);
 	if (is_buildin(parse->command) == true && (*mini)->exe.pipecount == 0)
 	{
-		lonely_buildin(parse, &(*mini)->env);
+		lonely_buildin(parse, &(*mini)->env, mini);
 		free((*mini)->exe.id);
 		(*mini)->exe.id = NULL;
 		free_fds((*mini)->exe.fd);
@@ -85,11 +87,17 @@ int	execute(t_mini **mini)//(t_parse **comm, int pipecount, t_env **envp)
 	i = 0;
 	while (parse != NULL)
 	{
+		if (parse->execute == IGNORE)
+		{
+			parse = parse->next;
+			i++;
+			continue ;
+		}
 		(*mini)->exe.id[i] = fork();
-		if ((*mini)->exe.id[i] == 0)
+		if ((*mini)->exe.id[i] == 0)// && parse->execute == EXECUTE)
 		{
 			signal_handler(2);
-			child(parse, &(*mini)->exe, i, &(*mini)->env);
+			child(parse, i, mini);
 		}
 		i++;
 		parse = parse->next;
@@ -97,7 +105,10 @@ int	execute(t_mini **mini)//(t_parse **comm, int pipecount, t_env **envp)
 	close_filedescriptor(NULL, &(*mini)->exe);
 	i--;
 	while (i >= 0)
-		waitpid((*mini)->exe.id[i--], &(*mini)->exit_status, 0);
+	{
+		waitpid((*mini)->exe.id[i], &(*mini)->exit_status, 0);
+		i--;
+	}
 	if(WIFEXITED((*mini)->exit_status))
 		(*mini)->exit_status = WEXITSTATUS((*mini)->exit_status);
 	else if(WIFSIGNALED((*mini)->exit_status))

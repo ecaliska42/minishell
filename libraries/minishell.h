@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/11 13:42:28 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:17:09 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,13 @@ typedef struct minishell
 /*
 	*BUILDINS
 */
-int	ft_cd(t_env **lst, t_parse **node);
-int	ft_env(t_env **envp);
-int	ft_unset(t_parse **parsing, t_env **environment);
-int	ft_pwd(void);
-int	ft_export(t_env **lst, t_parse **node);
+int	ft_cd(t_env **lst, t_parse **node, t_mini **mini);
+int	ft_env(t_env **envp, t_mini **mini, t_parse **node);
+int	ft_unset(t_parse **parsing, t_env **environment, t_mini **mini);
+int	ft_pwd(t_mini **mini);
+int	ft_export(t_env **lst, t_parse **node, t_mini **mini);
 void	ft_exit(t_parse **node);
-int	ft_echo(t_parse **node);
+int	ft_echo(t_parse **node, t_mini **mini);
 
 /*
 	*EXECUTION
@@ -119,9 +119,9 @@ void	printf_tripple(char ***str);
 /*
 	*BUILDIN_CHECK.C
 */
-int	lonely_buildin(t_parse *parse, t_env **envp);
+int	lonely_buildin(t_parse *parse, t_env **envp, t_mini **mini);
 bool	is_buildin(char **command);
-int		execute_buildin(t_parse **parse, t_env **env, int pc);
+int	execute_buildin(t_parse **parse, t_env **env, int pc, t_mini **mini);
 int		parrent_buildin(char *s, t_env **envp);
 bool	is_parrent_buildin(char **s);
 
