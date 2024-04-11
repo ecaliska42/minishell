@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/11 13:10:56 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:44:28 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_readline(t_mini *mini)//(t_shell *shell, t_parse *command, t_env *envp)//
 		if (!mini->shell.input)
 		{
 			free_environment(&mini->env);
-			exit (0);
+			exit (mini->exit_status);
 		}
 		//non interactive
 		if (ft_strlen(mini->shell.input) == 0)
@@ -83,7 +83,7 @@ int	ft_readline(t_mini *mini)//(t_shell *shell, t_parse *command, t_env *envp)//
 		}
 		if (mini->shell.tokens)
 		{
-			expansion(mini->shell.tokens, mini->env);
+			expansion(mini->shell.tokens, mini);
 			if (prepare_for_execution(&mini) == ERROR)
 			{
 				// print_everything(shell);

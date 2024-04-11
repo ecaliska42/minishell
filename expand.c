@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/11 13:13:50 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:42:05 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,12 @@
 #include "libraries/minishell.h"
 #include "libraries/parsing.h"
 
-char *replace_exit_code(char *str, int *i, t_env *envp)
+char *replace_exit_code(char *str, int *i, t_mini *ms)
 {
-	int exit_status;
-
-	exit_status = 0;//envp->exit_status;
-	(void)envp;
 	if (str[*i] && str[*i] == '$' && str[(*i) + 1] && str[(*i) + 1] == '?')
 	{
 		(*i) += 2;
-		return (ft_itoa(exit_status)); //protect
+		return (ft_itoa(ms->exit_status)); //protect
 	}
 	return (0);
 }
@@ -41,7 +37,7 @@ int	check_name_and_return_len(char *name)
 			return (i);
 		i++;
 	}
-	return (i); // not include dollar
+	return (i);
 }
 
 char	*get_env_value(char *name, t_env *envp)
@@ -123,7 +119,7 @@ char	*process_single_quotes(char *new, char *str, int *i)
 	return (new);
 }
 
-char	*process_double_quotes(char *new, char *str, int *i, t_env *envp)
+char	*process_double_quotes(char *new, char *str, int *i, t_mini *ms)
 {
 	int		len;
 	char	*tmp;
@@ -141,14 +137,14 @@ char	*process_double_quotes(char *new, char *str, int *i, t_env *envp)
 			if (!tmp)
 				return (NULL);
 			(*i) += len;
-			if ((value = get_env_value(tmp, envp)) != NULL)
+			if ((value = get_env_value(tmp, ms->env)) != NULL)
 			{
 				new = ft_strjoin(new, value);
 			}
 		}
 		else if (str[*i] == '$' && str[(*i) + 1] == '?')
 		{
-			new = ft_strjoin(new ,replace_exit_code(str, i, envp));
+			new = ft_strjoin(new ,replace_exit_code(str, i, ms));
 		}
 		else if (ft_is_dollar(str[*i]))
 		{
@@ -226,7 +222,7 @@ char	*expand_heredoc_delimeter(char *new, char *str, int *i, char quotes)
 	return (new);
 }
 
-t_token	*expand_variable(t_token *token, t_env *envp, char quotes)
+t_token	*expand_variable(t_token *token, t_mini *ms, char quotes)
 {
 	char	*joker;
 	char	*new;
@@ -254,7 +250,7 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes)
 		}
 		if (joker[i] == '$' && joker[i + 1] == '?')
 		{
-			new = ft_strjoin(new ,replace_exit_code(joker, &i, envp));
+			new = ft_strjoin(new ,replace_exit_code(joker, &i, ms));
 		}
 		quote_check(joker[i], &quotes);
 		if (joker[i] == S_QUOTE)
@@ -264,7 +260,7 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes)
 		}
 		else if (quotes == D_QUOTE)
 		{
-			new = process_double_quotes(new, joker, &i, envp);
+			new = process_double_quotes(new, joker, &i, ms);
 			quotes = CLOSED;
 		}
 		else if (quotes == CLOSED)
@@ -281,7 +277,7 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes)
 					if (!tmp)
 						return (NULL);
 					i += len;
-					if ((value = get_env_value(tmp, envp)) != NULL)
+					if ((value = get_env_value(tmp, ms->env)) != NULL)
 					{
 						if (value[0] == '\0')
 							token->ambiguous = true;
@@ -329,7 +325,7 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes)
 				}
 				else if (joker[i] == '$' && joker[i + 1] == '?')
 				{
-					new = ft_strjoin(new ,replace_exit_code(joker, &i, envp));
+					new = ft_strjoin(new ,replace_exit_code(joker, &i, ms));
 				}
 				else if (ft_is_dollar(joker[i]))
 				{
@@ -343,12 +339,12 @@ t_token	*expand_variable(t_token *token, t_env *envp, char quotes)
 	return (token);
 }
 
-void	expansion(t_token *token, t_env *envp)
+void	expansion(t_token *token, t_mini *ms)
 {
 	while (token != NULL)
 	{
 		if (token->str)
-			token = expand_variable(token, envp, CLOSED);//, 0);
+			token = expand_variable(token, ms, CLOSED);//, 0);
 		if (token)
 			token = token->next;
 	}
