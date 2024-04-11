@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/11 13:44:28 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:44:47 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ft_readline(t_mini *mini)//(t_shell *shell, t_parse *command, t_env *envp)//
 			free_environment(&mini->env);
 			exit (mini->exit_status);
 		}
-		//non interactive
+		signal_handler(3);
 		if (ft_strlen(mini->shell.input) == 0)
 			continue ;
 		add_history(mini->shell.input);

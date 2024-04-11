@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/10 17:19:55 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/11 17:12:36 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,14 @@ void	heredoc(t_parse *node, char *end)
 
 	name = get_unique_heredoc_name();
 	fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	// ioctl
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
 			break ;
 		//TODO expand variables in heredoc???
-		if (ft_strcmp(line, end) == 0)
+		if (ft_strcmp(line, end) == 0) //should exit withc "" as eof
 		{
 			free(line);
 			line = NULL;
