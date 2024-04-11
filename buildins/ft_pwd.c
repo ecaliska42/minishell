@@ -6,13 +6,13 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:04 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/29 19:07:42 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:11:20 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
 
-int	ft_pwd(void)
+int	ft_pwd(t_mini **mini)
 {
 	char	*directory;
 
@@ -27,5 +27,6 @@ int	ft_pwd(void)
 	}
 	printf("%s\n", directory);
 	free(directory);
+	(*mini)->exit_status = 0;
 	return (SUCCESS);
 }

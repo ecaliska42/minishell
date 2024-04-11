@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/11 13:44:28 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:54:51 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	ft_readline(t_mini *mini)//(t_shell *shell, t_parse *command, t_env *envp)//
 		{
 			// printf("lexical_analyzer error\n");
 			// print_everything(shell);
+			mini->exit_status = 2;
 			ft_putstr_fd("Error: lexical_analyzer\n", 2);
 			free_tokens(&mini->shell.tokens);
 			free(mini->shell.input);

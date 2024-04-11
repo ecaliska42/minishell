@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/11 13:25:49 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:55:50 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,9 +197,12 @@ int	prepare_for_execution(t_mini **shell)
 			// node->infile_type = INPUT;
 			node->infd = open(tmp->str, O_RDONLY);
 			if (node->infd == -1)
+			{
+				node->execute = IGNORE;
 				perror("");
+			}
 		}
-		else if (tmp -> type == OUTPUT && ft_strlen(tmp->str) > 0 && node->execute == EXECUTE)
+		else if (tmp -> type == OUTPUT && ft_strlen(tmp->str) > 0)
 		{
 			// node->outfile = tmp->str;
 			// node->outfile_type = OUTPUT;
@@ -210,7 +213,7 @@ int	prepare_for_execution(t_mini **shell)
 				node->execute = IGNORE;
 			}
 		}
-		else if (tmp -> type == APPEND && ft_strlen(tmp->str) > 0 && node->execute == EXECUTE)
+		else if (tmp -> type == APPEND && ft_strlen(tmp->str) > 0)
 		{
 			// node->outfile = tmp->str;
 			// node->outfile_type = APPEND;

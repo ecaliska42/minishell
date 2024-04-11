@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:20:20 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/01 17:14:34 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:13:19 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_newline(char *new_line)
 	return (1);
 }
 
-int	ft_echo(t_parse **node)
+int	ft_echo(t_parse **node, t_mini **mini)
 {
 	bool	line;
 	int		i;
@@ -57,5 +57,6 @@ int	ft_echo(t_parse **node)
 	}
 	if (line == true)
 		write(1, "\n", 1);
+	(*mini)->exit_status = 0;
 	return (0);
 }
