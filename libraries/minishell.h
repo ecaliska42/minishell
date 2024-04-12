@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/11 16:17:09 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/12 16:20:40 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	ft_env(t_env **envp, t_mini **mini, t_parse **node);
 int	ft_unset(t_parse **parsing, t_env **environment, t_mini **mini);
 int	ft_pwd(t_mini **mini);
 int	ft_export(t_env **lst, t_parse **node, t_mini **mini);
-void	ft_exit(t_parse **node);
+void	ft_exit(t_parse **node, t_mini **mini);
 int	ft_echo(t_parse **node, t_mini **mini);
 
 /*
