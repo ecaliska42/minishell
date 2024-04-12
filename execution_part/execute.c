@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/11 17:10:07 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/12 18:48:44 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	child(t_parse *comm, int i, t_mini **mini)
 {
 	// child_files(&comm);
 	t_mini *ms = *mini;
+	if (comm->execute == IGNORE)
+		exit(1);
 	char **envp = change_envp(&ms->env);
 	if (ms->exe.pipecount != 0)
 	{
@@ -85,14 +87,16 @@ int	execute(t_mini **mini)//(t_parse **comm, int pipecount, t_env **envp)
 	if (create_pipes(&(*mini)->exe) == ERROR)
 		return (ERROR);
 	i = 0;
+	// int j = 0;
 	while (parse != NULL)
 	{
-		if (parse->execute == IGNORE)
-		{
-			parse = parse->next;
-			i++;
-			continue ;
-		}
+		// if (parse->execute == IGNORE)
+		// {
+		// 	parse = parse->next;
+		// 	i++;
+		// 	j++;
+		// 	continue ;
+		// }
 		(*mini)->exe.id[i] = fork();
 		if ((*mini)->exe.id[i] == 0)// && parse->execute == EXECUTE)
 		{

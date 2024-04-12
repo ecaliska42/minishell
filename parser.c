@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/12 16:37:09 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:36:49 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,11 +203,9 @@ int	prepare_for_execution(t_mini **shell)
 				write (2, ": ", 2);
 				perror("");
 				mini->exit_status = 1;
-				ft_putnbr_fd(mini->exit_status, 2);
-				write(2, "\n", 1);
 			}
 		}
-		else if (tmp -> type == OUTPUT && ft_strlen(tmp->str) > 0)
+		else if (tmp -> type == OUTPUT && ft_strlen(tmp->str) > 0 && node->execute == EXECUTE)
 		{
 			// node->outfile = tmp->str;
 			// node->outfile_type = OUTPUT;
