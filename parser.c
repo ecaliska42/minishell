@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/12 17:36:49 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/15 16:06:05 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ char	*get_access(char *str, t_env **envi)
 	char	**path_values;
 
 	i = 0;
+	//if str is starting with / or ./ or ../
+	// if (str[0] == '/' || (str[0] == '.' && str[1] == '/'))
+	// {
+	// 	if (access(str, X_OK | F_OK) == 0)
+	// 		return (str);
+	// 	else
+	// 		return (NULL);
+	// }
 	if (access(str, X_OK | F_OK) == 0)
 		return (str);
 	path = get_path(envi);

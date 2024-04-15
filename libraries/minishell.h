@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/12 16:20:40 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/15 16:09:01 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@
 // Terminal control library
 # include <termios.h>   //tcsetattr, tcgetattr
 # include <stdbool.h>
+# include <dirent.h>
 
 typedef struct t_env
 {
