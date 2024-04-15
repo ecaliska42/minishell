@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/12 16:04:00 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/15 17:26:52 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	heredoc(t_parse *node, char *end)
 	// ioctl
 	while (1)
 	{
-		line = get_next_line(fileno(stdin));//line = readline("> ");
+		// line = get_next_line(fileno(stdin));
+		line = readline("> ");
 		if (!line)
 			break ;
 		//TODO expand variables in heredoc???
@@ -60,8 +61,9 @@ void	heredoc(t_parse *node, char *end)
 			line = NULL;
 			break ;
 		}
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
+		// write(fd, line, ft_strlen(line));
+		// write(fd, "\n", 1);
+		ft_putendl_fd(line, fd);
 		free(line);
 		line = NULL;
 	}

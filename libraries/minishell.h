@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/15 16:09:01 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/15 18:18:11 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ typedef struct parse
 typedef struct s_exe
 {
 	pid_t	*id;
-	int		**fd;
+	// int		**fd;
+	int 	fd[2];
 	int		pipecount;
 }	t_exe;
 
@@ -157,7 +158,8 @@ char *expand_heredoc(char *new_str, char *str, int *i, t_env *envp);
 
 
 
-void	*dup_filedescriptors(t_parse *comm, t_exe *ex_utils, int i);
+// void	*dup_filedescriptors(t_parse *comm, t_exe *ex_utils, int i);
+void *dup_filedescriptors(t_parse *comm, t_exe *ex_utils);
 bool	is_only_numbers(char *s);
 bool	is_alpha_numbers(char *s);
 
@@ -166,7 +168,7 @@ bool	is_alpha_numbers(char *s);
 */
 void	free_fds(int **fds);
 char	**change_envp(t_env **envp);
-int		malloc_ex_struct(t_exe *ex_struct, int pipecount);
+int	malloc_ex_struct(t_exe *ex_struct);
 int		create_pipes(t_exe *ex_struct);
 
 

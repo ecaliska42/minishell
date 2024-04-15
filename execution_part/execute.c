@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/15 16:10:56 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/15 18:22:22 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
 void	child(t_parse *comm, int i, t_mini **mini)
 {
 	// child_files(&comm);
+	(void)i;
 	t_mini *ms = *mini;
 	if (comm->execute == IGNORE)
 		exit(1);
@@ -62,11 +63,13 @@ void	child(t_parse *comm, int i, t_mini **mini)
 			exit(127);
 		}
 	}
+	pipe((*mini)->exe.fd);
 	char **envp = change_envp(&ms->env);
 	if (ms->exe.pipecount != 0)
 	{
-		dup_filedescriptor(comm, &ms->exe, i);
-		close_filedescriptor(comm, &ms->exe);
+		// dup_filedescriptors(comm, &ms->exe, i);
+		dup_filedescriptors(comm, &ms->exe);
+		// close_filedescriptor(comm, &ms->exe);
 	}
 	else
 		dup_for_no_pipes(comm);
@@ -76,7 +79,7 @@ void	child(t_parse *comm, int i, t_mini **mini)
 		//close_filedescriptor(comm, ex_utils);
 		exit (SUCCESS);
 	}
-	close_filedescriptor(comm, &ms->exe);
+	// close_filedescriptor(comm, &ms->exe);
 	execve(comm->check, comm->command, envp);
 	write(2, comm->command[0], ft_strlen(comm->command[0]));
 	write(2, ": command not found\n", 21);
@@ -90,35 +93,30 @@ int	execute(t_mini **mini)//(t_parse **comm, int pipecount, t_env **envp)
 	int		i;
 
 	parse = (*mini)->parse;
-	if (malloc_ex_struct(&(*mini)->exe, 0) == ERROR)
+	if (malloc_ex_struct(&(*mini)->exe) == ERROR)
 		return (ERROR);
 	if (is_buildin(parse->command) == true && (*mini)->exe.pipecount == 0)
 	{
 		lonely_buildin(parse, &(*mini)->env, mini);
 		free((*mini)->exe.id);
 		(*mini)->exe.id = NULL;
-		free_fds((*mini)->exe.fd);
+		// free_fds((*mini)->exe.fd);
 		return (SUCCESS);
 	}
-	if (create_pipes(&(*mini)->exe) == ERROR)
-		return (ERROR);
+	// if (create_pipes(&(*mini)->exe) == ERROR)
+	// 	return (ERROR);
 	i = 0;
-	// int j = 0;
 	while (parse != NULL)
 	{
-		// if (parse->execute == IGNORE)
-		// {
-		// 	parse = parse->next;
-		// 	i++;
-		// 	j++;
-		// 	continue ;
-		// }
+		// pipe((*mini)->exe.fd);
 		(*mini)->exe.id[i] = fork();
-		if ((*mini)->exe.id[i] == 0)// && parse->execute == EXECUTE)
+		if ((*mini)->exe.id[i] == 0)
 		{
 			signal_handler(2);
 			child(parse, i, mini);
 		}
+		// close((*mini)->exe.fd[1]);
+		// close((*mini)->exe.fd[0]);
 		i++;
 		parse = parse->next;
 	}
@@ -135,6 +133,6 @@ int	execute(t_mini **mini)//(t_parse **comm, int pipecount, t_env **envp)
 		(*mini)->exit_status = 128 + WTERMSIG((*mini)->exit_status);
 	free((*mini)->exe.id);
 	(*mini)->exe.id = NULL;
-	free_fds((*mini)->exe.fd);
+	// free_fds((*mini)->exe.fd);
 	return (SUCCESS);
 }
