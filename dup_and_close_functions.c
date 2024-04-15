@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 17:02:21 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/15 18:22:55 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/15 20:25:42 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,56 +84,91 @@ void	*dup_for_no_pipes(t_parse *comm)
 // }
 
 
-void *dup_filedescriptors(t_parse *comm, t_exe *ex_utils)
-{
-    if (comm->infd > 0)
-    {
-        dup2(comm->infd, STDIN_FILENO);
-        if (comm->outfd > 0)
-            dup2(comm->outfd, STDOUT_FILENO);
-    }
-    else if (comm->outfd > 0)
-    {
-        dup2(ex_utils->fd[0], STDIN_FILENO);
-        dup2(comm->outfd, STDOUT_FILENO);
-    }
-    else
-    {
-        dup2(ex_utils->fd[0], STDIN_FILENO);
-		close (ex_utils->fd[0]);
-        dup2(ex_utils->fd[1], STDOUT_FILENO);
-		close (ex_utils->fd[1]);
-    }
-    return ((void *)1);
-}
+// void *dup_filedescriptors(t_parse *comm, t_exe *ex_utils, int i)
+// {
+// 	if (comm->infd > 0)
+// 	{
+// 		if (dup2(comm->infd, STDIN_FILENO) == -1)
+// 			perror("");
+// 		if (comm->outfd > 0)
+// 		{
+// 			if (dup2(comm->outfd, STDOUT_FILENO) == -1)
+// 				perror("");
+// 		}
+// 		else
+// 		{
+// 			if (dup2(ex_utils->fd[1], STDOUT_FILENO) == -1)
+// 				perror("");
+// 			// close (ex_utils->fd[1]);
+// 		}
+// 	}
+// 	else if (comm->outfd > 0)
+// 	{
+// 		if (dup2(ex_utils->fd[0], STDIN_FILENO) == -1)
+// 			perror("");
+// 		if (dup2(comm->outfd, STDOUT_FILENO) == -1)
+// 			perror("");
+// 	}
+// 	else
+// 	{
+// 		// write(2, "IN ELSE\n", 8);
+// 		if (i == 0)
+// 		{
+// 			// if (dup2(STDIN_FILENO, STDIN_FILENO) == -1)
+// 			// 	perror("");
+// 		}
+// 		else
+// 		{
+// 			if (dup2(ex_utils->fd[0], STDIN_FILENO) == -1)
+// 				perror("");
+// 			// close (ex_utils->fd[0]);
+// 		}
+// 		if (i == ex_utils->pipecount)
+// 		{
+// 			// write(2, "IN i = pipecount\n", 18);
+// 			// if (dup2(STDOUT_FILENO, STDOUT_FILENO) == -1)
+// 			// 	perror("");
+// 		}
+// 		else
+// 		{
+// 			// write(2, "IN ELSE 2\n", 10);
+// 			if (dup2(ex_utils->fd[1], STDOUT_FILENO) == -1)
+// 				perror("");
+// 			// close (ex_utils->fd[1]);
+// 		}
+// 		// dup2(ex_utils->fd[1], STDOUT_FILENO);
+// 		// close (ex_utils->fd[1]);
+// 	}
+// 	return ((void *)1);
+// }
 
 
-void	*close_filedescriptor(t_parse *comm, t_exe *ex_utils)
-{//TODO PROTECTION
-	int	i;
+// void	*close_filedescriptor(t_parse *comm, t_exe *ex_utils)
+// {//TODO PROTECTION
+// 	int	i;
 
-	i = 0;
-	// while(ex_utils->fd[i])
-	// {
-	// 	if (ex_utils->fd[i][1] > 0)
-	// 	{
-	// 		if (close(ex_utils->fd[i][1]) == -1)
-	// 			perror("close filedescriptor error: ");
-	// 		ex_utils->fd[i][1] = -1;
-	// 	}
-	// 	if (ex_utils->fd[i][0] > 0)	
-	// 	{
-	// 		if (close(ex_utils->fd[i][0]) == -1)
-	// 			perror("close filedescriptor error: ");
-	// 		ex_utils->fd[i][0] = -1;
-	// 	}
-	// 	i++;
-	// }
-	close(ex_utils->fd[0]);
-	close(ex_utils->fd[1]);
-	if (comm && comm->infd > 0)
-		close(comm->infd);
-	if (comm && comm->outfd > 0)
-		close(comm->outfd);
-	return ((void *)1);
-}
+// 	i = 0;
+// 	// while(ex_utils->fd[i])
+// 	// {
+// 	// 	if (ex_utils->fd[i][1] > 0)
+// 	// 	{
+// 	// 		if (close(ex_utils->fd[i][1]) == -1)
+// 	// 			perror("close filedescriptor error: ");
+// 	// 		ex_utils->fd[i][1] = -1;
+// 	// 	}
+// 	// 	if (ex_utils->fd[i][0] > 0)	
+// 	// 	{
+// 	// 		if (close(ex_utils->fd[i][0]) == -1)
+// 	// 			perror("close filedescriptor error: ");
+// 	// 		ex_utils->fd[i][0] = -1;
+// 	// 	}
+// 	// 	i++;
+// 	// }
+// 	close(ex_utils->fd[0]);
+// 	close(ex_utils->fd[1]);
+// 	if (comm && comm->infd > 0)
+// 		close(comm->infd);
+// 	if (comm && comm->outfd > 0)
+// 		close(comm->outfd);
+// 	return ((void *)1);
+// }
