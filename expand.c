@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/16 12:49:23 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/16 13:39:58 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 #include "libraries/minishell.h"
 #include "libraries/parsing.h"
 
-char *replace_exit_code(char *str, int *i, t_mini *ms)
+char *replace_exit_code(char *str, char **new, int *i, t_mini *ms)
 {
 	if (str[*i] && str[*i] == '$' && str[(*i) + 1] && str[(*i) + 1] == '?')
 	{
 		(*i) += 2;
-		return (ft_itoa(ms->exit_status)); //protect
+		*new = ft_strjoin(*new, ft_itoa(ms->exit_status)); 
+		return (*new); //protect
 	}
 	return (0);
 }
@@ -142,10 +143,7 @@ char	*process_double_quotes(char *new, char *str, int *i, t_mini *ms)
 				new = ft_strjoin(new, value);
 			}
 		}
-		else if (str[*i] == '$' && str[(*i) + 1] == '?')
-		{
-			new = ft_strjoin(new ,replace_exit_code(str, i, ms));
-		}
+		if (replace_exit_code(str, &new, i, ms));
 		else if (ft_is_dollar(str[*i]))
 		{
 			new = add_char(new, str[*i]);
@@ -161,42 +159,6 @@ char	*process_double_quotes(char *new, char *str, int *i, t_mini *ms)
 		(*i)++;
 	return (new);
 }
-
-// char	*expand_heredoc(char *new, char *str, int *i, t_env *envp)
-// {
-// 	int		len;
-// 	char	*tmp;
-// 	char	*value;
-
-// 	while (str[*i])
-// 	{
-// 		while (str[*i] && str[*i] != '$')
-// 		{
-// 			new = add_char(new, str[*i]);
-// 			(*i)++;
-// 		}
-// 		if ((ft_is_dollar(str[*i])) && (str[(*i) + 1] && (str[(*i)
-// 					+ 1] != '$')))
-// 		{
-// 			(*i)++;
-// 			len = check_name_and_return_len(&str[*i]);
-// 			tmp = ft_substr(str, *i, len);
-// 			if (!tmp)
-// 				return (NULL);
-// 			(*i) += len;
-// 			if ((value = get_env_value(tmp, envp)) != NULL)
-// 			{
-// 				new = ft_strjoin(new, value);
-// 			}
-// 		}
-// 		while (str[*i] && str[*i] != '$' && str[*i])
-// 		{
-// 			new = add_char(new, str[*i]);
-// 			(*i)++;
-// 		}
-// 	}
-// 	return (new);
-// }
 
 char	*expand_heredoc_delimeter(char *new, char *str, int *i, t_mini *ms)
 {
@@ -249,10 +211,7 @@ t_token	*expand_variable(t_token *token, t_mini *ms, char quotes)
 			ms->tokens->flag_exp = true;
 			new = expand_heredoc_delimeter(new, joker, &i, ms);
 		}
-		if (joker[i] == '$' && joker[i + 1] == '?')
-		{
-			new = ft_strjoin(new ,replace_exit_code(joker, &i, ms));
-		}
+		replace_exit_code(joker, &new, &i, ms);
 		quote_check(joker[i], &quotes);
 		if (joker[i] == S_QUOTE)
 		{
@@ -324,10 +283,7 @@ t_token	*expand_variable(t_token *token, t_mini *ms, char quotes)
 					}
 					free (tmp);
 				}
-				else if (joker[i] == '$' && joker[i + 1] == '?')
-				{
-					new = ft_strjoin(new ,replace_exit_code(joker, &i, ms));
-				}
+				else if (replace_exit_code(joker, &new, &i, ms));
 				else if (ft_is_dollar(joker[i]))
 				{
 					new = add_char(new, joker[i]);
