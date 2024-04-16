@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/15 20:41:42 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/15 21:41:15 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void *dup_filedescriptors(t_parse *comm, t_exe *ex_utils, int i)
 	}
 	else if (comm->outfd > 0)
 	{
-		if (dup2(ex_utils->fd[i-1][0], STDIN_FILENO) == -1)
+		if (dup2(ex_utils->fd[i - 1][0], STDIN_FILENO) == -1)
 			perror("");
 		if (dup2(comm->outfd, STDOUT_FILENO) == -1)
 			perror("");
@@ -76,15 +76,15 @@ void *dup_filedescriptors(t_parse *comm, t_exe *ex_utils, int i)
 		}
 		else
 		{
-			if (dup2(ex_utils->fd[i-1][0], STDIN_FILENO) == -1)
+			if (dup2(ex_utils->fd[i - 1][0], STDIN_FILENO) == -1)
 				perror("");
 			// close (ex_utils->fd[0]);
 		}
 		if (i == ex_utils->pipecount)
 		{
 			// write(2, "IN i = pipecount\n", 18);
-			// if (dup2(STDOUT_FILENO, STDOUT_FILENO) == -1)
-			// 	perror("");
+			if (dup2(STDOUT_FILENO, STDOUT_FILENO) == -1)
+				perror("");
 		}
 		else
 		{
@@ -166,7 +166,7 @@ void	child(t_parse *comm, int i, t_mini **mini)
 	if (is_buildin(comm->command) == true)
 	{
 		execute_buildin(&comm, &ms->env, ms->exe.pipecount, &ms);
-		close_filedescriptor(comm, &ms->exe);
+		// close_filedescriptor(comm, &ms->exe);
 		// close(ms->exe.fd[0]);
 		// close(ms->exe.fd[1]);
 		exit (SUCCESS);
@@ -202,8 +202,10 @@ int	execute(t_mini **mini)//(t_parse **comm, int pipecount, t_env **envp)
 	i = 0;
 	while (parse != NULL)
 	{
-		if (pipe((*mini)->exe.fd[i]) == -1)
+		if (i < (*mini)->exe.pipecount && pipe((*mini)->exe.fd[i]) == -1)
 		{
+			ft_putnbr_fd(i, 2);
+			write(2, "\n", 1);
 			perror("PIPE ERROR:");
 			return (ERROR);
 		}
@@ -220,7 +222,8 @@ int	execute(t_mini **mini)//(t_parse **comm, int pipecount, t_env **envp)
 			// close((*mini)->exe.fd[0]);
 			// close((*mini)->exe.fd[1]);
 		}
-		// close((*mini)->exe.fd[i][1]);
+		// close ((*mini)->exe.fd[i][1]);
+		// close((*mini)->exe.fd[i][0]);
 		i++;
 		parse = parse->next;
 	}

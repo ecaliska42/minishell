@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:13:38 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/15 20:41:37 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/15 21:37:51 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	create_pipes(t_exe *ex_struct)
 		// 	ft_putnbr_fd(i, 2);
 		// 	return (ERROR);
 		// }
-		// i++;
+		i++;
 	}
 	// ex_struct->fd[0][2];
 	return (SUCCESS);
