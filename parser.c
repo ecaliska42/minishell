@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/16 12:54:49 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/16 12:57:31 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,7 +236,7 @@ int	prepare_for_execution(t_mini **shell)
 			}
 			// 	perror("OUTFD ERROR2:");
 		}
-		else if (tmp -> type == HEREDOC && ft_strlen(tmp->str) > 0)
+		else if (tmp -> type == HEREDOC)
 		{
 			// node->infile_type = HEREDOC;
 			// node->infile = tmp->str;
