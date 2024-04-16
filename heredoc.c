@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/16 14:53:27 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/16 14:57:13 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,11 @@ char	*get_unique_heredoc_name(void)
 // 	return (new);
 // }
 
-char	*expand_heredoc(char *str, t_env *envp)
+char	*expand_heredoc(char *str, t_env *envp, t_mini **mini)
 {
 	int		len;
 	char	*tmp;
+	t_mini	*ms = *mini;
 	char	*value;
 
 	int i = 0;
@@ -101,6 +102,8 @@ char	*expand_heredoc(char *str, t_env *envp)
 		if ((ft_is_dollar(str[i])) && (str[(i) + 1] && (str[(i)
 					+ 1] != '$')))
 		{
+			if (str[(i) + 1] == '?')
+				replace_exit_code(str, &new, &i, ms);
 			(i)++;
 			len = check_name_and_return_len(&str[i]);
 			tmp = ft_substr(str, i, len);
@@ -144,7 +147,7 @@ void	heredoc(t_parse *node, char *end, bool expand, t_mini **mini)
 			break ;
 		}
 		if (expand == true)
-			line = expand_heredoc(line, envp);
+			line = expand_heredoc(line, (*mini)->env, mini);
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);

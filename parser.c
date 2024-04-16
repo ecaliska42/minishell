@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/16 13:28:38 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/16 14:49:27 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,12 +182,12 @@ void free_parsing_node(t_parse **head)
 	}
 }
 
-int	prepare_for_execution(t_mini **shell)
+int	prepare_for_execution(t_mini **minishell)
 {
 	t_parse *node;
 	t_token	*tmp;
 
-	t_mini *mini = *shell;
+	t_mini *mini = *minishell;
 	tmp = mini->shell.tokens;
 	mini->exe.pipecount = 0;
 	node = malloc(sizeof(t_parse));
@@ -217,22 +217,42 @@ int	prepare_for_execution(t_mini **shell)
 		{
 			// node->outfile = tmp->str;
 			// node->outfile_type = OUTPUT;
-			node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (node->outfd == -1)
+			if (tmp->ambiguous == true)
 			{
-				perror("");
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(tmp->str, 2);
+				ft_putstr_fd(": ambiguous redirect\n", 2);
 				node->execute = IGNORE;
+			}
+			else
+			{
+				node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				if (node->outfd == -1)
+				{
+					perror("");
+					node->execute = IGNORE;
+				}
 			}
 		}
 		else if (tmp -> type == APPEND && ft_strlen(tmp->str) > 0)
 		{
 			// node->outfile = tmp->str;
 			// node->outfile_type = APPEND;
-			node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (node->outfd == -1)
+			if (tmp->ambiguous == true)
 			{
-				perror("");
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(tmp->str, 2);
+				ft_putstr_fd(": ambiguous redirect\n", 2);
 				node->execute = IGNORE;
+			}
+			else
+			{
+				node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
+				if (node->outfd == -1)
+				{
+					perror("");
+					node->execute = IGNORE;
+				}
 			}
 			// 	perror("OUTFD ERROR2:");
 		}
@@ -240,7 +260,7 @@ int	prepare_for_execution(t_mini **shell)
 		{
 			// node->infile_type = HEREDOC;
 			// node->infile = tmp->str;
-			heredoc(node, tmp->str, mini->shell.tokens->flag_exp, mini->env);
+			heredoc(node, tmp->str, (*minishell)->shell.tokens->flag_exp, minishell);
 		}
 		else if (tmp -> type == RANDOM)
 			node->command = create_command(tmp->str, node->command);
