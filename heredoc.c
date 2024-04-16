@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/16 13:23:09 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/16 14:53:27 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ char	*expand_heredoc(char *str, t_env *envp)
 	return (new);
 }
 
-void	heredoc(t_parse *node, char *end, bool expand, t_env *envp)
+void	heredoc(t_parse *node, char *end, bool expand, t_mini **mini)
 {
 	char	*line;
 	int		fd;
@@ -129,7 +129,7 @@ void	heredoc(t_parse *node, char *end, bool expand, t_env *envp)
 
 	name = get_unique_heredoc_name();
 	fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0644);
-	// ioctl
+	signal_handler(4, *mini);
 	while (1)
 	{
 		// line = get_next_line(fileno(stdin));//line = readline("> ");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/16 13:44:45 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/16 14:18:09 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,6 +245,7 @@ t_token	*expand_variable(t_token *token, t_mini *ms, char quotes)
 						if (ft_strchr(value, ' ') == NULL) // single word value
 						{
 							new = ft_strjoin(new, value);
+							free(value);
 							continue ;
 						}
 						else
@@ -262,6 +263,7 @@ t_token	*expand_variable(t_token *token, t_mini *ms, char quotes)
 										tmp_i++;
 									}
 									new = ft_strdup(last_token->str);
+									free(last_token->str);
 									if (ft_is_dollar(*tmp_i) || *tmp_i == '\"' || *tmp_i == '\'')
 									{
 										token = last_token;
@@ -282,6 +284,7 @@ t_token	*expand_variable(t_token *token, t_mini *ms, char quotes)
 						}
 					}
 					free (tmp);
+					// free (value);
 				}
 				else if (replace_exit_code(joker, &new, &i, ms));
 				else if (ft_is_dollar(joker[i]))
@@ -293,6 +296,7 @@ t_token	*expand_variable(t_token *token, t_mini *ms, char quotes)
 		}
 	}
 	token->str = new;
+	// free (new);
 	return (token);
 }
 

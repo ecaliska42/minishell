@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/16 12:54:57 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/16 14:41:49 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_readline(t_mini *mini)//(t_shell *shell, t_parse *command, t_env *envp)//
 	// }
 	while (1)
 	{
-		signal_handler(1);
+		signal_handler(1, mini);
 		if (tester == true)
 		{
 			if (isatty(fileno(stdin)))
@@ -59,7 +59,7 @@ int	ft_readline(t_mini *mini)//(t_shell *shell, t_parse *command, t_env *envp)//
 			free_environment(&mini->env);
 			exit (mini->exit_status);
 		}
-		signal_handler(3);
+		signal_handler(3, mini);
 		if (ft_strlen(mini->shell.input) == 0)
 			continue ;
 		add_history(mini->shell.input);

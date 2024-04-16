@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/16 13:21:39 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/16 14:52:46 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+extern int g_sig;
 
 # define RED "\033[0;31m"
 # define BLACK "\033[0;30m"
@@ -133,7 +135,7 @@ void	*close_filedescriptor(t_parse *comm, t_exe *ex_utils);
 int	ft_readline(t_mini *mini);//(t_shell *shell, t_parse *command, t_env *envp)//(t_mini *mini)//;
 int	prepare_for_execution(t_mini **shell);//(t_parse **command, t_exe *count, t_token **tokens, t_env **envp)
 
-void	heredoc(t_parse *node, char *end, bool expand, t_env *envp);
+void	heredoc(t_parse *node, char *end, bool expand, t_mini **mini);
 
 /*
 	*./SIZES
@@ -169,6 +171,8 @@ char	**change_envp(t_env **envp);
 int		malloc_ex_struct(t_exe *ex_struct, int pipecount);
 int		create_pipes(t_exe *ex_struct);
 
+// SIGNALS
 
+void	signal_handler(int mod, t_mini *ms);
 
 #endif

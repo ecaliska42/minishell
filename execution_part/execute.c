@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/16 12:55:01 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/16 14:42:01 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	execute(t_mini **mini)//(t_parse **comm, int pipecount, t_env **envp)
 		(*mini)->exe.id[i] = fork();
 		if ((*mini)->exe.id[i] == 0)// && parse->execute == EXECUTE)
 		{
-			signal_handler(2);
+			signal_handler(2, *mini);
 			child(parse, i, mini);
 		}
 		i++;
