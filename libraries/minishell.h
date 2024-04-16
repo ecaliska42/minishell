@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/16 13:21:39 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/16 14:16:23 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,8 +132,8 @@ void	*close_filedescriptor(t_parse *comm, t_exe *ex_utils);
 
 int	ft_readline(t_mini *mini);//(t_shell *shell, t_parse *command, t_env *envp)//(t_mini *mini)//;
 int	prepare_for_execution(t_mini **shell);//(t_parse **command, t_exe *count, t_token **tokens, t_env **envp)
+void	heredoc(t_parse *node, char *end, bool expand, t_mini **mini);
 
-void	heredoc(t_parse *node, char *end, bool expand, t_env *envp);
 
 /*
 	*./SIZES
@@ -153,7 +153,8 @@ int	free_environment(t_env **lst);
 void	*dup_for_no_pipes(t_parse *comm);
 char	**change_envp(t_env **envp);
 char *skip_starting_ending_spaces(char *value);
-char	*expand_heredoc(char *str, t_env *envp);
+char	*expand_heredoc(char *str, t_env *envp, t_mini **mini);
+char 	*replace_exit_code(char *str, char **ne, int *i, t_mini *ms);
 
 
 

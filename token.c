@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:26:46 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/16 13:28:35 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/16 14:19:30 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,7 +269,7 @@ int ft_strtok(t_shell *shell, int *i)
             return (ERROR);
         if (not_pipe(shell, last_token, i) == ERROR)
             return (ERROR);
-		printf("token->str:%s\n", last_token->str);
+		// printf("token->str:%s\n", last_token->str);
     }
     return (SUCCESS);
 }
