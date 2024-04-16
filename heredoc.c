@@ -6,11 +6,13 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/16 12:51:51 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/16 12:54:33 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
+
+#include "GNL/get_next_line.h"
 
 char	*get_unique_heredoc_name(void)
 {
@@ -48,7 +50,7 @@ void	heredoc(t_parse *node, char *end)
 	// ioctl
 	while (1)
 	{
-		line = readline("> ");
+		line = get_next_line(fileno(stdin));//line = readline("> ");
 		if (!line)
 			break ;
 		//TODO expand variables in heredoc???

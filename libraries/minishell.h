@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/16 12:48:54 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/16 12:55:05 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@
 // Terminal control library
 # include <termios.h>   //tcsetattr, tcgetattr
 # include <stdbool.h>
+# include <dirent.h>
 
 typedef struct t_env
 {
@@ -98,7 +99,7 @@ int	ft_env(t_env **envp, t_mini **mini, t_parse **node);
 int	ft_unset(t_parse **parsing, t_env **environment, t_mini **mini);
 int	ft_pwd(t_mini **mini);
 int	ft_export(t_env **lst, t_parse **node, t_mini **mini);
-void	ft_exit(t_parse **node);
+void	ft_exit(t_parse **node, t_mini **mini);
 int	ft_echo(t_parse **node, t_mini **mini);
 
 /*

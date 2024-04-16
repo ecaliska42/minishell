@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/12 13:47:17 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/16 12:55:01 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,24 @@ void	child(t_parse *comm, int i, t_mini **mini)
 {
 	// child_files(&comm);
 	t_mini *ms = *mini;
+	if (comm->execute == IGNORE)
+		exit(1);
+	if (comm->command[0][0] == '/' || (comm->command[0][0] == '.' && comm->command[0][1] == '/'))
+	{
+		if (opendir(comm->command[0]) != NULL)
+		{
+			// perror("minishell: ");
+			write(2, comm->command[0], ft_strlen(comm->command[0]));
+			write(2, ": is a directory\n", 18);
+			exit(126);
+		}
+		if (access(comm->command[0], F_OK) == -1)
+		{
+			write(2, comm->command[0], ft_strlen(comm->command[0]));
+			write(2, ": No such file or directory\n", 28);
+			exit(127);
+		}
+	}
 	char **envp = change_envp(&ms->env);
 	if (ms->exe.pipecount != 0)
 	{
@@ -85,14 +103,16 @@ int	execute(t_mini **mini)//(t_parse **comm, int pipecount, t_env **envp)
 	if (create_pipes(&(*mini)->exe) == ERROR)
 		return (ERROR);
 	i = 0;
+	// int j = 0;
 	while (parse != NULL)
 	{
-		if (parse->execute == IGNORE)
-		{
-			parse = parse->next;
-			i++;
-			continue ;
-		}
+		// if (parse->execute == IGNORE)
+		// {
+		// 	parse = parse->next;
+		// 	i++;
+		// 	j++;
+		// 	continue ;
+		// }
 		(*mini)->exe.id[i] = fork();
 		if ((*mini)->exe.id[i] == 0)// && parse->execute == EXECUTE)
 		{

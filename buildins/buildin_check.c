@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/11 16:16:56 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/12 16:22:01 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	execute_buildin(t_parse **parse, t_env **env, int pc, t_mini **mini)
 	else if (ft_strcmp("cd", s) == 0 && pc == 0)//! not executed in child
 		ft_cd(env, parse, mini);
 	else if (ft_strcmp("exit", s) == 0)
-		ft_exit(parse);
+		ft_exit(parse, mini);
 	else if (ft_strcmp("unset", s) == 0 && pc == 0)//! not executed in child
 		ft_unset( parse, env, mini);
 	else if (ft_strcmp("export", s) == 0)

@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/12 16:51:48 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/16 12:54:57 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_readline(t_mini *mini)//(t_shell *shell, t_parse *command, t_env *envp)//
 		if (tester == true)
 		{
 			if (isatty(fileno(stdin)))
-			mini->shell.input = readline(PROMPT);
+				mini->shell.input = readline(PROMPT);
 			else
 			{
 				char *line;

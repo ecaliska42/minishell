@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/16 12:51:47 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/16 12:54:49 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ char	*get_access(char *str, t_env **envi)
 	char	**path_values;
 
 	i = 0;
+	//if str is starting with / or ./ or ../
+	// if (str[0] == '/' || (str[0] == '.' && str[1] == '/'))
+	// {
+	// 	if (access(str, X_OK | F_OK) == 0)
+	// 		return (str);
+	// 	else
+	// 		return (NULL);
+	// }
 	if (access(str, X_OK | F_OK) == 0)
 		return (str);
 	path = get_path(envi);
@@ -199,10 +207,13 @@ int	prepare_for_execution(t_mini **shell)
 			if (node->infd == -1)
 			{
 				node->execute = IGNORE;
+				ft_putstr_fd(tmp->str, 2);
+				write (2, ": ", 2);
 				perror("");
+				mini->exit_status = 1;
 			}
 		}
-		else if (tmp -> type == OUTPUT && ft_strlen(tmp->str) > 0)
+		else if (tmp -> type == OUTPUT && ft_strlen(tmp->str) > 0 && node->execute == EXECUTE)
 		{
 			// node->outfile = tmp->str;
 			// node->outfile_type = OUTPUT;

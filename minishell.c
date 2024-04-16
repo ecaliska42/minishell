@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/10 13:39:04 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:31:21 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,10 @@ int	main(int ac, char **av, char **envp)
 	return (0);
 }
 
-
-// TODO DONE: pwd with no options ||
-
-// TODO MAKE THE PROMPT PRINT THE CORRECT HOSTNAME
-
 /*
 
 	* can you give me a description of these function and its return values if they have one
- */
+*/
 
 /*
 	* ALLOWED FUNCTIONS:
@@ -86,7 +81,6 @@ int	main(int ac, char **av, char **envp)
 	* sigemptyset
 	* sigaddset
 	* kill
-	* chdir
 	* stat
 	* lstat
 	* fstat
@@ -109,13 +103,7 @@ int	main(int ac, char **av, char **envp)
 	! rl_on_new_line
 	! rl_replace_line
 	! rl_redisplay
-	! printf
-	! fork
 	! strerror
-	! add_history
-	! access
-	! wait
-	! waitpid
 	! unlink
 	! execve
 	! getcwd
