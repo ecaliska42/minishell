@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/16 12:57:31 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/16 13:28:38 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,7 +240,7 @@ int	prepare_for_execution(t_mini **shell)
 		{
 			// node->infile_type = HEREDOC;
 			// node->infile = tmp->str;
-			heredoc(node, tmp->str);
+			heredoc(node, tmp->str, mini->shell.tokens->flag_exp, mini->env);
 		}
 		else if (tmp -> type == RANDOM)
 			node->command = create_command(tmp->str, node->command);

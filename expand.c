@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/16 12:49:23 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/16 13:30:56 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,7 @@ char	*expand_heredoc_delimeter(char *new, char *str, int *i, t_mini *ms)
 		if (quote_check(str[*i], &ms->shell.quotes) != 0)
 		{
 			(*i)++; // quote
-			ms->tokens->flag_exp = false;
+			ms->shell.tokens->flag_exp = false;
 			while (quote_check(str[*i], &ms->shell.quotes) != 0)
 			{
 				new = add_char(new, str[*i]);
@@ -246,7 +246,7 @@ t_token	*expand_variable(t_token *token, t_mini *ms, char quotes)
 	{
 		if (token->type == HEREDOC)
 		{
-			ms->tokens->flag_exp = true;
+			ms->shell.tokens->flag_exp = true;
 			new = expand_heredoc_delimeter(new, joker, &i, ms);
 		}
 		if (joker[i] == '$' && joker[i + 1] == '?')
