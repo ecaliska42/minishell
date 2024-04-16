@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 14:22:20 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/03/27 18:45:12 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/16 12:08:59 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,3 +67,14 @@ char	*get_after(char *str, char character)
 	return (ret);
 }
 
+void free_everything(t_mini **mini)
+{
+	t_mini *ms = *mini;
+
+	// t_exe *exe = &ms->exe;
+	t_parse *parse = ms->parse;
+	t_env *env = ms->env;
+	t_token *token = ms->tokens;
+	t_token *tmp;
+	
+}
