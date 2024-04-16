@@ -11,3 +11,5 @@
 11-) Stuff which is not to handle ('\', '*', ...) - check for crash
 
 12-) create a big main struct to make freeing more easier :)
+
+13-) $a if not exists command not found

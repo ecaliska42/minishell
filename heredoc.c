@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/16 14:57:13 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/16 15:09:23 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ void	heredoc(t_parse *node, char *end, bool expand, t_mini **mini)
 	signal_handler(4, *mini);
 	while (1)
 	{
+		if (g_sig)
+			break ;
 		// line = get_next_line(fileno(stdin));//line = readline("> ");
 		line = readline("> ");
 		if (!line)

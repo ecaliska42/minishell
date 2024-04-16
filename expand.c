@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/16 14:18:09 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/16 17:43:01 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*add_char(char *str, char new_char)
 	return (new);
 }
 
-t_token	*split_value(char *str, char *value, t_token *token)//, int flag)
+t_token	*split_value(char *str, char *value, t_token *token)
 {
 	char	**words;
 	t_token	*last;
@@ -89,6 +89,8 @@ t_token	*split_value(char *str, char *value, t_token *token)//, int flag)
 	{
 		new = malloc(sizeof(t_token));
 		new->str = ft_strdup(words[i]);
+		// if (new->str == NULL)
+		// 	return (NULL);
 		new->next = last->next;
 		new->type = last->type;
 		last->next = new;
@@ -184,6 +186,11 @@ char	*expand_heredoc_delimeter(char *new, char *str, int *i, t_mini *ms)
 	return (new);
 }
 
+// char *process_closed_quotes(char *new, char *str, int *i, t_mini *ms)
+// {
+	
+// }
+
 t_token	*expand_variable(t_token *token, t_mini *ms, char quotes)
 {
 	char	*joker;
@@ -225,6 +232,7 @@ t_token	*expand_variable(t_token *token, t_mini *ms, char quotes)
 		}
 		else if (quotes == CLOSED)
 		{
+			// new = process_closed_quotes(new, joker, &i, ms);
 			while (joker[i] && joker[i] != '\"' && joker[i] != '\'')
 			{
 				while (joker[i] && joker[i] != '$' && joker[i] != '\"' && joker[i] != '\'')

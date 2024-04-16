@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 14:07:20 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/16 14:46:04 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/16 15:14:32 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void signal_handler_heredoc(int signal_num)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	ioctl(0, TIOCSTI, "\n");
+	g_sig = SIGINT;
 }
 
 
