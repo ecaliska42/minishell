@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/10 15:32:38 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/16 12:48:44 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@
 # define MALLOC_ERROR 62
 # define left '<'
 # define right '>'
+//SIGNALS
+# define READLINE 1
+# define CHILD 2
+# define NON_INTERACTIVE 3
+# define HERDOC 4
 
 typedef enum e_tokentype
 {
@@ -55,6 +60,7 @@ typedef struct s_token
 {
 	char	*str;
 	bool 	ambiguous;
+	bool 	flag_exp;
 	t_tokentype	type;
 	struct s_token	*next;
 }			t_token;

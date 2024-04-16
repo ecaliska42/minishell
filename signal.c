@@ -6,13 +6,16 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 14:07:20 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/11 17:08:13 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/12 16:53:19 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "libraries/minishell.h"
+#include "libraries/parsing.h"
 #include <readline/readline.h>
+#include <signal.h>
+#include <sys/ioctl.h>
 
 int g_sig = 0;
 
@@ -47,21 +50,34 @@ void non_interactive(int signal_num)
 	ft_putstr_fd("\n", 1);
 }
 
+void signal_handler_heredoc(int signal_num)
+{
+	(void)signal_num;
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	ioctl(0, TIOCSTI, "\n");
+}
+
+
 void	signal_handler(int mode)//, t_mini *ms)
 {
-	if (mode == 1)
+	if (mode == READLINE)
 	{
 		signal(SIGINT, catch_signals);
 		signal(SIGQUIT, SIG_IGN);
 	}
-	else if (mode == 2)
+	else if (mode == CHILD)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, catch_signals);
 	}
-	else if (mode == 3)
+	else if (mode == NON_INTERACTIVE)
 	{
 		signal(SIGINT, non_interactive);
-		signal(SIGQUIT, non_interactive);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (mode == HERDOC)
+	{
+		signal(SIGINT, signal_handler_heredoc);
 	}
 }

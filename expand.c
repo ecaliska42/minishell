@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/11 13:42:05 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/16 12:49:23 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,15 +198,15 @@ char	*process_double_quotes(char *new, char *str, int *i, t_mini *ms)
 // 	return (new);
 // }
 
-char	*expand_heredoc_delimeter(char *new, char *str, int *i, char quotes)
+char	*expand_heredoc_delimeter(char *new, char *str, int *i, t_mini *ms)
 {
 	while (str[*i])
 	{
-		if (quote_check(str[*i], &quotes) != 0)
+		if (quote_check(str[*i], &ms->shell.quotes) != 0)
 		{
 			(*i)++; // quote
-			// struct->flag_exp = false;
-			while (quote_check(str[*i], &quotes) != 0)
+			ms->tokens->flag_exp = false;
+			while (quote_check(str[*i], &ms->shell.quotes) != 0)
 			{
 				new = add_char(new, str[*i]);
 				(*i)++;
@@ -246,7 +246,8 @@ t_token	*expand_variable(t_token *token, t_mini *ms, char quotes)
 	{
 		if (token->type == HEREDOC)
 		{
-			new = expand_heredoc_delimeter(new, joker, &i, quotes);
+			ms->tokens->flag_exp = true;
+			new = expand_heredoc_delimeter(new, joker, &i, ms);
 		}
 		if (joker[i] == '$' && joker[i + 1] == '?')
 		{
