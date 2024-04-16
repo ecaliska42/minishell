@@ -3,17 +3,18 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+         #
+#    By: melsen6 <melsen6@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2024/04/16 17:45:41 by mesenyur         ###   ########.fr        #
+#    Updated: 2024/04/16 20:03:21 by melsen6          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 CC= cc
 #REMOVE -G FLAG (MAY SLOW DOWN PROGRAMM)
-FLAGS= -Wall -Werror -Wextra -lreadline -g
+FLAGS= -Wall -Werror -Wextra -g
+LDFLAGS= -lreadline # linker directive
 #FLAGS+= -fsanitize=address,undefined,leak
 
 NAME= minishell
@@ -39,7 +40,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	make -C ./libft all
-	$(CC) $(FLAGS) -o $(NAME) $(SRC) $(SRC2) libft/libft.a
+	$(CC) $(FLAGS) -o $(NAME) $(SRC) $(SRC2) libft/libft.a $(LDFLAGS)
 
 clean:
 	$(RM) $(OBJ)
