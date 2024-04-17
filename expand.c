@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/17 13:03:59 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:27:39 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,7 +237,7 @@ t_token	*expand_variable(t_token *token, t_mini *ms, char quotes)
 			{
 				while (joker[i] && joker[i] != '$' && joker[i] != '\"' && joker[i] != '\'')
 					new = add_char(new, joker[i++]);
-				if (ft_is_dollar(joker[i]) && (joker[i + 1] && joker[i + 1] != '$' && joker[i + 1] != '?' && !ft_isdigit(joker[i + 1])))
+				if (ft_is_dollar(joker[i]) && (joker[i + 1] && joker[i + 1] != '$' && joker[i + 1] != '?' && joker[i + 1] != '/' && !ft_isdigit(joker[i + 1])))
 				{
 					i++;
 					len = check_name_and_return_len(&joker[i]);
