@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/16 15:00:01 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:12:16 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	execute(t_mini **mini)//(t_parse **comm, int pipecount, t_env **envp)
 	if (create_pipes(&(*mini)->exe) == ERROR)
 		return (ERROR);
 	i = 0;
-	// int j = 0;
+	int j = 0;
 	while (parse != NULL)
 	{
 		// if (parse->execute == IGNORE)
@@ -124,11 +124,16 @@ int	execute(t_mini **mini)//(t_parse **comm, int pipecount, t_env **envp)
 	}
 	close_filedescriptor(NULL, &(*mini)->exe);
 	i--;
-	while (i >= 0)
+	while (j <= i)
 	{
-		waitpid((*mini)->exe.id[i], &(*mini)->exit_status, 0);
-		i--;
+		waitpid((*mini)->exe.id[j], &(*mini)->exit_status, 0);
+		j++ ;
 	}
+	// while (i >= 0)
+	// {
+	// 	waitpid((*mini)->exe.id[i], &(*mini)->exit_status, 0);
+	// 	i--;
+	// }
 	if(WIFEXITED((*mini)->exit_status))
 		(*mini)->exit_status = WEXITSTATUS((*mini)->exit_status);
 	else if(WIFSIGNALED((*mini)->exit_status))

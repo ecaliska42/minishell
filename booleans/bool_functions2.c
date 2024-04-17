@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 17:58:46 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/09 14:02:50 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/17 14:41:44 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@ bool	is_only_numbers(char *s)
 	i = 0;
 	if (!s)
 		return (true);
+	if (s[0] == '-' || s[0] == '+')
+		i++;
 	while (s[i])
 	{
-		if (s[i] != '-' && s[i] != '+' && ft_isdigit(s[i]) == 0)
+		if (ft_isdigit(s[i]) == 0)
 			return (false);
 		i++;
 	}
