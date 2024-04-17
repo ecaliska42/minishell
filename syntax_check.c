@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:16:58 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/10 16:29:13 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/17 15:52:18 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,34 +49,38 @@ int	too_many_pipes(t_shell *shell)
 
 int	three_outputs(t_shell *shell)
 {
-	t_token	*tmp;
+	char *input;
+	int i;
 
-	tmp = shell->tokens;
-	while (tmp)
+	i = 0;
+	input = shell->input;
+	while (input[i])
 	{
-		if (tmp->type == OUTPUT && tmp->next && tmp->next->type == APPEND)
+		if (input[i] == '>' && input[i + 1] && input[i + 1] == '>' && input[i + 2] && input[i + 2] == '>')
 		{
 			ft_putendl_fd("minishell: syntax error near unexpected token `>>'", 2);
 			return (SYNTAX_ERROR);
 		}
-		tmp = tmp->next;
+		i++;
 	}
 	return (0);
 }
 
 int	three_inputs(t_shell *shell)
 {
-	t_token	*tmp;
+	char *input;
+	int i;
 
-	tmp = shell->tokens;
-	while (tmp)
+	i = 0;
+	input = shell->input;
+	while (input[i])
 	{
-		if (tmp->type == INPUT && tmp->next && tmp->next->type == HEREDOC)
+		if (input[i] == '<' && input[i + 1] && input[i + 1] == '<' && input[i + 2] && input[i + 2] == '<')
 		{
 			ft_putendl_fd("minishell: syntax error near unexpected token `>>'", 2);
 			return (SYNTAX_ERROR);
 		}
-		tmp = tmp->next;
+		i++;
 	}
 	return (0);
 }
@@ -141,11 +145,11 @@ int	syntax_check(t_shell *shell)
 		return (SYNTAX_ERROR);
 	if (too_many_pipes(shell) == SYNTAX_ERROR)
 		return (SYNTAX_ERROR);
+	if (redir_pipe(shell) == SYNTAX_ERROR)
+		return (SYNTAX_ERROR);
 	if (three_outputs(shell) == SYNTAX_ERROR)
 		return (SYNTAX_ERROR);
 	if (three_inputs(shell) == SYNTAX_ERROR)
-		return (SYNTAX_ERROR);
-	if (redir_pipe(shell) == SYNTAX_ERROR)
 		return (SYNTAX_ERROR);
 	if (invalid_word(shell) == SYNTAX_ERROR)
 		return (SYNTAX_ERROR);
