@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/16 15:00:01 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/17 17:10:13 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	child(t_parse *comm, int i, t_mini **mini)
 	{
 		if (opendir(comm->command[0]) != NULL)
 		{
-			// perror("minishell: ");
 			write(2, comm->command[0], ft_strlen(comm->command[0]));
 			write(2, ": is a directory\n", 18);
 			exit(126);
@@ -60,6 +59,12 @@ void	child(t_parse *comm, int i, t_mini **mini)
 			write(2, comm->command[0], ft_strlen(comm->command[0]));
 			write(2, ": No such file or directory\n", 28);
 			exit(127);
+		}
+		if (access(comm->command[0], X_OK) == -1)
+		{
+			write(2, comm->command[0], ft_strlen(comm->command[0]));
+			write(2, ": Permission denied\n", 21);
+			exit(126);
 		}
 	}
 	char **envp = change_envp(&ms->env);
@@ -103,7 +108,7 @@ int	execute(t_mini **mini)//(t_parse **comm, int pipecount, t_env **envp)
 	if (create_pipes(&(*mini)->exe) == ERROR)
 		return (ERROR);
 	i = 0;
-	// int j = 0;
+	int j = 0;
 	while (parse != NULL)
 	{
 		// if (parse->execute == IGNORE)
@@ -124,11 +129,16 @@ int	execute(t_mini **mini)//(t_parse **comm, int pipecount, t_env **envp)
 	}
 	close_filedescriptor(NULL, &(*mini)->exe);
 	i--;
-	while (i >= 0)
+	while (j <= i)
 	{
-		waitpid((*mini)->exe.id[i], &(*mini)->exit_status, 0);
-		i--;
+		waitpid((*mini)->exe.id[j], &(*mini)->exit_status, 0);
+		j++ ;
 	}
+	// while (i >= 0)
+	// {
+	// 	waitpid((*mini)->exe.id[i], &(*mini)->exit_status, 0);
+	// 	i--;
+	// }
 	if(WIFEXITED((*mini)->exit_status))
 		(*mini)->exit_status = WEXITSTATUS((*mini)->exit_status);
 	else if(WIFSIGNALED((*mini)->exit_status))
