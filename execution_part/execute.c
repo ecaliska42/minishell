@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/16 14:42:01 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/16 15:00:01 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	execute(t_mini **mini)//(t_parse **comm, int pipecount, t_env **envp)
 	parse = (*mini)->parse;
 	if (malloc_ex_struct(&(*mini)->exe, 0) == ERROR)
 		return (ERROR);
-	if (is_buildin(parse->command) == true && (*mini)->exe.pipecount == 0)
+	if (is_buildin(parse->command) == true && (*mini)->exe.pipecount == 0 && parse->execute == EXECUTE)
 	{
 		lonely_buildin(parse, &(*mini)->env, mini);
 		free((*mini)->exe.id);

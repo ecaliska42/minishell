@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melsen6 <melsen6@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/16 20:03:52 by melsen6          ###   ########.fr       */
+/*   Updated: 2024/04/17 13:03:59 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,14 +162,14 @@ char	*process_double_quotes(char *new, char *str, int *i, t_mini *ms)
 	return (new);
 }
 
-char	*expand_heredoc_delimeter(char *new, char *str, int *i, t_mini *ms)
+char	*expand_heredoc_delimeter(char *new, char *str, int *i, t_token *token, t_mini *ms)
 {
 	while (str[*i])
 	{
 		if (quote_check(str[*i], &ms->shell.quotes) != 0)
 		{
 			(*i)++; // quote
-			ms->shell.tokens->flag_exp = false;
+			token->flag_exp = false;
 			while (quote_check(str[*i], &ms->shell.quotes) != 0)
 			{
 				new = add_char(new, str[*i]);
@@ -215,8 +215,8 @@ t_token	*expand_variable(t_token *token, t_mini *ms, char quotes)
 	{
 		if (token->type == HEREDOC)
 		{
-			ms->shell.tokens->flag_exp = true;
-			new = expand_heredoc_delimeter(new, joker, &i, ms);
+			token->flag_exp = true;
+			new = expand_heredoc_delimeter(new, joker, &i, token, ms);
 		}
 		replace_exit_code(joker, &new, &i, ms);
 		quote_check(joker[i], &quotes);

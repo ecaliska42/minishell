@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:26:46 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/16 14:56:08 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/17 12:49:57 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ char	*get_word(t_shell *shell, char *line, int *i)
 	word = ft_calloc(len + 2, sizeof(char));
 	if (!word)
 	{
-		printf("Get word error: malloc failed\n");
+		write(2, "Get word error: malloc failed\n", 30);
 		return (NULL);
 		// exit(-1);
 	}
@@ -145,7 +145,7 @@ t_token	*add_new_empty_token(t_shell *shell)
 
 	if (token_add(&shell->tokens) == -1)
 	{
-		printf("Error: Token add failed\n");
+		ft_putendl_fd("Error: Token add failed", 2);
 		return (NULL);
 	}
 	last_token = get_last_token(&shell->tokens);
@@ -217,7 +217,7 @@ t_token *add_token_and_check(t_shell *shell)
     t_token *last_token = add_new_empty_token(shell);
     if (!last_token)
     {
-        printf("Error: Token add failed\n");
+		write(2, "Error: Token add failed\n", 25);
         return NULL;
     }
     return last_token;
