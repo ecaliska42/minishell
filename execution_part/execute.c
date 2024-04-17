@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/17 13:12:16 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/17 17:10:13 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	child(t_parse *comm, int i, t_mini **mini)
 	{
 		if (opendir(comm->command[0]) != NULL)
 		{
-			// perror("minishell: ");
 			write(2, comm->command[0], ft_strlen(comm->command[0]));
 			write(2, ": is a directory\n", 18);
 			exit(126);
@@ -60,6 +59,12 @@ void	child(t_parse *comm, int i, t_mini **mini)
 			write(2, comm->command[0], ft_strlen(comm->command[0]));
 			write(2, ": No such file or directory\n", 28);
 			exit(127);
+		}
+		if (access(comm->command[0], X_OK) == -1)
+		{
+			write(2, comm->command[0], ft_strlen(comm->command[0]));
+			write(2, ": Permission denied\n", 21);
+			exit(126);
 		}
 	}
 	char **envp = change_envp(&ms->env);

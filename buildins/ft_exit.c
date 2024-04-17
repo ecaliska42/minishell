@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:08 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/17 14:42:39 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/17 17:16:21 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ void	ft_exit(t_parse **node, t_mini **mini)
 	exit_code = 0;
 	if (array_size(parse->command) == 1)
 	{
-		printf("exit\n");
+		write(2, "exit\n", 5);
+		// printf("exit\n");
 		exit((*mini)->exit_status);
 	}
 	if (is_only_numbers(parse->command[1]) == false || ft_strlen(parse->command[1]) == 0)

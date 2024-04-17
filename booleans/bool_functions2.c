@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 17:58:46 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/17 14:41:44 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/17 16:04:41 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,17 @@ bool	is_alpha_numbers(char *s)
 		i++;
 	}
 	return (true);
+}
+
+bool	first_character_is(char *s, char c)
+{
+	if (!s)
+		return (false);
+	while (ft_is_white_space(*s) == true)
+	{
+		s++;
+	}
+	if (*s == c)
+		return (true);
+	return (false);
 }
