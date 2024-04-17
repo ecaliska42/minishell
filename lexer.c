@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:14:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/17 16:20:21 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/17 17:27:25 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	lexical_analyzer(t_shell *shell)
 		ft_putstr_fd("Error: shell->input is NULL\n", 2);
 		return (-1);
 	}
-	if (unclosed_quote_error(shell) == -1 || syntax_before_token(shell) == 2)
+	if (unclosed_quote_error(shell) == -1)
 		return (ERROR); // free everything
 		// exit(1);
 	shell->quotes = CLOSED;

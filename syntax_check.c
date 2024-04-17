@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:16:58 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/17 17:12:09 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/17 17:32:17 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,39 +130,39 @@ int	pipe_start(t_shell *shell)
 	return (0);
 }
 
-int	wrong_order(t_shell *shell)
-{
-	char *input;
-	int i;
+// int	wrong_order(t_shell *shell)
+// {
+// 	char *input;
+// 	int i;
 
-	i = 0;
-	input = shell->input;
-	while (input[i])
-	{
-		if (input[i] == '>') // && input[i + 1] && input[i + 1] == '<')
-		{
-			i++;
-			skip_spaces(input, &i);
-			if (input[i] == '<')
-			{
-				ft_putendl_fd("minishell: syntax error near unexpected token `<'", 2);
-				return (SYNTAX_ERROR);
-			}
-		}
-		if (input[i] == '<') // && input[i + 1] && input[i + 1] == '<')
-		{
-			i++;
-			skip_spaces(input, &i);
-			if (input[i] == '>')
-			{
-				ft_putendl_fd("minishell: syntax error near unexpected token `>'", 2);
-				return (SYNTAX_ERROR);
-			}
-		}
-		i++;
-	}
-	return (0);
-}
+// 	i = 0;
+// 	input = shell->input;
+// 	while (input[i])
+// 	{
+// 		if (input[i] == '>') // && input[i + 1] && input[i + 1] == '<')
+// 		{
+// 			i++;
+// 			skip_spaces(input, &i);
+// 			if (input[i] == '<')
+// 			{
+// 				ft_putendl_fd("minishell: syntax error near unexpected token `<'", 2);
+// 				return (SYNTAX_ERROR);
+// 			}
+// 		}
+// 		if (input[i] == '<') // && input[i + 1] && input[i + 1] == '<')
+// 		{
+// 			i++;
+// 			skip_spaces(input, &i);
+// 			if (input[i] == '>')
+// 			{
+// 				ft_putendl_fd("minishell: syntax error near unexpected token `>'", 2);
+// 				return (SYNTAX_ERROR);
+// 			}
+// 		}
+// 		i++;
+// 	}
+// 	return (0);
+// }
 
 int	invalid_word(t_shell *shell)
 {
@@ -194,15 +194,15 @@ int	syntax_check(t_shell *shell)
 	return (0);
 }
 
-int syntax_before_token(t_shell *shell)
-{
-	if (three_outputs(shell) == SYNTAX_ERROR)
-		return (SYNTAX_ERROR);
-	if (three_inputs(shell) == SYNTAX_ERROR)
-		return (SYNTAX_ERROR);
-	if (wrong_order(shell) == SYNTAX_ERROR)
-		return (SYNTAX_ERROR);
-	if (redir_pipe(shell) == SYNTAX_ERROR)
-		return (SYNTAX_ERROR);
-	return (0);
-}
+// int syntax_before_token(t_shell *shell)
+// {
+// 	if (three_outputs(shell) == SYNTAX_ERROR)
+// 		return (SYNTAX_ERROR);
+// 	if (three_inputs(shell) == SYNTAX_ERROR)
+// 		return (SYNTAX_ERROR);
+// 	if (wrong_order(shell) == SYNTAX_ERROR)
+// 		return (SYNTAX_ERROR);
+// 	if (redir_pipe(shell) == SYNTAX_ERROR)
+// 		return (SYNTAX_ERROR);
+// 	return (0);
+// }
