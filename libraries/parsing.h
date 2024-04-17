@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/16 14:56:03 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/17 16:01:44 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void 	ft_init_shell(t_shell *shell);
 t_token *get_last_token(t_token **tokens);
 int 	token_add(t_token **tokenlist);
 void 	ft_tokenizer(t_shell *shell, t_token *last, int i);
-int	ft_strtok(t_shell *shell, int *i);
+int		ft_strtok(t_shell *shell, int *i);
 char 	*get_word(t_shell *shell, char *line, int *i);
 int 	token_add(t_token **token);
 void 	free_tokens(t_token **tokens);
@@ -115,5 +115,6 @@ t_token	*split_value(char *str, char *value, t_token *token);//, int flag);
 void 	insert_token(char **str, t_token *token, t_token *n_token);
 
 
+int syntax_before_token(t_shell *shell);
 
 #endif

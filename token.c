@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:26:46 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/17 12:49:57 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/17 17:13:51 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ int	not_pipe(t_shell *shell, t_token *last_token, int *i)
 	last_token->str = get_word(shell, shell->input, i);
 	if (last_token->str == NULL)
 	{
-		ft_putendl_fd("Error: get_word failes", 2);
+		ft_putendl_fd("Error: POSSIBLE SYNTAX ERROR MISSED", 2);
 		return (ERROR);
 	}
 	return (SUCCESS);
