@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/16 14:57:13 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/17 12:51:44 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,50 +38,6 @@ char	*get_unique_heredoc_name(void)
 	//name = ft_strjoin("/tmp/", name);
 	return (name);
 }
-
-// char	*process_heredoc(char *str, t_mini *ms)
-// {
-// 	int 	i;
-// 	int		len;
-// 	char	*tmp;
-// 	char	*value;
-
-// 	i = 0;
-// 	while (str[i] && str[i] != '\"')
-// 	{
-// 		if ((ft_is_dollar(str[*i])) && (str[(*i) + 1] && (str[(*i) + 1] != '$'
-// 					&& str[(*i) + 1] != '\"' && str[(*i) + 1] != '?' && ft_isalnum(str[(*i) + 1]))))
-// 		{
-// 			(*i)++;
-// 			len = check_name_and_return_len(&str[*i]);
-// 			tmp = ft_substr(str, *i, len);
-// 			if (!tmp)
-// 				return (NULL);
-// 			(*i) += len;
-// 			if ((value = get_env_value(tmp, ms->env)) != NULL)
-// 			{
-// 				new = ft_strjoin(new, value);
-// 			}
-// 		}
-// 		else if (str[*i] == '$' && str[(*i) + 1] == '?')
-// 		{
-// 			new = ft_strjoin(new ,replace_exit_code(str, i, ms));
-// 		}
-// 		else if (ft_is_dollar(str[*i]))
-// 		{
-// 			new = add_char(new, str[*i]);
-// 			(*i)++;
-// 		}
-// 		while (str[*i] && str[*i] != '$' && str[*i] != '\"')
-// 		{
-// 			new = add_char(new, str[*i]);
-// 			(*i)++;
-// 		}
-// 	}
-// 	if (str[*i] == '\"')
-// 		(*i)++;
-// 	return (new);
-// }
 
 char	*expand_heredoc(char *str, t_env *envp, t_mini **mini)
 {
@@ -139,7 +95,6 @@ void	heredoc(t_parse *node, char *end, bool expand, t_mini **mini)
 		line = readline("> ");
 		if (!line)
 			break ;
-		//TODO expand variables in heredoc???
 		if (ft_strcmp(line, end) == 0) //should exit withc "" as eof
 		{
 			free(line);
