@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/18 13:55:27 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/18 18:59:45 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,5 +181,15 @@ void	signal_handler(int mod, t_mini *ms);
 // FREE
 
 void 	one_function_to_free_them_all(t_mini *mini);
+
+// EXPANSION
+
+t_token *split_value(char *str, char *value, t_token *token);
+char 	*replace_exit_code(char *str, char **new_str, int *i, t_mini *ms);
+char	*add_char(char *str, char new_char);
+char	*expand_heredoc_delimeter(char *new_str, char *str, int *i, t_mini *ms);
+char	*process_double_quotes(char *new_str, char *str, int *i, t_mini *ms);
+char	*process_single_quotes(char *new_str, char *str, int *i);
+char 	*handle_dollar_sign(char *new_str, char *str, int *i, t_mini *ms);
 
 #endif

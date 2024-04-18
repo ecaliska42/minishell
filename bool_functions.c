@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 14:55:01 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/03/28 18:04:28 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:40:07 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,12 @@ bool	ft_is_quote(char c)
 	return (false);
 }
 
-bool	ft_is_redirection(t_tokentype type)
+bool	break_character(t_shell *shell, char *line, int i)
 {
-	if (type == APPEND || type == OUTPUT || type == INPUT || type == HEREDOC)
-		return (true);
+	if (quote_check(line[i], &shell->quotes) == 0)
+	{
+		if (ft_is_space(line[i]) == true || ft_is_special(line[i]) == true)
+			return (true);
+	}
 	return (false);
 }

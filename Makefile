@@ -6,7 +6,7 @@
 #    By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2024/04/18 14:46:36 by mesenyur         ###   ########.fr        #
+#    Updated: 2024/04/18 17:09:24 by mesenyur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ SRC= minishell.c buildins/ft_echo.c buildins/ft_cd.c buildins/ft_env.c \
 	GNL/get_next_line.c GNL/get_next_line_utils.c\
 
 SRC2 = lexer.c needed_functions.c print_debug.c token.c readline.c quote_stuff.c \
-	syntax_check.c bool_functions.c expand.c signal.c free.c
+	syntax_check.c bool_functions.c expand.c signal.c free.c token_2.c extras.c \
+	expand_2.c expand_3.c expand_4.c
 
 OBJ= $(SRC:.c=.o) $(SRC2:.c=.o)
 
