@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_debug.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 14:06:06 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/07 15:41:28 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/18 14:16:24 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,6 @@
 // 		}
 // 	}
 // }
-
-void	free_tokens(t_token **tokens)
-{
-	t_token	*tmp;
-
-	while (*tokens != NULL)
-	{
-		tmp = *tokens;
-		*tokens = (*tokens)->next;
-		if (tmp->str != NULL)
-			free(tmp->str);
-		free(tmp);
-	}
-}
 
 void	print_everything(t_shell *shell)
 {

@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:26:46 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/17 17:29:58 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/18 14:18:36 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ char	*get_word(t_shell *shell, char *line, int *i)
 		(*i)++;
 	if (ft_is_special(line[*i]) == true)
 		return (NULL);
-		// printf("PROBLEM!!!special character at i=%d is: %c\n", *i, line[*i]);
 	tmp = *i;
 	len = get_len(shell, line, i);
 	word = ft_calloc(len + 2, sizeof(char));
@@ -129,7 +128,6 @@ char	*get_word(t_shell *shell, char *line, int *i)
 	{
 		write(2, "Get word error: malloc failed\n", 30);
 		return (NULL);
-		// exit(-1);
 	}
 	while (index < len)
 	{

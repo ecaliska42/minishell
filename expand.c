@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/17 13:27:39 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:28:00 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,45 +68,199 @@ char	*add_char(char *str, char new_char)
 	return (new);
 }
 
-t_token	*split_value(char *str, char *value, t_token *token)
-{
-	char	**words;
-	t_token	*last;
-	t_token	*new;
-	int		i;
+// t_token	*split_value(char *str, char *value, t_token *token) // ORIGINAL
+// {
+// 	char	**words;
+// 	t_token	*last;
+// 	t_token	*new;
+// 	int		i;
 
-	i = 0;
-	last = token;
-	words = ft_split(value, ' ');
-	if (words == NULL)
-		return (NULL);
-	if (i == 0) // no space at start	 
-	{
-		last->str = ft_strjoin(str, words[0]);
-		i++;
-	}
-	while (words[i] != NULL)
-	{
-		new = malloc(sizeof(t_token));
-		new->str = ft_strdup(words[i]);
-		// if (new->str == NULL)
-		// 	return (NULL);
-		new->next = last->next;
-		new->type = last->type;
-		last->next = new;
-		last = new;
-		i++;
-	}
-	i = 0;
-	while (words[i] != NULL)
-	{
-		free(words[i]);
-		words[i] = NULL;
-		i++;
-	}
-	free(words);
-	words = NULL;
-	return (last);
+// 	i = 0;
+// 	last = token;
+// 	words = ft_split(value, ' ');
+// 	if (words == NULL)
+// 		return (NULL);
+// 	if (i == 0) // no space at start	 
+// 	{
+// 		last->str = ft_strjoin(str, words[0]);
+// 		if (last->str == NULL)
+// 		{
+// 			free(words);
+// 			return (NULL);
+// 		}
+// 		i++;
+// 	}
+// 	while (words[i] != NULL)
+// 	{
+// 		new = malloc(sizeof(t_token));
+// 		if (new == NULL)
+// 		{
+// 			free(words);
+// 			return (NULL);
+// 		}
+// 		new->str = ft_strdup(words[i]);
+// 		if (new->str == NULL)
+// 		{
+// 			free(new);
+// 			free(words);	
+// 			return (NULL);
+// 		}
+// 		new->next = last->next;
+// 		new->type = last->type;
+// 		last->next = new;
+// 		last = new;
+// 		i++;
+// 	}
+// 	i = 0;
+// 	while (words[i] != NULL)
+// 	{
+// 		free(words[i]);
+// 		words[i] = NULL;
+// 		i++;
+// 	}
+// 	free(words);
+// 	words = NULL;
+// 	return (last);
+// }
+
+t_token *create_new_token(char *word, t_token *last)
+{
+    t_token *new;
+	
+	new = malloc(sizeof(t_token));
+    if (new == NULL)
+        return NULL;
+    new->str = ft_strdup(word);
+    if (new->str == NULL)
+    {
+        free(new);
+        return NULL;
+    }
+    new->next = last->next;
+    new->type = last->type;
+    last->next = new;
+    return new;
+}
+
+void free_words(char **words)
+{
+    int i = 0;
+    while (words[i] != NULL)
+    {
+        free(words[i]);
+        words[i] = NULL;
+        i++;
+    }
+    free(words);
+}
+
+// t_token *create_first_token(char *str, char *first_word, t_token *token)
+// {
+//     token->str = ft_strjoin(str, first_word);
+//     if (token->str == NULL)
+//     {
+//         return NULL;
+//     }
+//     return token;
+// }
+
+// t_token *split_value(char *str, char *value, t_token *token)
+// {
+//     char **words;
+//     t_token *last;
+//     int i = 1;
+
+//     words = ft_split(value, ' ');
+//     if (words == NULL)
+//     {
+//         return NULL;
+//     }
+
+//     last = create_first_token(str, words[0], token);
+//     if (last == NULL)
+//     {
+//         free_words(words);
+//         return NULL;
+//     }
+
+//     while (words[i] != NULL)
+//     {
+//         last = create_new_token(words[i], last);
+//         if (last == NULL)
+//         {
+//             free_words(words);
+//             return NULL;
+//         }
+//         i++;
+//     }
+//     free_words(words);
+//     return last;
+// }
+
+// t_token *split_value(char *str, char *value, t_token *token)
+// {
+//     char **words;
+//     t_token *last;
+//     int i;
+
+// 	i = 0;
+//     last = token;
+//     words = ft_split(value, ' ');
+//     if (words == NULL)
+//     {
+//         return NULL;
+//     }
+//     if (i == 0) // no space at start
+//     {
+//         last->str = ft_strjoin(str, words[0]);
+//         if (last->str == NULL)
+//         {
+//             free(words);
+//             return NULL;
+//         }
+//         i++;
+//     }
+//     while (words[i] != NULL)
+//     {
+//         last = create_new_token(words[i], last);
+//         if (last == NULL)
+//         {
+//             free_words(words);
+//             return NULL;
+//         }
+//         i++;
+//     }
+//     free_words(words);
+//     return last;
+// }
+
+t_token *split_value(char *str, char *value, t_token *token)
+{
+    char **words;
+    int i; 
+
+	i = 1;
+    words = ft_split(value, ' ');
+    if (words == NULL)
+        return NULL;
+    token->str = ft_strjoin(str, words[0]);
+    if (token->str == NULL)
+    {
+        free_words(words);
+        return NULL;
+    }
+    while (words[i] != NULL)
+    {
+        token = create_new_token(words[i], token);
+        if (token == NULL)
+        {
+            free_words(words);
+            return NULL;
+        }
+        i++;
+    }
+    free_words(words);
+    return token;
 }
 
 char	*process_single_quotes(char *new, char *str, int *i)
@@ -292,7 +446,6 @@ t_token	*expand_variable(t_token *token, t_mini *ms, char quotes)
 						}
 					}
 					free (tmp);
-					// free (value);
 				}
 				else if (replace_exit_code(joker, &new, &i, ms));
 				else if (ft_is_dollar(joker[i]))
@@ -304,7 +457,8 @@ t_token	*expand_variable(t_token *token, t_mini *ms, char quotes)
 		}
 	}
 	token->str = new;
-	// free (new);
+	// if (new)
+	// 	free (new);
 	return (token);
 }
 

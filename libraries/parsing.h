@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/17 16:01:44 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/18 14:12:13 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ t_token	*split_value(char *str, char *value, t_token *token);//, int flag);
 void 	insert_token(char **str, t_token *token, t_token *n_token);
 
 
-int syntax_before_token(t_shell *shell);
+int 	syntax_before_token(t_shell *shell);
+void	free_and_null(void **ptr);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/17 17:31:11 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:05:46 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	ft_readline(t_mini *mini)//(t_shell *shell, t_parse *command, t_env *envp)//
 			// print_everything(shell);
 			mini->exit_status = 2;
 			// ft_putstr_fd("Error: lexical_analyzer\n", 2);
+			// one_function_to_free_them_all(mini);
 			free_tokens(&mini->shell.tokens);
 			free(mini->shell.input);
 			continue;
@@ -80,6 +81,7 @@ int	ft_readline(t_mini *mini)//(t_shell *shell, t_parse *command, t_env *envp)//
 			// printf("syntax_check error\n");
 			ft_putstr_fd("Syntax error\n", 2);
 			free_tokens(&mini->shell.tokens);
+			// one_function_to_free_them_all(mini);
 			free(mini->shell.input);
 			continue;
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:13:38 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/11 13:19:45 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/18 14:09:22 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ char	**change_envp(t_env **envp)
 	// new_envp[size] = NULL;
 	while (i < size)
 	{
+		// char *temp = ft_strjoin(tmp->name, "=");
+		// new_envp[i] = ft_strjoin(temp, tmp->values);
+		// free(temp);
 		new_envp[i] = ft_strjoin(tmp->name, "=");
 		new_envp[i] = ft_strjoin(new_envp[i], tmp->values);
 		i++;
