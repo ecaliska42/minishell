@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/18 19:00:17 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/18 19:47:17 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ char	*expand_heredoc_delimeter(char *new, char *str, int *i, t_mini *ms)
 		if (quote_check(str[*i], &ms->shell.quotes) != 0)
 		{
 			(*i)++;
-			ms->shell.tokens->flag_exp = false; // segfault
 			while (quote_check(str[*i], &ms->shell.quotes) != 0)
 			{
 				new = add_char(new, str[*i]);

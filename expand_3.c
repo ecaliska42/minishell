@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:01:35 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/18 19:01:29 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/18 19:50:45 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ t_token	*expand_variable(t_token *token, t_mini *ms, char quotes)
 		if (token->type == HEREDOC)
 		{
 			token->flag_exp = true;
+            while (joker[i++])
+            {
+                if (joker[i] == '\"' || joker[i] == '\'')
+                    token->flag_exp = false;
+            }
+            i = 0;
 			new = expand_heredoc_delimeter(new, joker, &i, ms);
 		}
 		replace_exit_code(joker, &new, &i, ms);
