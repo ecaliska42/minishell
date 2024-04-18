@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:06 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/17 16:08:09 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/18 19:55:53 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	ft_unset(t_parse **parsing, t_env **environment, t_mini **mini)
 		write(2, "minishell: unset: '", 18);
 		write(2, parse->command[i], ft_strlen(parse->command[i]));
 		write(2, "': not a valid identifier\n", 26);
-		(*mini)->exit_status = 1;
+		(*mini)->exit_status = 2;
 		return (ERROR);
 	}
 	while (parse->command[i])
