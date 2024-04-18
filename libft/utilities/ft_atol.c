@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:27:15 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/10 13:04:24 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:41:02 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ long	ft_atol(const char *str)
 		if (number > LONG_MAX / 10
 			|| (number == LONG_MAX / 10 && str[i] - '0' > 7))
 			printf("numeric numbers required\n");
-			// return (-2147483649); 
 		number = (number * 10) + (str[i] - '0');
 		i++;
 	}

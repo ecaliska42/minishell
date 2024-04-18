@@ -6,14 +6,14 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/16 14:37:18 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:21:18 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
 #include "./libraries/parsing.h"
 
-int g_sig = 0;
+int		g_sig = 0;
 
 void	print_env(t_env **envp)
 {
@@ -54,7 +54,7 @@ char	**create_if_no_envp(char **envp)
 
 int	main(int ac, char **av, char **envp)
 {
-	t_mini mini;
+	t_mini	mini;
 
 	(void)ac;
 	(void)av;

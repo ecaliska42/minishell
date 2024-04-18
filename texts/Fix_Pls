@@ -9,4 +9,4 @@ BASH:
 Schreibt in out2 und erstellt out1
 
 
-
+echo "unset PATH" | env -i $MINISHELL_PATH"/"$EXECUTABLE = !! no newline

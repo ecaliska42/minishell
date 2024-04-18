@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:07 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/12 15:59:33 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/18 17:58:27 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	print_list(t_env **list)
 			tmp=tmp->next;
 		else
 		{
-			printf("ShellMate: declare -x %s=\"%s\"\n", tmp->name, tmp->values);
+			printf("declare -x %s=\"%s\"\n", tmp->name, tmp->values);
 			tmp = tmp->next;
 		}
 	}

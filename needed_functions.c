@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   needed_functions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:32:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/01 22:01:24 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:55:40 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,9 @@ t_token	*get_last_token(t_token **tokens)
 
 	tmp = *tokens;
 	if (!tmp)
-	{
 		return (NULL);
-	}
 	while (tmp->next)
-	{
 		tmp = tmp->next;
-	}
 	return (tmp);
 }
 
@@ -73,4 +69,20 @@ void	ft_tokenizer(t_shell *shell, t_token *last, int i)
 		last->type = INPUT;
 	else
 		last->type = RANDOM;
+}
+
+void	skip_spaces(char *line, int *i)
+{
+	while (line[*i] != '\0' && ft_is_space(line[*i]) == true)
+		(*i)++;
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 && *s2 && *s1 == *s2)
+	{
+		s1++;
+		s2++;
+	}
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }

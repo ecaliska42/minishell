@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/17 12:52:35 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/18 18:36:09 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,6 +257,7 @@ int	prepare_for_execution(t_mini **minishell)
 			// node->infile_type = HEREDOC;
 			// node->infile = tmp->str;
 			heredoc(node, tmp->str, tmp->flag_exp, minishell);
+
 		}
 		else if (tmp -> type == RANDOM)
 			node->command = create_command(tmp->str, node->command);
