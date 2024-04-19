@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/18 19:00:35 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/19 18:38:28 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
-
-#include "GNL/get_next_line.h"
 
 char	*get_unique_heredoc_name(void)
 {
@@ -93,7 +91,6 @@ void	heredoc(t_parse *node, char *end, bool expand, t_mini **mini)
 	{
 		if (g_sig)
 			break ;
-		// line = get_next_line(fileno(stdin));//line = readline("> ");
 		line = readline("> ");
 		if (!line)
 			break ;

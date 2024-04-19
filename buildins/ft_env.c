@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:10 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/17 16:16:15 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/19 17:46:00 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	ft_env(t_env **envp, t_mini **mini, t_parse **node)
 	}
 	while (tmp != NULL)
 	{
-		printf("%s=%s\n", tmp->name, tmp->values);
+		if (tmp->values != NULL)
+			printf("%s=%s\n", tmp->name, tmp->values);
 		tmp = tmp->next;
 	}
 	tmp = *envp;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:07 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/19 14:49:14 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/19 19:19:11 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ static void	print_list(t_env **list)
 			tmp=tmp->next;
 		else
 		{
-			printf("declare -x %s=\"%s\"\n", tmp->name, tmp->values);
+			if (tmp->values == NULL)
+				printf("declare -x %s\n", tmp->name);
+			else
+				printf("declare -x %s=\"%s\"\n", tmp->name, tmp->values);
 			tmp = tmp->next;
 		}
 	}
@@ -200,6 +203,14 @@ int	ft_export(t_env **lst, t_parse **node, t_mini **mini)
 	fail = 0;
 	if (array_size(command->command) < 2)
 		return (print_export(envp));
+	if (command->command[1][0] == '-' && ft_strlen(command->command[1]) > 1)
+	{
+		write(2, "export: -", 9);
+		write(2, &command->command[1][1], 1);
+		write(2, ": no options are allowed\n", 26);
+		(*mini)->exit_status = 2;
+		return (ERROR);
+	}
 	while (command->command[i])
 	{
 		if (get_before_after(&before, &after, command->command[i]) == ERROR)
