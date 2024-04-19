@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/18 16:58:28 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/19 16:58:36 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,17 @@ typedef enum e_tokentype
 	OUTPUT,
 	RANDOM,
 }					t_tokentype;
+
+typedef struct s_expansion
+{
+	char	*new_str;
+	char	*tmp;
+	char	*value;
+	char	*tmp_i;
+	int		len;
+	int 	i;
+	char	quotes;
+}			t_expansion;
 
 typedef struct s_token
 {

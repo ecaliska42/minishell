@@ -6,7 +6,7 @@
 #    By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2024/04/18 17:09:24 by mesenyur         ###   ########.fr        #
+#    Updated: 2024/04/19 12:23:38 by mesenyur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC= cc
 #REMOVE -G FLAG (MAY SLOW DOWN PROGRAMM)
 FLAGS= -Wall -Werror -Wextra -g
 LDFLAGS= -lreadline # linker directive
-# FLAGS+= -fsanitize=address,undefined,leak
+#FLAGS+= -fsanitize=address,undefined,leak
 
 NAME= minishell
 

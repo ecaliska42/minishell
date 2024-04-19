@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/18 19:47:17 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/19 16:26:23 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,13 @@ void	expansion(t_token *token, t_mini *ms)
 	while (token != NULL)
 	{
 		if (token->str)
-			token = expand_variable(token, ms, CLOSED);
+		{
+
+		// printf("token->str: %s\n", token->str);
+			token = expand_variable(token, ms);
+		// printf("token->str: %s\n", token->str);
+
+		}
 		if (token)
 			token = token->next;
 	}

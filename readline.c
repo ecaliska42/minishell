@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/18 19:04:31 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/19 12:25:18 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int	ft_readline(t_mini *mini)
 		if (mini->shell.tokens)
 		{
 			expansion(mini->shell.tokens, mini);
+			// check all tokens, if at least 1 is not empty, then execute... but be careful about input: "" vs $novar
+			// if (mini->shell.tokens->str == )
 			if (prepare_for_execution(&mini) == ERROR)
 			{
 				// print_everything(&mini->shell);
