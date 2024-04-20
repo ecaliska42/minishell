@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:12 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/19 15:17:19 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/20 14:55:23 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ static char	*remove_after_schraegstrich(char *s)
 {
 	int	i;
 
+	if (!s)
+		return (NULL);
 	i = ft_strlen(s);
-	while (--i)
+	while (--i >= 0)
 	{
 		if (s[i] == '/')
 		{
@@ -28,35 +30,50 @@ static char	*remove_after_schraegstrich(char *s)
 			break ;
 		}
 	}
+	if (i <= 0)
+	{
+		free(s);
+		s = ft_strdup("/");
+	}
 	return (s);
 }
+
+// void print_current_dir(void) //TEST FUNCTION
+// {
+// 	char *current_dir;
+// 	current_dir = malloc(FILENAME_MAX);
+// 	getcwd(current_dir, FILENAME_MAX);
+// 	printf("Current Directory: %s\n", current_dir);
+// 	free(current_dir);
+// }
 
 //set current directory to the value of OLDPWD
 static int	dot_dot(t_env **old, t_env **current)
 {
+	char *current_dir;
+	char *change_dir;
+	current_dir = malloc(FILENAME_MAX);
+	getcwd(current_dir, FILENAME_MAX);
+	change_dir = remove_after_schraegstrich(ft_strdup(current_dir));
 	if ((*old) && (*old)->values)
 	{
 		free((*old)->values);
-		(*old)->values = ft_strdup((*current)->values);
+		(*old)->values = ft_strdup(current_dir);
 	}
 	if ((*current) && (*current)->values)
 	{
-		(*current)->values = remove_after_schraegstrich((*current)->values);
-		if (chdir((*current)->values) == -1)
-		{
-			perror("CD..: CHDIR");
-			return (ERROR);
-		}
-		//new_pwd = malloc(FILENAME_MAX);
+		if (chdir(change_dir) == -1)
+			return_write("CD..: CHDIR", ERROR);
 		free((*current)->values);
 		(*current)->values = malloc(FILENAME_MAX);
 		if (getcwd((*current)->values, FILENAME_MAX) == NULL)
-		{
-			perror("CD..: GETCWD");
-			return (ERROR);
-		}
+			return_write("CD..: GETCWD", ERROR);
+		return (SUCCESS);
 	}
-	//(*current)->values=ft_strdup(new_pwd);
+	else {
+		if (chdir(change_dir) == -1)
+			return_write("CD..: CHDIR", ERROR);
+	}
 	return (SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 14:22:20 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/16 13:22:36 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/20 14:31:12 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,3 +78,11 @@ char	*get_after(char *str, char character)
 // 	t_token *tmp;
 	
 // }
+
+int	return_write(char *str, int ret)
+{
+	write(2, "minishell: ", 11);
+	write(2, str, ft_strlen(str));
+	write(2, "\n", 1);
+	return (ret);
+}

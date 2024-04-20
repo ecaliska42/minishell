@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/19 18:37:40 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/20 14:30:00 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ void	*dup_filedescriptors(t_parse *comm, t_exe *ex_utils, int i);
 bool	is_only_numbers(char *s);
 bool	is_alpha_numbers(char *s);
 bool	first_character_is(char *s, char c);
+int		return_write(char *str, int ret);
 
 
 /*
