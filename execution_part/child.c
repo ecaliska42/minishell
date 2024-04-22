@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:30:48 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 17:27:04 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/22 17:49:20 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int	child(t_parse *comm, int i, t_mini **mini)
 	execve(comm->check, comm->command, envp);
 	if (comm->empty == false || comm->command[0][0] != '\0')
 	{
+		while(*(comm->command) && **(comm->command) == '\0')
+			comm->command++;
 		write(2, comm->command[0], ft_strlen(comm->command[0]));
 		write(2, ": command not found\n", 21);
 		exit(127);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 17:19:16 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/22 17:43:34 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,6 +239,8 @@ int	prepare_for_execution(t_mini **minishell)
 		{
 			if (tmp->empty == true)
 				node->empty = true;
+			if (tmp->empty == false)
+				node->empty = false;
 			node->command = create_command(tmp->str, node->command);
 		}
 		else if (tmp->type == PIPE)
