@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:07:45 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/18 17:17:46 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:03:04 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libraries/minishell.h"
+#include "../libraries/minishell.h"
 
 char	*handle_dollar_sign(char *new, char *str, int *i, t_mini *ms)
 {

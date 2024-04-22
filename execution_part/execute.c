@@ -3,145 +3,76 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/18 15:09:58 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/20 16:31:53 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
 
-// static int	child_files(t_parse **comm)
-// {
-// 	int	trunc;
-// 	int	append;
-
-// 	trunc = O_WRONLY | O_CREAT | O_TRUNC;
-// 	append = O_WRONLY | O_CREAT | O_APPEND;
-// 	if ((*comm)->infile)
-// 	{
-// 		if ((*comm)->infile_type == INPUT)
-// 			(*comm)->infd = open((*comm)->infile, O_RDONLY);
-// 		else if ((*comm)->infile_type == HEREDOC)
-// 			heredoc((*comm), (*comm)->infile);
-// 		if ((*comm)->infile_type == INPUT && (*comm)->infd == -1)
-// 			perror("INFD ERROR1:");
-// 	}
-// 	if ((*comm)->outfile)
-// 	{
-// 		if ((*comm)->outfile_type == OUTPUT)
-// 			(*comm)->outfd = open((*comm)->outfile, trunc, 0644);
-// 		else if ((*comm)->outfile_type == APPEND)
-// 			(*comm)->outfd = open((*comm)->outfile, append, 0644);
-// 		if ((*comm)->outfd == -1)
-// 			perror("OUTFD ERROR1:");
-// 	}
-// 	return (SUCCESS);
-// }
-
-void	child(t_parse *comm, int i, t_mini **mini)
+static void	fork_childs(t_parse *parse, int *i, t_mini **mini)
 {
-	// child_files(&comm);
-	t_mini *ms = *mini;
-	if (comm->execute == IGNORE)
-		exit(1);
-	if (comm->command[0][0] == '/' || (comm->command[0][0] == '.' && comm->command[0][1] == '/'))
+	*i = 0;
+	while (parse != NULL)
 	{
-		if (opendir(comm->command[0]) != NULL)
+		(*mini)->exe.id[*i] = fork();
+		if ((*mini)->exe.id[*i] == 0)
 		{
-			write(2, comm->command[0], ft_strlen(comm->command[0]));
-			write(2, ": is a directory\n", 18);
-			exit(126);
+			signal_handler(2, *mini);
+			child(parse, *i, mini);
 		}
-		if (access(comm->command[0], F_OK) == -1)
-		{
-			write(2, comm->command[0], ft_strlen(comm->command[0]));
-			write(2, ": No such file or directory\n", 28);
-			exit(127);
-		}
-		if (access(comm->command[0], X_OK) == -1)
-		{
-			write(2, comm->command[0], ft_strlen(comm->command[0]));
-			write(2, ": Permission denied\n", 21);
-			exit(126);
-		}
+		(*i)++;
+		parse = parse->next;
 	}
-	char **envp = change_envp(&ms->env);
-	if (ms->exe.pipecount != 0)
-	{
-		dup_filedescriptor(comm, &ms->exe, i);
-		close_filedescriptor(comm, &ms->exe);
-	}
-	else
-		dup_for_no_pipes(comm);
-	if (is_buildin(comm->command) == true)
-	{
-		execute_buildin(&comm, &ms->env, ms->exe.pipecount, &ms);
-		//close_filedescriptor(comm, ex_utils);
-		exit (SUCCESS);
-	}
-	close_filedescriptor(comm, &ms->exe);
-	execve(comm->check, comm->command, envp);
-	write(2, comm->command[0], ft_strlen(comm->command[0]));
-	write(2, ": command not found\n", 21);
-	exit(127);
+	(*i)--;
 }
 
-int	execute(t_mini **mini)//(t_parse **comm, int pipecount, t_env **envp)
+static bool	check_solo_buildin(t_parse *parse, t_mini **mini)
 {
-	// t_exe	ex_struct;
+	if (is_buildin(parse->command) == true && (*mini)->exe.pipecount == 0
+		&& parse->execute == EXECUTE)
+	{
+		lonely_buildin(parse, &(*mini)->env, mini);
+		free((*mini)->exe.id);
+		(*mini)->exe.id = NULL;
+		free_fds((*mini)->exe.fd);
+		return (true);
+	}
+	return (false);
+}
+
+static void	wait_for_children(t_mini **mini, int i)
+{
+	int	j;
+
+	j = 0;
+	while (j <= i)
+	{
+		waitpid((*mini)->exe.id[j], &(*mini)->exit_status, 0);
+		j++ ;
+	}
+}
+
+int	execute(t_mini **mini)
+{
 	t_parse	*parse;
 	int		i;
 
 	parse = (*mini)->parse;
 	if (malloc_ex_struct(&(*mini)->exe, 0) == ERROR)
 		return (ERROR);
-	if (is_buildin(parse->command) == true && (*mini)->exe.pipecount == 0 && parse->execute == EXECUTE)
-	{
-		lonely_buildin(parse, &(*mini)->env, mini);
-		free((*mini)->exe.id);
-		(*mini)->exe.id = NULL;
-		free_fds((*mini)->exe.fd);
+	if (check_solo_buildin(parse, mini) == true)
 		return (SUCCESS);
-	}
 	if (create_pipes(&(*mini)->exe) == ERROR)
 		return (ERROR);
-	i = 0;
-	int j = 0;
-	while (parse != NULL)
-	{
-		// if (parse->execute == IGNORE)
-		// {
-		// 	parse = parse->next;
-		// 	i++;
-		// 	j++;
-		// 	continue ;
-		// }
-		(*mini)->exe.id[i] = fork();
-		if ((*mini)->exe.id[i] == 0)// && parse->execute == EXECUTE)
-		{
-			signal_handler(2, *mini);
-			child(parse, i, mini);
-		}
-		i++;
-		parse = parse->next;
-	}
+	fork_childs(parse, &i, mini);
 	close_filedescriptor(NULL, &(*mini)->exe);
-	i--;
-	while (j <= i)
-	{
-		waitpid((*mini)->exe.id[j], &(*mini)->exit_status, 0);
-		j++ ;
-	}
-	// while (i >= 0)
-	// {
-	// 	waitpid((*mini)->exe.id[i], &(*mini)->exit_status, 0);
-	// 	i--;
-	// }
-	if(WIFEXITED((*mini)->exit_status))
+	wait_for_children(mini, i);
+	if (WIFEXITED((*mini)->exit_status))
 		(*mini)->exit_status = WEXITSTATUS((*mini)->exit_status);
-	else if(WIFSIGNALED((*mini)->exit_status))
+	else if (WIFSIGNALED((*mini)->exit_status))
 		(*mini)->exit_status = 128 + WTERMSIG((*mini)->exit_status);
 	free((*mini)->exe.id);
 	(*mini)->exe.id = NULL;

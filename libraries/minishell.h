@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/19 15:50:39 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:57:17 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,16 +96,16 @@ typedef struct minishell
 /*
 	*BUILDINS
 */
-int	ft_cd(t_env **lst, t_parse **node, t_mini **mini);
-int	ft_env(t_env **envp, t_mini **mini, t_parse **node);
-int	ft_unset(t_parse **parsing, t_env **environment, t_mini **mini);
-int	ft_pwd(t_mini **mini);
-int	ft_export(t_env **lst, t_parse **node, t_mini **mini);
+int		ft_cd(t_env **lst, t_parse **node, t_mini **mini);
+int		ft_env(t_env **envp, t_mini **mini, t_parse **node);
+int		ft_unset(t_parse **parsing, t_env **environment, t_mini **mini);
+int		ft_pwd(t_mini **mini);
+int		ft_export(t_env **lst, t_parse **node, t_mini **mini);
 void	ft_exit(t_parse **node, t_mini **mini);
-int	ft_echo(t_parse **node, t_mini **mini);
+int		ft_echo(t_parse **node, t_mini **mini);
 
 /*
-	*EXECUTION
+	*EXECUTION_PART
 */
 int	execute(t_mini **mini);//(t_parse **comm, int pipecount, t_env **envp)
 
@@ -115,9 +115,19 @@ int	execute(t_mini **mini);//(t_parse **comm, int pipecount, t_env **envp)
 char	*get_till(char *str, char character);
 char	*get_after(char *str, char character);
 
-
+/*
+	*BOOLEANS
+*/
 void	printf_double(char **str);
 void	printf_tripple(char ***str);
+
+
+/*
+	*./SIZES
+*/
+int	t_env_size(t_env **envp);
+int	array_size(char **array);
+
 
 /*
 	*BUILDIN_CHECK.C
@@ -136,13 +146,9 @@ int	ft_readline(t_mini *mini);//(t_shell *shell, t_parse *command, t_env *envp)/
 int	prepare_for_execution(t_mini **shell);//(t_parse **command, t_exe *count, t_token **tokens, t_env **envp)
 void	heredoc(t_parse *node, char *end, bool expand, t_mini **mini);
 
-
 /*
-	*./SIZES
+	*EXPANSION
 */
-int	t_env_size(t_env **envp);
-int	array_size(char **array);
-
 
 void	expansion(t_token *token, t_mini *ms);
 t_token	*expand_variable(t_token *token, t_mini *ms);
@@ -158,21 +164,28 @@ char *skip_starting_ending_spaces(char *value);
 char	*expand_heredoc(char *str, t_env *envp, t_mini **mini);
 char 	*replace_exit_code(char *str, char **ne, int *i, t_mini *ms);
 
+/*
+	*EXECUTION
+*/
+//EXECUTE.C
+
+//EXECUTE_UTILS.C
+void	free_fds(int **fds);
+char	**change_envp(t_env **envp);
+int		malloc_ex_struct(t_exe *ex_struct, int pipecount);
+int		create_pipes(t_exe *ex_struct);
+//CHILD.C
+int	child(t_parse *comm, int i, t_mini **mini);
+
 
 
 void	*dup_filedescriptors(t_parse *comm, t_exe *ex_utils, int i);
 bool	is_only_numbers(char *s);
 bool	is_alpha_numbers(char *s);
 bool	first_character_is(char *s, char c);
+int		return_write(char *str, int ret);
 
 
-/*
-	*EXECUTION_UTILS
-*/
-void	free_fds(int **fds);
-char	**change_envp(t_env **envp);
-int		malloc_ex_struct(t_exe *ex_struct, int pipecount);
-int		create_pipes(t_exe *ex_struct);
 
 // SIGNALS
 
@@ -191,5 +204,11 @@ char	*expand_heredoc_delimeter(char *new_str, char *str, int *i, t_mini *ms);
 char	*process_double_quotes(char *new_str, char *str, int *i, t_mini *ms);
 char	*process_single_quotes(char *new_str, char *str, int *i);
 char 	*handle_dollar_sign(char *new_str, char *str, int *i, t_mini *ms);
+
+/*
+	*TEMPORARY debugging
+*/
+
+
 
 #endif

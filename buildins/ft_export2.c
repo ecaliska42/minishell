@@ -1,36 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_export2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/02 18:21:10 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/19 17:46:00 by ecaliska         ###   ########.fr       */
+/*   Created: 2024/04/22 13:23:42 by ecaliska          #+#    #+#             */
+/*   Updated: 2024/04/22 13:24:05 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
 
-int	ft_env(t_env **envp, t_mini **mini, t_parse **node)
-{
-	//ft_putendl_fd("IN ENV", 2);
-	t_env	*tmp;
-
-	tmp = *envp;
-	if (array_size((*node)->command) >= 2)
-	{
-		write(2, "env: No such file or directory\n", 24);
-		(*mini)->exit_status = 127;
-		return (1);
-	}
-	while (tmp != NULL)
-	{
-		if (tmp->values != NULL)
-			printf("%s=%s\n", tmp->name, tmp->values);
-		tmp = tmp->next;
-	}
-	tmp = *envp;
-	(*mini)->exit_status = 0;
-	return (0);
-}

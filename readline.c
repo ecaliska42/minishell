@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/19 12:25:18 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/20 15:35:31 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	ft_readline(t_mini *mini)
 {
 	bool	tester;
 	char	*temp;
-	char	*line;
 
 	tester = true;
 	mini->exit_status = 0;
@@ -31,13 +30,16 @@ int	ft_readline(t_mini *mini)
 				mini->shell.input = readline(PROMPT);
 			else
 			{
-				line = get_next_line(fileno(stdin));
+				char *line = get_next_line(fileno(stdin));
 				mini->shell.input = ft_strtrim(line, "\n");
 				free(line);
 			}
 		}
 		else
 		{
+			// char *pwd = malloc(FILENAME_MAX); //TEMPORARY JUST FOR CD .. TESTING
+			// getcwd(pwd, FILENAME_MAX);
+			// pwd = add_char(pwd, ' ');
 			temp = readline(PROMPT);
 			if (!temp)
 			{

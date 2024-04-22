@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:08 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/18 14:03:30 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/19 19:24:37 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ft_exit(t_parse **node, t_mini **mini)
 	exit_code = 0;
 	if (array_size(parse->command) == 1)
 	{
-		write(2, "exit\n", 5);
+		write(0, "exit\n", 5);
 		// printf("exit\n");
 		exit((*mini)->exit_status);
 	}
