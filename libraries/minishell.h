@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 12:57:17 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 16:06:05 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,13 +156,16 @@ char	*get_env_value(char *name, t_env *envp);
 char 	*add_char(char *str, char new_char);
 t_env	*get_from_env(t_env **lst, char *s);
 
-int	copy_environment(char **envp, t_env **lst);
-int	free_environment(t_env **lst);
+int		copy_environment(char **envp, t_env **lst);
+int		free_environment(t_env **lst);
 void	*dup_for_no_pipes(t_parse *comm);
 char	**change_envp(t_env **envp);
-char *skip_starting_ending_spaces(char *value);
+char 	*skip_starting_ending_spaces(char *value);
 char	*expand_heredoc(char *str, t_env *envp, t_mini **mini);
 char 	*replace_exit_code(char *str, char **ne, int *i, t_mini *ms);
+void	handle_quotes(char *str, t_mini *ms, t_expansion *exp);
+bool	check_exp(char *str, int i);
+int		do_expand(char *str, t_expansion *exp, t_mini *ms);
 
 /*
 	*EXECUTION

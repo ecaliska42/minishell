@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/22 12:03:08 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 15:54:57 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,7 @@ void	expansion(t_token *token, t_mini *ms)
 	while (token != NULL)
 	{
 		if (token->str)
-		{
-
-		// printf("token->str: %s\n", token->str);
 			token = expand_variable(token, ms);
-		// printf("token->str: %s\n", token->str);
-
-		}
 		if (token)
 			token = token->next;
 	}
