@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/20 16:35:48 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:57:17 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,11 +148,6 @@ void	heredoc(t_parse *node, char *end, bool expand, t_mini **mini);
 
 /*
 	*EXPANSION
-*/
-
-
-/*
-	*
 */
 
 void	expansion(t_token *token, t_mini *ms);

@@ -6,20 +6,19 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:07 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/19 19:19:11 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 13:50:53 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
 
-static void	print_list(t_env **list)
+void	print_list(t_env **list)
 {
 	t_env	*tmp;
 	
 	tmp = *list;
 	while (tmp)
 	{
-		// tmp = *list;
 		if (ft_strcmp(tmp->name, "_") == 0)
 			tmp=tmp->next;
 		else
@@ -33,7 +32,7 @@ static void	print_list(t_env **list)
 	}
 }
 
-static void ft_swap(t_env **node1, t_env **node2)
+void ft_swap(t_env **node1, t_env **node2)
 {
 	char *temp_name;
 	char *temp_value;
@@ -94,7 +93,6 @@ static int copied_struct(t_env **src, t_env **copy)
 		if (!node->name)
 		{
 			free(node);
-			node=NULL;
 			return (ERROR);
 		}
 		if (tmp->values)
@@ -103,9 +101,7 @@ static int copied_struct(t_env **src, t_env **copy)
 			if (!node->values)
 			{
 				free(node->name);
-				node->name = NULL;
 				free(node);
-				node = NULL;
 				return (ERROR);
 			}	
 		}
@@ -166,12 +162,10 @@ static int	env_addback(t_env **head, char *name, char *value)
 	if (!node->name)
 	{
 		free(node);
-		node=NULL;
 		return (ERROR);
 	}
 	free(name);
 	node->values = value;
-	
 	node->next = NULL;
 	tmp->next = node;
 	return (SUCCESS);
@@ -188,61 +182,91 @@ static int get_before_after(char **before, char **after, char *s)
 	return (SUCCESS);
 }
 
-int	ft_export(t_env **lst, t_parse **node, t_mini **mini)
+int	no_options(t_mini **mini, t_parse *command)
 {
-	t_env	*envp;
-	t_parse	*command;
-	char	*before;
-	int		fail;
-	char	*after;
-	int		i;
+	write(2, "export: -", 9);
+	write(2, &command->command[1][1], 1);
+	write(2, ": no options are allowed\n", 26);
+	(*mini)->exit_status = 2;
+	return (ERROR);
+}
 
-	i = 1;
-	envp = *lst;
-	command = *node;
-	fail = 0;
-	if (array_size(command->command) < 2)
-		return (print_export(envp));
-	if (command->command[1][0] == '-' && ft_strlen(command->command[1]) > 1)
-	{
-		write(2, "export: -", 9);
-		write(2, &command->command[1][1], 1);
-		write(2, ": no options are allowed\n", 26);
-		(*mini)->exit_status = 2;
-		return (ERROR);
-	}
-	while (command->command[i])
-	{
-		if (get_before_after(&before, &after, command->command[i]) == ERROR)
-			return (ERROR);
-		if (ft_strchr(command->command[i], '=') != NULL && ft_strlen(command->command[i]) == 1)
-		{
-			write(2, "export : '=': not a valid identifier\n", 38);
-			(*mini)->exit_status = 1;
-			return (ERROR);
-			// exit(1);
-		}
-		if (ft_strlen(before) == 0 || is_alpha_numbers(before) == false)
-		{
-			write(2, "export: '", 10);
-			write(2, command->command[i], ft_strlen(command->command[i]));
-			write(2, "': not a valid identifier\n", 26);
-			i++;
-			fail = 1;
-			continue;
-		}
-		if (ft_strchr(command->command[i], '=') != NULL)
-		{
-			env_addback(&envp, before, after);
-		}
-		else
-			env_addback(&envp, before, NULL);
-		i++;
-	}
+int	only_equal(t_mini **mini)
+{
+	write(2, "export : '=': not a valid identifier\n", 38);
+	(*mini)->exit_status = 1;
+	return (ERROR);
+}
+
+void	export_error(char *command, int *i, int *fail)
+{
+	write(2, "export: '", 10);
+	write(2, command, ft_strlen(command));
+	write(2, "': not a valid identifier\n", 26);
+	(*i)++;
+	*fail = 1;
+}
+
+void	set_exit_status(int fail, t_mini **mini)
+{
 	if (fail == 1)
 		(*mini)->exit_status = 1;
 	else
 		(*mini)->exit_status = 0;
+}
+
+int	add_export(t_env *envp, char *before, char *after, char *command)
+{
+	if (ft_strchr(command, '=') != NULL)
+		env_addback(&envp, before, after);
+	else
+		env_addback(&envp, before, NULL);
+	return (SUCCESS);
+}
+
+typedef struct t_export{
+	t_env *envp;
+	t_parse	*command;
+	char *before;
+	char *after;
+	int	fail;
+	int	i;
+}	t_export;
+
+int	while_loop(t_export *expo, t_mini **mini)
+{
+	while (expo->command->command[expo->i])
+	{
+		if (get_before_after(&expo->before, &expo->after, expo->command->command[expo->i]) == ERROR)
+			return (ERROR);
+		if (ft_strchr(expo->command->command[expo->i], '=') != NULL && ft_strlen(expo->command->command[expo->i]) == 1)
+			return (only_equal(mini));
+		if (ft_strlen(expo->before) == 0 || is_alpha_numbers(expo->before) == false)
+		{
+			export_error(expo->command->command[expo->i], &expo->i, &expo->fail);
+			continue;
+		}
+		add_export(expo->envp, expo->before, expo->after, expo->command->command[expo->i]);
+		expo->i++;
+	}
+	return (SUCCESS);
+}
+
+int	ft_export(t_env **lst, t_parse **node, t_mini **mini)
+{
+	t_export expo;
+
+	expo.i = 1;
+	expo.envp = *lst;
+	expo.command = *node;
+	expo.fail = 0;
+	if (array_size(expo.command->command) < 2)
+		return (print_export(expo.envp));
+	if (expo.command->command[1][0] == '-' && ft_strlen(expo.command->command[1]) > 1)
+		return (no_options(mini, expo.command));
+	if (while_loop(&expo, mini) == ERROR)
+		return (ERROR);
+	set_exit_status(expo.fail, mini);
 	return 0;
 }
 
