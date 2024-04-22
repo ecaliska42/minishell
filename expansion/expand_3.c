@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:01:35 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/22 16:05:12 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/22 16:09:19 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_token	*handle_splitting(t_expansion *exp, t_token *token, t_token *last_token)
 			exp->i++;
 			exp->tmp_i++;
 		}
-		exp->new_str = ft_strdup(last_token->str); //proper exit
+		exp->new_str = ft_strdup(last_token->str);
 		if (ft_is_dollar(*exp->tmp_i) || *exp->tmp_i == '\"'
 			|| *exp->tmp_i == '\'')
 		{
@@ -70,7 +70,7 @@ t_token	*handle_expansion(t_token *token, t_expansion *exp, t_mini *ms)
 	{
 		if (exp->value[0] == '\0')
 			token->ambiguous = true;
-		exp->value = ft_strtrim(exp->value, " "); //proper exit
+		exp->value = ft_strtrim(exp->value, " ");
 		if (ft_strchr(exp->value, ' ') == NULL)
 		{
 			exp->new_str = ft_strjoin(exp->new_str, exp->value);
@@ -124,7 +124,7 @@ t_token	*expand_variable(t_token *token, t_mini *ms)
 	exp.joker = token->str;
 	exp.new_str = ft_strdup("");
 	if (!exp.new_str)
-		return (NULL); //proper exit
+		return (NULL);
 	while (exp.joker[exp.i])
 	{
 		handle_heredoc_exp(token, &exp, exp.joker, ms);
