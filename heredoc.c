@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/19 18:38:28 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 14:44:30 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,14 @@ char	*expand_heredoc(char *str, t_env *envp, t_mini **mini)
 {
 	int		len;
 	char	*tmp;
-	t_mini	*ms = *mini;
+	int		i;
+	t_mini	*ms;
 	char	*value;
+	char	*new;
 
-	int i = 0;
-	char *new = ft_strdup("");
+	i = 0;
+	ms = *mini;
+	new = ft_strdup("");
 	while (str[i])
 	{
 		while (str[i] && str[i] != '$')
@@ -65,9 +68,7 @@ char	*expand_heredoc(char *str, t_env *envp, t_mini **mini)
 				return (NULL);
 			(i) += len;
 			if ((value = get_env_value(tmp, envp)) != NULL)
-			{
 				new = ft_strjoin(new, value);
-			}
 		}
 		while (str[i] && str[i] != '$' && str[i])
 		{
@@ -102,8 +103,7 @@ void	heredoc(t_parse *node, char *end, bool expand, t_mini **mini)
 		}
 		if (expand == true)
 			line = expand_heredoc(line, (*mini)->env, mini);
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
+		ft_putendl_fd(line, fd);
 		free(line);
 		line = NULL;
 	}

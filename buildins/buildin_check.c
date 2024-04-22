@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/12 16:22:01 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 14:21:41 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,11 @@ int	open_lonely_files(t_parse **parse)
 {
 	if ((*parse)->outfd > 0)
 	{
-		// (*parse)->outfd = open((*parse)->outfile, trunc, 0644);
-		// if ((*parse)->outfd == -1)
-		// 	perror("OUTFD ERROR1:");
 		dup2((*parse)->outfd, 1);
 		close((*parse)->outfd);
 	}
 	if ((*parse)->infd > 0)
 	{
-		// (*parse)->infd = open((*parse)->infile, O_RDONLY);
-		// if ((*parse)->infd == -1)
-		// 	perror("INFD ERROR1:");
 		dup2((*parse)->infd, 0);
 		close((*parse)->infd);
 	}
@@ -91,12 +85,12 @@ int	execute_buildin(t_parse **parse, t_env **env, int pc, t_mini **mini)
 		ft_pwd(mini);
 	else if (ft_strcmp("env", s) == 0)
 		ft_env(env, mini, parse);
-	else if (ft_strcmp("cd", s) == 0 && pc == 0)//! not executed in child
+	else if (ft_strcmp("cd", s) == 0 && pc == 0)
 		ft_cd(env, parse, mini);
 	else if (ft_strcmp("exit", s) == 0)
 		ft_exit(parse, mini);
-	else if (ft_strcmp("unset", s) == 0 && pc == 0)//! not executed in child
-		ft_unset( parse, env, mini);
+	else if (ft_strcmp("unset", s) == 0 && pc == 0)
+		ft_unset(parse, env, mini);
 	else if (ft_strcmp("export", s) == 0)
 		ft_export(env, parse, mini);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 14:22:20 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/20 14:31:12 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 14:52:38 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*get_till(char *str, char character)
 	while (str[i])
 	{
 		if (str[i] == character)
-			break;
+			break ;
 		i++;
 	}
 	ret = malloc(i + 1);
@@ -50,7 +50,7 @@ char	*get_after(char *str, char character)
 		if (str[i] == character)
 		{
 			i++;
-			break;
+			break ;
 		}
 		i++;
 	}
@@ -66,18 +66,6 @@ char	*get_after(char *str, char character)
 	}
 	return (ret);
 }
-
-// void free_everything(t_mini **mini)
-// {
-// 	t_mini *ms = *mini;
-
-// 	// t_exe *exe = &ms->exe;
-// 	t_parse *parse = ms->parse;
-// 	t_env *env = ms->env;
-// 	t_token *token = ms->tokens;
-// 	t_token *tmp;
-	
-// }
 
 int	return_write(char *str, int ret)
 {
