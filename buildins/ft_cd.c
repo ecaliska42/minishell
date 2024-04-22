@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:12 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 16:02:59 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 16:26:43 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	change_dir(t_cd *cd_str, t_mini **mini)
 		(*mini)->exit_status = 0;
 		return (SUCCESS);
 	}
-	return (SUCCESS);
+	return (ERROR);
 }
 
 int	ft_cd(t_env **lst, t_parse **node, t_mini **mini)

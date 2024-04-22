@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:55:29 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 16:12:18 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 16:20:37 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,10 @@ int	only_cd(t_env *home, t_env **current, t_env **old)
 		free((*current)->values);
 		chdir(home->values);
 		(*current)->values = malloc(FILENAME_MAX);
-		getcwd((*current)->values, FILENAME_MAX);
+		if (!(*current)->values)
+			return (ERROR);
+		if (!getcwd((*current)->values, FILENAME_MAX))
+			return (ERROR);
 	}
 	return (SUCCESS);
 }
