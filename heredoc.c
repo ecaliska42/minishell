@@ -6,12 +6,13 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 14:44:30 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 17:08:57 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
 
+//name = ft_strjoin("/tmp/", name); //ONLY IF THE NAME SHOULD BE SHOWN IN FILES OR BE INVICIBLE IN TEMPORARY
 char	*get_unique_heredoc_name(void)
 {
 	char	*name;
@@ -33,53 +34,63 @@ char	*get_unique_heredoc_name(void)
 	}
 	name[i] = '\0';
 	close(dev_random);
-	//name = ft_strjoin("/tmp/", name);
 	return (name);
+}
+
+typedef struct t_expand
+{
+	int	len;
+	char *tmp;
+	int	i;
+	char	*value;
+	char	*new;
+	char	*name;
+}	t_expand;
+
+int	is_dollar_hd(t_expand *exp, char *str, t_mini *ms, t_env *envp)
+{
+	if (str[(exp->i) + 1] == '?')
+		replace_exit_code(str, &exp->new, &exp->i, ms);
+	(exp->i)++;
+	exp->len = check_name_and_return_len(&str[exp->i]);
+	exp->tmp = ft_substr(str, exp->i, exp->len);
+	if (!exp->tmp)
+		return (ERROR);
+	(exp->i) += exp->len;
+	if ((exp->value = get_env_value(exp->tmp, envp)) != NULL)
+		exp->new = ft_strjoin(exp->new, exp->value);
+	return (SUCCESS);
 }
 
 char	*expand_heredoc(char *str, t_env *envp, t_mini **mini)
 {
-	int		len;
-	char	*tmp;
-	int		i;
+	t_expand	exp;
 	t_mini	*ms;
-	char	*value;
-	char	*new;
 
-	i = 0;
+	exp.i = 0;
 	ms = *mini;
-	new = ft_strdup("");
-	while (str[i])
+	exp.new = ft_strdup("");
+	while (str[exp.i])
 	{
-		while (str[i] && str[i] != '$')
+		while (str[exp.i] && str[exp.i] != '$')
 		{
-			new = add_char(new, str[i]);
-			(i)++;
+			exp.new = add_char(exp.new, str[exp.i]);
+			(exp.i)++;
 		}
-		if ((ft_is_dollar(str[i])) && (str[(i) + 1] && (str[(i)
+		if ((ft_is_dollar(str[exp.i])) && (str[(exp.i) + 1] && (str[(exp.i)
 					+ 1] != '$')))
-		{
-			if (str[(i) + 1] == '?')
-				replace_exit_code(str, &new, &i, ms);
-			(i)++;
-			len = check_name_and_return_len(&str[i]);
-			tmp = ft_substr(str, i, len);
-			if (!tmp)
+			if (is_dollar_hd(&exp, str, ms, envp) == ERROR)
 				return (NULL);
-			(i) += len;
-			if ((value = get_env_value(tmp, envp)) != NULL)
-				new = ft_strjoin(new, value);
-		}
-		while (str[i] && str[i] != '$' && str[i])
+		while (str[exp.i] && str[exp.i] != '$' && str[exp.i])
 		{
-			new = add_char(new, str[i]);
-			(i)++;
+			exp.new = add_char(exp.new, str[exp.i]);
+			(exp.i)++;
 		}
 	}
-	return (new);
+	return (exp.new);
 }
 
-void	heredoc(t_parse *node, char *end, bool expand, t_mini **mini)
+int	heredoc(t_parse *node, char *end, bool expand, t_mini **mini)
 {
 	char	*line;
 	int		fd;
@@ -95,21 +106,20 @@ void	heredoc(t_parse *node, char *end, bool expand, t_mini **mini)
 		line = readline("> ");
 		if (!line)
 			break ;
-		if (ft_strcmp(line, end) == 0) //should exit withc "" as eof
+		if (ft_strcmp(line, end) == 0)
 		{
 			free(line);
-			line = NULL;
 			break ;
 		}
 		if (expand == true)
 			line = expand_heredoc(line, (*mini)->env, mini);
 		ft_putendl_fd(line, fd);
 		free(line);
-		line = NULL;
 	}
 	close(fd);
 	node->infd = open(name, O_RDONLY);
 	if (node->infd < 0)
-		exit(1);
+		return (ERROR);
 	unlink(name);
+	return (SUCCESS);
 }
