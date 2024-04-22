@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:30:48 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 17:49:20 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 19:10:38 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,15 @@ static void	dup_and_close(t_mini *ms, int i, t_parse *comm)
 		dup_for_no_pipes(comm);
 }
 
+void	print_command_not_found(char **command)
+{
+	while (*command && **command == '\0')
+		command++;
+	write(2, *command, ft_strlen(*command));
+	write(2, ": command not found\n", 21);
+	exit(127);
+}
+
 int	child(t_parse *comm, int i, t_mini **mini)
 {
 	t_mini	*ms;
@@ -70,13 +79,7 @@ int	child(t_parse *comm, int i, t_mini **mini)
 	close_filedescriptor(comm, &ms->exe);
 	execve(comm->check, comm->command, envp);
 	if (comm->empty == false || comm->command[0][0] != '\0')
-	{
-		while(*(comm->command) && **(comm->command) == '\0')
-			comm->command++;
-		write(2, comm->command[0], ft_strlen(comm->command[0]));
-		write(2, ": command not found\n", 21);
-		exit(127);
-	}
+		print_command_not_found(comm->command);
 	exit (SUCCESS);
 }
 //IDK ABOUT CLOSE FILE DESCRIPTOR IN IF IS BUILDIN STATEMENT

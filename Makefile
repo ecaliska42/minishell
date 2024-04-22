@@ -6,7 +6,7 @@
 #    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2024/04/22 17:33:03 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/04/22 19:39:29 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ LDFLAGS= -lreadline # linker directive
 NAME= minishell
 
 SRC= minishell.c buildins/ft_echo.c buildins/ft_cd.c buildins/ft_cd2.c buildins/ft_env.c \
-	buildins/ft_exit.c buildins/ft_export.c buildins/ft_export2.c buildins/ft_export3.c buildins/ft_export4.c buildins/ft_pwd.c buildins/ft_unset.c \
+	buildins/ft_exit.c buildins/ft_cd3.c buildins/ft_export.c buildins/ft_export2.c buildins/ft_export3.c buildins/ft_export4.c buildins/ft_pwd.c buildins/ft_unset.c \
 	parser.c execution_part/execute.c ms_utils.c \
 	buildins/buildin_check.c dup_and_close_functions.c\
 	heredoc.c sizes/arrays.c sizes/lists.c\

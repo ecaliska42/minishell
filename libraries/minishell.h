@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 17:32:54 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 19:40:29 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,11 @@ typedef struct t_cd
 //cd.c
 
 //cd2.c
+
+//cd3.c
+char	*remove_after_backslash(char *s);
+int	dot_dot(t_env **old, t_env **current);
+
 
 char	*remove_after_schraegstrich(char *s);
 int		dot_dot(t_env **old, t_env **current);

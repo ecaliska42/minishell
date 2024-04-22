@@ -6,64 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:55:29 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 16:20:37 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 19:39:11 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
-
-char	*remove_after_schraegstrich(char *s)
-{
-	int	i;
-
-	if (!s)
-		return (NULL);
-	i = ft_strlen(s);
-	while (--i >= 0)
-	{
-		if (s[i] == '/')
-		{
-			s[i] = 0;
-			break ;
-		}
-	}
-	if (i <= 0)
-	{
-		free(s);
-		s = ft_strdup("/");
-	}
-	return (s);
-}
-
-//set current directory to the value of OLDPWD
-int	dot_dot(t_env **old, t_env **current)
-{
-	char	*current_dir;
-	char	*change_dir;
-
-	current_dir = malloc(FILENAME_MAX);
-	getcwd(current_dir, FILENAME_MAX);
-	change_dir = remove_after_schraegstrich(ft_strdup(current_dir));
-	if ((*old) && (*old)->values)
-	{
-		free((*old)->values);
-		(*old)->values = ft_strdup(current_dir);
-	}
-	if ((*current) && (*current)->values)
-	{
-		if (chdir(change_dir) == -1)
-			return_write("CD..: CHDIR", ERROR);
-		free((*current)->values);
-		(*current)->values = malloc(FILENAME_MAX);
-		if (getcwd((*current)->values, FILENAME_MAX) == NULL)
-			return_write("CD..: GETCWD", ERROR);
-		return (SUCCESS);
-	}
-	else
-		if (chdir(change_dir) == -1)
-			return_write("CD..: CHDIR", ERROR);
-	return (SUCCESS);
-}
 
 int	dot(t_env **old)
 {
@@ -97,6 +44,24 @@ int	only_cd(t_env *home, t_env **current, t_env **old)
 	return (SUCCESS);
 }
 
+int	ch_dir_else(t_env **old, t_env **current, char *now)
+{
+	(*old)->values = ft_strdup((*current)->values);
+	if (!(*old)->values)
+		return (free(now), ERROR);
+	free((*current)->values);
+	(*current)->values = malloc(FILENAME_MAX);
+	if (!(*current)->values)
+		return (free(now), ERROR);
+	if (!getcwd((*current)->values, FILENAME_MAX))
+	{
+		perror("CD -: GETCWD");
+		return (free(now), ERROR);
+	}
+	printf("%s\n", (*current)->values);
+	return (SUCCESS);
+}
+
 int	go_back(t_env **old, t_env **current, t_mini **mini)
 {
 	char	*now;
@@ -110,15 +75,9 @@ int	go_back(t_env **old, t_env **current, t_mini **mini)
 	if (!now)
 		return (ERROR);
 	if (getcwd(now, FILENAME_MAX) == NULL)
-	{
-		perror("CD -: GETCWD");
 		return (free(now), ERROR);
-	}
 	if (chdir((*old)->values) == -1)
-	{
-		perror("CD -: CHDIR");
 		return (free(now), ERROR);
-	}
 	free((*old)->values);
 	if (!(*current))
 	{
@@ -127,21 +86,7 @@ int	go_back(t_env **old, t_env **current, t_mini **mini)
 			return (free(now), ERROR);
 	}
 	else
-	{
-		(*old)->values = ft_strdup((*current)->values);
-		if (!(*old)->values)
-			return (free(now), ERROR);
-		free((*current)->values);
-		(*current)->values = malloc(FILENAME_MAX);
-		if (!(*current)->values)
-			return (free(now), ERROR);
-		if (!getcwd((*current)->values, FILENAME_MAX))
-		{
-			perror("CD -: GETCWD");
-			return (free(now), ERROR);
-		}
-		printf("%s\n", (*current)->values);
-	}
+		ch_dir_else(old, current, now);
 	(*mini)->exit_status = 0;
 	return (free(now), SUCCESS);
 }
