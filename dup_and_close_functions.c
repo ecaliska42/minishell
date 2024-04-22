@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 17:02:21 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/19 18:41:18 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 14:53:34 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,14 @@
 //TODO add closing functions after each dup2
 
 void	*dup_for_no_pipes(t_parse *comm)
-{//TODO PROTECTION
-	//ft_putstr_fd("no pipes\n", 2);
+{
 	if (comm->infd > 0)
 	{
-		//ft_putstr_fd("infd > 0\n", 2);
 		dup2(comm->infd, STDIN_FILENO);
 		close(comm->infd);
 	}
 	if (comm->outfd > 0)
 	{
-		//ft_putstr_fd("outfd > 0\n", 2);
 		dup2(comm->outfd, STDOUT_FILENO);
 		close(comm->outfd);
 	}
@@ -90,7 +87,7 @@ void	*dup_filedescriptor(t_parse *comm, t_exe *ex_utils, int i)
 
 
 void	*close_filedescriptor(t_parse *comm, t_exe *ex_utils)
-{//TODO PROTECTION
+{
 	int	i;
 
 	i = 0;

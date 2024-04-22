@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:13:38 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 12:58:09 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 14:42:41 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int	malloc_ex_struct(t_exe *ex_struct, int pipecount)
 		perror("ex_struct.fd malloc error (execute.c) :");
 		return (ERROR);
 	}
-	// ex_struct->pipecount = pipecount;
 	return (SUCCESS);
 }
 
@@ -97,6 +96,5 @@ int	create_pipes(t_exe *ex_struct)
 		}
 		i++;
 	}
-	// ex_struct->fd[i] = NULL;
 	return (SUCCESS);
 }

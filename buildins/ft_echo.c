@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:20:20 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/11 16:13:19 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 14:22:12 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	ft_echo(t_parse **node, t_mini **mini)
 	line = true;
 	while (check_newline((*node)->command[i]) == 1)
 	{
-		//if (check_newline((*node)->command[i]) == 1)
 		line = false;
 		i++;
 	}

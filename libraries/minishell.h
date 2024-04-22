@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 12:57:17 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 14:59:29 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,55 @@ typedef struct minishell
 	int	exit_status;
 }	t_mini;
 
+
 /*
 	*BUILDINS
 */
+typedef struct t_export{
+	t_env *envp;
+	t_parse	*command;
+	char *before;
+	char *after;
+	int	fail;
+	int	i;
+}	t_export;
+//EXPORT
+//export.c
+int		ft_export(t_env **lst, t_parse **node, t_mini **mini);
+//export2.c
+void	print_list(t_env **list);
+void ft_swap(t_env **node1, t_env **node2);
+void	sort_list(t_env **head);
+void	tenv_add_back(t_env ***lst, t_env *new_l);
+int copied_struct(t_env **src, t_env **copy);
+//export3.c
+void free_list(t_env **head);
+int print_export(t_env *head);
+int	env_addback(t_env **head, char *name, char *value);
+int get_before_after(char **before, char **after, char *s);
+int	no_options(t_mini **mini, t_parse *command);
+//export4.c
+int	only_equal(t_mini **mini);
+void	export_error(char *command, int *i, int *fail);
+void	set_exit_status(int fail, t_mini **mini);
+int	add_export(t_env *envp, char *before, char *after, char *command);
+int	while_loop(t_export *expo, t_mini **mini);
+//CD
+//cd.c
+
+//cd2.c
+char	*remove_after_schraegstrich(char *s);
+int	dot_dot(t_env **old, t_env **current);
+int	dot(t_env **old);
+int	only_cd(t_env *home, t_env **current, t_env **old);
+int	go_back(t_env **old, t_env **current, t_mini **mini);
+
+
+
 int		ft_cd(t_env **lst, t_parse **node, t_mini **mini);
 int		ft_env(t_env **envp, t_mini **mini, t_parse **node);
 int		ft_unset(t_parse **parsing, t_env **environment, t_mini **mini);
 int		ft_pwd(t_mini **mini);
-int		ft_export(t_env **lst, t_parse **node, t_mini **mini);
 void	ft_exit(t_parse **node, t_mini **mini);
 int		ft_echo(t_parse **node, t_mini **mini);
 
