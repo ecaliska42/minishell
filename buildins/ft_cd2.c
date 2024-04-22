@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:55:29 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 15:09:41 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 16:05:57 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,13 +120,35 @@ int	go_back(t_env **old, t_env **current, t_mini **mini)
 	}
 	free((*old)->values);
 	if (!(*current))
+	{
 		(*old)->values = ft_strdup(now);
+		if (!(*old)->values)
+		{
+			free(now);
+			return (ERROR);
+		}
+	}
 	else
 	{
 		(*old)->values = ft_strdup((*current)->values);
+		if (!(*old)->values)
+		{
+			free(now);
+			return (ERROR);
+		}
 		free((*current)->values);
 		(*current)->values = malloc(FILENAME_MAX);
-		getcwd((*current)->values, FILENAME_MAX);
+		if (!(*current)->values)
+		{
+			free(now);
+			return (ERROR);
+		}
+		if (!getcwd((*current)->values, FILENAME_MAX))
+		{
+			perror("CD -: GETCWD");
+			free(now);
+			return (ERROR);
+		}
 		printf("%s\n", (*current)->values);
 	}
 	(*mini)->exit_status = 0;

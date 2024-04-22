@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 14:59:29 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 15:57:18 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,14 @@ void	export_error(char *command, int *i, int *fail);
 void	set_exit_status(int fail, t_mini **mini);
 int	add_export(t_env *envp, char *before, char *after, char *command);
 int	while_loop(t_export *expo, t_mini **mini);
+
+typedef struct t_cd
+{
+	t_env	*home;
+	t_env	*old;
+	t_env	*current;
+	t_parse	*parse;
+}	t_cd;
 //CD
 //cd.c
 
