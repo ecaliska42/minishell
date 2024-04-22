@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/19 16:58:36 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/22 14:42:39 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_expansion
 	int		len;
 	int 	i;
 	char	quotes;
+	char 	*joker;
 }			t_expansion;
 
 typedef struct s_token
