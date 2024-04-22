@@ -6,7 +6,7 @@
 #    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2024/04/20 16:37:41 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/04/22 12:18:43 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,10 +31,14 @@ SRC= minishell.c buildins/ft_echo.c buildins/ft_cd.c buildins/ft_env.c \
 	GNL/get_next_line.c GNL/get_next_line_utils.c\
 
 SRC2 = lexer.c needed_functions.c print_debug.c token.c readline.c quote_stuff.c \
-	syntax_check.c bool_functions.c expand.c signal.c free.c token_2.c extras.c \
-	expand_2.c expand_3.c expand_4.c
+	syntax_check.c bool_functions.c expansion/expand.c signal.c free.c token_2.c extras.c \
+	expansion/expand_2.c expansion/expand_3.c expansion/expand_4.c
 
-OBJ= $(SRC:.c=.o) $(SRC2:.c=.o)
+#OBJ= $(SRC:.c=.o) $(SRC2:.c=.o)
+
+#TEMPORARY CREATES A DIRECTORY FOR OBJECT FILES
+OBJ_DIR= obj
+OBJ= $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o) $(SRC2:.c=.o))
 
 RM= rm -f
 
@@ -44,13 +48,20 @@ $(NAME): $(OBJ)
 	make -C ./libft all
 	$(CC) $(FLAGS) -o $(NAME) $(SRC) $(SRC2) libft/libft.a $(LDFLAGS)
 
+#TEMPORARY CREATES A DIRECTORY FOR OBJECT FILES
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(@D)
+	$(CC) $(FLAGS) -c $< -o $@
+
 clean:
 	$(RM) $(OBJ)
 	$(MAKE) clean -C libft
 
 fclean:	clean
 	$(RM) $(NAME)
+	rm -rf $(OBJ_DIR)
 	$(MAKE) fclean -C libft
+	
 
 re:	fclean all
 	$(MAKE) re -C libft

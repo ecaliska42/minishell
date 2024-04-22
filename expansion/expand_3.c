@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expand_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:01:35 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/19 17:28:09 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:03:00 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "libraries/minishell.h"
+#include "../libft/libft.h"
+#include "../libraries/minishell.h"
 
 int do_expand(char *str, t_expansion *exp, t_mini *ms)
 {
