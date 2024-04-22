@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/20 15:35:31 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 16:51:53 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,6 @@ int	ft_readline(t_mini *mini)
 		}
 		else
 		{
-			// char *pwd = malloc(FILENAME_MAX); //TEMPORARY JUST FOR CD .. TESTING
-			// getcwd(pwd, FILENAME_MAX);
-			// pwd = add_char(pwd, ' ');
 			temp = readline(PROMPT);
 			if (!temp)
 			{

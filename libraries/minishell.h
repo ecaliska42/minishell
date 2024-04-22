@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 16:27:33 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/22 17:07:26 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ void	*close_filedescriptor(t_parse *comm, t_exe *ex_utils);
 
 int		ft_readline(t_mini *mini);
 int		prepare_for_execution(t_mini **shell);
-void	heredoc(t_parse *node, char *end, bool expand, t_mini **mini);
+int		heredoc(t_parse *node, char *end, bool expand, t_mini **mini);
 
 /*
 	*EXPANSION
