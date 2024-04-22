@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 16:27:33 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/22 17:17:07 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct parse
 	char			*outfile;
 	int				outfile_type;
 	int				execute;
+	bool			empty;
 	struct parse	*next;
 }	t_parse;
 

@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/22 16:15:07 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/22 17:09:56 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_token
 	char			*str;
 	bool			ambiguous;
 	bool			flag_exp;
+	bool			empty;
 	t_tokentype		type;
 	struct s_token	*next;
 }					t_token;

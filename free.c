@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:43:38 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/18 16:44:02 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/22 17:30:20 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ void	one_function_to_free_them_all(t_mini *mini)
 {
 	if (mini->tokens)
 		free_tokens(&mini->tokens);
-	// if (mini->parse)
-	//     free_parsing_node(&mini->parse);
-	// if (mini->env)
-	//     free_environment(&mini->env);
+	if (mini->env)
+	    free_environment(&mini->env);
 	free(mini);
 }

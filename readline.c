@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/20 15:35:31 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 17:29:20 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,11 @@ int	ft_readline(t_mini *mini)
 		}
 		else
 		{
-			// char *pwd = malloc(FILENAME_MAX); //TEMPORARY JUST FOR CD .. TESTING
-			// getcwd(pwd, FILENAME_MAX);
-			// pwd = add_char(pwd, ' ');
 			temp = readline(PROMPT);
 			if (!temp)
 			{
 				free_environment(&mini->env);
-				// clear_history();
+				clear_history();
 				exit(0);
 			}
 			mini->shell.input = ft_strdup(temp);
@@ -70,7 +67,6 @@ int	ft_readline(t_mini *mini)
 		if (syntax_check(&mini->shell) == SYNTAX_ERROR)
 		{
 			mini->exit_status = 2;
-			ft_putstr_fd("Syntax error\n", 2);
 			free_tokens(&mini->shell.tokens);
 			// one_function_to_free_them_all(mini);
 			free(mini->shell.input);
@@ -83,7 +79,6 @@ int	ft_readline(t_mini *mini)
 			// if (mini->shell.tokens->str == )
 			if (prepare_for_execution(&mini) == ERROR)
 			{
-				// print_everything(&mini->shell);
 				ft_putstr_fd("Error: prepare_for_execution\n", 2);
 				free_tokens(&mini->shell.tokens);
 				free(mini->shell.input);

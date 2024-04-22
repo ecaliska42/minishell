@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:30:48 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/20 16:36:56 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 17:27:04 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,12 @@ int	child(t_parse *comm, int i, t_mini **mini)
 	}
 	close_filedescriptor(comm, &ms->exe);
 	execve(comm->check, comm->command, envp);
-	write(2, comm->command[0], ft_strlen(comm->command[0]));
-	write(2, ": command not found\n", 21);
-	exit(127);
+	if (comm->empty == false || comm->command[0][0] != '\0')
+	{
+		write(2, comm->command[0], ft_strlen(comm->command[0]));
+		write(2, ": command not found\n", 21);
+		exit(127);
+	}
+	exit (SUCCESS);
 }
 //IDK ABOUT CLOSE FILE DESCRIPTOR IN IF IS BUILDIN STATEMENT

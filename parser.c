@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/20 15:35:03 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/22 17:19:16 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ int	prepare_for_execution(t_mini **minishell)
 		}
 		else if (tmp->type == OUTPUT && ft_strlen(tmp->str) > 0 && node->execute == EXECUTE)
 		{
-			if (tmp->ambiguous == true)
+			if (tmp->ambiguous == true || tmp->empty == true)
 			{
 				ft_putstr_fd("minishell: ambiguous redirect\n", 2);
 				node->execute = IGNORE;
@@ -218,7 +218,7 @@ int	prepare_for_execution(t_mini **minishell)
 		}
 		else if (tmp -> type == APPEND && ft_strlen(tmp->str) > 0)
 		{
-			if (tmp->ambiguous == true)
+			if (tmp->ambiguous == true || tmp->empty == true)
 			{
 				ft_putstr_fd("minishell: ambiguous redirect\n", 2);
 				node->execute = IGNORE;
@@ -236,7 +236,11 @@ int	prepare_for_execution(t_mini **minishell)
 		else if (tmp->type == HEREDOC)
 			heredoc(node, tmp->str, tmp->flag_exp, minishell);
 		else if (tmp->type == RANDOM)
+		{
+			if (tmp->empty == true)
+				node->empty = true;
 			node->command = create_command(tmp->str, node->command);
+		}
 		else if (tmp->type == PIPE)
 		{
 			mini->exe.pipecount++;
