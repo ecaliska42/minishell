@@ -6,7 +6,7 @@
 #    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2024/04/23 15:31:37 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/04/23 16:09:22 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRC= minishell.c buildins/ft_echo.c buildins/ft_cd.c buildins/ft_cd2.c buildins/
 	environment.c execution_part/execution_utils.c\
 	booleans/bool_functions2.c\
 	execution_part/child.c\
+	close.c \
 	GNL/get_next_line.c GNL/get_next_line_utils.c\
 
 SRC2 = lexer.c needed_functions.c print_debug.c token.c readline.c quote_stuff.c \

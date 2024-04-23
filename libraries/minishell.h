@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/23 15:15:04 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:00:33 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,13 +164,17 @@ int	dot_dot(t_env **old, t_env **current);
 
 //PARSER
 //parser.c
-
+t_parse	*is_pipe(t_mini **mini, t_parse **node);
+void	is_file(t_token **tmp, t_parse ***node, t_mini **mini);
+int		while_loop_parser(t_token *tmp, t_parse **node, t_mini *mini);
+char	**create_command(char *str, char **cmd);
+int		prepare_for_execution(t_mini **minishell);
 //parser2.c
 t_env	*get_path(t_env **envi);
+char	*do_while_access(char **path_values, char *str);
 char	*get_access(char *str, t_env **envi);
 int		get_check(t_mini **mini);
 void	add_back(t_parse **com, t_parse *node);
-char	**create_command(char *str, char **cmd);
 //parser3.c
 void	free_parsing_node(t_parse **head);
 int		is_input(char *name, t_parse ****node, t_mini **mini);

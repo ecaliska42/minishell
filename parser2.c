@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:11:51 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/23 15:26:48 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/23 15:59:01 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,39 @@ t_env	*get_path(t_env **envi)
 	return (temp);
 }
 
-char	*get_access(char *str, t_env **envi)
+char	*do_while_access(char **path_values, char *str)
 {
-	t_env	*path;
 	int		i;
 	char	*temp;
 	char	*temp2;
-	char	**path_values;
 
 	i = 0;
+	while (path_values[i])
+	{
+		temp = ft_strdup("");
+		if (!temp)
+			return (NULL);
+		temp = ft_strjoin(path_values[i], "/");
+		if (!temp)
+			return (NULL);
+		temp2 = ft_strjoin(temp, str);
+		if (!temp2)
+			return (free(temp), NULL);
+		free(temp);
+		if (access(temp2, X_OK | F_OK) == 0)
+			return (temp2);
+		i++;
+		free (temp2);
+	}
+	return (str);
+}
+
+char	*get_access(char *str, t_env **envi)
+{
+	t_env	*path;
+	char	*temp2;
+	char	**path_values;
+
 	if (access(str, X_OK | F_OK) == 0)
 		return (str);
 	path = get_path(envi);
@@ -45,19 +69,10 @@ char	*get_access(char *str, t_env **envi)
 	path_values = ft_split(path->values, ':');
 	if (!path_values)
 		return (NULL);
-	while (path_values[i])
-	{
-		temp = ft_strdup("");
-		temp = ft_strjoin(path_values[i], "/");
-		temp2 = ft_strjoin(temp, str);
-		free(temp);
-		temp = NULL;
-		if (access(temp2, X_OK | F_OK) == 0)
-			return (temp2);
-		i++;
-		free (temp2);
-	}
-	return (str);
+	temp2 = do_while_access(path_values, str);
+	if (!temp2)
+		return (NULL);
+	return (temp2);
 }
 
 int	get_check(t_mini **mini)
@@ -96,33 +111,4 @@ void	add_back(t_parse **com, t_parse *node)
 		temp -> next = node;
 	}
 	temp = *com;
-}
-
-char	**create_command(char *str, char **cmd)
-{
-	int		size;
-	int		i;
-	char	**ret;
-
-	i = 0;
-	size = array_size(cmd);
-	ret = ft_calloc(size + 2, sizeof(char *));
-	if (!ret)
-		return (NULL);
-	while (i < size)
-	{
-		ret[i] = ft_strdup(cmd[i]);
-		if (!ret[i])
-			return (NULL);
-		i++;
-	}
-	while (size)
-	{
-		free(cmd[size]);
-		size--;
-	}
-	ret[i] = ft_strdup(str);
-	if (!ret[i])
-		return (NULL);
-	return (ret);
 }

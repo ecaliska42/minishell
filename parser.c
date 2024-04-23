@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/23 15:23:56 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:00:43 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,35 @@ int	while_loop_parser(t_token *tmp, t_parse **node, t_mini *mini)
 		tmp = tmp->next;
 	}
 	return (SUCCESS);
+}
+
+char	**create_command(char *str, char **cmd)
+{
+	int		size;
+	int		i;
+	char	**ret;
+
+	i = 0;
+	size = array_size(cmd);
+	ret = ft_calloc(size + 2, sizeof(char *));
+	if (!ret)
+		return (NULL);
+	while (i < size)
+	{
+		ret[i] = ft_strdup(cmd[i]);
+		if (!ret[i])
+			return (NULL);
+		i++;
+	}
+	while (size)
+	{
+		free(cmd[size]);
+		size--;
+	}
+	ret[i] = ft_strdup(str);
+	if (!ret[i])
+		return (NULL);
+	return (ret);
 }
 
 int	prepare_for_execution(t_mini **minishell)

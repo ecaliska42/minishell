@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 17:25:26 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/23 12:06:34 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:10:42 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	increase_shell_level(char *envp, t_env **node)
 		nbr = 0;
 	(*node)->values = ft_itoa(nbr);
 	if (!(*node)->values)
-		return (free(temp), temp=NULL, ERROR);
+		return (free(temp), temp = NULL, ERROR);
 	free(temp);
 	temp = NULL;
 	return (SUCCESS);
@@ -104,7 +104,7 @@ int	copy_environment(char **envp, t_env **lst)
 			return (free_environment(lst));
 		new_node->name = get_till(envp[i], '=');
 		if (!new_node->name)
-			return (free(new_node), new_node=NULL, free_environment(lst));
+			return (free(new_node), new_node = NULL, free_environment(lst));
 		if (get_value(&new_node, envp[i], lst) == ERROR)
 			return (ERROR);
 		new_node->next = NULL;
