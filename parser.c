@@ -6,254 +6,75 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 17:43:34 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/23 15:23:56 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
 
-t_env	*get_path(t_env **envi)
+t_parse	*is_pipe(t_mini **mini, t_parse **node)
 {
-	t_env	*temp;
-
-	temp = *envi;
-	while(temp)
+	(*mini)->exe.pipecount++;
+	add_back(&(*mini)->parse, *node);
+	*node = malloc(sizeof(t_parse));
+	if (!*node)
 	{
-		if (ft_strncmp(temp->name, "PATH", 4) == 0)
-			break;
-		temp = temp -> next;
-	}
-	if (!temp)
-		return NULL;
-	return temp;
-}
-
-char	*get_access(char *str, t_env **envi)
-{//TODO maybe change the if statement if the str is already a whole path so my char **command contains the command only
-	t_env	*path;
-	int		i;
-	char	*temp;
-	char	*temp2;
-	char	**path_values;
-
-	i = 0;
-	if (access(str, X_OK | F_OK) == 0)
-		return (str);
-	path = get_path(envi);
-	if (!path)
-		return (NULL);
-	path_values = ft_split(path->values, ':');
-	if (!path_values)
-	{
-		ft_putstr_fd("malloc error get_access\n", 2);
+		ft_putendl_fd("malloc parser.c", 2);
 		return (NULL);
 	}
-	while (path_values[i]) // possible leaks
-	{
-		temp = ft_strdup("");
-		temp = ft_strjoin(path_values[i], "/");
-		temp2 = ft_strjoin(temp, str);
-		free(temp);
-		temp = NULL;
-		if (access(temp2, X_OK | F_OK) == 0)
-			return (temp2);
-		i++;
-		free (temp2);
-	}
-	return (str);
+	ft_bzero(*node, sizeof(t_parse));
+	return (*node);
 }
 
-static int	get_check(t_mini **mini)
+void	is_file(t_token **tmp, t_parse ***node, t_mini **mini)
 {
-	t_parse *node;
+	if ((*tmp)->type == INPUT && ft_strlen((*tmp)->str) > 0)
+		is_input((*tmp)->str, &node, mini);
+	else if ((*tmp)->type == OUTPUT && ft_strlen((*tmp)->str) > 0
+		&& (**node)->execute == EXECUTE)
+		is_output((*tmp), &node);
+	else if ((*tmp)->type == APPEND && ft_strlen((*tmp)->str) > 0)
+		is_append((*tmp), &node);
+	else if ((*tmp)->type == HEREDOC)
+		heredoc(**node, (*tmp)->str, (*tmp)->flag_exp, mini);
+}
 
-	node = (*mini)->parse;
-	while (node)
+int	while_loop_parser(t_token *tmp, t_parse **node, t_mini *mini)
+{
+	while (tmp)
 	{
-		if (node->command == NULL)
+		is_file(&tmp, &node, &mini);
+		if (tmp->type == RANDOM)
 		{
-			node = node -> next;
-			continue;
+			if (is_random(tmp, &node) == ERROR)
+				return (ERROR);
 		}
-		node->check = get_access(node->command[0], &(*mini)->env);
-		if (!node->check)
-			return (ERROR);
-		node = node -> next;
+		else if (tmp->type == PIPE)
+		{
+			*node = is_pipe(&mini, node);
+			if (!node)
+				return (ERROR);
+		}
+		tmp = tmp->next;
 	}
 	return (SUCCESS);
 }
 
-static void add_back(t_parse **com, t_parse *node)
-{
-	t_parse	*temp;
-
-	if (*com == NULL)
-		*com = node;
-	else
-	{
-		temp = *com;
-		while (temp -> next != NULL)
-		{
-			temp = temp -> next;
-		}
-		temp -> next = node;
-	}
-	temp = *com;
-}
-
-/*
-	TODO ARGUMENTS FOR PREPARE_FOR_EXECUTION ARE T_PARSE **COMMAND;;T_EXE FOR THE PIPECOUNT;;T_TOKEN
-	TODO pipes are type 0
-	TODO count all pipes for correct redirection and put them in t_exe in pipecount
-	TODO in the struct t_parse open all infiles and outfiles with node->infile & node->outfile
-	TODO get the command (RANDOM) type 5 and put them together in a two dimensional array ending with NULL for execve in execution
-	TODO cat < infile | > outfile wc -l
-	TODO if type is 0 (PIPE) add the whole node to the command linked list
-*/
-
-char	**create_command(char *str, char **cmd)
-{
-	int	size = array_size(cmd);
-	// if (ft_strlen(str) == 0)
-	// 	return (cmd);
-	int	i = 0;
-	char **ret = ft_calloc (size + 2, sizeof(char *));
-	if (!ret)
-	{
-		ft_putstr_fd("malloc error create command\n", 2);
-		exit(1);
-	}
-	while (i < size)
-	{
-		ret[i] = ft_strdup(cmd[i]);
-		i++;
-	}
-	while (size)
-	{
-		free(cmd[size]);
-		cmd[size] = NULL;
-		size--;
-	}
-	ret[i] = ft_strdup(str);
-	// free(str);
-	// str = NULL;
-	return (ret);
-}
-
-void free_parsing_node(t_parse **head)
-{
-	t_parse	*tmp;
-	int		i;
-
-	i = 0;
-	while (*head != NULL)
-	{
-		tmp = *head;
-		*head = (*head) -> next;
-		if (tmp->command)
-		{
-			i = 0;
-			while(tmp->command[i])
-			{
-				if (tmp->command[i])
-				{
-					free(tmp->command[i]);
-					tmp->command[i] = NULL;
-				}
-				i++;
-			}
-			free(tmp->command);
-			tmp->command = NULL;
-		}
-		if (tmp)
-		{
-			free(tmp);
-			tmp = NULL;
-		}
-	}
-}
-
 int	prepare_for_execution(t_mini **minishell)
 {
-	t_parse *node;
+	t_parse	*node;
 	t_token	*tmp;
+	t_mini	*mini;
 
-	t_mini *mini = *minishell;
+	mini = *minishell;
 	tmp = mini->shell.tokens;
 	mini->exe.pipecount = 0;
 	node = malloc(sizeof(t_parse));
 	if (!node)
-		return(return_write("malloc parser.c", ERROR));
+		return (return_write("malloc parser.c", ERROR));
 	ft_bzero(node, sizeof(*node));
-	while (tmp)
-	{
-		if (tmp -> type == INPUT && ft_strlen(tmp->str) > 0)
-		{
-			node->infd = open(tmp->str, O_RDONLY);
-			if (node->infd == -1)
-			{
-				node->execute = IGNORE;
-				ft_putstr_fd(tmp->str, 2);
-				write (2, ": ", 2);
-				perror("");
-				mini->exit_status = 1;
-			}
-		}
-		else if (tmp->type == OUTPUT && ft_strlen(tmp->str) > 0 && node->execute == EXECUTE)
-		{
-			if (tmp->ambiguous == true || tmp->empty == true)
-			{
-				ft_putstr_fd("minishell: ambiguous redirect\n", 2);
-				node->execute = IGNORE;
-			}
-			else
-			{
-				node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-				if (node->outfd == -1)
-				{
-					perror("");
-					node->execute = IGNORE;
-				}
-			}
-		}
-		else if (tmp -> type == APPEND && ft_strlen(tmp->str) > 0)
-		{
-			if (tmp->ambiguous == true || tmp->empty == true)
-			{
-				ft_putstr_fd("minishell: ambiguous redirect\n", 2);
-				node->execute = IGNORE;
-			}
-			else
-			{
-				node->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
-				if (node->outfd == -1)
-				{
-					perror("");
-					node->execute = IGNORE;
-				}
-			}
-		}
-		else if (tmp->type == HEREDOC)
-			heredoc(node, tmp->str, tmp->flag_exp, minishell);
-		else if (tmp->type == RANDOM)
-		{
-			if (tmp->empty == true)
-				node->empty = true;
-			if (tmp->empty == false)
-				node->empty = false;
-			node->command = create_command(tmp->str, node->command);
-		}
-		else if (tmp->type == PIPE)
-		{
-			mini->exe.pipecount++;
-			add_back(&mini->parse, node);
-			node = malloc(sizeof(t_parse));
-			if (!node)
-				return (return_write("malloc parser.c", ERROR));
-			ft_bzero(node, sizeof(t_parse));
-		}
-		tmp = tmp->next;
-	}
+	if (while_loop_parser(tmp, &node, mini) == ERROR)
+		return (ERROR);
 	add_back(&mini->parse, node);
 	get_check(&mini);
 	execute(&mini);

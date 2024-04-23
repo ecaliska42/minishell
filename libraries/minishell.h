@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 19:40:29 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/23 15:15:04 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,16 @@ typedef struct t_cd
 	t_parse	*parse;
 }	t_cd;
 
+
+typedef struct t_expand
+{
+	int	len;
+	char *tmp;
+	int	i;
+	char	*value;
+	char	*newest;
+	char	*name;
+}	t_expand;
 //CD
 //cd.c
 
@@ -151,6 +161,22 @@ typedef struct t_cd
 //cd3.c
 char	*remove_after_backslash(char *s);
 int	dot_dot(t_env **old, t_env **current);
+
+//PARSER
+//parser.c
+
+//parser2.c
+t_env	*get_path(t_env **envi);
+char	*get_access(char *str, t_env **envi);
+int		get_check(t_mini **mini);
+void	add_back(t_parse **com, t_parse *node);
+char	**create_command(char *str, char **cmd);
+//parser3.c
+void	free_parsing_node(t_parse **head);
+int		is_input(char *name, t_parse ****node, t_mini **mini);
+int		is_output(t_token *tmp, t_parse ****node);
+int		is_append(t_token *tmp, t_parse ****node);
+int		is_random(t_token *tmp, t_parse ***node);
 
 
 char	*remove_after_schraegstrich(char *s);

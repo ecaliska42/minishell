@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:43:38 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/22 17:30:20 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/23 14:36:15 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	free_tokens(t_token **tokens)
 		*tokens = (*tokens)->next;
 		if (tmp->str != NULL)
 			free_and_null((void **)&tmp->str);
-			// free(tmp->str);
 		free(tmp);
 	}
 }
@@ -41,6 +40,6 @@ void	one_function_to_free_them_all(t_mini *mini)
 	if (mini->tokens)
 		free_tokens(&mini->tokens);
 	if (mini->env)
-	    free_environment(&mini->env);
+		free_environment(&mini->env);
 	free(mini);
 }

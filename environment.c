@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 17:25:26 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/03 18:25:46 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/23 12:06:34 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,11 @@ int	free_environment(t_env **lst)
 	{
 		*lst = (*lst)->next;
 		if (tmp->name)
-		{
-			free(tmp->name);
-			tmp->name = NULL;
-		}
+			free_and_null((void **)tmp->name);
 		if (tmp->values)
-		{
-			free(tmp->values);
-			tmp->values = NULL;
-		}
+			free_and_null((void **)tmp->values);
 		if (tmp)
-		{
-			free(tmp);
-			tmp = NULL;
-		}
+			free_and_null((void **)tmp);
 		tmp = *lst;
 	}
 	return (ERROR);

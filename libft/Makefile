@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+         #
+#    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/07 18:00:21 by ecaliska          #+#    #+#              #
-#    Updated: 2024/03/20 18:58:31 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/04/23 15:31:14 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,10 @@ SRC=	ft_fd/ft_putchar_fd.c ft_fd/ft_putendl_fd.c ft_fd/ft_putnbr_fd.c \
 		strings/ft_strlcpy.c strings/ft_strlen.c strings/ft_strmapi.c strings/ft_strncmp.c \
 		strings/ft_strnstr.c strings/ft_strrchr.c strings/ft_strtrim.c strings/ft_substr.c \
 
-OBJ=	$(SRC:.c=.o)
+#OBJ=	$(SRC:.c=.o)
+
+OBJ_DIR= obj
+OBJ= $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
 NAME=	libft.a
 
@@ -41,13 +44,19 @@ all:	$(NAME)
 $(NAME):	$(OBJ)
 	ar rcs $(NAME) $(OBJ)
 
-%.o: %.c
-	$(CC) -c $(CFLAGS) $< -o $@
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(@D)
+	$(CC) $(FLAGS) -c $< -o $@
+
+#%.o: %.c
+#	$(CC) -c $(CFLAGS) $< -o $@
 
 clean:
 	$(RM) $(OBJ)
+	rm -rf $(OBJ_DIR)
 
 fclean:	clean
+	rm -rf $(OBJ_DIR)
 	$(RM) $(NAME)
 
 re:

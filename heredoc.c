@@ -6,13 +6,14 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 17:08:57 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/23 14:55:45 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
 
-//name = ft_strjoin("/tmp/", name); //ONLY IF THE NAME SHOULD BE SHOWN IN FILES OR BE INVICIBLE IN TEMPORARY
+//name = ft_strjoin("/tmp/", name); //ONLY IF THE NAME SHOULD BE 
+//SHOWN IN FILES OR BE INVICIBLE IN TEMPORARY
 char	*get_unique_heredoc_name(void)
 {
 	char	*name;
@@ -37,85 +38,92 @@ char	*get_unique_heredoc_name(void)
 	return (name);
 }
 
-typedef struct t_expand
-{
-	int	len;
-	char *tmp;
-	int	i;
-	char	*value;
-	char	*new;
-	char	*name;
-}	t_expand;
+// typedef struct t_expand
+// {
+// 	int	len;
+// 	char *tmp;
+// 	int	i;
+// 	char	*value;
+// 	char	*new;
+// 	char	*name;
+// }	t_expand;
 
 int	is_dollar_hd(t_expand *exp, char *str, t_mini *ms, t_env *envp)
 {
 	if (str[(exp->i) + 1] == '?')
-		replace_exit_code(str, &exp->new, &exp->i, ms);
+		replace_exit_code(str, &exp->newest, &exp->i, ms);
 	(exp->i)++;
 	exp->len = check_name_and_return_len(&str[exp->i]);
 	exp->tmp = ft_substr(str, exp->i, exp->len);
 	if (!exp->tmp)
 		return (ERROR);
 	(exp->i) += exp->len;
-	if ((exp->value = get_env_value(exp->tmp, envp)) != NULL)
-		exp->new = ft_strjoin(exp->new, exp->value);
+	exp->value = get_env_value(exp->tmp, envp);
+	if (exp->value != NULL)
+		exp->newest = ft_strjoin(exp->newest, exp->value);
 	return (SUCCESS);
 }
 
 char	*expand_heredoc(char *str, t_env *envp, t_mini **mini)
 {
 	t_expand	exp;
-	t_mini	*ms;
+	t_mini		*ms;
 
 	exp.i = 0;
 	ms = *mini;
-	exp.new = ft_strdup("");
+	exp.newest = ft_strdup("");
 	while (str[exp.i])
 	{
 		while (str[exp.i] && str[exp.i] != '$')
 		{
-			exp.new = add_char(exp.new, str[exp.i]);
+			exp.newest = add_char(exp.newest, str[exp.i]);
 			(exp.i)++;
 		}
 		if ((ft_is_dollar(str[exp.i])) && (str[(exp.i) + 1] && (str[(exp.i)
-					+ 1] != '$')))
+						+ 1] != '$')))
 			if (is_dollar_hd(&exp, str, ms, envp) == ERROR)
 				return (NULL);
 		while (str[exp.i] && str[exp.i] != '$' && str[exp.i])
 		{
-			exp.new = add_char(exp.new, str[exp.i]);
+			exp.newest = add_char(exp.newest, str[exp.i]);
 			(exp.i)++;
 		}
 	}
-	return (exp.new);
+	return (exp.newest);
 }
 
-int	heredoc(t_parse *node, char *end, bool expand, t_mini **mini)
+void	do_while(int fd, char *end, bool expand, t_mini **mini)
 {
 	char	*line;
-	int		fd;
-	char	*name;
 
-	name = get_unique_heredoc_name();
-	fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	signal_handler(4, *mini);
 	while (1)
 	{
 		if (g_sig)
-			break ;
+			return ;
 		line = readline("> ");
 		if (!line)
-			break ;
+			return ;
 		if (ft_strcmp(line, end) == 0)
 		{
 			free(line);
-			break ;
+			return ;
 		}
 		if (expand == true)
 			line = expand_heredoc(line, (*mini)->env, mini);
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
+}
+
+int	heredoc(t_parse *node, char *end, bool expand, t_mini **mini)
+{
+	int		fd;
+	char	*name;
+
+	name = get_unique_heredoc_name();
+	fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	do_while(fd, end, expand, mini);
 	close(fd);
 	node->infd = open(name, O_RDONLY);
 	if (node->infd < 0)

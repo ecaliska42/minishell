@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/22 17:33:06 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/23 12:21:14 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_readline(t_mini *mini)
 		if (!mini->shell.input)
 		{
 			// one_function_to_free_them_all(mini);
-			free_environment(&mini->env);
+			// free_environment(&mini->env);
 			exit(mini->exit_status);
 		}
 		signal_handler(3, mini);

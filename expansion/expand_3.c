@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:01:35 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/22 17:23:53 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/23 12:20:42 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,13 @@ t_token	*handle_expansion(t_token *token, t_expansion *exp, t_mini *ms)
 		if (exp->value[0] == '\0')
 			token->ambiguous = true;
 		exp->value = ft_strtrim(exp->value, " ");
+		if (!exp->value)
+			return (NULL);
 		if (ft_strchr(exp->value, ' ') == NULL)
 		{
 			exp->new_str = ft_strjoin(exp->new_str, exp->value);
+			if (!exp->new_str)
+				return (NULL);
 			free(exp->value);
 		}
 		else
