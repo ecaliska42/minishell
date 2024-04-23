@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:43:38 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/23 14:36:15 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:45:01 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "libraries/minishell.h"
 
 void	free_and_null(void **ptr)
@@ -35,11 +36,12 @@ void	free_tokens(t_token **tokens)
 	}
 }
 
-void	one_function_to_free_them_all(t_mini *mini)
+void	check_malloc_exit(void *ptr, t_token *token)
 {
-	if (mini->tokens)
-		free_tokens(&mini->tokens);
-	if (mini->env)
-		free_environment(&mini->env);
-	free(mini);
+	if (ptr == NULL)
+	{
+		ft_putendl_fd("Malloc failed", 2);
+		free_tokens(&token);
+		exit(EXIT_FAILURE);
+	}
 }

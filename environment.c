@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 17:25:26 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/23 16:10:42 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:36:17 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ int	free_environment(t_env **lst)
 	{
 		*lst = (*lst)->next;
 		if (tmp->name)
-			free_and_null((void **)tmp->name);
+			free_and_null((void **)&tmp->name);
 		if (tmp->values)
-			free_and_null((void **)tmp->values);
+			free_and_null((void **)&tmp->values);
 		if (tmp)
-			free_and_null((void **)tmp);
+			free_and_null((void **)&tmp);
 		tmp = *lst;
 	}
 	return (ERROR);

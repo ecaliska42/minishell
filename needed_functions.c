@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:32:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/18 16:55:40 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:52:28 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	token_add(t_token **tokens)
 	t_token	*tmp;
 
 	tmp = *tokens;
-	new = malloc(sizeof(t_token));
+	new = malloc(sizeof(t_token)); // SEGFAULT
 	if (!new)
 	{
 		perror("failed malloc");

@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/22 17:09:56 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/23 18:27:35 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void				ft_tokenizer(t_shell *shell, t_token *last, int i);
 int					ft_strtok(t_shell *shell, int *i);
 char				*get_word(t_shell *shell, char *line, int *i);
 int					token_add(t_token **token);
-void				free_tokens(t_token **tokens);
 void				tokenize(t_shell *shell, int *i, bool is_quote);
 
 // lexer
