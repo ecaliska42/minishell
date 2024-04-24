@@ -6,11 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:11:51 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 15:06:32 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:11:24 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libraries/minishell.h"
+#include "../libraries/minishell.h"
 
 t_env	*get_path(t_env **envi)
 {
@@ -37,9 +37,9 @@ char	*do_while_access(char **path_values, char *str)
 	i = 0;
 	while (path_values[i])
 	{
-		temp = ft_strdup("");
-		if (!temp)
-			return (NULL);
+		// temp = ft_strdup("");
+		// if (!temp)
+		// 	return (NULL);
 		temp = ft_strjoin(path_values[i], "/");
 		if (!temp)
 			return (NULL);

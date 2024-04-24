@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:13:38 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 16:51:05 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:14:39 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ void	free_fds(int **fds)
 	i = 0;
 	while (fds[i])
 	{
-		free(fds[i]);
-		fds[i] = NULL;
+		free_and_null((void **)fds[i]);
+		// free(fds[i]);
+		// fds[i] = NULL;
 		i++;
 	}
-	free(fds);
-	fds = NULL;
+	free_and_null((void **)fds);
+	// free(fds);
+	// fds = NULL;
 }
 
 char	**change_envp(t_env **envp)
@@ -53,10 +55,9 @@ char	**change_envp(t_env **envp)
 	return (new_envp);
 }
 
-int	malloc_ex_struct(t_exe *ex_struct, int pipecount)
+int	malloc_ex_struct(t_exe *ex_struct)
 {
-	(void)pipecount;
-	ex_struct->id = malloc((ex_struct->pipecount + 1) * sizeof(pid_t));
+	ex_struct->id = ft_calloc((ex_struct->pipecount + 1), sizeof(pid_t));
 	if (!ex_struct->id)
 	{
 		perror("ex_struct.id malloc error (execute.c) :");
@@ -65,8 +66,9 @@ int	malloc_ex_struct(t_exe *ex_struct, int pipecount)
 	ex_struct->fd = ft_calloc(ex_struct->pipecount + 2, sizeof(int *));
 	if (!ex_struct->fd)
 	{
-		free(ex_struct->id);
-		ex_struct->id = NULL;
+		free_and_null((void **)&ex_struct->id);
+		// free(ex_struct->id);
+		// ex_struct->id = NULL;
 		perror("ex_struct.fd malloc error (execute.c) :");
 		return (ERROR);
 	}

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:43:38 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/24 15:07:31 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:26:18 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,25 @@ void	check_malloc_exit(void *ptr, t_token *token)
 	}
 }
 
+void	free_exe(t_exe *ex_struct)
+{
+	int	i;
+
+	i = 0;
+	free_and_null((void **)&ex_struct->id);
+	while (ex_struct->fd[i])
+	{
+		free_and_null((void **)&ex_struct->fd[i]);
+		i++;
+	}
+}
+
 void	free_mini_and_exit(t_mini **mini)
 {
 	free_environment(&(*mini)->env);
 	free_parsing_node(&(*mini)->parse);
+	free_tokens(&(*mini)->shell.tokens);
+	free_exe(&(*mini)->exe);
 	exit((*mini)->exit_status);
 }
 
