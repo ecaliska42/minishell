@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:11:51 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 18:59:55 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 19:25:40 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char	*do_while_access(char **path_values, char *str)
 {
 	int		i;
 	char	*temp;
+	char	*ret;
 	char	*temp2;
 
 	i = 0;
@@ -45,14 +46,16 @@ char	*do_while_access(char **path_values, char *str)
 			return (NULL);
 		temp2 = ft_strjoin(temp, str);
 		if (!temp2)
-			return (free(temp), NULL);
-		free(temp);
+			return (free_and_null((void **)&temp), NULL);
+		free_and_null((void **)&temp);
 		if (access(temp2, X_OK | F_OK) == 0)
 			return (temp2);
 		i++;
-		free (temp2);
+		free_and_null((void **)&temp2);
+		// free (temp2);
 	}
-	return (str);
+	ret = ft_strdup(str);
+	return (ret);
 }
 
 char	*get_access(char *str, t_env **envi)

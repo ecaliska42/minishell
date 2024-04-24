@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:13:38 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 19:01:33 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 19:02:19 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ char	**change_envp(t_env **envp)
 	char	**new_envp;
 	char	*temp;
 	t_env	*tmp;
-	char *tmp2;
 	int		i;
 
 	i = 0;
