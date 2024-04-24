@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:28:43 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/23 17:47:30 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/24 20:02:07 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,14 @@ int	get_before_after(char **before, char **after, char *s)
 	*before = get_till(s, '=');
 	if (!before)
 		return (ERROR);
-	*after = get_after(s, '=');
-	if (!after)
-		return (free(before), before = NULL, ERROR);
+	if (ft_strchr(s, '='))
+	{
+		*after = get_after(s, '=');
+		if (!after)
+			return (free(before), before = NULL, ERROR);
+	}
+	else
+		*after = NULL;
 	return (SUCCESS);
 }
 

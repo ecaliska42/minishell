@@ -6,11 +6,17 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:07 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 14:31:25 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 20:02:27 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
+
+void	free_t_export(t_export *expo)
+{
+	(void) expo;
+	return ;
+}
 
 int	ft_export(t_env **lst, t_parse **node, t_mini **mini)
 {
@@ -28,6 +34,7 @@ int	ft_export(t_env **lst, t_parse **node, t_mini **mini)
 	if (while_loop(&expo, mini) == ERROR)
 		return (ERROR);
 	set_exit_status(expo.fail, mini);
+	free_t_export(&expo);
 	return (0);
 }
 
