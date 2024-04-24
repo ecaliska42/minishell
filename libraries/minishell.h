@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 18:41:17 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:59:50 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,7 @@ typedef struct parse
 	char			*check;
 	char			**command;
 	int				infd;
-	char			*infile;
-	int				infile_type;
 	int				outfd;
-	char			*outfile;
-	int				outfile_type;
 	int				execute;
 	bool			empty;
 	struct parse	*next;
@@ -296,6 +292,8 @@ char	*process_single_quotes(char *new_str, char *str, int *i);
 char	*handle_dollar_sign(char *new_str, char *str, int *i, t_mini *ms);
 void	free_mini_and_exit(t_mini **mini);
 void	free_double(char **str);
+void	free_exe(t_exe *ex_struct);
+
 
 
 #endif
