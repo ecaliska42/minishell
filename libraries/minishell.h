@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/23 18:45:22 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/24 14:04:42 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,12 +143,11 @@ typedef struct t_cd
 	t_parse	*parse;
 }	t_cd;
 
-
 typedef struct t_expand
 {
-	int	len;
-	char *tmp;
-	int	i;
+	int		len;
+	char	*tmp;
+	int		i;
 	char	*value;
 	char	*newest;
 	char	*name;
@@ -160,7 +159,7 @@ typedef struct t_expand
 
 //cd3.c
 char	*remove_after_backslash(char *s);
-int	dot_dot(t_env **old, t_env **current);
+int		dot_dot(t_env **old, t_env **current);
 
 //PARSER
 //parser.c
@@ -181,7 +180,6 @@ int		is_input(char *name, t_parse ****node, t_mini **mini);
 int		is_output(t_token *tmp, t_parse ****node);
 int		is_append(t_token *tmp, t_parse ****node);
 int		is_random(t_token *tmp, t_parse ***node);
-
 
 char	*remove_after_schraegstrich(char *s);
 int		dot_dot(t_env **old, t_env **current);
