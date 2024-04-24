@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:14:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/23 15:24:30 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 15:05:14 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,19 @@ void	free_parsing_node(t_parse **head)
 			i = 0;
 			while (tmp->command[i])
 			{
-				free(tmp->command[i]);
+				free_and_null((void **)&tmp->command[i]);
+				// free(tmp->command[i]);
 				i++;
 			}
-			free(tmp->command);
-			tmp->command = NULL;
+			free_and_null((void **)&tmp->command);
+			// free(tmp->command);
+			// tmp->command = NULL;
 		}
 		if (tmp)
 		{
-			free(tmp);
-			tmp = NULL;
+			free_and_null((void **)&tmp);
+			// free(tmp);
+			// tmp = NULL;
 		}
 	}
 }

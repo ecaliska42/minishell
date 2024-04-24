@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 14:33:17 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/24 15:07:45 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,9 +294,8 @@ char	*expand_heredoc_delimeter(char *new_str, char *str, int *i, t_mini *ms);
 char	*process_double_quotes(char *new_str, char *str, int *i, t_mini *ms);
 char	*process_single_quotes(char *new_str, char *str, int *i);
 char	*handle_dollar_sign(char *new_str, char *str, int *i, t_mini *ms);
+void	free_mini_and_exit(t_mini **mini);
+void	free_double(char **str);
 
-/*
-	*TEMPORARY debugging
-*/
 
 #endif

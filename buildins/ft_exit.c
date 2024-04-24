@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:08 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 14:35:14 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 15:16:49 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,7 @@ void	ft_exit(t_parse **node, t_mini **mini)
 		return ;
 	}
 	exit_code = (ft_atol((*node)->command[1]) % 256);
+	(*mini)->exit_status = exit_code;
+	free_mini_and_exit(mini);
 	exit (exit_code);
 }

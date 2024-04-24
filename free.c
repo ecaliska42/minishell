@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:43:38 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/23 18:45:01 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/24 15:07:31 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,24 @@ void	check_malloc_exit(void *ptr, t_token *token)
 		free_tokens(&token);
 		exit(EXIT_FAILURE);
 	}
+}
+
+void	free_mini_and_exit(t_mini **mini)
+{
+	free_environment(&(*mini)->env);
+	free_parsing_node(&(*mini)->parse);
+	exit((*mini)->exit_status);
+}
+
+void	free_double(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		free_and_null((void **)&str[i]);
+		i++;
+	}
+	free_and_null((void **)&str);
 }
