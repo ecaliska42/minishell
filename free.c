@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:43:38 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/24 17:58:08 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:57:09 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,6 @@ void	free_tokens(t_token **tokens)
 		free(tmp);
 	}
 }
-
-void	check_malloc_exit(void *ptr, t_mini *mini)
-{
-	if (ptr == NULL)
-	{
-		ft_putendl_fd("Malloc failed", 2);
-		free_tokens(&mini->shell.tokens);
-		free_and_null((void **)&mini->shell.input);
-		free_environment(&mini->env);
-		free_parsing_node(&mini->parse);
-		exit(EXIT_FAILURE);
-	}
-}
-
 void	free_exe(t_exe *ex_struct)
 {
 	int	i;
@@ -64,8 +50,26 @@ void	free_exe(t_exe *ex_struct)
 			i++;
 		}
 	}
+	if(ex_struct->fd)
+		free_and_null((void **)&ex_struct->fd);
 	free_and_null((void **)&ex_struct->id);
+	
 }
+
+void	check_malloc_exit(void *ptr, t_mini *mini)
+{
+	if (ptr == NULL)
+	{
+		free_exe(&mini->exe);
+		//ft_putendl_fd("Malloc failed", 2);
+		free_tokens(&mini->shell.tokens);
+		free_and_null((void **)&mini->shell.input);
+		free_environment(&mini->env);
+		free_parsing_node(&mini->parse);
+		exit(mini->exit_status);
+	}
+}
+
 
 void	free_mini_and_exit(t_mini **mini)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:14:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 17:18:17 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:40:34 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,19 @@ void	free_parsing_node(t_parse **head)
 	{
 		tmp = *head;
 		*head = (*head)->next;
-		// if (tmp->command)
-		// {
-		i = 0;
-		while (tmp->command[i])
+		while (tmp->command && tmp->command[i])
 		{
 			free_and_null((void **)&tmp->command[i]);
 			i++;
 		}
+		// if(tmp->check)
+		// 	free(tmp->check);
+		if(tmp->infile)
+			free(tmp->infile);
+		if(tmp->outfile)
+			free(tmp->outfile);
+		i = 0;
 		free_and_null((void **)&tmp->command);
-		// }
-		// free_and_null((void **)&tmp->check);
-		// if (tmp)
 		free_and_null((void **)&tmp);
 	}
 }
@@ -92,10 +93,15 @@ int	is_append(t_token *tmp, t_parse ****node)
 
 int	is_random(t_token *tmp, t_parse ***node)
 {
+	char **ptr;
+	int i;
+
+	i = 0;
 	if (tmp->empty == true)
 		(**node)->empty = true;
 	if (tmp->empty == false)
 		(**node)->empty = false;
+	ptr = (**node)->command;
 	(**node)->command = create_command(tmp->str, (**node)->command);
 	if (!(**node)->command)
 		return (ERROR);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:11:51 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 17:11:24 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:45:16 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ char	*get_access(char *str, t_env **envi)
 	char	**path_values;
 
 	if (access(str, X_OK | F_OK) == 0)
-		return (str);
+	{
+		temp2 = ft_strdup(str);
+		return (temp2);
+	}
 	path = get_path(envi);
 	if (!path)
 		return (NULL);
@@ -85,7 +88,7 @@ int	get_check(t_mini **mini)
 	{
 		if (node->command == NULL)
 		{
-			node = node -> next;
+			node = node->next;
 			continue ;
 		}
 		node->check = get_access(node->command[0], &(*mini)->env);

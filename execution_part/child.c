@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:30:48 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 15:31:25 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:49:23 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ static void	dup_and_close(t_mini *ms, int i, t_parse *comm)
 		dup_for_no_pipes(comm);
 }
 
-void	print_command_not_found(char **command)
+void	print_command_not_found(char **command, t_mini **mini)
 {
 	while (*command && **command == '\0')
 		command++;
 	write(2, *command, ft_strlen(*command));
 	write(2, ": command not found\n", 21);
-	exit(127);
+	(*mini)->exit_status = 127;
 }
 
 int	child(t_parse *comm, int i, t_mini **mini)
@@ -79,7 +79,9 @@ int	child(t_parse *comm, int i, t_mini **mini)
 	close_filedescriptor(comm, &ms->exe);
 	execve(comm->check, comm->command, envp);
 	if (comm->empty == false || comm->command[0][0] != '\0')
-		print_command_not_found(comm->command);
-	exit (SUCCESS);
+		print_command_not_found(comm->command, mini);
+	free_double(envp);
+	check_malloc_exit(NULL, ms);
+	return(1);
 }
 //IDK ABOUT CLOSE FILE DESCRIPTOR IN IF IS BUILDIN STATEMENT
