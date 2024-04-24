@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:11:51 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/23 15:59:01 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 15:06:32 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ char	*get_access(char *str, t_env **envi)
 	if (!path_values)
 		return (NULL);
 	temp2 = do_while_access(path_values, str);
+	free_double(path_values);
 	if (!temp2)
 		return (NULL);
 	return (temp2);

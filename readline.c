@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/24 14:42:47 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 14:44:03 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_readline(t_mini *mini)
 {
 	bool	tester;
 
-	tester = true;
+	tester = false;
 	mini->exit_status = 0;
 	while (1)
 	{
