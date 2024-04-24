@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 17:13:42 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:53:17 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ static bool	check_solo_buildin(t_parse *parse, t_mini **mini)
 	{
 		lonely_buildin(parse, &(*mini)->env, mini);
 		free_and_null((void **)&(*mini)->exe.id);
-		// free((*mini)->exe.id);
-		// (*mini)->exe.id = NULL;
 		free_fds((*mini)->exe.fd);
 		return (true);
 	}
@@ -65,7 +63,12 @@ int	execute(t_mini **mini)
 	if (malloc_ex_struct(&(*mini)->exe) == ERROR)
 		return (ERROR);
 	if (check_solo_buildin(parse, mini) == true)
+	{
+		// free_and_null((void **)&(*mini)->exe.id);
+		// free_fds((*mini)->exe.fd);
+		free_exe(&(*mini)->exe);
 		return (SUCCESS);
+	}
 	if (create_pipes(&(*mini)->exe) == ERROR)
 		return (ERROR);
 	fork_childs(parse, &i, mini);
@@ -77,6 +80,7 @@ int	execute(t_mini **mini)
 		(*mini)->exit_status = 128 + WTERMSIG((*mini)->exit_status);
 	free((*mini)->exe.id);
 	(*mini)->exe.id = NULL;
-	free_fds((*mini)->exe.fd);
+	// free_fds((*mini)->exe.fd);
+	free_exe(&(*mini)->exe);
 	return (SUCCESS);
 }

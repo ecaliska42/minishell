@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:14:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 17:18:17 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:56:17 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	free_parsing_node(t_parse **head)
 			i++;
 		}
 		free_and_null((void **)&tmp->command);
+		free_and_null((void **)&tmp->check);
 		// }
 		// free_and_null((void **)&tmp->check);
 		// if (tmp)

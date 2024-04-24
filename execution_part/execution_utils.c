@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:13:38 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 17:14:39 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:42:52 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,16 @@ void	free_fds(int **fds)
 	int	i;
 
 	i = 0;
+	if (!fds || !fds[i])
+		return ;
 	while (fds[i])
 	{
-		free_and_null((void **)fds[i]);
+		free_and_null((void **)&fds[i]);
 		// free(fds[i]);
 		// fds[i] = NULL;
 		i++;
 	}
-	free_and_null((void **)fds);
+	free_and_null((void **)&fds);
 	// free(fds);
 	// fds = NULL;
 }
@@ -33,6 +35,7 @@ char	**change_envp(t_env **envp)
 {
 	int		size;
 	char	**new_envp;
+	char	*temp;
 	t_env	*tmp;
 	int		i;
 
@@ -47,8 +50,9 @@ char	**change_envp(t_env **envp)
 	}
 	while (i < size)
 	{
-		new_envp[i] = ft_strjoin(tmp->name, "=");
-		new_envp[i] = ft_strjoin(new_envp[i], tmp->values);
+		temp = ft_strjoin(tmp->name, "=");
+		new_envp[i] = ft_strjoin(temp, tmp->values);
+		free_and_null((void **)&temp);
 		i++;
 		tmp = tmp->next;
 	}
@@ -63,12 +67,10 @@ int	malloc_ex_struct(t_exe *ex_struct)
 		perror("ex_struct.id malloc error (execute.c) :");
 		return (ERROR);
 	}
-	ex_struct->fd = ft_calloc(ex_struct->pipecount + 2, sizeof(int *));
+	ex_struct->fd = ft_calloc((ex_struct->pipecount + 2), sizeof(int *));
 	if (!ex_struct->fd)
 	{
 		free_and_null((void **)&ex_struct->id);
-		// free(ex_struct->id);
-		// ex_struct->id = NULL;
 		perror("ex_struct.fd malloc error (execute.c) :");
 		return (ERROR);
 	}
