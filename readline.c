@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/23 18:50:39 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/24 14:29:48 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_readline(t_mini *mini)
 	bool	tester;
 	char	*temp;
 
-	tester = false;
+	tester = true;
 	mini->exit_status = 0;
 	while (1)
 	{
@@ -60,10 +60,10 @@ int	ft_readline(t_mini *mini)
 		if (lexical_analyzer(&mini->shell) == ERROR)
 		{
 			mini->exit_status = 2;
-			if (mini->tokens != NULL)
+			if (mini->shell.tokens != NULL)
 			{
-				free_tokens(&mini->tokens);
-				mini->tokens = NULL;
+				free_tokens(&mini->shell.tokens);
+				// mini->tokens = NULL;
 			}
 			free(mini->shell.input);
 			mini->shell.input = NULL;
