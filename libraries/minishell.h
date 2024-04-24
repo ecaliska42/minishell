@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 14:04:42 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/24 14:33:17 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ typedef struct minishell
 	t_parse	*parse;
 	t_env	*env;
 	t_shell	shell;
-	t_token	*tokens;
 	int		exit_status;
 }	t_mini;
 

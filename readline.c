@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/24 14:29:48 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 14:42:47 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 int	ft_readline(t_mini *mini)
 {
 	bool	tester;
-	char	*temp;
 
 	tester = true;
 	mini->exit_status = 0;
@@ -37,15 +36,13 @@ int	ft_readline(t_mini *mini)
 		}
 		else
 		{
-			temp = readline(PROMPT);
-			if (!temp)
+			mini->shell.input = readline(PROMPT);
+			if (!mini->shell.input)
 			{
 				free_environment(&mini->env);
 				clear_history();
-				exit(0);
+				exit(mini->exit_status);
 			}
-			mini->shell.input = ft_strdup(temp);
-			free(temp);
 		}
 		if (!mini->shell.input)
 		{
@@ -63,7 +60,7 @@ int	ft_readline(t_mini *mini)
 			if (mini->shell.tokens != NULL)
 			{
 				free_tokens(&mini->shell.tokens);
-				// mini->tokens = NULL;
+				mini->shell.tokens = NULL;
 			}
 			free(mini->shell.input);
 			mini->shell.input = NULL;
