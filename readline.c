@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/23 18:50:39 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/24 14:37:00 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,8 @@
 int	ft_readline(t_mini *mini)
 {
 	bool	tester;
-	char	*temp;
 
-	tester = false;
+	tester = true;
 	mini->exit_status = 0;
 	while (1)
 	{
@@ -37,15 +36,13 @@ int	ft_readline(t_mini *mini)
 		}
 		else
 		{
-			temp = readline(PROMPT);
-			if (!temp)
+			mini->shell.input = readline(PROMPT);
+			if (!mini->shell.input)
 			{
 				free_environment(&mini->env);
 				clear_history();
-				exit(0);
+				exit(mini->exit_status);
 			}
-			mini->shell.input = ft_strdup(temp);
-			free(temp);
 		}
 		if (!mini->shell.input)
 		{
@@ -60,10 +57,10 @@ int	ft_readline(t_mini *mini)
 		if (lexical_analyzer(&mini->shell) == ERROR)
 		{
 			mini->exit_status = 2;
-			if (mini->tokens != NULL)
+			if (mini->shell.tokens != NULL)
 			{
-				free_tokens(&mini->tokens);
-				mini->tokens = NULL;
+				free_tokens(&mini->shell.tokens);
+				mini->shell.tokens = NULL;
 			}
 			free(mini->shell.input);
 			mini->shell.input = NULL;
