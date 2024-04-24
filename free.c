@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:43:38 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/24 17:54:01 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:58:08 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,17 @@ void	free_exe(t_exe *ex_struct)
 	int	i;
 
 	i = 0;
-	free_and_null((void **)&ex_struct->id);
-	while (ex_struct->fd[i])
+	if (!ex_struct)
+		return ;
+	if (ex_struct->fd)
 	{
-		free_and_null((void **)&ex_struct->fd[i]);
-		i++;
+		while (ex_struct->fd[i])
+		{
+			free_and_null((void **)&ex_struct->fd[i]);
+			i++;
+		}
 	}
+	free_and_null((void **)&ex_struct->id);
 }
 
 void	free_mini_and_exit(t_mini **mini)
