@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/23 14:47:24 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:13:42 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ static bool	check_solo_buildin(t_parse *parse, t_mini **mini)
 		&& parse->execute == EXECUTE)
 	{
 		lonely_buildin(parse, &(*mini)->env, mini);
-		free((*mini)->exe.id);
-		(*mini)->exe.id = NULL;
+		free_and_null((void **)&(*mini)->exe.id);
+		// free((*mini)->exe.id);
+		// (*mini)->exe.id = NULL;
 		free_fds((*mini)->exe.fd);
 		return (true);
 	}
@@ -61,7 +62,7 @@ int	execute(t_mini **mini)
 	int		i;
 
 	parse = (*mini)->parse;
-	if (malloc_ex_struct(&(*mini)->exe, 0) == ERROR)
+	if (malloc_ex_struct(&(*mini)->exe) == ERROR)
 		return (ERROR);
 	if (check_solo_buildin(parse, mini) == true)
 		return (SUCCESS);

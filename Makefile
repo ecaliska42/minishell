@@ -6,7 +6,7 @@
 #    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2024/04/23 16:09:22 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/04/24 17:50:22 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,15 +19,18 @@ LDFLAGS= -lreadline # linker directive
 
 NAME= minishell
 
-SRC= minishell.c buildins/ft_echo.c buildins/ft_cd.c buildins/ft_cd2.c buildins/ft_env.c \
+SRC= minishell.c \
+	buildins/ft_echo.c buildins/ft_cd.c buildins/ft_cd2.c buildins/ft_env.c \
 	buildins/ft_exit.c buildins/ft_cd3.c buildins/ft_export.c buildins/ft_export2.c buildins/ft_export3.c buildins/ft_export4.c buildins/ft_pwd.c buildins/ft_unset.c \
-	parser.c execution_part/execute.c ms_utils.c \
-	parser2.c parser3.c \
-	buildins/buildin_check.c dup_and_close_functions.c\
-	heredoc.c sizes/arrays.c sizes/lists.c\
-	environment.c execution_part/execution_utils.c\
+	buildins/buildin_check.c \
+	parser/parser.c parser/parser2.c parser/parser3.c \
+	execution_part/execute.c \
+	ms_utils.c \
+	dup_and_close_functions.c\
+	sizes/arrays.c sizes/lists.c\
+	heredoc.c environment.c\
+	execution_part/execution_utils.c execution_part/child.c\
 	booleans/bool_functions2.c\
-	execution_part/child.c\
 	close.c \
 	GNL/get_next_line.c GNL/get_next_line_utils.c\
 
@@ -54,6 +57,9 @@ $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(@D)
 	$(CC) $(FLAGS) -c $< -o $@
 
+libft:
+	$(MAKE) -C libft
+
 clean:
 	$(RM) $(OBJ)
 	rm -rf $(OBJ_DIR)
@@ -69,9 +75,12 @@ re:	fclean all
 	$(MAKE) re -C libft
 
 leak: $(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=texts/readline.supp ./$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --suppressions=texts/readline.supp ./$(NAME)
 
-exec: $(NAME)
+fd:
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --track-fds=yes --suppressions=texts/readline.supp ./$(NAME)
+
+run: $(NAME)
 	./$(NAME)
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re leak run libft

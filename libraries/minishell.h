@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 17:12:15 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:54:05 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,7 +265,7 @@ int		do_expand(char *str, t_expansion *exp, t_mini *ms);
 //EXECUTE_UTILS.C
 void	free_fds(int **fds);
 char	**change_envp(t_env **envp);
-int		malloc_ex_struct(t_exe *ex_struct, int pipecount);
+int		malloc_ex_struct(t_exe *ex_struct);
 int		create_pipes(t_exe *ex_struct);
 //CHILD.C
 int		child(t_parse *comm, int i, t_mini **mini);

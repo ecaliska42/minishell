@@ -6,11 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:14:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 15:05:14 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:18:17 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./libraries/minishell.h"
+#include "../libraries/minishell.h"
 
 void	free_parsing_node(t_parse **head)
 {
@@ -22,25 +22,19 @@ void	free_parsing_node(t_parse **head)
 	{
 		tmp = *head;
 		*head = (*head)->next;
-		if (tmp->command)
+		// if (tmp->command)
+		// {
+		i = 0;
+		while (tmp->command[i])
 		{
-			i = 0;
-			while (tmp->command[i])
-			{
-				free_and_null((void **)&tmp->command[i]);
-				// free(tmp->command[i]);
-				i++;
-			}
-			free_and_null((void **)&tmp->command);
-			// free(tmp->command);
-			// tmp->command = NULL;
+			free_and_null((void **)&tmp->command[i]);
+			i++;
 		}
-		if (tmp)
-		{
-			free_and_null((void **)&tmp);
-			// free(tmp);
-			// tmp = NULL;
-		}
+		free_and_null((void **)&tmp->command);
+		// }
+		// free_and_null((void **)&tmp->check);
+		// if (tmp)
+		free_and_null((void **)&tmp);
 	}
 }
 

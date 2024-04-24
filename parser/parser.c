@@ -6,11 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/23 16:00:43 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:30:18 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./libraries/minishell.h"
+#include "../libraries/minishell.h"
 
 t_parse	*is_pipe(t_mini **mini, t_parse **node)
 {
@@ -80,8 +80,8 @@ char	**create_command(char *str, char **cmd)
 	}
 	while (size)
 	{
-		free(cmd[size]);
 		size--;
+		free(cmd[size]);
 	}
 	ret[i] = ft_strdup(str);
 	if (!ret[i])
