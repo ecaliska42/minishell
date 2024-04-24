@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:07:45 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/22 12:03:04 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:10:21 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,9 @@ char	*handle_dollar_sign(char *new, char *str, int *i, t_mini *ms)
 		return (NULL);
 	(*i) += len;
 	value = get_env_value(tmp, ms->env);
+	free_and_null((void **)&tmp);
 	if (value)
-	{
 		new = ft_strjoin(new, value);
-	}
 	return (new);
 }
 

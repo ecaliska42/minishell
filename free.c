@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:43:38 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/24 15:07:31 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:50:08 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,28 @@ void	free_tokens(t_token **tokens)
 		tmp = *tokens;
 		*tokens = (*tokens)->next;
 		if (tmp->str != NULL)
-			free_and_null((void **)&tmp->str);
+		 	free_and_null((void **)&tmp->str);
 		free(tmp);
 	}
 }
 
-void	check_malloc_exit(void *ptr, t_token *token)
+void	check_malloc_exit(void *ptr, t_mini *mini)
 {
 	if (ptr == NULL)
 	{
 		ft_putendl_fd("Malloc failed", 2);
-		free_tokens(&token);
+		free_tokens(&mini->shell.tokens);
+		free_and_null((void **)&mini->shell.input);
+		free_environment(&mini->env);
+		free_parsing_node(&mini->parse);
 		exit(EXIT_FAILURE);
 	}
 }
 
 void	free_mini_and_exit(t_mini **mini)
 {
+	free_tokens(&(*mini)->shell.tokens);
+	free_and_null((void **)&(*mini)->shell.input);
 	free_environment(&(*mini)->env);
 	free_parsing_node(&(*mini)->parse);
 	exit((*mini)->exit_status);

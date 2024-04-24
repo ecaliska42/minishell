@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/24 14:44:03 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:51:56 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_readline(t_mini *mini)
 {
 	bool	tester;
 
-	tester = false;
+	tester = true;
 	mini->exit_status = 0;
 	while (1)
 	{
@@ -39,15 +39,15 @@ int	ft_readline(t_mini *mini)
 			mini->shell.input = readline(PROMPT);
 			if (!mini->shell.input)
 			{
-				free_environment(&mini->env);
+				free_mini_and_exit(&mini);
 				clear_history();
 				exit(mini->exit_status);
 			}
 		}
 		if (!mini->shell.input)
 		{
-			// one_function_to_free_them_all(mini);
-			// free_environment(&mini->env);
+			free_mini_and_exit(&mini);
+			clear_history();
 			exit(mini->exit_status);
 		}
 		signal_handler(3, mini);
@@ -70,15 +70,12 @@ int	ft_readline(t_mini *mini)
 		{
 			mini->exit_status = 2;
 			free_tokens(&mini->shell.tokens);
-			// one_function_to_free_them_all(mini);
 			free(mini->shell.input);
 			continue ;
 		}
 		if (mini->shell.tokens)
 		{
 			expansion(mini->shell.tokens, mini);
-			// check all tokens, if at least 1 is not empty, then execute... but be careful about input: "" vs $novar
-			// if (mini->shell.tokens->str == )
 			if (prepare_for_execution(&mini) == ERROR)
 			{
 				ft_putstr_fd("Error: prepare_for_execution\n", 2);

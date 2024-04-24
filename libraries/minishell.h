@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 15:07:45 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:12:15 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,7 +283,7 @@ void	signal_handler(int mod, t_mini *ms);
 // FREE
 
 void	free_tokens(t_token **tokens);
-void	check_malloc_exit(void *ptr, t_token *token);
+void	check_malloc_exit(void *ptr, t_mini *mini);
 
 // EXPANSION
 
