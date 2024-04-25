@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:28:43 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 20:02:07 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 13:55:16 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	env_addback(t_env **head, char *name, char *value)
 		tmp = tmp->next;
 	if (ft_strcmp(tmp->name, name) == 0)
 	{
+		free_and_null((void **)&tmp->values);
 		tmp->values = value;
 		return (SUCCESS);
 	}
@@ -60,12 +61,10 @@ int	env_addback(t_env **head, char *name, char *value)
 		return (ERROR);
 	node->name = ft_strdup(name);
 	if (!node->name)
-	{
-		free(node);
-		return (ERROR);
-	}
-	free(name);
-	node->values = value;
+		return (free(node), ERROR);
+	node->values = ft_strdup(value);
+	if (!node->values)
+		return (free(node), ERROR);
 	node->next = NULL;
 	tmp->next = node;
 	return (SUCCESS);

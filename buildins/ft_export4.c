@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:17:25 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 14:27:04 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 13:46:24 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,14 @@ void	set_exit_status(int fail, t_mini **mini)
 int	add_export(t_env *envp, char *before, char *after, char *command)
 {
 	if (ft_strchr(command, '=') != NULL)
+	{
 		env_addback(&envp, before, after);
+	}
 	else
+	{
 		env_addback(&envp, before, NULL);
+		free_and_null((void **)&before);
+	}
 	return (SUCCESS);
 }
 
@@ -59,10 +64,14 @@ int	while_loop(t_export *ex, t_mini **mini)
 			|| is_alpha_numbers(ex->before) == false)
 		{
 			export_error(ex->command->command[ex->i], &ex->i, &ex->fail);
+			free_and_null((void **)&ex->before);
+			free_and_null((void **)&ex->after);
 			continue ;
 		}
 		add_export(ex->envp, ex->before, ex->after,
 			ex->command->command[ex->i]);
+		free_and_null((void **)&ex->before);
+		free_and_null((void **)&ex->after);
 		ex->i++;
 	}
 	return (SUCCESS);
