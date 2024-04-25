@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:30:48 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 20:12:22 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 10:43:14 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int	child(t_parse *comm, int i, t_mini **mini)
 	{
 		execute_buildin(&comm, &ms->env, ms->exe.pipecount, &ms);
 		close_filedescriptor(comm, &ms->exe);
+		free_double(envp);
+		free_mini_and_exit(mini);
 		exit (SUCCESS);
 	}
 	close_filedescriptor(comm, &ms->exe);
