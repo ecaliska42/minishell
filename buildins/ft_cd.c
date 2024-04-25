@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:12 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 16:26:43 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 18:22:00 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ int	check_dots_and_only(char **command, t_mini **mini, t_cd *cd_str)
 	if (array_size(command) == 1 || ft_strcmp(command[1], "~") == 0)
 	{
 		(*mini)->exit_status = 0;
-		return (only_cd(cd_str->home, &cd_str->current, &cd_str->old));
+		if (only_cd(cd_str->home, &cd_str->current, &cd_str->old) == ERROR)
+			(*mini)->exit_status = 1;
+		return (SUCCESS);
 	}
 	if (ft_strcmp(cd_str->parse->command[1], "..") == 0)
 	{
