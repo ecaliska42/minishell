@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:43:38 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/24 19:10:05 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 10:49:36 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,18 @@ void	free_exe(t_exe *ex_struct)
 	
 }
 
+void	free_expansion(t_expansion **exp)
+{
+    if (!exp || !*exp)
+        return ;
+    free_and_null((void **)&(*exp)->value);
+    free_and_null((void **)&(*exp)->new_str);
+    free_and_null((void **)&(*exp)->joker);
+    free_and_null((void **)&(*exp)->tmp);
+    free_and_null((void **)&(*exp)->tmp_i);
+    free_and_null((void **)exp);
+}
+
 void	check_malloc_exit(void *ptr, t_mini *mini)
 {
 	if (ptr == NULL)
@@ -66,6 +78,7 @@ void	check_malloc_exit(void *ptr, t_mini *mini)
 		free_and_null((void **)&mini->shell.input);
 		free_environment(&mini->env);
 		free_parsing_node(&mini->parse);
+		free_expansion(&mini->exp);
 		exit(mini->exit_status);
 	}
 }

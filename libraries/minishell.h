@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 18:59:50 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 10:20:48 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct minishell
 	t_parse	*parse;
 	t_env	*env;
 	t_shell	shell;
+	t_expansion *exp;
 	int		exit_status;
 }	t_mini;
 
@@ -293,7 +294,5 @@ char	*handle_dollar_sign(char *new_str, char *str, int *i, t_mini *ms);
 void	free_mini_and_exit(t_mini **mini);
 void	free_double(char **str);
 void	free_exe(t_exe *ex_struct);
-
-
 
 #endif
