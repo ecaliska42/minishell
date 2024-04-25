@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:01:35 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/24 17:48:20 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 10:47:36 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,8 @@ t_token	*expand_variable(t_token *token, t_mini *ms)
 {
 	t_expansion	exp;
 	t_token		*ret;
-
+	
+	ms->exp = &exp;
 	ft_bzero(&exp, sizeof(t_expansion));
 	exp.joker = ft_strdup(token->str);
 	free_and_null((void **)&token->str);

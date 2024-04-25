@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:13:38 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 19:01:33 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 10:17:56 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ char	**change_envp(t_env **envp)
 	char	**new_envp;
 	char	*temp;
 	t_env	*tmp;
-	char *tmp2;
 	int		i;
 
 	i = 0;
