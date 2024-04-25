@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/25 10:47:48 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 13:18:58 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 char	*process_single_quotes(char *new, char *str, int *i)
 {
+	// char *tmp;
+	
 	(*i)++;
 	while (str[*i] && str[*i] != '\'')
 	{
@@ -24,6 +26,16 @@ char	*process_single_quotes(char *new, char *str, int *i)
 		(*i)++;
 	return (new);
 }
+
+// char *shorten(char *new, int **i, char *str)
+// {
+// 	char *tmp;
+// 	tmp = add_char(new, str[**i]);
+// 	// free_and_null((void **)new);
+// 	new = tmp;
+// 	(**i)++;
+// 	return (new);
+// }
 
 char	*process_double_quotes(char *new, char *str, int *i, t_mini *ms)
 {

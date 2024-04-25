@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:53:59 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/25 12:21:10 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:49:12 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@ char	*replace_exit_code(char *str, char **new, int *i, t_mini *ms)
 	if (str[*i] && str[*i] == '$' && str[(*i) + 1] && str[(*i) + 1] == '?')
 	{
 		exit_code = ft_itoa(ms->exit_status);
-		check_malloc_exit(exit_code, ms);
+		free_expansion(exit_code, ms->exp, ms);
 		(*i) += 2;
 		new_str = ft_strjoin(*new, exit_code);
 		free_and_null((void **)&exit_code);
-		check_malloc_exit(new_str, ms);
+		free_and_null((void **)new);
+		free_expansion(new_str, ms->exp, ms);
 		*new = new_str;
 		return (*new);
 	}
