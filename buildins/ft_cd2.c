@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:55:29 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 19:39:11 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 18:20:33 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	dot(t_env **old)
 int	only_cd(t_env *home, t_env **current, t_env **old)
 {
 	if (!home)
-		return_write("ShellMate: cd: HOME not set", ERROR);
+		return (return_write("ShellMate: cd: HOME not set", ERROR));
 	if ((*old) && (*old)->values)
 	{
 		free((*old)->values);
@@ -69,7 +69,7 @@ int	go_back(t_env **old, t_env **current, t_mini **mini)
 	if (!(*old))
 	{
 		(*mini)->exit_status = 1;
-		return_write("ShellMate: cd: OLDPWD not set", ERROR);
+		return (return_write("ShellMate: cd: OLDPWD not set", ERROR));
 	}
 	now = malloc(FILENAME_MAX);
 	if (!now)
