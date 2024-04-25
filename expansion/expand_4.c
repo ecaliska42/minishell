@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:07:45 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/24 17:10:21 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:52:57 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	*handle_dollar_sign(char *new, char *str, int *i, t_mini *ms)
 	int		len;
 	char	*tmp;
 	char	*value;
+	char	*temp;
 
 	(*i)++;
 	len = check_name_and_return_len(&str[*i]);
@@ -27,7 +28,11 @@ char	*handle_dollar_sign(char *new, char *str, int *i, t_mini *ms)
 	value = get_env_value(tmp, ms->env);
 	free_and_null((void **)&tmp);
 	if (value)
-		new = ft_strjoin(new, value);
+	{
+		temp = ft_strjoin(new, value);
+		free_and_null((void **)&new);
+		new = temp;
+	}
 	return (new);
 }
 
