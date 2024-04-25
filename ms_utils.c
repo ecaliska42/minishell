@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 14:22:20 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 14:52:38 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:32:19 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*get_till(char *str, char character)
 			break ;
 		i++;
 	}
-	ret = malloc(i + 1);
+	ret = ft_calloc(i + 1, sizeof(char));
 	if (!ret)
 		return (NULL);
 	j = 0;

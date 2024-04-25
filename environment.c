@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 17:25:26 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/23 18:36:17 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:31:30 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	copy_environment(char **envp, t_env **lst)
 	*lst = NULL;
 	while (envp[i])
 	{
-		new_node = malloc(sizeof(t_env));
+		new_node = ft_calloc(1, sizeof(t_env));
 		if (!new_node)
 			return (free_environment(lst));
 		new_node->name = get_till(envp[i], '=');

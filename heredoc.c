@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 15:11:21 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 20:23:36 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*get_unique_heredoc_name(void)
 	dev_random = open("/dev/random", O_RDONLY);
 	if (dev_random < 0)
 		exit(1);
-	name = malloc(sizeof(char) * 5 + 1);
+	name = ft_calloc(5 + 1, sizeof(char));
 	if (!name)
 		exit(1);
 	while (i < 5)
@@ -100,19 +100,22 @@ void	do_while(int fd, char *end, bool expand, t_mini **mini)
 	while (1)
 	{
 		if (g_sig)
+		{
+			free_and_null((void **)&line);
 			return ;
+		}
 		line = readline("> ");
 		if (!line)
 			return ;
 		if (ft_strcmp(line, end) == 0)
 		{
-			free(line);
+			free_and_null((void **)&line);
 			return ;
 		}
 		if (expand == true)
 			line = expand_heredoc(line, (*mini)->env, mini);
 		ft_putendl_fd(line, fd);
-		free(line);
+		free_and_null((void **)&line);
 	}
 }
 
@@ -126,9 +129,9 @@ int	heredoc(t_parse *node, char *end, bool expand, t_mini **mini)
 	do_while(fd, end, expand, mini);
 	close(fd);
 	node->infd = open(name, O_RDONLY);
-	if (node->infd < 0)
-		return (ERROR);
 	unlink(name);
 	free_and_null((void **)&name);
+	if (node->infd < 0)
+		return (ERROR);
 	return (SUCCESS);
 }

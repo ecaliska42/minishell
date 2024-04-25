@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/25 15:45:41 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:45:02 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,10 @@ t_token	*expand_variable(t_expansion exp, t_token *token, t_mini *ms)
 		else if (exp.quotes == CLOSED)
 		{
 			ret = handle_closed(token, &exp, ms);
-			if (ret)
+			if (ret)//CHANGED CAUSED MEMORY LEAKS
 			{
 				free_and_null((void **)&exp.new_str);
+				free_and_null((void **)&exp.joker);
 				return (ret);
 			}
 		}

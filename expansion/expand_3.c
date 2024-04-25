@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:01:35 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/25 15:34:40 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:44:35 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,11 @@ t_token	*handle_expansion(t_token *token, t_expansion *exp, t_mini *ms)
 		else
 		{
 			ret = handle_splitting(exp, token, &last_token, ms);
-			if (ret)
+			if (ret)//CHANGED CAUSED MEMORY LEAKS
+			{
+				free_and_null((void **)&exp->value);
 				return (ret);
+			}
 		}
 	}
 	else

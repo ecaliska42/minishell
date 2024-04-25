@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   needed_functions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:32:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/24 18:04:51 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:32:32 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	token_add(t_token **tokens)
 	t_token	*tmp;
 
 	tmp = *tokens;
-	new = malloc(sizeof(t_token));
+	new = ft_calloc(1, sizeof(t_token));
 	if (!new)
 	{
 		perror("failed malloc");
