@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:53:59 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/24 17:49:28 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:21:10 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,11 @@ char	*replace_exit_code(char *str, char **new, int *i, t_mini *ms)
 	if (str[*i] && str[*i] == '$' && str[(*i) + 1] && str[(*i) + 1] == '?')
 	{
 		exit_code = ft_itoa(ms->exit_status);
-		if (!exit_code)
-			return (NULL);
+		check_malloc_exit(exit_code, ms);
 		(*i) += 2;
 		new_str = ft_strjoin(*new, exit_code);
-		free(exit_code);
-		if (!new_str)
-			return (NULL);
+		free_and_null((void **)&exit_code);
+		check_malloc_exit(new_str, ms);
 		*new = new_str;
 		return (*new);
 	}
@@ -45,7 +43,7 @@ t_token	*create_new_token(char *word, t_token *last)
 	new->str = ft_strdup(word);
 	if (new->str == NULL)
 	{
-		free(new);
+		free_and_null((void **)&new);
 		return (NULL);
 	}
 	new->next = last->next;
@@ -63,11 +61,10 @@ void	free_words(char **words)
 		return ;
 	while (words[i] != NULL)
 	{
-		free(words[i]);
-		words[i] = NULL;
+		free_and_null((void **)&words[i]);
 		i++;
 	}
-	free(words);
+	free_and_null((void **)&words);
 }
 
 t_token	*split_value(char *str, char *value, t_token *token)
@@ -118,7 +115,6 @@ char	*add_char(char *str, char new_char)
 		return (NULL);
 	ft_memcpy(new, str, str_len);
 	new[str_len] = new_char;
-	free(str);
-	str = NULL;
+	free_and_null((void **)&str);
 	return (new);
 }

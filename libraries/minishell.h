@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 10:20:48 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:32:49 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,6 +281,8 @@ void	signal_handler(int mod, t_mini *ms);
 
 void	free_tokens(t_token **tokens);
 void	check_malloc_exit(void *ptr, t_mini *mini);
+void	free_expansion(void *ptr, t_expansion *exp, t_mini *ms);
+
 
 // EXPANSION
 

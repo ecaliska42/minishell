@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:01:35 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/25 10:47:36 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:35:48 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ t_token	*handle_splitting(t_expansion *exp, t_token *token, t_token **last_token
 		token->ambiguous = true;
 	exp->tmp_i = &exp->joker[exp->i];
 	(*last_token) = split_value(exp->new_str, exp->value, token);
-	check_malloc_exit((*last_token), ms);
+	free_expansion(last_token, ms->exp, ms);
 	if (*exp->tmp_i)
 	{
 		while (*exp->tmp_i && *exp->tmp_i != '$' && *exp->tmp_i != '\"'
 			&& *exp->tmp_i != '\'')
 		{
 			(*last_token)->str = add_char((*last_token)->str, *exp->tmp_i);
-			check_malloc_exit((*last_token)->str, ms);
+			free_expansion((*last_token)->str, ms->exp, ms);
 			exp->i++;
 			exp->tmp_i++;
 		}
@@ -77,9 +77,15 @@ t_token	*handle_expansion(t_token *token, t_expansion *exp, t_mini *ms)
 			return (NULL);
 		if (ft_strchr(exp->value, ' ') == NULL)
 		{
-			exp->new_str = ft_strjoin(exp->new_str, exp->value);
-			check_malloc_exit(exp->new_str, ms);
-			free(exp->value);
+			char	*tmp;
+			tmp = ft_strjoin(exp->new_str, exp->value);
+			free_and_null((void **)&exp->new_str);
+			free_expansion(tmp, ms->exp, ms);
+			free_and_null((void **)&exp->value);
+			exp->new_str = tmp;
+			// exp->new_str = ft_strjoin(exp->new_str, exp->value);
+			// check_malloc_exit(exp->new_str, ms);
+			// free_and_null((void **)&exp->value);
 		}
 		else
 		{
@@ -92,7 +98,7 @@ t_token	*handle_expansion(t_token *token, t_expansion *exp, t_mini *ms)
 	else
 		token->empty = true;
 	if (!exp->value)
-		free (exp->tmp);
+		free_and_null((void **)&exp->tmp);
 	return (NULL);
 }
 
@@ -110,7 +116,10 @@ t_token	*handle_closed(t_token *token, t_expansion *exp, t_mini *ms)
 		{
 			ret = handle_expansion(token, exp, ms);
 			if (ret)
+			{
+				free_and_null((void **)&exp->new_str);
 				return (ret);
+			}
 			// token = token->next;
 		}
 		else if (replace_exit_code(exp->joker, &exp->new_str, &exp->i, ms))
@@ -133,9 +142,9 @@ t_token	*expand_variable(t_token *token, t_mini *ms)
 	ft_bzero(&exp, sizeof(t_expansion));
 	exp.joker = ft_strdup(token->str);
 	free_and_null((void **)&token->str);
-	check_malloc_exit(exp.joker, ms);
+	free_expansion(exp.joker, ms->exp, ms);
 	exp.new_str = ft_strdup("");
-	check_malloc_exit(exp.new_str, ms);
+	free_expansion(exp.new_str, ms->exp, ms);
 	while (exp.joker[exp.i])
 	{
 		handle_heredoc_exp(token, &exp, exp.joker, ms);
@@ -147,7 +156,10 @@ t_token	*expand_variable(t_token *token, t_mini *ms)
 		{
 			ret = handle_closed(token, &exp, ms);
 			if (ret)
+			{
+				free_and_null((void **)&exp.new_str);
 				return (ret);
+			}
 		}
 	}
 	token->str = exp.new_str;

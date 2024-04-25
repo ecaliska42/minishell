@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:01:15 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/22 16:01:47 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 10:52:40 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	do_expand(char *str, t_expansion *exp, t_mini *ms)
 		return (-1);
 	exp->i += exp->len;
 	exp->value = get_env_value(exp->tmp, ms->env);
+	free_and_null((void **)&exp->tmp);
 	return (0);
 }
 
