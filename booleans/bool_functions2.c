@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bool_functions2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 17:58:46 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/19 18:29:31 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 18:36:30 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@ bool	is_only_numbers(char *s)
 	i = 0;
 	if (!s)
 		return (true);
+	while (ft_is_white_space(*s) == true)
+		s++;
 	if (s[0] == '-' || s[0] == '+')
 		i++;
 	while (s[i])
 	{
-		if (ft_isdigit(s[i]) == 0)
+		if (ft_isdigit(s[i]) == 0 && ft_is_white_space(s[i]) == false)
 			return (false);
 		i++;
 	}

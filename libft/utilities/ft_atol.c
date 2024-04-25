@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:27:15 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 16:33:28 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 18:24:10 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ long	ft_atol(const char *str)
 	number = 0;
 	sign = 1;
 	i = 0;
-	skip_spaces((char *)str, &i);
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		i++;
 	if (str[i] == '+' || str[i] == '-')
 	{
 		if (str[i] == '-')
