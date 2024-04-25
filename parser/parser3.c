@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:14:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 10:50:18 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:03:48 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,15 +88,15 @@ int	is_append(t_token *tmp, t_parse ****node)
 
 int	is_random(t_token *tmp, t_parse ***node)
 {
-	char **ptr;
-	int i;
+	// char **ptr;
+	// int i;
 
-	i = 0;
+	// i = 0;
 	if (tmp->empty == true)
 		(**node)->empty = true;
 	if (tmp->empty == false)
 		(**node)->empty = false;
-	ptr = (**node)->command;
+	// ptr = (**node)->command;
 	(**node)->command = create_command(tmp->str, (**node)->command);
 	if (!(**node)->command)
 		return (ERROR);

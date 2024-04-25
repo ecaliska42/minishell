@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:43:38 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/25 10:49:36 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:00:25 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "libraries/minishell.h"
 
 void	free_and_null(void **ptr)
@@ -56,16 +55,23 @@ void	free_exe(t_exe *ex_struct)
 	
 }
 
-void	free_expansion(t_expansion **exp)
+void	free_expansion(t_expansion **exp, t_mini *mini)
 {
     if (!exp || !*exp)
-        return ;
-    free_and_null((void **)&(*exp)->value);
-    free_and_null((void **)&(*exp)->new_str);
-    free_and_null((void **)&(*exp)->joker);
-    free_and_null((void **)&(*exp)->tmp);
-    free_and_null((void **)&(*exp)->tmp_i);
-    free_and_null((void **)exp);
+		return ;
+	printf("one before:%d\n", mini->exit_status);
+    // free_and_null((void **)&(*exp)->value);
+	printf("two before:%d\n", mini->exit_status);
+    // free_and_null((void **)&(*exp)->new_str);
+	printf("three before:%d\n", mini->exit_status);
+    // free_and_null((void **)&(*exp)->joker);
+	printf("four before:%d\n", mini->exit_status);
+    // free_and_null((void **)&(*exp)->tmp);
+	printf("five before:%d\n", mini->exit_status);
+    // free_and_null((void **)&(*exp)->tmp_i);
+	printf("six before:%d\n", mini->exit_status);
+    // free_and_null((void **)exp);
+	printf("seven before:%d\n", mini->exit_status);
 }
 
 void	check_malloc_exit(void *ptr, t_mini *mini)
@@ -73,12 +79,13 @@ void	check_malloc_exit(void *ptr, t_mini *mini)
 	if (ptr == NULL)
 	{
 		free_exe(&mini->exe);
-		//ft_putendl_fd("Malloc failed", 2);
 		free_tokens(&mini->shell.tokens);
 		free_and_null((void **)&mini->shell.input);
 		free_environment(&mini->env);
 		free_parsing_node(&mini->parse);
-		free_expansion(&mini->exp);
+		// printf("before:%d\n", mini->exit_status);
+		// free_expansion(&mini->exp, mini);
+		// printf("after:%d\n", mini->exit_status);
 		exit(mini->exit_status);
 	}
 }

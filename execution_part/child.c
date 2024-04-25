@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:30:48 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 10:43:14 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:49:10 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	child(t_parse *comm, int i, t_mini **mini)
 	execve(comm->check, comm->command, envp);
 	if (comm->empty == false || comm->command[0][0] != '\0')
 		print_command_not_found(comm->command, mini);
+	free_double(envp);
 	check_malloc_exit(NULL, ms);
 	return(1);
 }
