@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 15:35:24 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:42:16 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,16 +233,6 @@ int		ft_readline(t_mini *mini);
 int		prepare_for_execution(t_mini **shell);
 int		heredoc(t_parse *node, char *end, bool expand, t_mini **mini);
 
-/*
-	*EXPANSION
-*/
-
-void	expansion(t_token *token, t_mini *ms);
-t_token	*expand_variable(t_token *token, t_mini *ms);
-char	*get_env_value(char *name, t_env *envp);
-char	*add_char(char *str, char new_char);
-t_env	*get_from_env(t_env **lst, char *s);
-
 int		copy_environment(char **envp, t_env **lst);
 int		free_environment(t_env **lst);
 void	*dup_for_no_pipes(t_parse *comm);
@@ -282,22 +272,29 @@ void	signal_handler(int mod, t_mini *ms);
 void	free_tokens(t_token **tokens);
 void	check_malloc_exit(void *ptr, t_mini *mini);
 void	free_expansion(void *ptr, t_expansion *exp, t_mini *ms);
-
-// EXPANSION
-
-t_token	*split_value(char *str, char *value, t_token *token);
-char	*replace_exit_code(char *str, char **new_str, int *i, t_mini *ms);
-char	*add_char(char *str, char new_char);
-char	*expand_heredoc_delimeter(char *new_str, char *str, int *i, t_mini *ms);
-char	*process_double_quotes(char *new_str, char *str, int *i, t_mini *ms);
-char	*process_single_quotes(char *new_str, char *str, int *i);
-char	*handle_dollar_sign(char *new_str, char *str, int *i, t_mini *ms);
 void	free_mini_and_exit(t_mini **mini);
 void	free_double(char **str);
 void	free_exe(t_exe *ex_struct);
+
+/*
+	*EXPANSION
+*/
+
+void	expansion(t_token *token, t_mini *ms);
+t_token	*expand_variable(t_expansion exp, t_token *token, t_mini *ms);
 t_token	*handle_closed(t_token *token, t_expansion *exp, t_mini *ms);
 t_token	*handle_expansion(t_token *token, t_expansion *exp, t_mini *ms);
 int		handle_heredoc_exp(t_token *token, t_expansion *exp, char *str,
 			t_mini *ms);
+char	*process_double_quotes(char *new_str, char *str, int *i, t_mini *ms);
+char	*process_single_quotes(char *new_str, char *str, int *i);
+char	*get_env_value(char *name, t_env *envp);
+char	*add_char(char *str, char new_char);
+t_env	*get_from_env(t_env **lst, char *s);
+t_token	*split_value(char *str, char *value, t_token *token);
+char	*replace_exit_code(char *str, char **new_str, int *i, t_mini *ms);
+char	*add_char(char *str, char new_char);
+char	*expand_heredoc_delimeter(char *new_str, char *str, int *i, t_mini *ms);
+char	*handle_dollar_sign(char *new_str, char *str, int *i, t_mini *ms);
 
 #endif

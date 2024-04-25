@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/25 15:32:45 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:45:41 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,22 +79,23 @@ char	*expand_heredoc_delimeter(char *new, char *str, int *i, t_mini *ms)
 
 void	expansion(t_token *token, t_mini *ms)
 {
+	t_expansion	exp;
+
+	ms->exp = &exp;
+	ft_bzero(&exp, sizeof(t_expansion));
 	while (token != NULL)
 	{
 		if (token->str)
-			token = expand_variable(token, ms);
+			token = expand_variable(exp, token, ms);
 		if (token)
 			token = token->next;
 	}
 }
 
-t_token	*expand_variable(t_token *token, t_mini *ms)
+t_token	*expand_variable(t_expansion exp, t_token *token, t_mini *ms)
 {
-	t_expansion	exp;
 	t_token		*ret;
 
-	ms->exp = &exp;
-	ft_bzero(&exp, sizeof(t_expansion));
 	exp.joker = ft_strdup(token->str);
 	free_and_null((void **)&token->str);
 	free_expansion(exp.joker, ms->exp, ms);

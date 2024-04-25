@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 19:38:38 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 15:23:32 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:57:46 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,14 @@ char	*remove_after_backslash(char *s)
 	return (s);
 }
 
+int	return_write_free(void *ptr, char *str, int ret)
+{
+	if (ptr)
+		free(ptr);
+	return_write(str, ret);
+	return (ret);
+}
+
 int	dot_dot(t_env **old, t_env **current)
 {
 	char	*current_dir;
@@ -49,23 +57,17 @@ int	dot_dot(t_env **old, t_env **current)
 		(*old)->values = ft_strdup(current_dir);
 		free_and_null((void **)&current_dir);
 	}
+	if (chdir(change_dir) == -1)
+		return_write_free(change_dir, "CD..: CHDIR", ERROR);
 	if ((*current) && (*current)->values)
 	{
-		if (chdir(change_dir) == -1)
-			return_write("CD..: CHDIR", ERROR);
 		free((*current)->values);
 		(*current)->values = malloc(FILENAME_MAX);
 		if (getcwd((*current)->values, FILENAME_MAX) == NULL)
-			return_write("CD..: GETCWD", ERROR);
+			return_write_free(change_dir, "CD..: GETCWD", ERROR);
 		free_and_null((void **)&change_dir);
 		return (SUCCESS);
 	}
-	else
-		if (chdir(change_dir) == -1)
-		{
-			free_and_null((void **)&change_dir);
-			return_write("CD..: CHDIR", ERROR);
-		}
 	free_and_null((void **)&change_dir);
 	return (SUCCESS);
 }

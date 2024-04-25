@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:08 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 15:25:09 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:22:08 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,10 @@ int	ft_atoi(const char *nptr)
 
 void	ft_exit(t_parse **node, t_mini **mini)
 {
-	int		exit_code;
-
-	exit_code = 0;
 	if (array_size((*node)->command) == 1)
 	{
 		write(0, "exit\n", 5);
-		exit((*mini)->exit_status);
+		free_mini_and_exit(mini);
 	}
 	if (is_only_numbers((*node)->command[1]) == false
 		|| ft_strlen((*node)->command[1]) == 0)
@@ -68,7 +65,8 @@ void	ft_exit(t_parse **node, t_mini **mini)
 		write(2, "exit\nexit: ", 12);
 		write(2, (*node)->command[1], ft_strlen((*node)->command[1]));
 		write(2, ": numeric arguments required\n", 29);
-		exit (2);
+		(*mini)->exit_status = 2;
+		free_mini_and_exit(mini);
 	}
 	if (array_size((*node)->command) > 2)
 	{
@@ -76,8 +74,6 @@ void	ft_exit(t_parse **node, t_mini **mini)
 		(*mini)->exit_status = 1;
 		return ;
 	}
-	exit_code = (ft_atol((*node)->command[1]) % 256);
-	(*mini)->exit_status = exit_code;
+	(*mini)->exit_status = (ft_atol((*node)->command[1]) % 256);
 	free_mini_and_exit(mini);
-	exit (exit_code);
 }

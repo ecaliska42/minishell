@@ -6,12 +6,13 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:27:15 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 15:21:51 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:33:28 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 #include <limits.h>
+#include "../../libraries/minishell.h"
 
 int	check_if_valid(long number, int digit, int sign)
 {
@@ -33,6 +34,7 @@ long	ft_atol(const char *str)
 	number = 0;
 	sign = 1;
 	i = 0;
+	skip_spaces((char *)str, &i);
 	if (str[i] == '+' || str[i] == '-')
 	{
 		if (str[i] == '-')

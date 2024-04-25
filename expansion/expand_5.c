@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:01:15 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/25 15:33:05 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:46:36 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,10 @@ t_token	*handle_closed(t_token *token, t_expansion *exp, t_mini *ms)
 				return (ret);
 			}
 		}
-		else if (replace_exit_code(exp->joker, &exp->new_str, &exp->i, ms))
-			;
+		else if (exp->joker[exp->i] == '$' && exp->joker[exp->i + 1] == '?')
+			replace_exit_code(exp->joker, &exp->new_str, &exp->i, ms);
 		else if (ft_is_dollar(exp->joker[exp->i]))
-		{
-			exp->new_str = add_char(exp->new_str, exp->joker[exp->i]);
-			exp->i++;
-		}
+			exp->new_str = add_char(exp->new_str, exp->joker[exp->i++]);
 	}
 	return (NULL);
 }
