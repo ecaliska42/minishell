@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 19:38:38 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 19:41:02 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 14:36:37 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	dot_dot(t_env **old, t_env **current)
 	{
 		free((*old)->values);
 		(*old)->values = ft_strdup(current_dir);
+		free_and_null((void **)&current_dir);
 	}
 	if ((*current) && (*current)->values)
 	{
@@ -57,10 +58,15 @@ int	dot_dot(t_env **old, t_env **current)
 		(*current)->values = malloc(FILENAME_MAX);
 		if (getcwd((*current)->values, FILENAME_MAX) == NULL)
 			return_write("CD..: GETCWD", ERROR);
+		free_and_null((void **)&change_dir);
 		return (SUCCESS);
 	}
 	else
 		if (chdir(change_dir) == -1)
+		{
+			free_and_null((void **)&change_dir);
 			return_write("CD..: CHDIR", ERROR);
+		}
+	free_and_null((void **)&change_dir);
 	return (SUCCESS);
 }

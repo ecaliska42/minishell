@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:17:25 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 13:46:24 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 14:40:28 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	add_export(t_env *envp, char *before, char *after, char *command)
 	else
 	{
 		env_addback(&envp, before, NULL);
-		free_and_null((void **)&before);
+		// free_and_null((void **)&before);
 	}
 	return (SUCCESS);
 }
@@ -59,7 +59,11 @@ int	while_loop(t_export *ex, t_mini **mini)
 			return (ERROR);
 		if (ft_strchr(ex->command->command[ex->i], '=') != NULL
 			&& ft_strlen(ex->command->command[ex->i]) == 1)
+		{
+			free_and_null((void **)&ex->before);
+			free_and_null((void **)&ex->after);
 			return (only_equal(mini));
+		}
 		if (ft_strlen(ex->before) == 0
 			|| is_alpha_numbers(ex->before) == false)
 		{
