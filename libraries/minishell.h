@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 12:32:49 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:35:24 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,12 @@ typedef struct s_exe
 
 typedef struct minishell
 {
-	t_exe	exe;
-	t_parse	*parse;
-	t_env	*env;
-	t_shell	shell;
-	t_expansion *exp;
-	int		exit_status;
+	t_exe		exe;
+	t_parse		*parse;
+	t_env		*env;
+	t_shell		shell;
+	t_expansion	*exp;
+	int			exit_status;
 }	t_mini;
 
 /*
@@ -283,7 +283,6 @@ void	free_tokens(t_token **tokens);
 void	check_malloc_exit(void *ptr, t_mini *mini);
 void	free_expansion(void *ptr, t_expansion *exp, t_mini *ms);
 
-
 // EXPANSION
 
 t_token	*split_value(char *str, char *value, t_token *token);
@@ -296,5 +295,9 @@ char	*handle_dollar_sign(char *new_str, char *str, int *i, t_mini *ms);
 void	free_mini_and_exit(t_mini **mini);
 void	free_double(char **str);
 void	free_exe(t_exe *ex_struct);
+t_token	*handle_closed(t_token *token, t_expansion *exp, t_mini *ms);
+t_token	*handle_expansion(t_token *token, t_expansion *exp, t_mini *ms);
+int		handle_heredoc_exp(t_token *token, t_expansion *exp, char *str,
+			t_mini *ms);
 
 #endif

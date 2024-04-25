@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 19:15:17 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:25:09 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,9 @@ char	**create_command(char *str, char **cmd)
 			return (NULL);
 		i++;
 	}
-	while (size)
-	{
-		size--;
+	while (size--)
 		free(cmd[size]);
-	}
-	free(cmd);
+	free_and_null((void **)&cmd);
 	ret[i] = ft_strdup(str);
 	if (!ret[i])
 		return (NULL);

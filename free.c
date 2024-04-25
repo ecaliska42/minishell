@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:43:38 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/25 12:42:27 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:16:40 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libraries/minishell.h"
-
-void	free_and_null(void **ptr)
-{
-	if (ptr && *ptr)
-	{
-		free(*ptr);
-		*ptr = NULL;
-	}
-}
 
 void	free_tokens(t_token **tokens)
 {
@@ -30,10 +21,11 @@ void	free_tokens(t_token **tokens)
 		tmp = *tokens;
 		*tokens = (*tokens)->next;
 		if (tmp->str != NULL)
-		 	free_and_null((void **)&tmp->str);
+			free_and_null((void **)&tmp->str);
 		free(tmp);
 	}
 }
+
 void	free_exe(t_exe *ex_struct)
 {
 	int	i;
@@ -49,10 +41,9 @@ void	free_exe(t_exe *ex_struct)
 			i++;
 		}
 	}
-	if(ex_struct->fd)
+	if (ex_struct->fd)
 		free_and_null((void **)&ex_struct->fd);
 	free_and_null((void **)&ex_struct->id);
-	
 }
 
 void	free_expansion(void *ptr, t_expansion *exp, t_mini *ms)
@@ -74,15 +65,12 @@ void	check_malloc_exit(void *ptr, t_mini *mini)
 	{
 		free_and_null((void **)&mini->shell.input);
 		free_exe(&mini->exe);
-		//ft_putendl_fd("Malloc failed", 2);
 		free_parsing_node(&mini->parse);
 		free_environment(&mini->env);
 		free_tokens(&mini->shell.tokens);
-		// free_expansion(&mini->exp);
 		exit(mini->exit_status);
 	}
 }
-
 
 void	free_mini_and_exit(t_mini **mini)
 {
@@ -93,17 +81,4 @@ void	free_mini_and_exit(t_mini **mini)
 	free_tokens(&(*mini)->shell.tokens);
 	free_exe(&(*mini)->exe);
 	exit((*mini)->exit_status);
-}
-
-void	free_double(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		free_and_null((void **)&str[i]);
-		i++;
-	}
-	free_and_null((void **)&str);
 }

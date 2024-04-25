@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:01:15 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/25 10:52:40 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:33:05 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,34 @@ void	handle_quotes(char *str, t_mini *ms, t_expansion *exp)
 		exp->new_str = process_double_quotes(exp->new_str, str, &exp->i, ms);
 		exp->quotes = CLOSED;
 	}
+}
+
+t_token	*handle_closed(t_token *token, t_expansion *exp, t_mini *ms)
+{
+	t_token	*ret;
+
+	while (exp->joker[exp->i] && exp->joker[exp->i] != '\"'
+		&& exp->joker[exp->i] != '\'')
+	{
+		while (exp->joker[exp->i] && exp->joker[exp->i] != '$'
+			&& exp->joker[exp->i] != '\"' && exp->joker[exp->i] != '\'')
+			exp->new_str = add_char(exp->new_str, exp->joker[exp->i++]);
+		if (check_exp(exp->joker, exp->i))
+		{
+			ret = handle_expansion(token, exp, ms);
+			if (ret)
+			{
+				free_and_null((void **)&exp->new_str);
+				return (ret);
+			}
+		}
+		else if (replace_exit_code(exp->joker, &exp->new_str, &exp->i, ms))
+			;
+		else if (ft_is_dollar(exp->joker[exp->i]))
+		{
+			exp->new_str = add_char(exp->new_str, exp->joker[exp->i]);
+			exp->i++;
+		}
+	}
+	return (NULL);
 }

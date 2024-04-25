@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:13:38 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 10:49:41 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:22:50 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,9 @@ void	free_fds(int **fds)
 	while (fds[i])
 	{
 		free_and_null((void **)&fds[i]);
-		// free(fds[i]);
-		// fds[i] = NULL;
 		i++;
 	}
 	free_and_null((void **)&fds);
-	// free(fds);
-	// fds = NULL;
 }
 
 char	**change_envp(t_env **envp)

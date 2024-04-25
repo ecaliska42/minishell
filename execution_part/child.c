@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:30:48 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 11:49:10 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:22:18 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,6 @@ int	child(t_parse *comm, int i, t_mini **mini)
 		print_command_not_found(comm->command, mini);
 	free_double(envp);
 	check_malloc_exit(NULL, ms);
-	return(1);
+	return (1);
 }
 //IDK ABOUT CLOSE FILE DESCRIPTOR IN IF IS BUILDIN STATEMENT

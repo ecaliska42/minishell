@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/25 13:18:58 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:32:45 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 char	*process_single_quotes(char *new, char *str, int *i)
 {
-	// char *tmp;
-	
 	(*i)++;
 	while (str[*i] && str[*i] != '\'')
 	{
@@ -26,16 +24,6 @@ char	*process_single_quotes(char *new, char *str, int *i)
 		(*i)++;
 	return (new);
 }
-
-// char *shorten(char *new, int **i, char *str)
-// {
-// 	char *tmp;
-// 	tmp = add_char(new, str[**i]);
-// 	// free_and_null((void **)new);
-// 	new = tmp;
-// 	(**i)++;
-// 	return (new);
-// }
 
 char	*process_double_quotes(char *new, char *str, int *i, t_mini *ms)
 {
@@ -98,4 +86,38 @@ void	expansion(t_token *token, t_mini *ms)
 		if (token)
 			token = token->next;
 	}
+}
+
+t_token	*expand_variable(t_token *token, t_mini *ms)
+{
+	t_expansion	exp;
+	t_token		*ret;
+
+	ms->exp = &exp;
+	ft_bzero(&exp, sizeof(t_expansion));
+	exp.joker = ft_strdup(token->str);
+	free_and_null((void **)&token->str);
+	free_expansion(exp.joker, ms->exp, ms);
+	exp.new_str = ft_strdup("");
+	free_expansion(exp.new_str, ms->exp, ms);
+	while (exp.joker[exp.i])
+	{
+		handle_heredoc_exp(token, &exp, exp.joker, ms);
+		replace_exit_code(exp.joker, &exp.new_str, &exp.i, ms);
+		quote_check(exp.joker[exp.i], &exp.quotes);
+		if (exp.joker[exp.i] == S_QUOTE || exp.joker[exp.i] == D_QUOTE)
+			handle_quotes(exp.joker, ms, &exp);
+		else if (exp.quotes == CLOSED)
+		{
+			ret = handle_closed(token, &exp, ms);
+			if (ret)
+			{
+				free_and_null((void **)&exp.new_str);
+				return (ret);
+			}
+		}
+	}
+	token->str = exp.new_str;
+	free_and_null((void **)&exp.joker);
+	return (token);
 }

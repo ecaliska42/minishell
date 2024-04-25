@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export4.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:17:25 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 14:40:28 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:23:08 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	add_export(t_env *envp, char *before, char *after, char *command)
 	else
 	{
 		env_addback(&envp, before, NULL);
-		// free_and_null((void **)&before);
 	}
 	return (SUCCESS);
 }

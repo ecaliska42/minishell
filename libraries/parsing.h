@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/25 12:27:18 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:07:24 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define PROMPT "🨀 ShellMate 🨁 :~ "
 # define SUCCESS 0
 # define ERROR 1
-# define DELIM " \n\t\r\v\f"
+// # define DELIM " \n\t\r\v\f"
 # define SYNTAX_ERROR 2
 # define MALLOC_ERROR 62
 

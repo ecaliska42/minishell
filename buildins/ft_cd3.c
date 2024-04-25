@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 19:38:38 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 14:36:37 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:23:32 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ char	*remove_after_backslash(char *s)
 	return (s);
 }
 
-//set current directory to the value of OLDPWD
 int	dot_dot(t_env **old, t_env **current)
 {
 	char	*current_dir;

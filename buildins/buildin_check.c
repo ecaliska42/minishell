@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buildin_check.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 18:47:51 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:23:46 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,9 @@ int	open_lonely_files(t_parse **parse)
 
 int	lonely_buildin(t_parse *parse, t_env **envp, t_mini **mini)
 {
-	// int	orig_stdout;
-	// int	orig_stdin;
-
-	// orig_stdin = dup(STDIN_FILENO);
-	// orig_stdout = dup(STDOUT_FILENO);
 	if (open_lonely_files(&parse) == ERROR)
 		return (ERROR);
 	execute_buildin(&parse, envp, 0, mini);
-	// if (dup2(orig_stdin, STDIN_FILENO) == -1)
-	// 	perror("dup2 error (execute.c) : ");
-	// if (close (orig_stdin) == -1)
-	// 	perror("close error (execute.c) : ");
-	// if (dup2(orig_stdout, STDOUT_FILENO) == -1)
-	// 	perror("dup2 error (execute.c) : ");
-	// if (close (orig_stdout) == -1)
-	// 	perror("close error (execute.c) : ");
 	return (SUCCESS);
 }
 

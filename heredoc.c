@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/23 14:55:45 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:11:21 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,5 +129,6 @@ int	heredoc(t_parse *node, char *end, bool expand, t_mini **mini)
 	if (node->infd < 0)
 		return (ERROR);
 	unlink(name);
+	free_and_null((void **)&name);
 	return (SUCCESS);
 }

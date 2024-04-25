@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/25 12:41:34 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:24:43 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_readline(t_mini *mini)
 				mini->shell.input = readline(PROMPT);
 			else
 			{
-				char *line = get_next_line(fileno(stdin));
+				char	*line = get_next_line(fileno(stdin));
 				mini->shell.input = ft_strtrim(line, "\n");
 				free(line);
 			}
@@ -83,7 +83,6 @@ int	ft_readline(t_mini *mini)
 				free(mini->shell.input);
 				exit(1);
 			}
-
 		}
 		if (mini->shell.input)
 		{
