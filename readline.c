@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/26 13:51:47 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:51:42 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_readline(t_mini *mini)
 			{
 				char	*line = get_next_line(fileno(stdin));
 				mini->shell.input = ft_strtrim(line, "\n");
-				free(line);
+				free_and_null((void **)&line);
 			}
 		}
 		else
@@ -62,7 +62,7 @@ int	ft_readline(t_mini *mini)
 				free_tokens(&mini->shell.tokens);
 				mini->shell.tokens = NULL;
 			}
-			free(mini->shell.input);
+			free_and_null((void **)&mini->shell.input);
 			mini->shell.input = NULL;
 			continue ;
 		}
@@ -72,7 +72,7 @@ int	ft_readline(t_mini *mini)
 		{
 			mini->exit_status = 2;
 			free_tokens(&mini->shell.tokens);
-			free(mini->shell.input);
+			free_and_null((void **)&mini->shell.input);
 			continue ;
 		}
 		if (mini->shell.tokens)
@@ -84,7 +84,7 @@ int	ft_readline(t_mini *mini)
 					free_mini(&mini);
 				ft_putstr_fd("Error: prepare_for_execution\n", 2);
 				free_tokens(&mini->shell.tokens);
-				free(mini->shell.input);
+				free_and_null((void **)&mini->shell.input);
 				exit(1);
 			}
 			if (g_sig)
@@ -92,7 +92,7 @@ int	ft_readline(t_mini *mini)
 		}
 		if (mini->shell.input)
 		{
-			free(mini->shell.input);
+			free_and_null((void **)&mini->shell.input);
 			mini->shell.input = NULL;
 		}
 		free_tokens(&mini->shell.tokens);

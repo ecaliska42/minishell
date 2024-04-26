@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/24 17:58:29 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:50:22 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,6 @@ void	print_env(t_env **envp)
 		tmp = tmp->next;
 	}
 }
-
-// char	*get_pwd(void)
-// {
-// 	char	*path;
-
-// 	path = malloc(FILENAME_MAX);
-// 	if (!path)
-// 		return (NULL);
-// 	if (getcwd(path, FILENAME_MAX) == NULL)
-// 	{
-// 		perror("getcwd() error: ");
-// 		free(path);
-// 		return (NULL);
-// 	}
-// 	return (path);
-// }
 
 char	**create_if_no_envp(char **envp)
 {

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 14:41:59 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:41:32 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ int	execute(t_mini **mini)
 	int		i;
 
 	parse = (*mini)->parse;
-	// if (!(*mini)->parse->command)
-	// 	return (SUCCESS);
 	if (malloc_ex_struct(&(*mini)->exe) == ERROR)
 		return (ERROR);
 	if (check_solo_buildin(parse, mini) == true)
@@ -72,13 +70,12 @@ int	execute(t_mini **mini)
 	if (create_pipes(&(*mini)->exe) == ERROR)
 		return (ERROR);
 	fork_childs(parse, &i, mini);
-	close_filedescriptor(NULL, &(*mini)->exe);
+	close_filedescriptor(parse, &(*mini)->exe);
 	wait_for_children(mini, i);
 	if (WIFEXITED((*mini)->exit_status))
 		(*mini)->exit_status = WEXITSTATUS((*mini)->exit_status);
 	else if (WIFSIGNALED((*mini)->exit_status))
 		(*mini)->exit_status = 128 + WTERMSIG((*mini)->exit_status);
-	// free((*mini)->exe.id);
 	free_and_null((void **)&(*mini)->exe.id);
 	free_exe(&(*mini)->exe);
 	return (SUCCESS);

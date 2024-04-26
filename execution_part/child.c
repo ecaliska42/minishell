@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:30:48 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 16:33:41 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:41:16 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 static void	check_dot_slash(char *command, t_mini **mini)
 {
-	if (!command)
-		return ;
-	if (command[0] == '/' || (command[0] == '.' && command[1] == '/'))
+	if (command && (command[0] == '/'
+		|| (command[0] == '.' && command[1] == '/')))
 	{
 		if (opendir(command) != NULL)
 		{
@@ -71,12 +70,8 @@ static void	is_really_buildin(t_parse *comm, t_mini *ms, char **envp)
 	free_mini_and_exit(&ms);
 }
 
-int	child(t_parse *comm, int i, t_mini **mini)
+void	check_exit(t_mini **mini, t_parse *comm)
 {
-	t_mini	*ms;
-	char	**envp;
-
-	ms = *mini;
 	if (comm && comm->execute == IGNORE)
 	{
 		(*mini)->exit_status = 1;
@@ -84,6 +79,15 @@ int	child(t_parse *comm, int i, t_mini **mini)
 	}
 	if (!comm->command && !comm->outfd)
 		free_mini_and_exit(mini);
+}
+
+int	child(t_parse *comm, int i, t_mini **mini)
+{
+	t_mini	*ms;
+	char	**envp;
+
+	ms = *mini;
+	check_exit(mini, comm);
 	if (comm->command && comm->command[0])
 		check_dot_slash(comm->command[0], mini);
 	envp = change_envp(&ms->env);

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:12 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 18:22:00 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:56:43 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ int	change_dir(t_cd *cd_str, t_mini **mini)
 	{
 		if (cd_str->old && cd_str->old->values)
 		{
-			free(cd_str->old->values);
+			free_and_null((void **)&cd_str->old->values);
 			cd_str->old->values = ft_strdup(cd_str->current->values);
 			if (!cd_str->old->values)
 				return (10);
 		}
 		if (cd_str->current && cd_str->current->values)
 		{
-			free(cd_str->current->values);
+			free_and_null((void **)&cd_str->current->values);
 			cd_str->current->values = malloc(FILENAME_MAX);
 			if (!cd_str->current->values)
 				return (10);

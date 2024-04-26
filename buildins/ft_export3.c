@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:28:43 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 18:16:47 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:58:05 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void	free_list(t_env **head)
 	{
 		tmp = *head;
 		*head = (*head)->next;
-		free(tmp->name);
+		free_and_null((void **)&tmp->name);
 		tmp->name = NULL;
-		free(tmp->values);
+		free_and_null((void **)&tmp->values);
 		tmp->values = NULL;
-		free(tmp);
+		free_and_null((void **)&tmp);
 		tmp = NULL;
 		tmp = *head;
 	}
@@ -62,12 +62,12 @@ int	env_addback(t_env **head, char *name, char *value)
 		return (ERROR);
 	node->name = ft_strdup(name);
 	if (!node->name)
-		return (free(node), ERROR);
+		return (free_and_null((void **)&node), ERROR);
 	if (value)
 	{
 		node->values = ft_strdup(value);
 		if (!node->values)
-			return (free(node), ERROR);
+			return (free_and_null((void **)&node), ERROR);
 	}
 	else
 		node->values = NULL;
@@ -85,7 +85,7 @@ int	get_before_after(char **before, char **after, char *s)
 	{
 		*after = get_after(s, '=');
 		if (!after)
-			return (free(before), before = NULL, ERROR);
+			return (free_and_null((void **)&before), before = NULL, ERROR);
 	}
 	else
 		*after = NULL;

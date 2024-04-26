@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:14:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 13:30:57 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:57:09 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	free_parsing_node(t_parse **head)
 
 int	is_input(char *name, t_parse ****node, t_mini **mini)
 {
+	if ((***node)->infd != 0)
+		close((***node)->infd);
 	(***node)->infd = open(name, O_RDONLY);
 	if ((***node)->infd == -1)
 	{
@@ -57,6 +59,8 @@ int	is_output(t_token *tmp, t_parse ****node)
 	}
 	else
 	{
+		if ((***node)->outfd != 0)
+			close((***node)->outfd);
 		(***node)->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if ((***node)->outfd == -1)
 		{
@@ -76,6 +80,8 @@ int	is_append(t_token *tmp, t_parse ****node)
 	}
 	else
 	{
+		if ((***node)->outfd != 0)
+			close((***node)->outfd);
 		(***node)->outfd = open(tmp->str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if ((***node)->outfd == -1)
 		{

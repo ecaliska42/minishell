@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:01:35 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/26 16:16:58 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:58:05 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_token	*handle_splitting(t_expansion *exp, t_token *token,
 			help_norm(exp, ms, last_token);
 		ptr = exp->new_str;
 		exp->new_str = ft_strdup((*last_token)->str);
-		free(ptr);
+		free_and_null((void **)&ptr);
 		if (ft_is_dollar(*exp->tmp_i) || *exp->tmp_i == '\"'
 			|| *exp->tmp_i == '\'')
 		{

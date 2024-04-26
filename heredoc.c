@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 14:20:25 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:39:06 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*get_unique_heredoc_name(t_mini **mini)
 	}
 	close(dev_random);
 	name = ft_strjoin("/tmp/", tmp);
-	free(tmp);
+	free_and_null((void **)&tmp);
 	if (!name)
 		return (NULL);
 	return (name);
@@ -45,6 +45,7 @@ char	*get_unique_heredoc_name(t_mini **mini)
 int	is_dollar_hd(t_expand *exp, char *str, t_mini *ms, t_env *envp)
 {
 	char	*tmp;
+
 	if (str[(exp->i) + 1] == '?')
 		replace_exit_code(str, &exp->newest, &exp->i, ms);
 	(exp->i)++;
@@ -69,7 +70,6 @@ char	*expand_heredoc(char *str, t_env *envp, t_mini **mini)
 {
 	t_expand	exp;
 	t_mini		*ms;
-	char		*tmp;
 
 	exp.i = 0;
 	ms = *mini;
@@ -78,10 +78,7 @@ char	*expand_heredoc(char *str, t_env *envp, t_mini **mini)
 	{
 		while (str[exp.i] && str[exp.i] != '$')
 		{
-			tmp = add_char(exp.newest, str[exp.i]);
-			free_and_null((void **)&exp.newest);
-			exp.newest = ft_strdup(tmp);
-			free_and_null((void **)&tmp);
+			exp.newest = add_char(exp.newest, str[exp.i]);
 			(exp.i)++;
 		}
 		if ((ft_is_dollar(str[exp.i])) && (str[(exp.i) + 1] && (str[(exp.i)
@@ -90,10 +87,7 @@ char	*expand_heredoc(char *str, t_env *envp, t_mini **mini)
 				return (NULL);
 		while (str[exp.i] && str[exp.i] != '$' && str[exp.i])
 		{
-			tmp = add_char(exp.newest, str[exp.i]);
-			free_and_null((void **)&exp.newest);
-			exp.newest = ft_strdup(tmp);
-			free_and_null((void **)&tmp);
+			exp.newest = add_char(exp.newest, str[exp.i]);
 			(exp.i)++;
 		}
 	}
@@ -136,8 +130,10 @@ int	heredoc(t_parse *node, char *end, bool expand, t_mini **mini)
 	fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	do_while(fd, end, expand, mini);
 	close(fd);
+	if (node->infd != 0)
+		close(node->infd);
 	node->infd = open(name, O_RDONLY);
-	unlink(name);
+	// unlink(name);
 	free_and_null((void **)&name);
 	if (node->infd < 0)
 		return (ERROR);

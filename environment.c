@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 17:25:26 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 19:31:30 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:57:40 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int	increase_shell_level(char *envp, t_env **node)
 		nbr = 0;
 	(*node)->values = ft_itoa(nbr);
 	if (!(*node)->values)
-		return (free(temp), temp = NULL, ERROR);
-	free(temp);
+		return (free_and_null((void **)&temp), ERROR);
+	free_and_null((void **)&temp);
 	temp = NULL;
 	return (SUCCESS);
 }
@@ -66,9 +66,9 @@ int	get_value(t_env **node, char *envp, t_env **lst)
 	{
 		if (increase_shell_level(envp, node) == ERROR)
 		{
-			free((*node)->name);
+			free_and_null((void **)&(*node)->name);
 			(*node)->name = NULL;
-			free(*node);
+			free_and_null((void **)&*node);
 			*node = NULL;
 			return (free_environment(lst));
 		}
@@ -78,9 +78,9 @@ int	get_value(t_env **node, char *envp, t_env **lst)
 		(*node)->values = get_after(envp, '=');
 		if (!(*node)->values)
 		{
-			free((*node)->name);
+			free_and_null((void **)&(*node)->name);
 			(*node)->name = NULL;
-			free(*node);
+			free_and_null((void **)&*node);
 			*node = NULL;
 			return (free_environment(lst));
 		}
@@ -104,7 +104,7 @@ int	copy_environment(char **envp, t_env **lst)
 			return (free_environment(lst));
 		new_node->name = get_till(envp[i], '=');
 		if (!new_node->name)
-			return (free(new_node), new_node = NULL, free_environment(lst));
+			return (free_and_null((void **)&new_node), free_environment(lst));
 		if (get_value(&new_node, envp[i], lst) == ERROR)
 			return (ERROR);
 		new_node->next = NULL;

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:23:42 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 14:30:50 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:58:05 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,12 @@ int	copied_struct(t_env **src, t_env **copy)
 			return (ERROR);
 		node->name = ft_strdup(tmp->name);
 		if (!node->name)
-			return (free(node), ERROR);
+			return (free_and_null((void **)&node), ERROR);
 		if (tmp->values)
 		{
 			node->values = ft_strdup(tmp->values);
 			if (!node->values)
-				return (free(node->name), free(node), ERROR);
+				return (free_and_null((void **)&node->name), free_and_null((void **)&node), ERROR);
 		}
 		else
 			node->values = NULL;

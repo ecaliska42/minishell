@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 19:38:38 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 15:57:46 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:58:05 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*remove_after_backslash(char *s)
 	}
 	if (i <= 0)
 	{
-		free(s);
+		free_and_null((void **)&s);
 		s = ft_strdup("/");
 	}
 	return (s);
@@ -38,7 +38,7 @@ char	*remove_after_backslash(char *s)
 int	return_write_free(void *ptr, char *str, int ret)
 {
 	if (ptr)
-		free(ptr);
+		free_and_null((void **)&ptr);
 	return_write(str, ret);
 	return (ret);
 }
@@ -53,7 +53,7 @@ int	dot_dot(t_env **old, t_env **current)
 	change_dir = remove_after_backslash(ft_strdup(current_dir));
 	if ((*old) && (*old)->values)
 	{
-		free((*old)->values);
+		free_and_null((void **)&(*old)->values);
 		(*old)->values = ft_strdup(current_dir);
 		free_and_null((void **)&current_dir);
 	}
@@ -61,7 +61,7 @@ int	dot_dot(t_env **old, t_env **current)
 		return_write_free(change_dir, "CD..: CHDIR", ERROR);
 	if ((*current) && (*current)->values)
 	{
-		free((*current)->values);
+		free_and_null((void **)&(*current)->values);
 		(*current)->values = malloc(FILENAME_MAX);
 		if (getcwd((*current)->values, FILENAME_MAX) == NULL)
 			return_write_free(change_dir, "CD..: GETCWD", ERROR);

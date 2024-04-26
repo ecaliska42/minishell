@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:43:38 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/26 13:45:04 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:49:46 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	free_tokens(t_token **tokens)
 		*tokens = (*tokens)->next;
 		if (tmp->str != NULL)
 			free_and_null((void **)&tmp->str);
-		free(tmp);
+		free_and_null((void **)&tmp);
 	}
 }
 
@@ -70,24 +70,4 @@ void	check_malloc_exit(void *ptr, t_mini *mini)
 		free_tokens(&mini->shell.tokens);
 		exit(mini->exit_status);
 	}
-}
-
-void	free_mini_and_exit(t_mini **mini)
-{
-	free_tokens(&(*mini)->shell.tokens);
-	free_and_null((void **)&(*mini)->shell.input);
-	free_environment(&(*mini)->env);
-	free_parsing_node(&(*mini)->parse);
-	free_tokens(&(*mini)->shell.tokens);
-	free_exe(&(*mini)->exe);
-	exit((*mini)->exit_status);
-}
-
-void	free_mini(t_mini **mini)
-{
-	free_tokens(&(*mini)->shell.tokens);
-	free_and_null((void **)&(*mini)->shell.input);
-	free_parsing_node(&(*mini)->parse);
-	free_tokens(&(*mini)->shell.tokens);
-	free_exe(&(*mini)->exe);
 }

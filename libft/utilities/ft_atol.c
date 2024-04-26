@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:27:15 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 18:24:10 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:40:11 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,7 @@ long	ft_atol(const char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		if (!check_if_valid(number, str[i] - '0', sign))
-		{
-			ft_putendl_fd("Numeric argument required", 2);
-			return (2);
-		}
+			return_write("Numeric arguments required\n", 2);
 		number = (number * 10) + (str[i] - '0');
 		i++;
 	}
