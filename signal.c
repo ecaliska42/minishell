@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 14:07:20 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/26 13:19:47 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/26 13:53:08 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,16 @@ void	catch_signals(int signal_num)
 
 void	non_interactive(int signal_num)
 {
-	(void)signal_num;
+	g_sig = signal_num;
 	ft_putstr_fd("\n", 1);
 }
 
 void	signal_handler_heredoc(int signal_num)
 {
-	(void)signal_num;
+	g_sig = signal_num;
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	ioctl(0, TIOCSTI, "\n");
-	g_sig = SIGINT;
 }
 
 void	signal_handler(int mode, t_mini *ms)

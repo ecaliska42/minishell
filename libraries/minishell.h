@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 15:42:16 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/26 13:44:24 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,6 +275,7 @@ void	free_expansion(void *ptr, t_expansion *exp, t_mini *ms);
 void	free_mini_and_exit(t_mini **mini);
 void	free_double(char **str);
 void	free_exe(t_exe *ex_struct);
+void	free_mini(t_mini **mini);
 
 /*
 	*EXPANSION

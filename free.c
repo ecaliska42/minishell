@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:43:38 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/25 15:16:40 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/26 13:45:04 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,13 @@ void	free_mini_and_exit(t_mini **mini)
 	free_tokens(&(*mini)->shell.tokens);
 	free_exe(&(*mini)->exe);
 	exit((*mini)->exit_status);
+}
+
+void	free_mini(t_mini **mini)
+{
+	free_tokens(&(*mini)->shell.tokens);
+	free_and_null((void **)&(*mini)->shell.input);
+	free_parsing_node(&(*mini)->parse);
+	free_tokens(&(*mini)->shell.tokens);
+	free_exe(&(*mini)->exe);
 }
