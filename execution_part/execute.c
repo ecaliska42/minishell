@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 15:24:22 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/26 11:25:59 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int	execute(t_mini **mini)
 	int		i;
 
 	parse = (*mini)->parse;
+	if (!(*mini)->parse->command)
+		return (SUCCESS);
 	if (malloc_ex_struct(&(*mini)->exe) == ERROR)
 		return (ERROR);
 	if (check_solo_buildin(parse, mini) == true)
