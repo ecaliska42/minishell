@@ -6,31 +6,55 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 17:25:26 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 16:57:40 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:17:47 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libraries/minishell.h"
 
+//int	free_environment(t_env **lst)
+//{
+//	t_env	*tmp;
+//
+//	tmp = *lst;
+//	if (!lst)
+//		return (ERROR);
+//	while (*lst)
+//	{
+//		tmp = *lst;
+//		*lst = (*lst)->next;
+//		if (tmp->name)
+//			free_and_null((void **)&tmp->name);
+//		if (tmp->values)
+//			free_and_null((void **)&tmp->values);
+//		if (tmp)
+//			free_and_null((void **)&tmp);
+//	}
+//	*lst = NULL;
+//	return (ERROR);
+//}
+
 int	free_environment(t_env **lst)
 {
-	t_env	*tmp;
+    t_env	*tmp;
+    t_env	*next;
 
-	tmp = *lst;
-	if (!lst)
-		return (ERROR);
-	while (*lst)
-	{
-		*lst = (*lst)->next;
-		if (tmp->name)
-			free_and_null((void **)&tmp->name);
-		if (tmp->values)
-			free_and_null((void **)&tmp->values);
-		if (tmp)
-			free_and_null((void **)&tmp);
-		tmp = *lst;
-	}
-	return (ERROR);
+    if (!lst || !*lst)
+        return (ERROR);
+
+    tmp = *lst;
+    while (tmp)
+    {
+        next = tmp->next;
+        if (tmp->name)
+            free_and_null((void **)&tmp->name);
+        if (tmp->values)
+            free_and_null((void **)&tmp->values);
+        free_and_null((void **)&tmp);
+        tmp = next;
+    }
+    *lst = NULL; // Set the original list pointer to NULL
+    return (0); // Return success
 }
 
 int	increase_shell_level(char *envp, t_env **node)

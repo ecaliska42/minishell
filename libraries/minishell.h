@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 13:44:24 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:25:00 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ int		ft_echo(t_parse **node, t_mini **mini);
 /*
 	*EXECUTION_PART
 */
+
 
 int		execute(t_mini **mini);//(t_parse **comm, int pipecount, t_env **envp)
 

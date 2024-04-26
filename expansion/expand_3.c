@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:01:35 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/26 16:58:05 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/26 19:25:31 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,23 @@ int	handle_heredoc_exp(t_token *token, t_expansion *exp, char *str, t_mini *ms)
 	return (0);
 }
 
-void	help_norm(t_expansion *exp, t_mini *ms, t_token **last_token)
+void	help_norm(t_expansion *exp, t_mini *ms, t_token *last_token)
 {
-	(*last_token)->str = add_char((*last_token)->str, *exp->tmp_i);
-	free_expansion((*last_token)->str, ms->exp, ms);
+	last_token->str = add_char(last_token->str, *exp->tmp_i);
+	free_expansion(last_token->str, ms->exp, ms);
 	exp->i++;
 	exp->tmp_i++;
 }
 
 t_token	*handle_splitting(t_expansion *exp, t_token *token,
-		t_token **last_token, t_mini *ms)
+		t_token *last_token, t_mini *ms)
 {
 	char *ptr;
 
 	if (token->type != HEREDOC && token->type != RANDOM)
 		token->ambiguous = true;
 	exp->tmp_i = &exp->joker[exp->i];
-	(*last_token) = split_value(exp->new_str, exp->value, token);
+	last_token = split_value(exp->new_str, exp->value, token);
 	free_expansion(last_token, ms->exp, ms);
 	if (*exp->tmp_i)
 	{
@@ -54,19 +54,19 @@ t_token	*handle_splitting(t_expansion *exp, t_token *token,
 			&& *exp->tmp_i != '\'')
 			help_norm(exp, ms, last_token);
 		ptr = exp->new_str;
-		exp->new_str = ft_strdup((*last_token)->str);
+		exp->new_str = ft_strdup(last_token->str);
 		free_and_null((void **)&ptr);
 		if (ft_is_dollar(*exp->tmp_i) || *exp->tmp_i == '\"'
 			|| *exp->tmp_i == '\'')
 		{
-			token = *last_token;
+			token = last_token;
 			return (NULL);
 		}
 		else
-			return (*last_token);
+			return (last_token);
 	}
-	token = *last_token;
-	return (*last_token);
+	token = last_token;
+	return (last_token);
 }
 
 void	shorten_exp(t_expansion *exp, t_mini *ms)
@@ -82,10 +82,9 @@ void	shorten_exp(t_expansion *exp, t_mini *ms)
 
 t_token	*handle_expansion(t_token *token, t_expansion *exp, t_mini *ms)
 {
-	t_token	*last_token;
+	t_token	last_token;
 	t_token	*ret;
 
-	last_token = NULL;
 	do_expand(exp->joker, exp, ms);
 	if (exp->value != NULL)
 	{
@@ -99,11 +98,11 @@ t_token	*handle_expansion(t_token *token, t_expansion *exp, t_mini *ms)
 		else
 		{
 			ret = handle_splitting(exp, token, &last_token, ms);
-			if (ret)//CHANGED CAUSED MEMORY LEAKS
+			if (ret)
 			{
-				free_and_null((void **)&exp->value);
 				return (ret);
 			}
+			free_and_null((void **)&exp->value);
 		}
 	}
 	else
