@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 11:41:22 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/26 14:02:01 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,7 @@ void	do_while(int fd, char *end, bool expand, t_mini **mini)
 	{
 		if (g_sig)
 		{
-			free_and_null((void **)&line);
-			return ;
+			break ;
 		}
 		line = readline("> ");
 		if (!line)

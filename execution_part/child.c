@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:30:48 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 13:39:26 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/26 14:02:11 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,11 @@ int	child(t_parse *comm, int i, t_mini **mini)
 	if (is_buildin(comm->command) == true)
 		is_really_buildin(comm, ms, envp);
 	close_filedescriptor(comm, &ms->exe);
+	if (g_sig)
+	{
+		free_double(envp);
+		free_mini_and_exit(&ms);
+	}
 	execve(comm->check, comm->command, envp);
 	if (comm->empty == false || comm->command[0][0] != '\0')
 		print_command_not_found(comm->command, mini);
