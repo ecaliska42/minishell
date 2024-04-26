@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:11:51 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 15:18:07 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/26 11:25:01 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,7 @@ void	add_back(t_parse **com, t_parse *node)
 	{
 		temp = *com;
 		while (temp -> next != NULL)
-		{
 			temp = temp -> next;
-		}
 		temp -> next = node;
 	}
 	temp = *com;
