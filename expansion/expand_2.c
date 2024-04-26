@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:53:59 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/25 19:30:30 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/26 11:58:06 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,6 @@ char	*add_char(char *str, char new_char)
 	char	*new;
 	int		str_len;
 
-	if (str == NULL)
-	{
-		new = ft_calloc(2, sizeof(char));
-		if (new == NULL)
-			return (NULL);
-		new[0] = new_char;
-		return (new);
-	}
 	str_len = ft_strlen(str);
 	new = ft_calloc(str_len + 2, sizeof(char));
 	if (new == NULL)

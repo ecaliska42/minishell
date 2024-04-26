@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/25 19:45:02 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/26 11:40:50 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,21 @@ char	*process_double_quotes(char *new, char *str, int *i, t_mini *ms)
 		{
 			new = handle_dollar_sign(new, str, i, ms);
 			if (!new)
-				return (NULL);
+				free_expansion(NULL, ms->exp, ms);
 		}
 		replace_exit_code(str, &new, i, ms);
 		if (ft_is_dollar(str[*i]))
 		{
 			new = add_char(new, str[*i]);
+			if (!new)
+				free_expansion(NULL, ms->exp, ms);
 			(*i)++;
 		}
 		while (str[*i] && str[*i] != '$' && str[*i] != '\"')
 		{
 			new = add_char(new, str[*i]);
+			if (!new)
+				free_expansion(NULL, ms->exp, ms);
 			(*i)++;
 		}
 	}

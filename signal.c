@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 14:07:20 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/18 16:14:18 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/26 13:19:47 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	signal_handler(int mode, t_mini *ms)
 	else if (mode == HERDOC)
 	{
 		signal(SIGINT, signal_handler_heredoc);
+		signal(SIGQUIT, SIG_IGN);
 	}
 	if (g_sig)
 		ms->exit_status = g_sig + 128;

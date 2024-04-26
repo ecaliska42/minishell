@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:01:35 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/25 19:44:35 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/26 12:24:17 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	help_norm(t_expansion *exp, t_mini *ms, t_token **last_token)
 t_token	*handle_splitting(t_expansion *exp, t_token *token,
 		t_token **last_token, t_mini *ms)
 {
+	char *ptr;
+
 	if (token->type != HEREDOC && token->type != RANDOM)
 		token->ambiguous = true;
 	exp->tmp_i = &exp->joker[exp->i];
@@ -51,7 +53,9 @@ t_token	*handle_splitting(t_expansion *exp, t_token *token,
 		while (*exp->tmp_i && *exp->tmp_i != '$' && *exp->tmp_i != '\"'
 			&& *exp->tmp_i != '\'')
 			help_norm(exp, ms, last_token);
+		ptr = exp->new_str;
 		exp->new_str = ft_strdup((*last_token)->str);
+		free(ptr);
 		if (ft_is_dollar(*exp->tmp_i) || *exp->tmp_i == '\"'
 			|| *exp->tmp_i == '\'')
 		{
