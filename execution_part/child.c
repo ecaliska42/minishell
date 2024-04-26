@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:30:48 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 20:26:28 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/26 13:39:26 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ int	child(t_parse *comm, int i, t_mini **mini)
 		(*mini)->exit_status = 1;
 		free_mini_and_exit(mini);
 	}
+	if (!comm->command && !comm->outfd)
+		free_mini_and_exit(mini);
 	check_dot_slash(comm->command[0], mini);
 	envp = change_envp(&ms->env);
 	if (!envp)
