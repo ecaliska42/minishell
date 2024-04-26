@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:30:48 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 14:02:11 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:19:37 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	child(t_parse *comm, int i, t_mini **mini)
 	char	**envp;
 
 	ms = *mini;
-	if (comm->execute == IGNORE)
+	if (comm && comm->execute == IGNORE)
 	{
 		(*mini)->exit_status = 1;
 		free_mini_and_exit(mini);

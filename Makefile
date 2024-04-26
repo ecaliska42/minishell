@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+         #
+#    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2024/04/25 15:15:22 by mesenyur         ###   ########.fr        #
+#    Updated: 2024/04/26 14:40:09 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,10 +78,13 @@ re:	fclean all
 leak: $(NAME)
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --suppressions=texts/readline.supp ./$(NAME)
 
+parent: $(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=texts/readline.supp ./$(NAME)
+
 fd:
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --track-fds=yes --suppressions=texts/readline.supp ./$(NAME)
 
 run: $(NAME)
 	./$(NAME)
 
-.PHONY: all clean fclean re leak run libft
+.PHONY: all clean fclean re leak run libft parent

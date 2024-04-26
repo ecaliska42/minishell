@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 14:02:01 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/26 14:20:25 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ char	*get_unique_heredoc_name(t_mini **mini)
 
 int	is_dollar_hd(t_expand *exp, char *str, t_mini *ms, t_env *envp)
 {
+	char	*tmp;
 	if (str[(exp->i) + 1] == '?')
 		replace_exit_code(str, &exp->newest, &exp->i, ms);
 	(exp->i)++;
@@ -54,7 +55,13 @@ int	is_dollar_hd(t_expand *exp, char *str, t_mini *ms, t_env *envp)
 	(exp->i) += exp->len;
 	exp->value = get_env_value(exp->tmp, envp);
 	if (exp->value != NULL)
-		exp->newest = ft_strjoin(exp->newest, exp->value);
+	{
+		tmp = ft_strjoin(exp->newest, exp->value);
+		free_and_null((void **)&exp->newest);
+		exp->newest = ft_strdup(tmp);
+		free_and_null((void **)&tmp);
+	}
+	free_and_null((void **)&exp->tmp);
 	return (SUCCESS);
 }
 
@@ -71,7 +78,10 @@ char	*expand_heredoc(char *str, t_env *envp, t_mini **mini)
 	{
 		while (str[exp.i] && str[exp.i] != '$')
 		{
-			exp.newest = add_char(exp.newest, str[exp.i]);
+			tmp = add_char(exp.newest, str[exp.i]);
+			free_and_null((void **)&exp.newest);
+			exp.newest = ft_strdup(tmp);
+			free_and_null((void **)&tmp);
 			(exp.i)++;
 		}
 		if ((ft_is_dollar(str[exp.i])) && (str[(exp.i) + 1] && (str[(exp.i)
@@ -82,10 +92,12 @@ char	*expand_heredoc(char *str, t_env *envp, t_mini **mini)
 		{
 			tmp = add_char(exp.newest, str[exp.i]);
 			free_and_null((void **)&exp.newest);
-			exp.newest = tmp;
+			exp.newest = ft_strdup(tmp);
+			free_and_null((void **)&tmp);
 			(exp.i)++;
 		}
 	}
+	free_and_null((void **)&str);
 	return (exp.newest);
 }
 
