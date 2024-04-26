@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melsen6 <melsen6@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 19:25:00 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/26 23:15:51 by melsen6          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,7 +241,7 @@ char	**change_envp(t_env **envp);
 char	*skip_starting_ending_spaces(char *value);
 char	*expand_heredoc(char *str, t_env *envp, t_mini **mini);
 char	*replace_exit_code(char *str, char **ne, int *i, t_mini *ms);
-void	handle_quotes(char *str, t_mini *ms, t_expansion *exp);
+void	handle_quotes(t_token * token, char *str, t_mini *ms, t_expansion *exp);
 bool	check_exp(char *str, int i);
 int		do_expand(char *str, t_expansion *exp, t_mini *ms);
 

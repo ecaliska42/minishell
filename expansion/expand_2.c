@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melsen6 <melsen6@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:53:59 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/26 19:27:31 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/26 23:31:44 by melsen6          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,21 @@ t_token	*split_value(char *str, char *value, t_token *token)
 {
 	char	**words;
 	int		i;
+	char	*joined;
 
 	i = 1;
 	words = ft_split(value, ' ');
 	if (words == NULL)
 		return (NULL);
-	token->str = ft_strjoin(str, words[0]);
-	if (token->str == NULL)
+	joined = ft_strjoin(str, words[0]);
+	if (str)
+		free_and_null((void **)&str); // freed
+	if (joined == NULL)
 	{
 		free_words(words);
 		return (NULL);
 	}
+	token->str = joined;
 	while (words[i] != NULL)
 	{
 		token = create_new_token(words[i], token);
@@ -103,7 +107,7 @@ char	*add_char(char *str, char new_char)
 	int		str_len;
 
 	str_len = ft_strlen(str);
-	new = ft_calloc(str_len + 2, sizeof(char));
+	new = ft_calloc(str_len + 2, sizeof(char)); // alloc'd
 	if (new == NULL)
 		return (NULL);
 	ft_memcpy(new, str, str_len);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_5.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melsen6 <melsen6@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:01:15 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/26 11:59:06 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/26 23:27:35 by melsen6          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,17 @@ bool	check_exp(char *str, int i)
 	return (false);
 }
 
-void	handle_quotes(char *str, t_mini *ms, t_expansion *exp)
+void	handle_quotes(t_token * token, char *str, t_mini *ms, t_expansion *exp)
 {
 	if (str[exp->i] == S_QUOTE)
 	{
-		exp->new_str = process_single_quotes(exp->new_str, str, &exp->i);
+		token->str = process_single_quotes(token->str, str, &exp->i);
 		exp->quotes = CLOSED;
 	}
 	else if (exp->quotes == D_QUOTE)
 	{
 		exp->i++;
-		exp->new_str = process_double_quotes(exp->new_str, str, &exp->i, ms);
+		token->str = process_double_quotes(token->str, str, &exp->i, ms);
 		exp->quotes = CLOSED;
 	}
 }
@@ -57,20 +57,19 @@ t_token	*handle_closed(t_token *token, t_expansion *exp, t_mini *ms)
 	{
 		while (exp->joker[exp->i] && exp->joker[exp->i] != '$'
 			&& exp->joker[exp->i] != '\"' && exp->joker[exp->i] != '\'')
-			exp->new_str = add_char(exp->new_str, exp->joker[exp->i++]);
+			token->str = add_char(token->str, exp->joker[exp->i++]);
 		if (check_exp(exp->joker, exp->i))
 		{
 			ret = handle_expansion(token, exp, ms);
 			if (ret)
 			{
-				free_and_null((void **)&exp->new_str);
 				return (ret);
 			}
 		}
 		else if (exp->joker[exp->i] == '$' && exp->joker[exp->i + 1] == '?')
-			replace_exit_code(exp->joker, &exp->new_str, &exp->i, ms);
+			replace_exit_code(exp->joker, &token->str, &exp->i, ms);
 		else if (ft_is_dollar(exp->joker[exp->i]))
-			exp->new_str = add_char(exp->new_str, exp->joker[exp->i++]);
+			token->str = add_char(token->str, exp->joker[exp->i++]);
 	}
 	return (NULL);
 }

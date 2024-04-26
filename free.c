@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melsen6 <melsen6@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:43:38 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/26 19:30:07 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/26 23:06:07 by melsen6          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	free_expansion(void *ptr, t_expansion *exp, t_mini *ms)
 {
 	if (ptr == NULL)
 	{
-		free_and_null((void **)&exp->new_str);
+		// free_and_null((void **)&exp->new_str);
 		free_and_null((void **)&exp->tmp);
 		free_and_null((void **)&exp->value);
 		free_and_null((void **)&exp->joker);

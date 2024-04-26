@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melsen6 <melsen6@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/26 11:40:50 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/26 23:29:49 by melsen6          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,19 @@ char	*expand_heredoc_delimeter(char *new, char *str, int *i, t_mini *ms)
 	return (new);
 }
 
+void free_all_t_tokens(t_token *token)
+{
+	t_token	*tmp;
+
+	while (token)
+	{
+		tmp = token->next;
+		free_and_null((void **)&token->str);
+		free_and_null((void **)&token);
+		token = tmp;
+	}
+}
+
 void	expansion(t_token *token, t_mini *ms)
 {
 	t_expansion	exp;
@@ -94,6 +107,7 @@ void	expansion(t_token *token, t_mini *ms)
 		if (token)
 			token = token->next;
 	}
+	free_all_t_tokens(token);
 }
 
 t_token	*expand_variable(t_expansion exp, t_token *token, t_mini *ms)
@@ -103,27 +117,25 @@ t_token	*expand_variable(t_expansion exp, t_token *token, t_mini *ms)
 	exp.joker = ft_strdup(token->str);
 	free_and_null((void **)&token->str);
 	free_expansion(exp.joker, ms->exp, ms);
-	exp.new_str = ft_strdup("");
-	free_expansion(exp.new_str, ms->exp, ms);
+	token->str = ft_strdup("");
+	free_expansion(token->str, ms->exp, ms);
 	while (exp.joker[exp.i])
 	{
 		handle_heredoc_exp(token, &exp, exp.joker, ms);
-		replace_exit_code(exp.joker, &exp.new_str, &exp.i, ms);
+		replace_exit_code(exp.joker, &token->str, &exp.i, ms);
 		quote_check(exp.joker[exp.i], &exp.quotes);
 		if (exp.joker[exp.i] == S_QUOTE || exp.joker[exp.i] == D_QUOTE)
-			handle_quotes(exp.joker, ms, &exp);
+			handle_quotes(token, exp.joker, ms, &exp);
 		else if (exp.quotes == CLOSED)
 		{
 			ret = handle_closed(token, &exp, ms);
-			if (ret)//CHANGED CAUSED MEMORY LEAKS
+			if (ret)
 			{
-				free_and_null((void **)&exp.new_str);
 				free_and_null((void **)&exp.joker);
 				return (ret);
 			}
 		}
 	}
-	token->str = exp.new_str;
 	free_and_null((void **)&exp.joker);
 	return (token);
 }
