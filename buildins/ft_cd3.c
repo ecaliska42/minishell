@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 19:38:38 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 16:58:05 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/27 13:21:00 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ char	*remove_after_backslash(char *s)
 	if (i <= 0)
 	{
 		free_and_null((void **)&s);
-		s = ft_strdup("/");
+		s = ft_strdup("/"); // protect
+		// if (!s)
+		// 	return (NULL);
 	}
 	return (s);
 }
@@ -50,7 +52,9 @@ int	dot_dot(t_env **old, t_env **current)
 
 	current_dir = malloc(FILENAME_MAX);
 	getcwd(current_dir, FILENAME_MAX);
-	change_dir = remove_after_backslash(ft_strdup(current_dir));
+	change_dir = remove_after_backslash(ft_strdup(current_dir)); // protect
+	// if (!change_dir) // new part
+	// 	return (ERROR);
 	if ((*old) && (*old)->values)
 	{
 		free_and_null((void **)&(*old)->values);

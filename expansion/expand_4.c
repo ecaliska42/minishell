@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:07:45 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/26 11:29:33 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/27 13:13:02 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ char	*handle_dollar_sign(char *new, char *str, int *i, t_mini *ms)
 	if (value)
 	{
 		temp = ft_strjoin(new, value);
-		if (!temp)
-			free_expansion(NULL, ms->exp, ms);
+		free_expansion(temp, ms->exp, ms);
 		free_and_null((void **)&new);
 		new = temp;
 	}

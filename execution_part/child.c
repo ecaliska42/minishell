@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:30:48 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 16:41:16 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/27 13:17:07 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	child(t_parse *comm, int i, t_mini **mini)
 	check_exit(mini, comm);
 	if (comm->command && comm->command[0])
 		check_dot_slash(comm->command[0], mini);
-	envp = change_envp(&ms->env);
+	envp = change_envp(&ms->env, *mini);
 	if (!envp)
 		return (ERROR);
 	dup_and_close(ms, i, comm);

@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/27 11:29:47 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/27 13:28:42 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*process_single_quotes(char *new, char *str, int *i)
 	while (str[*i] && str[*i] != '\'')
 	{
 		new = add_char(new, str[*i]);
+		if (!new)
+			return (NULL);
 		(*i)++;
 	}
 	if (str[*i] == '\'')
@@ -34,18 +36,16 @@ char	*process_double_quotes(char *new, char *str, int *i, t_mini *ms)
 					&& ft_isalnum(str[(*i) + 1]))))
 		{
 			new = handle_dollar_sign(new, str, i, ms);
-			if (!new)
-				free_expansion(NULL, ms->exp, ms);
-		}
-		replace_exit_code(str, &new, i, ms);
-		if (ft_is_dollar(str[*i]))
-		{
-			new = add_char(new, str[*i]);
-			if (!new)
-				free_expansion(NULL, ms->exp, ms);
-			(*i)++;
+			free_expansion(new, ms->exp, ms);
 		}
 		while (str[*i] && str[*i] != '$' && str[*i] != '\"')
+		{
+			new = add_char(new, str[*i]);
+			free_expansion(new, ms->exp, ms);
+			(*i)++;
+		}
+		replace_exit_code(str, &new, i, ms);
+		if (ft_is_dollar(str[*i]) && !ft_isalnum(str[(*i) + 1])) // break
 		{
 			new = add_char(new, str[*i]);
 			if (!new)
@@ -68,6 +68,7 @@ char	*expand_heredoc_delimeter(char *new, char *str, int *i, t_mini *ms)
 			while (quote_check(str[*i], &ms->shell.quotes) != 0)
 			{
 				new = add_char(new, str[*i]);
+				free_expansion(new, ms->exp, ms);
 				(*i)++;
 			}
 			(*i)++;
@@ -75,24 +76,12 @@ char	*expand_heredoc_delimeter(char *new, char *str, int *i, t_mini *ms)
 		else
 		{
 			new = add_char(new, str[*i]);
+			free_expansion(new, ms->exp, ms);
 			(*i)++;
 		}
 	}
 	return (new);
 }
-
-// void free_all_t_tokens(t_token *token)
-// {
-// 	t_token	*tmp;
-
-// 	while (token)
-// 	{
-// 		tmp = token->next;
-// 		free_and_null((void **)&token->str);
-// 		free_and_null((void **)&token);
-// 		token = tmp;
-// 	}
-// }
 
 void	expansion(t_token *token, t_mini *ms)
 {
@@ -110,7 +99,6 @@ void	expansion(t_token *token, t_mini *ms)
 		if (token)
 			token = token->next;
 	}
-	// free_all_t_tokens(token);
 }
 
 t_token	*expand_variable(t_expansion exp, t_token *token, t_mini *ms)
@@ -121,7 +109,6 @@ t_token	*expand_variable(t_expansion exp, t_token *token, t_mini *ms)
 	free_and_null((void **)&token->str);
 	free_expansion(exp.joker, ms->exp, ms);
 	token->str = ft_strdup("");
-	// token->expanded = 0;
 	free_expansion(token->str, ms->exp, ms);
 	while (exp.joker[exp.i])
 	{
@@ -141,13 +128,11 @@ t_token	*expand_variable(t_expansion exp, t_token *token, t_mini *ms)
 			}
 			if (ret)
 			{
-				token->token_count = exp.word_count;
 				free_and_null((void **)&exp.joker);
 				return (ret);
 			}
 		}
 	}
-	
 	free_and_null((void **)&exp.joker);
 	return (token);
 }

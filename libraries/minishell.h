@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/27 10:11:11 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/27 13:20:03 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,6 @@ int		is_append(t_token *tmp, t_parse ****node);
 int		is_random(t_token *tmp, t_parse ***node);
 
 char	*remove_after_schraegstrich(char *s);
-int		dot_dot(t_env **old, t_env **current);
 int		dot(t_env **old);
 int		only_cd(t_env *home, t_env **current, t_env **old);
 int		go_back(t_env **old, t_env **current, t_mini **mini);
@@ -237,7 +236,6 @@ int		heredoc(t_parse *node, char *end, bool expand, t_mini **mini);
 int		copy_environment(char **envp, t_env **lst);
 int		free_environment(t_env **lst);
 void	*dup_for_no_pipes(t_parse *comm);
-char	**change_envp(t_env **envp);
 char	*skip_starting_ending_spaces(char *value);
 char	*expand_heredoc(char *str, t_env *envp, t_mini **mini);
 char	*replace_exit_code(char *str, char **ne, int *i, t_mini *ms);
@@ -252,7 +250,7 @@ int		do_expand(char *str, t_expansion *exp, t_mini *ms);
 
 //EXECUTE_UTILS.C
 void	free_fds(int **fds);
-char	**change_envp(t_env **envp);
+char	**change_envp(t_env **envp, t_mini *mini);
 int		malloc_ex_struct(t_exe *ex_struct);
 int		create_pipes(t_exe *ex_struct);
 //CHILD.C
@@ -295,7 +293,6 @@ char	*add_char(char *str, char new_char);
 t_env	*get_from_env(t_env **lst, char *s);
 t_token	*split_value(char *str, char *value, t_token *token, t_expansion *exp);
 char	*replace_exit_code(char *str, char **new_str, int *i, t_mini *ms);
-char	*add_char(char *str, char new_char);
 char	*expand_heredoc_delimeter(char *new_str, char *str, int *i, t_mini *ms);
 char	*handle_dollar_sign(char *new_str, char *str, int *i, t_mini *ms);
 

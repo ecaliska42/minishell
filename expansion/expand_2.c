@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:53:59 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/27 10:34:23 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/27 12:55:20 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void	free_words(char **words)
 t_token	*split_value(char *str, char *value, t_token *token, t_expansion *exp)
 {
 	char	**words;
-	// int		word_count;
 	char	*joined;
 
 	exp->word_count = 1;
@@ -82,7 +81,7 @@ t_token	*split_value(char *str, char *value, t_token *token, t_expansion *exp)
 		return (NULL);
 	joined = ft_strjoin(str, words[0]);
 	if (str)
-		free_and_null((void **)&str); // freed
+		free_and_null((void **)&str);
 	if (joined == NULL)
 	{
 		free_words(words);
@@ -110,7 +109,7 @@ char	*add_char(char *str, char new_char)
 	int		str_len;
 
 	str_len = ft_strlen(str);
-	new = ft_calloc(str_len + 2, sizeof(char)); // alloc'd
+	new = ft_calloc(str_len + 2, sizeof(char));
 	if (new == NULL)
 		return (NULL);
 	ft_memcpy(new, str, str_len);

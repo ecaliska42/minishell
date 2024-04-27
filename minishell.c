@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 16:50:22 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/27 13:05:44 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,6 @@ void	print_env(t_env **envp)
 	}
 }
 
-char	**create_if_no_envp(char **envp)
-{
-	envp = ft_calloc(4, sizeof(char **));
-	envp[0] = ft_strdup("PWD=/home/ecaliska/42/Common_Core");
-	envp[0] = ft_strjoin(envp[0], "/circle_three/minishell");
-	envp[1] = ft_strdup("SHLVL=1");
-	envp[2] = ft_strdup("_=/usr/bin/env");
-	return (envp);
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	t_mini	mini;
@@ -44,7 +34,7 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	if (envp == NULL || envp[0] == NULL)
-		envp = create_if_no_envp(envp);
+		return (1);
 	if (copy_environment(envp, &mini.env) == ERROR)
 		return (1);
 	ft_bzero(&mini.shell, sizeof(t_shell));

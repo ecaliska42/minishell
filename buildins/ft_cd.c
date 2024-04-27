@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:12 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 16:56:43 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/27 13:15:42 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	check_dots_and_only(char **command, t_mini **mini, t_cd *cd_str)
 	return (5);
 }
 
-int	change_dir(t_cd *cd_str, t_mini **mini)
+int	change_dir(t_cd *cd_str, t_mini **mini) // kbljefgjelfbjkeqfbeq
 {
 	if (chdir(cd_str->parse->command[1]) != -1)
 	{

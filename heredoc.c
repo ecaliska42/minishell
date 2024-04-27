@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 17:39:06 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/27 13:15:18 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_unique_heredoc_name(t_mini **mini)
 		free_mini_and_exit(mini);
 	tmp = ft_calloc(5 + 1, sizeof(char));
 	if (!tmp)
-		exit(1);
+		free_expansion(tmp, (*mini)->exp, *mini);
 	while (i < 5)
 	{
 		read(dev_random, &tmp[i], 1);
@@ -36,6 +36,7 @@ char	*get_unique_heredoc_name(t_mini **mini)
 	}
 	close(dev_random);
 	name = ft_strjoin("/tmp/", tmp);
+	free_expansion(name, (*mini)->exp, *mini);
 	free_and_null((void **)&tmp);
 	if (!name)
 		return (NULL);
@@ -60,6 +61,7 @@ int	is_dollar_hd(t_expand *exp, char *str, t_mini *ms, t_env *envp)
 		tmp = ft_strjoin(exp->newest, exp->value);
 		free_and_null((void **)&exp->newest);
 		exp->newest = ft_strdup(tmp);
+		free_expansion(exp->newest, ms->exp, ms);
 		free_and_null((void **)&tmp);
 	}
 	free_and_null((void **)&exp->tmp);
@@ -74,11 +76,13 @@ char	*expand_heredoc(char *str, t_env *envp, t_mini **mini)
 	exp.i = 0;
 	ms = *mini;
 	exp.newest = ft_strdup("");
+	free_expansion(exp.newest, ms->exp, *mini);
 	while (str[exp.i])
 	{
 		while (str[exp.i] && str[exp.i] != '$')
 		{
 			exp.newest = add_char(exp.newest, str[exp.i]);
+			free_expansion(exp.newest, ms->exp, ms);
 			(exp.i)++;
 		}
 		if ((ft_is_dollar(str[exp.i])) && (str[(exp.i) + 1] && (str[(exp.i)
@@ -88,6 +92,7 @@ char	*expand_heredoc(char *str, t_env *envp, t_mini **mini)
 		while (str[exp.i] && str[exp.i] != '$' && str[exp.i])
 		{
 			exp.newest = add_char(exp.newest, str[exp.i]);
+			free_expansion(exp.newest, ms->exp, ms);
 			(exp.i)++;
 		}
 	}

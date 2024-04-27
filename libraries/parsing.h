@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/27 10:27:43 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/27 12:25:54 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_expansion
 typedef struct s_token
 {
 	char			*str;
-	int				token_count;
+	// int				token_count;
 	int				expanded;
 	bool			ambiguous;
 	bool			flag_exp;

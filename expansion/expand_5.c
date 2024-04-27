@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:01:15 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/27 11:30:20 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/27 13:02:58 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	handle_quotes(t_token * token, char *str, t_mini *ms, t_expansion *exp)
 	if (str[exp->i] == S_QUOTE)
 	{
 		token->str = process_single_quotes(token->str, str, &exp->i);
+		if (!token->str)
+			free_expansion(NULL, ms->exp, ms);
 		exp->quotes = CLOSED;
 	}
 	else if (exp->quotes == D_QUOTE)
@@ -57,7 +59,10 @@ t_token	*handle_closed(t_token *token, t_expansion *exp, t_mini *ms)
 	{
 		while (exp->joker[exp->i] && exp->joker[exp->i] != '$'
 			&& exp->joker[exp->i] != '\"' && exp->joker[exp->i] != '\'')
+		{
 			token->str = add_char(token->str, exp->joker[exp->i++]);
+			free_expansion(token->str, ms->exp, ms);
+		}			
 		if (check_exp(exp->joker, exp->i))
 		{
 			ret = handle_expansion(token, exp, ms);
@@ -73,7 +78,10 @@ t_token	*handle_closed(t_token *token, t_expansion *exp, t_mini *ms)
 		else if (exp->joker[exp->i] == '$' && exp->joker[exp->i + 1] == '?')
 			replace_exit_code(exp->joker, &token->str, &exp->i, ms);
 		else if (ft_is_dollar(exp->joker[exp->i]))
+		{
 			token->str = add_char(token->str, exp->joker[exp->i++]);
+			free_expansion(token->str, ms->exp, ms);
+		}
 	}
 	return (NULL);
 }

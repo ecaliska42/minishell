@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:11:51 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 11:25:01 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/27 13:13:44 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_env	*get_path(t_env **envi)
 	return (temp);
 }
 
-char	*do_while_access(char **path_values, char *str)
+char	*do_while_access(char **path_values, char *str) // elfeqäfjeläqfjäq
 {
 	int		i;
 	char	*temp;
@@ -38,10 +38,10 @@ char	*do_while_access(char **path_values, char *str)
 	i = 0;
 	while (path_values[i])
 	{
-		temp = ft_strjoin(path_values[i], "/");
+		temp = ft_strjoin(path_values[i], "/"); // wlhd wlkhwkl
 		if (!temp)
 			return (NULL);
-		temp2 = ft_strjoin(temp, str);
+		temp2 = ft_strjoin(temp, str); // wkldh wdklwhdklw
 		if (!temp2)
 			return (free_and_null((void **)&temp), NULL);
 		free_and_null((void **)&temp);

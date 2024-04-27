@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:13:38 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 15:22:50 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/27 13:11:50 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	free_fds(int **fds)
 	free_and_null((void **)&fds);
 }
 
-char	**change_envp(t_env **envp)
+char	**change_envp(t_env **envp, t_mini *mini)
 {
 	int		size;
 	char	**new_envp;
@@ -41,15 +41,16 @@ char	**change_envp(t_env **envp)
 	new_envp = ft_calloc(size + 1, sizeof(char *));
 	if (!new_envp)
 	{
-		perror("new_envp malloc error (execute.c) :");
-		exit (1);
+		mini->exit_status = 1;
+		check_malloc_exit(envp, mini);
 	}
 	while (i < size)
 	{
 		temp = ft_strjoin(tmp->name, "=");
+		check_malloc_exit(temp, mini);
 		new_envp[i] = ft_strjoin(temp, tmp->values);
+		check_malloc_exit(new_envp[i++], mini);
 		free_and_null((void **)&temp);
-		i++;
 		tmp = tmp->next;
 	}
 	return (new_envp);
