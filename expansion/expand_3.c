@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melsen6 <melsen6@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:01:35 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/26 23:20:30 by melsen6          ###   ########.fr       */
+/*   Updated: 2024/04/27 11:36:01 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,12 @@ void	help_norm(t_expansion *exp, t_mini *ms, t_token *last_token)
 t_token	*handle_splitting(t_expansion *exp, t_token *token,
 		t_token *last_token, t_mini *ms)
 {
-	// char *ptr;
-
 	if (token->type != HEREDOC && token->type != RANDOM)
 		token->ambiguous = true;
 	exp->tmp_i = &exp->joker[exp->i];
-	last_token = split_value(token->str, exp->value, token);
+	last_token = split_value(token->str, exp->value, token, exp);
 	free_expansion(last_token, ms->exp, ms);
+	last_token->expanded = 1;
 	if (*exp->tmp_i)
 	{
 		while (*exp->tmp_i && *exp->tmp_i != '$' && *exp->tmp_i != '\"'
@@ -57,6 +56,7 @@ t_token	*handle_splitting(t_expansion *exp, t_token *token,
 		if (ft_is_dollar(*exp->tmp_i) || *exp->tmp_i == '\"'
 			|| *exp->tmp_i == '\'')
 		{
+			token->expanded = 1;
 			token = last_token;
 			return (NULL);
 		}
@@ -78,10 +78,9 @@ void	shorten_exp(t_token *token, t_mini *ms, char *ptr)
 	token->str = tmp;
 }
 
-t_token	*handle_expansion(t_token *token, t_expansion *exp, t_mini *ms) // dont free value
+t_token	*handle_expansion(t_token *token, t_expansion *exp, t_mini *ms)
 {
 	t_token	last_token;
-	t_token	*ret;
 	char *ptr;
 
 	do_expand(exp->joker, exp, ms);
@@ -89,7 +88,7 @@ t_token	*handle_expansion(t_token *token, t_expansion *exp, t_mini *ms) // dont 
 	{
 		if (exp->value[0] == '\0')
 			token->ambiguous = true;
-		ptr = ft_strtrim(exp->value, " "); // if we free the pointer which points to value, environment wont be able to work which that variable and therefore its a undefined behaviour?
+		ptr = ft_strtrim(exp->value, " ");
 		if (!ptr)
 			return (NULL);
 		if (ft_strchr(ptr, ' ') == NULL)
@@ -97,10 +96,11 @@ t_token	*handle_expansion(t_token *token, t_expansion *exp, t_mini *ms) // dont 
 		else
 		{
 			free_and_null((void **)&ptr);
-			ret = handle_splitting(exp, token, &last_token, ms);
-			if (ret)
+			token = handle_splitting(exp, token, &last_token, ms);
+			if (token)
 			{
-				return (ret);
+				token->expanded = 1;
+				return (token);
 			}
 		}
 	}

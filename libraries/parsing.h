@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melsen6 <melsen6@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/26 23:26:51 by melsen6          ###   ########.fr       */
+/*   Updated: 2024/04/27 10:27:43 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,18 @@ typedef struct s_expansion
 	char	*tmp;
 	char	*value;
 	char	*tmp_i;
+	char	*joker;
+	char	quotes;
 	int		len;
 	int		i;
-	char	quotes;
-	char	*joker;
+	int		word_count;
 }			t_expansion;
 
 typedef struct s_token
 {
 	char			*str;
+	int				token_count;
+	int				expanded;
 	bool			ambiguous;
 	bool			flag_exp;
 	bool			empty;
@@ -112,8 +115,6 @@ bool				break_character(t_shell *shell, char *line, int i);
 void				skip_spaces(char *line, int *i);
 int					check_name_and_return_len(char *name);
 int					ft_strcmp(const char *s1, const char *s2);
-t_token				*split_value(char *str, char *value, t_token *token);
-// void	split_value(char *str, t_token *token);
 void				insert_token(char **str, t_token *token, t_token *n_token);
 
 int					syntax_before_token(t_shell *shell);

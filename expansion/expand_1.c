@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.c                                           :+:      :+:    :+:   */
+/*   expand_1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melsen6 <melsen6@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/26 23:29:49 by melsen6          ###   ########.fr       */
+/*   Updated: 2024/04/27 11:29:47 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,18 +81,18 @@ char	*expand_heredoc_delimeter(char *new, char *str, int *i, t_mini *ms)
 	return (new);
 }
 
-void free_all_t_tokens(t_token *token)
-{
-	t_token	*tmp;
+// void free_all_t_tokens(t_token *token)
+// {
+// 	t_token	*tmp;
 
-	while (token)
-	{
-		tmp = token->next;
-		free_and_null((void **)&token->str);
-		free_and_null((void **)&token);
-		token = tmp;
-	}
-}
+// 	while (token)
+// 	{
+// 		tmp = token->next;
+// 		free_and_null((void **)&token->str);
+// 		free_and_null((void **)&token);
+// 		token = tmp;
+// 	}
+// }
 
 void	expansion(t_token *token, t_mini *ms)
 {
@@ -102,12 +102,15 @@ void	expansion(t_token *token, t_mini *ms)
 	ft_bzero(&exp, sizeof(t_expansion));
 	while (token != NULL)
 	{
-		if (token->str)
+		if (token->str && token->expanded == 0)
+		{
+
 			token = expand_variable(exp, token, ms);
+		}
 		if (token)
 			token = token->next;
 	}
-	free_all_t_tokens(token);
+	// free_all_t_tokens(token);
 }
 
 t_token	*expand_variable(t_expansion exp, t_token *token, t_mini *ms)
@@ -118,6 +121,7 @@ t_token	*expand_variable(t_expansion exp, t_token *token, t_mini *ms)
 	free_and_null((void **)&token->str);
 	free_expansion(exp.joker, ms->exp, ms);
 	token->str = ft_strdup("");
+	// token->expanded = 0;
 	free_expansion(token->str, ms->exp, ms);
 	while (exp.joker[exp.i])
 	{
@@ -129,13 +133,21 @@ t_token	*expand_variable(t_expansion exp, t_token *token, t_mini *ms)
 		else if (exp.quotes == CLOSED)
 		{
 			ret = handle_closed(token, &exp, ms);
+			while (token && token->expanded == 1)
+			{
+				if (token->next == NULL || token->next->expanded == 0)
+					break ;
+				token = token->next;
+			}
 			if (ret)
 			{
+				token->token_count = exp.word_count;
 				free_and_null((void **)&exp.joker);
 				return (ret);
 			}
 		}
 	}
+	
 	free_and_null((void **)&exp.joker);
 	return (token);
 }

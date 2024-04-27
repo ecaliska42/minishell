@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:14:17 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/26 16:55:35 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/27 11:39:43 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,5 @@ void	free_mini(t_mini **mini)
 	free_tokens(&(*mini)->shell.tokens);
 	free_and_null((void **)&(*mini)->shell.input);
 	free_parsing_node(&(*mini)->parse);
-	free_tokens(&(*mini)->shell.tokens);
 	free_exe(&(*mini)->exe);
 }

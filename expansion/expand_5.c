@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_5.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melsen6 <melsen6@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:01:15 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/26 23:27:35 by melsen6          ###   ########.fr       */
+/*   Updated: 2024/04/27 11:30:20 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,14 @@ t_token	*handle_closed(t_token *token, t_expansion *exp, t_mini *ms)
 		if (check_exp(exp->joker, exp->i))
 		{
 			ret = handle_expansion(token, exp, ms);
-			if (ret)
+			while (token && token->expanded == 1)
 			{
-				return (ret);
+				if (token->next == NULL)
+					break ;
+				token = token->next;
 			}
+			if (ret)
+				return (ret);
 		}
 		else if (exp->joker[exp->i] == '$' && exp->joker[exp->i + 1] == '?')
 			replace_exit_code(exp->joker, &token->str, &exp->i, ms);

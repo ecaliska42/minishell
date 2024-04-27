@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melsen6 <melsen6@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 23:15:51 by melsen6          ###   ########.fr       */
+/*   Updated: 2024/04/27 10:11:11 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,7 +293,7 @@ char	*process_single_quotes(char *new_str, char *str, int *i);
 char	*get_env_value(char *name, t_env *envp);
 char	*add_char(char *str, char new_char);
 t_env	*get_from_env(t_env **lst, char *s);
-t_token	*split_value(char *str, char *value, t_token *token);
+t_token	*split_value(char *str, char *value, t_token *token, t_expansion *exp);
 char	*replace_exit_code(char *str, char **new_str, int *i, t_mini *ms);
 char	*add_char(char *str, char new_char);
 char	*expand_heredoc_delimeter(char *new_str, char *str, int *i, t_mini *ms);

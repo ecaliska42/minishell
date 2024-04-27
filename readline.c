@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/26 16:51:42 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/27 11:43:03 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ int	ft_readline(t_mini *mini)
 			mini->shell.input = NULL;
 			continue ;
 		}
-		if (g_sig)
-			free_mini(&mini);
 		if (syntax_check(&mini->shell) == SYNTAX_ERROR)
 		{
 			mini->exit_status = 2;

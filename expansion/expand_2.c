@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melsen6 <melsen6@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:53:59 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/26 23:31:44 by melsen6          ###   ########.fr       */
+/*   Updated: 2024/04/27 10:34:23 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ t_token	*create_new_token(char *word, t_token *last)
 	new->next = last->next;
 	new->type = last->type;
 	last->next = new;
+	last->expanded = 1;
+	new->expanded = 1;
 	return (new);
 }
 
@@ -68,13 +70,13 @@ void	free_words(char **words)
 	free_and_null((void **)&words);
 }
 
-t_token	*split_value(char *str, char *value, t_token *token)
+t_token	*split_value(char *str, char *value, t_token *token, t_expansion *exp)
 {
 	char	**words;
-	int		i;
+	// int		word_count;
 	char	*joined;
 
-	i = 1;
+	exp->word_count = 1;
 	words = ft_split(value, ' ');
 	if (words == NULL)
 		return (NULL);
@@ -87,15 +89,16 @@ t_token	*split_value(char *str, char *value, t_token *token)
 		return (NULL);
 	}
 	token->str = joined;
-	while (words[i] != NULL)
+	token->expanded = 1;
+	while (words[exp->word_count] != NULL)
 	{
-		token = create_new_token(words[i], token);
+		token = create_new_token(words[exp->word_count], token);
 		if (token == NULL)
 		{
 			free_words(words);
 			return (NULL);
 		}
-		i++;
+		exp->word_count++;
 	}
 	free_words(words);
 	return (token);
