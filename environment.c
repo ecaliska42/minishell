@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 17:25:26 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 19:17:47 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/27 12:29:56 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ int	free_environment(t_env **lst)
         free_and_null((void **)&tmp);
         tmp = next;
     }
-    *lst = NULL; // Set the original list pointer to NULL
-    return (0); // Return success
+    *lst = NULL;
+    return (ERROR);
 }
 
 int	increase_shell_level(char *envp, t_env **node)
@@ -91,9 +91,7 @@ int	get_value(t_env **node, char *envp, t_env **lst)
 		if (increase_shell_level(envp, node) == ERROR)
 		{
 			free_and_null((void **)&(*node)->name);
-			(*node)->name = NULL;
 			free_and_null((void **)&*node);
-			*node = NULL;
 			return (free_environment(lst));
 		}
 	}
@@ -103,9 +101,7 @@ int	get_value(t_env **node, char *envp, t_env **lst)
 		if (!(*node)->values)
 		{
 			free_and_null((void **)&(*node)->name);
-			(*node)->name = NULL;
 			free_and_null((void **)&*node);
-			*node = NULL;
 			return (free_environment(lst));
 		}
 	}

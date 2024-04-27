@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 16:07:40 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 16:50:22 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/27 12:28:47 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ int	main(int ac, char **av, char **envp)
 	if (envp == NULL || envp[0] == NULL)
 		envp = create_if_no_envp(envp);
 	if (copy_environment(envp, &mini.env) == ERROR)
-		return (1);
+		return (ERROR);
 	ft_bzero(&mini.shell, sizeof(t_shell));
 	ft_bzero(&mini.exe, sizeof(t_exe));
 	mini.parse = NULL;
 	ft_readline(&mini);
 	free_environment(&mini.env);
-	return (0);
+	return (SUCCESS);
 }
