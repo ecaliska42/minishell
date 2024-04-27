@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melsen6 <melsen6@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:53:59 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/27 12:55:20 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/28 01:26:25 by melsen6          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,28 @@ t_token	*split_value(char *str, char *value, t_token *token, t_expansion *exp)
 	char	**words;
 	char	*joined;
 
-	exp->word_count = 1;
+	exp->word_count = 0;
 	words = ft_split(value, ' ');
 	if (words == NULL)
 		return (NULL);
-	joined = ft_strjoin(str, words[0]);
-	if (str)
-		free_and_null((void **)&str);
-	if (joined == NULL)
+	if (words[0] == NULL)
 	{
 		free_words(words);
-		return (NULL);
+		return (token);
+	}	
+	if (exp->join == 1 || exp->replace == 1)
+	{
+		joined = ft_strjoin(str, words[0]);
+		exp->word_count++;
+		if (str)
+			free_and_null((void **)&str);
+		if (joined == NULL)
+		{
+			free_words(words);
+			return (NULL);
+		}		
+		token->str = joined;
 	}
-	token->str = joined;
 	token->expanded = 1;
 	while (words[exp->word_count] != NULL)
 	{
@@ -98,6 +107,15 @@ t_token	*split_value(char *str, char *value, t_token *token, t_expansion *exp)
 			return (NULL);
 		}
 		exp->word_count++;
+		if (words[exp->word_count] == NULL && exp->split == 1)
+		{
+			token = create_new_token("", token);
+			if (token == NULL)
+			{
+				free_words(words);
+				return (NULL);
+			}
+		}
 	}
 	free_words(words);
 	return (token);

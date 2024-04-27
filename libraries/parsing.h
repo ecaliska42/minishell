@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melsen6 <melsen6@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/27 12:25:54 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/28 00:05:10 by melsen6          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ typedef struct s_expansion
 	int		len;
 	int		i;
 	int		word_count;
+	int		join;
+	int		split;
+	int		replace;
 }			t_expansion;
 
 typedef struct s_token

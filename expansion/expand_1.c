@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melsen6 <melsen6@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/27 13:28:42 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/27 23:43:56 by melsen6          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,7 @@ void	expansion(t_token *token, t_mini *ms)
 	while (token != NULL)
 	{
 		if (token->str && token->expanded == 0)
-		{
-
 			token = expand_variable(exp, token, ms);
-		}
 		if (token)
 			token = token->next;
 	}

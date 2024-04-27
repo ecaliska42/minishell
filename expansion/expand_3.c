@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: melsen6 <melsen6@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:01:35 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/27 11:36:01 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/28 00:56:27 by melsen6          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_token	*handle_splitting(t_expansion *exp, t_token *token,
 	return (last_token);
 }
 
-void	shorten_exp(t_token *token, t_mini *ms, char *ptr)
+void	shorten_exp(t_token *token, t_mini *ms, char *ptr) // implement to new
 {
 	char	*tmp;
 
@@ -81,28 +81,37 @@ void	shorten_exp(t_token *token, t_mini *ms, char *ptr)
 t_token	*handle_expansion(t_token *token, t_expansion *exp, t_mini *ms)
 {
 	t_token	last_token;
-	char *ptr;
+	// char *ptr;
 
 	do_expand(exp->joker, exp, ms);
 	if (exp->value != NULL)
 	{
 		if (exp->value[0] == '\0')
-			token->ambiguous = true;
-		ptr = ft_strtrim(exp->value, " ");
-		if (!ptr)
-			return (NULL);
-		if (ft_strchr(ptr, ' ') == NULL)
-			shorten_exp(token, ms, ptr);
-		else
 		{
-			free_and_null((void **)&ptr);
-			token = handle_splitting(exp, token, &last_token, ms);
-			if (token)
-			{
-				token->expanded = 1;
-				return (token);
-			}
+			token->ambiguous = true;
+			return (NULL);	
 		}
+		else if (ft_is_white_space(exp->value[ft_strlen(exp->value) - 1]))
+			exp->split = 1;
+		if (!ft_is_white_space(exp->value[0]))
+			exp->join = 1;
+		if (token->str[0] == '\0')
+			exp->replace = 1;
+		// ptr = ft_strtrim(exp->value, " ");
+		// if (!ptr)
+			// return (NULL);
+		// if (ft_strchr(ptr, ' ') == NULL)
+		// 	shorten_exp(token, ms, ptr);
+		// else
+		// {
+		// free_and_null((void **)&ptr);
+		token = handle_splitting(exp, token, &last_token, ms);
+		if (token)
+		{
+			token->expanded = 1;
+			return (token);
+		}
+		// }
 	}
 	else
 		token->empty = true;
