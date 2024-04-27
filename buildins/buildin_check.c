@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 20:03:11 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/27 11:48:53 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,45 @@ int	open_lonely_files(t_parse **parse)
 	return (SUCCESS);
 }
 
+typedef struct s_lonely_buildin
+{
+	int	orig_stdout;
+	int	orig_stdin;
+	int	flag;
+}	t_lonely_buildin;
+
+void	set_struct(t_lonely_buildin *lb, char *command)
+{
+	if (ft_strcmp("exit", command) == 0)
+		lb->flag = 0;
+	else
+		lb->flag = 1;
+	if (lb->flag == 1)
+	{
+		lb->orig_stdout = dup(1);
+		lb->orig_stdin = dup(0);
+	}
+}
+
 int	lonely_buildin(t_parse *parse, t_env **envp, t_mini **mini)
 {
-	int	original_stdout;
-	int	original_stdin;
-
-	original_stdout = dup(1);
-	original_stdin = dup(0);
+	t_lonely_buildin	lb;
+	
+	set_struct(&lb, parse->command[0]);
 	if (open_lonely_files(&parse) == ERROR)
 		return (ERROR);
 	execute_buildin(&parse, envp, 0, mini);
-	if (dup2(original_stdin, STDIN_FILENO) == -1)
-		perror("dup2 error (execute.c) : ");
-	if (close (original_stdin) == -1)
-		perror("close error (execute.c) : ");
-	if (dup2(original_stdout, STDOUT_FILENO) == -1)
-		perror("dup2 error (execute.c) : ");
-	if (close (original_stdout) == -1)
-		perror("close error (execute.c) : ");
+	if (lb.flag == 1)
+	{
+		if (dup2(lb.orig_stdin, STDIN_FILENO) == -1)
+			perror("dup2 error (execute.c) : ");
+		if (close (lb.orig_stdin) == -1)
+			perror("close error (execute.c) : ");
+		if (dup2(lb.orig_stdout, STDOUT_FILENO) == -1)
+			perror("dup2 error (execute.c) : ");
+		if (close (lb.orig_stdout) == -1)
+			perror("close error (execute.c) : ");
+	}
 	return (SUCCESS);
 }
 

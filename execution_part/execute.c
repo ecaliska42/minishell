@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 17:41:32 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/27 12:32:36 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static void	fork_childs(t_parse *parse, int *i, t_mini **mini)
 	while (parse != NULL)
 	{
 		(*mini)->exe.id[*i] = fork();
+		if ((*mini)->exe.id[*i] == -1)
+			free_mini_and_exit(mini);
 		if ((*mini)->exe.id[*i] == 0)
 		{
 			signal_handler(2, *mini);
