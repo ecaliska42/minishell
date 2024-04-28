@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+         #
+#    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2024/04/27 09:34:02 by mesenyur         ###   ########.fr        #
+#    Updated: 2024/04/27 17:03:46 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,10 +81,22 @@ leak: $(NAME)
 parent: $(NAME)
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=texts/readline.supp ./$(NAME)
 
-fd:
+fd:	$(NAME)
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --track-fds=yes --suppressions=texts/readline.supp ./$(NAME)
+
+fun: $(NAME)
+	funcheck --test-functions='access, read, close, dup2, open, malloc' -a ./$(NAME)
+
+funfd: $(NAME)
+	funcheck --test-functions='close' -a ./$(NAME)
+
+marco: $(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --show-reachable=yes --error-limit=no --track-fds=yes --suppressions=texts/readline.supp -s ./$(NAME)
+
+nofun: $(NAME)
+	funcheck --ignore-functions='signal, dup, isatty, fileno, putc, select, fflush, fstat, pselect, write, realloc, calloc, fread, read, access, munmap, getenv, fclose, stat, fopen, sysconf, strdup, getegid, setenv, getuid, geteuid, getgid' -a ./$(NAME)
 
 run: $(NAME)
 	./$(NAME)
 
-.PHONY: all clean fclean re leak run libft parent
+.PHONY: all clean fclean re leak run libft parent fun fd nofun funtest funfd marco

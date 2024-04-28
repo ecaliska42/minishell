@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:30:48 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/27 13:17:07 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/28 12:35:54 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,25 @@ static void	check_dot_slash(char *command, t_mini **mini)
 	}
 }
 
-static void	dup_and_close(t_mini *ms, int i, t_parse *comm)
+static void	dup_and_close(t_mini *ms, int i, t_parse *comm, char **envp)
 {
 	if (ms->exe.pipecount != 0)
 	{
-		dup_filedescriptor(comm, &ms->exe, i);
+		if (dup_filedescriptor(comm, &ms->exe, i) == ERROR)
+		{
+			free_double(envp);
+			close_filedescriptor(comm, &ms->exe);
+			free_mini_and_exit(&ms);
+		}
 		close_filedescriptor(comm, &ms->exe);
+		return ;
 	}
-	else
-		dup_for_no_pipes(comm);
+	else if (dup_for_no_pipes(comm) == NULL)
+	{
+		free_double(envp);
+		close_filedescriptor(comm, &ms->exe);
+		free_mini_and_exit(&ms);
+	}
 }
 
 void	print_command_not_found(char **command, t_mini **mini)
@@ -81,6 +91,24 @@ void	check_exit(t_mini **mini, t_parse *comm)
 		free_mini_and_exit(mini);
 }
 
+void	print_correct_error_message(t_parse *comm, t_mini **mini)
+{
+	DIR *dir;
+	
+	ft_putendl_fd("\n\nERROR\n\n", 2);
+	dir = opendir(comm->command[0]);
+	if (dir != NULL)
+	{
+		write(2, comm->command[0], ft_strlen(comm->command[0]));
+		write(2, ": is a directory\n", 18);
+		(*mini)->exit_status = 126;
+		closedir(dir);
+		return ;
+	}
+	if (comm->empty == false || comm->command[0][0] != '\0')
+		return (print_command_not_found(comm->command, mini));
+}
+
 int	child(t_parse *comm, int i, t_mini **mini)
 {
 	t_mini	*ms;
@@ -93,7 +121,7 @@ int	child(t_parse *comm, int i, t_mini **mini)
 	envp = change_envp(&ms->env, *mini);
 	if (!envp)
 		return (ERROR);
-	dup_and_close(ms, i, comm);
+	dup_and_close(ms, i, comm, envp);
 	if (is_buildin(comm->command) == true)
 		is_really_buildin(comm, ms, envp);
 	close_filedescriptor(comm, &ms->exe);
@@ -102,9 +130,11 @@ int	child(t_parse *comm, int i, t_mini **mini)
 		free_double(envp);
 		free_mini_and_exit(&ms);
 	}
-	execve(comm->check, comm->command, envp);
-	if (comm->empty == false || comm->command[0][0] != '\0')
-		print_command_not_found(comm->command, mini);
+	if (comm->check)
+		execve(comm->check, comm->command, envp);
+	print_correct_error_message(comm, mini);
+	// if (comm->empty == false || comm->command[0][0] != '\0')
+	// 	print_command_not_found(comm->command, mini);
 	free_double(envp);
 	check_malloc_exit(NULL, ms);
 	return (1);

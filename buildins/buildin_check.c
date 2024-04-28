@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/27 11:48:53 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/28 12:22:27 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_lonely_buildin
 	int	flag;
 }	t_lonely_buildin;
 
-void	set_struct(t_lonely_buildin *lb, char *command)
+int	set_struct(t_lonely_buildin *lb, char *command)
 {
 	if (ft_strcmp("exit", command) == 0)
 		lb->flag = 0;
@@ -42,16 +42,23 @@ void	set_struct(t_lonely_buildin *lb, char *command)
 		lb->flag = 1;
 	if (lb->flag == 1)
 	{
-		lb->orig_stdout = dup(1);
-		lb->orig_stdin = dup(0);
+		if ((lb->orig_stdout = dup(1)) == -1)
+			return (ERROR);
+		if ((lb->orig_stdin = dup(0)) == -1)
+		{
+			close(lb->orig_stdout);
+			return (ERROR);
+		}
 	}
+	return (SUCCESS);
 }
 
 int	lonely_buildin(t_parse *parse, t_env **envp, t_mini **mini)
 {
 	t_lonely_buildin	lb;
 	
-	set_struct(&lb, parse->command[0]);
+	if (set_struct(&lb, parse->command[0]) == ERROR)
+		return (ERROR);
 	if (open_lonely_files(&parse) == ERROR)
 		return (ERROR);
 	execute_buildin(&parse, envp, 0, mini);

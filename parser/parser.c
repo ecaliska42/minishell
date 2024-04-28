@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 16:57:17 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/28 11:28:01 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ void	is_file(t_token **tmp, t_parse ***node, t_mini **mini)
 {
 	if ((*tmp)->type == INPUT && ft_strlen((*tmp)->str) > 0)
 		is_input((*tmp)->str, &node, mini);
-	else if ((*tmp)->type == OUTPUT && ft_strlen((*tmp)->str) > 0
-		&& (**node)->execute == EXECUTE)
+	else if ((*tmp)->type == OUTPUT && (**node)->execute == EXECUTE)
 		is_output((*tmp), &node);
 	else if ((*tmp)->type == APPEND && ft_strlen((*tmp)->str) > 0)
 		is_append((*tmp), &node);
