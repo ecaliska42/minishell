@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/28 11:54:35 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/28 12:45:02 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,7 +226,6 @@ int		parrent_buildin(char *s, t_env **envp);
 bool	is_parrent_buildin(char **s);
 
 void	*dup_for_no_pipes(t_parse *comm);
-void	*dup_filedescriptor(t_parse *comm, t_exe *ex_utils, int i);
 void	*close_filedescriptor(t_parse *comm, t_exe *ex_utils);
 
 int		ft_readline(t_mini *mini);
@@ -256,7 +255,7 @@ int		create_pipes(t_exe *ex_struct);
 //CHILD.C
 int		child(t_parse *comm, int i, t_mini **mini);
 
-void	*dup_filedescriptors(t_parse *comm, t_exe *ex_utils, int i);
+int		dup_filedescriptor(t_parse *comm, t_exe *ex_utils, int i);
 bool	is_only_numbers(char *s);
 bool	is_alpha_numbers(char *s);
 bool	first_character_is(char *s, char c);

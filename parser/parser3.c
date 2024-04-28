@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:14:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/27 11:38:13 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/28 11:34:22 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	free_parsing_node(t_parse **head)
 
 int	is_input(char *name, t_parse ****node, t_mini **mini)
 {
-	if ((***node)->infd != 0 && (***node)->infd != -1)
+	if ((***node)->infd > 0)
 		close((***node)->infd);
 	(***node)->infd = open(name, O_RDONLY);
 	if ((***node)->infd == -1)
@@ -55,6 +55,11 @@ int	is_output(t_token *tmp, t_parse ****node)
 	if (tmp->ambiguous == true || tmp->empty == true)
 	{
 		ft_putstr_fd("minishell: ambiguous redirect\n", 2);
+		(***node)->execute = IGNORE;
+	}
+	else if (ft_strlen(tmp->str) == 0)
+	{
+		ft_putendl_fd("minishell: : No such file or directory", 2);
 		(***node)->execute = IGNORE;
 	}
 	else
