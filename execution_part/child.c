@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:30:48 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/28 12:35:54 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/28 14:04:24 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ void	print_correct_error_message(t_parse *comm, t_mini **mini)
 {
 	DIR *dir;
 	
-	ft_putendl_fd("\n\nERROR\n\n", 2);
 	dir = opendir(comm->command[0]);
 	if (dir != NULL)
 	{

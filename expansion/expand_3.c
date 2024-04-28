@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:01:35 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/28 12:18:32 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/28 13:38:36 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ t_token	*handle_expansion(t_token *token, t_expansion *exp, t_mini *ms)
 			token->ambiguous = true;
 			return (NULL);	
 		}
-		else if (ft_is_white_space(exp->value[ft_strlen(exp->value) - 1]))
+		else if (ft_is_white_space(exp->value[ft_strlen(exp->value) - 1]) && token->next && token->next->str)
 			exp->split = 1;
 		if (!ft_is_white_space(exp->value[0]))
 			exp->join = 1;

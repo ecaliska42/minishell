@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:53:59 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/28 12:47:07 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/28 13:44:34 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ t_token	*split_value(char *str, char *value, t_token *token, t_expansion *exp)
 	char	*joined;
 
 	exp->word_count = 0;
+	if ((ft_is_white_space(exp->value[ft_strlen(exp->value) - 1]) && *exp->tmp_i != '\0'))
+		exp->split = 1;
 	words = ft_split(value, ' ');
 	if (words == NULL)
 		return (NULL);
@@ -98,17 +100,17 @@ t_token	*split_value(char *str, char *value, t_token *token, t_expansion *exp)
 			return (NULL);
 		}		
 		token->str = joined;
-		if (words[exp->word_count] == NULL && exp->split == 1)
-		{
-			token = create_new_token("", token);
-			if (token == NULL)
-			{
-				free_words(words);
-				return (NULL);
-			}
-		}
 	}
 	token->expanded = 1;
+	if (words[exp->word_count] == NULL && exp->split == 1)
+	{
+		token = create_new_token("", token);
+		if (token == NULL)
+		{
+			free_words(words);
+			return (NULL);
+		}
+	}
 	while (words[exp->word_count] != NULL)
 	{
 		token = create_new_token(words[exp->word_count], token);
