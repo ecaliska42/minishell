@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:11:51 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/27 13:13:44 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/28 16:22:45 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ char	*get_access(char *str, t_env **envi)
 	}
 	path = get_path(envi);
 	if (!path)
+	{
+		path_values = 
 		return (NULL);
+	}
 	path_values = ft_split(path->values, ':');
 	if (!path_values)
 		return (NULL);

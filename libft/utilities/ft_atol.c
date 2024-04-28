@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:27:15 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 16:40:11 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/28 16:01:34 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ long	ft_atol(const char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		if (!check_if_valid(number, str[i] - '0', sign))
-			return_write("Numeric arguments required\n", 2);
+			return (return_write("Numeric arguments required\n", 2));
 		number = (number * 10) + (str[i] - '0');
 		i++;
 	}
