@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:53:59 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/28 11:41:56 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/28 12:47:07 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ t_token	*split_value(char *str, char *value, t_token *token, t_expansion *exp)
 	if (words[0] == NULL)
 	{
 		free_words(words);
+		if (token->str[0] != '\0')
+			token = create_new_token("", token);
 		return (token);
 	}
 	if (exp->join == 1 || exp->replace == 1)
@@ -96,12 +98,19 @@ t_token	*split_value(char *str, char *value, t_token *token, t_expansion *exp)
 			return (NULL);
 		}		
 		token->str = joined;
+		if (words[exp->word_count] == NULL && exp->split == 1)
+		{
+			token = create_new_token("", token);
+			if (token == NULL)
+			{
+				free_words(words);
+				return (NULL);
+			}
+		}
 	}
 	token->expanded = 1;
 	while (words[exp->word_count] != NULL)
 	{
-		if (exp->word_count > 0 && token->type != HEREDOC && token->type != RANDOM)
-			token->ambiguous = true;
 		token = create_new_token(words[exp->word_count], token);
 		if (token == NULL)
 		{
@@ -109,6 +118,8 @@ t_token	*split_value(char *str, char *value, t_token *token, t_expansion *exp)
 			return (NULL);
 		}
 		exp->word_count++;
+		if (exp->word_count > 0 && token->type != HEREDOC && token->type != RANDOM)
+			token->ambiguous = true;
 		if (words[exp->word_count] == NULL && exp->split == 1)
 		{
 			token = create_new_token("", token);
