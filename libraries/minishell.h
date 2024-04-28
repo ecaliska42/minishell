@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/27 13:20:03 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/28 11:54:35 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,7 +241,7 @@ char	*expand_heredoc(char *str, t_env *envp, t_mini **mini);
 char	*replace_exit_code(char *str, char **ne, int *i, t_mini *ms);
 void	handle_quotes(t_token * token, char *str, t_mini *ms, t_expansion *exp);
 bool	check_exp(char *str, int i);
-int		do_expand(char *str, t_expansion *exp, t_mini *ms);
+int		do_expand(char *str, t_expansion *exp, t_mini *ms, t_token *token);
 
 /*
 	*EXECUTION

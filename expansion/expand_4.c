@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:07:45 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/27 13:13:02 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/28 09:37:26 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,31 @@ char	*handle_dollar_sign(char *new, char *str, int *i, t_mini *ms)
 		free_expansion(temp, ms->exp, ms);
 		free_and_null((void **)&new);
 		new = temp;
+	}
+	return (new);
+}
+
+char	*expand_heredoc_delimeter(char *new, char *str, int *i, t_mini *ms)
+{
+	while (str[*i])
+	{
+		if (quote_check(str[*i], &ms->shell.quotes) != 0)
+		{
+			(*i)++;
+			while (quote_check(str[*i], &ms->shell.quotes) != 0)
+			{
+				new = add_char(new, str[*i]);
+				free_expansion(new, ms->exp, ms);
+				(*i)++;
+			}
+			(*i)++;
+		}
+		else
+		{
+			new = add_char(new, str[*i]);
+			free_expansion(new, ms->exp, ms);
+			(*i)++;
+		}
 	}
 	return (new);
 }

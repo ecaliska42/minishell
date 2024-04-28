@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melsen6 <melsen6@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:01:35 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/28 00:56:27 by melsen6          ###   ########.fr       */
+/*   Updated: 2024/04/28 11:56:45 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ void	help_norm(t_expansion *exp, t_mini *ms, t_token *last_token)
 t_token	*handle_splitting(t_expansion *exp, t_token *token,
 		t_token *last_token, t_mini *ms)
 {
-	if (token->type != HEREDOC && token->type != RANDOM)
-		token->ambiguous = true;
 	exp->tmp_i = &exp->joker[exp->i];
 	last_token = split_value(token->str, exp->value, token, exp);
 	free_expansion(last_token, ms->exp, ms);
@@ -67,23 +65,11 @@ t_token	*handle_splitting(t_expansion *exp, t_token *token,
 	return (last_token);
 }
 
-void	shorten_exp(t_token *token, t_mini *ms, char *ptr) // implement to new
-{
-	char	*tmp;
-
-	tmp = ft_strjoin(token->str, ptr);
-	free_and_null((void **)&token->str);
-	free_expansion(tmp, ms->exp, ms);
-	free_and_null((void **)&ptr);
-	token->str = tmp;
-}
-
 t_token	*handle_expansion(t_token *token, t_expansion *exp, t_mini *ms)
 {
 	t_token	last_token;
-	// char *ptr;
 
-	do_expand(exp->joker, exp, ms);
+	do_expand(exp->joker, exp, ms, token);	
 	if (exp->value != NULL)
 	{
 		if (exp->value[0] == '\0')
@@ -95,23 +81,15 @@ t_token	*handle_expansion(t_token *token, t_expansion *exp, t_mini *ms)
 			exp->split = 1;
 		if (!ft_is_white_space(exp->value[0]))
 			exp->join = 1;
-		if (token->str[0] == '\0')
+		exp->replace = 0;
+		if (token && token->str && token->str[0] == '\0')
 			exp->replace = 1;
-		// ptr = ft_strtrim(exp->value, " ");
-		// if (!ptr)
-			// return (NULL);
-		// if (ft_strchr(ptr, ' ') == NULL)
-		// 	shorten_exp(token, ms, ptr);
-		// else
-		// {
-		// free_and_null((void **)&ptr);
 		token = handle_splitting(exp, token, &last_token, ms);
 		if (token)
 		{
 			token->expanded = 1;
 			return (token);
 		}
-		// }
 	}
 	else
 		token->empty = true;

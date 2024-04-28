@@ -5,83 +5,135 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/22 16:01:15 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/27 13:02:58 by mesenyur         ###   ########.fr       */
+/*   Created: 2024/04/18 16:53:59 by mesenyur          #+#    #+#             */
+/*   Updated: 2024/04/28 11:41:56 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
 
-int	do_expand(char *str, t_expansion *exp, t_mini *ms)
+char	*replace_exit_code(char *str, char **new, int *i, t_mini *ms)
 {
-	exp->i++;
-	exp->len = check_name_and_return_len(&str[exp->i]);
-	exp->tmp = ft_substr(str, exp->i, exp->len);
-	if (!exp->tmp)
-		return (-1);
-	exp->i += exp->len;
-	exp->value = get_env_value(exp->tmp, ms->env);
-	free_and_null((void **)&exp->tmp);
+	char	*new_str;
+	char	*exit_code;
+
+	if (str[*i] && str[*i] == '$' && str[(*i) + 1] && str[(*i) + 1] == '?')
+	{
+		exit_code = ft_itoa(ms->exit_status);
+		free_expansion(exit_code, ms->exp, ms);
+		(*i) += 2;
+		new_str = ft_strjoin(*new, exit_code);
+		free_and_null((void **)&exit_code);
+		free_and_null((void **)new);
+		free_expansion(new_str, ms->exp, ms);
+		*new = new_str;
+		return (*new);
+	}
 	return (0);
 }
 
-bool	check_exp(char *str, int i)
+t_token	*create_new_token(char *word, t_token *last)
 {
-	if (ft_is_dollar(str[i]) && (str[i + 1] && str[i + 1] != '$'
-			&& str[i + 1] != '?' && str[i + 1] != '/'))
-		return (true);
-	return (false);
+	t_token	*new;
+
+	if (!word || !last)
+		return (NULL);
+	new = ft_calloc(1, sizeof(t_token));
+	if (new == NULL)
+		return (NULL);
+	new->str = ft_strdup(word);
+	if (new->str == NULL)
+	{
+		free_and_null((void **)&new);
+		return (NULL);
+	}
+	new->next = last->next;
+	new->type = last->type;
+	last->next = new;
+	last->expanded = 1;
+	new->expanded = 1;
+	return (new);
 }
 
-void	handle_quotes(t_token * token, char *str, t_mini *ms, t_expansion *exp)
+void	free_words(char **words)
 {
-	if (str[exp->i] == S_QUOTE)
+	int	i;
+
+	i = 0;
+	if (!words)
+		return ;
+	while (words[i] != NULL)
 	{
-		token->str = process_single_quotes(token->str, str, &exp->i);
-		if (!token->str)
-			free_expansion(NULL, ms->exp, ms);
-		exp->quotes = CLOSED;
+		free_and_null((void **)&words[i]);
+		i++;
 	}
-	else if (exp->quotes == D_QUOTE)
-	{
-		exp->i++;
-		token->str = process_double_quotes(token->str, str, &exp->i, ms);
-		exp->quotes = CLOSED;
-	}
+	free_and_null((void **)&words);
 }
 
-t_token	*handle_closed(t_token *token, t_expansion *exp, t_mini *ms)
+t_token	*split_value(char *str, char *value, t_token *token, t_expansion *exp)
 {
-	t_token	*ret;
+	char	**words;
+	char	*joined;
 
-	while (exp->joker[exp->i] && exp->joker[exp->i] != '\"'
-		&& exp->joker[exp->i] != '\'')
+	exp->word_count = 0;
+	words = ft_split(value, ' ');
+	if (words == NULL)
+		return (NULL);
+	if (words[0] == NULL)
 	{
-		while (exp->joker[exp->i] && exp->joker[exp->i] != '$'
-			&& exp->joker[exp->i] != '\"' && exp->joker[exp->i] != '\'')
+		free_words(words);
+		return (token);
+	}
+	if (exp->join == 1 || exp->replace == 1)
+	{
+		joined = ft_strjoin(str, words[0]);
+		exp->word_count++;
+		if (str)
+			free_and_null((void **)&str);
+		if (joined == NULL)
 		{
-			token->str = add_char(token->str, exp->joker[exp->i++]);
-			free_expansion(token->str, ms->exp, ms);
-		}			
-		if (check_exp(exp->joker, exp->i))
+			free_words(words);
+			return (NULL);
+		}		
+		token->str = joined;
+	}
+	token->expanded = 1;
+	while (words[exp->word_count] != NULL)
+	{
+		if (exp->word_count > 0 && token->type != HEREDOC && token->type != RANDOM)
+			token->ambiguous = true;
+		token = create_new_token(words[exp->word_count], token);
+		if (token == NULL)
 		{
-			ret = handle_expansion(token, exp, ms);
-			while (token && token->expanded == 1)
+			free_words(words);
+			return (NULL);
+		}
+		exp->word_count++;
+		if (words[exp->word_count] == NULL && exp->split == 1)
+		{
+			token = create_new_token("", token);
+			if (token == NULL)
 			{
-				if (token->next == NULL)
-					break ;
-				token = token->next;
+				free_words(words);
+				return (NULL);
 			}
-			if (ret)
-				return (ret);
-		}
-		else if (exp->joker[exp->i] == '$' && exp->joker[exp->i + 1] == '?')
-			replace_exit_code(exp->joker, &token->str, &exp->i, ms);
-		else if (ft_is_dollar(exp->joker[exp->i]))
-		{
-			token->str = add_char(token->str, exp->joker[exp->i++]);
-			free_expansion(token->str, ms->exp, ms);
 		}
 	}
-	return (NULL);
+	free_words(words);
+	return (token);
+}
+
+char	*add_char(char *str, char new_char)
+{
+	char	*new;
+	int		str_len;
+
+	str_len = ft_strlen(str);
+	new = ft_calloc(str_len + 2, sizeof(char));
+	if (new == NULL)
+		return (NULL);
+	ft_memcpy(new, str, str_len);
+	new[str_len] = new_char;
+	free_and_null((void **)&str);
+	return (new);
 }
