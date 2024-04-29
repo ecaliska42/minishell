@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/28 12:39:05 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/28 13:21:28 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 static void	fork_childs(t_parse *parse, int *i, t_mini **mini)
 {
+	t_parse *tmp;
+
+	tmp = parse;
 	*i = 0;
 	while (parse != NULL)
 	{
@@ -23,7 +26,7 @@ static void	fork_childs(t_parse *parse, int *i, t_mini **mini)
 		if ((*mini)->exe.id[*i] == 0)
 		{
 			signal_handler(2, *mini);
-			child(parse, *i, mini);
+			child(parse, *i, mini, tmp);
 		}
 		(*i)++;
 		parse = parse->next;
@@ -56,6 +59,33 @@ static void	wait_for_children(t_mini **mini, int i)
 	}
 }
 
+int	close_pipes(t_exe *exe)
+{
+	int	i;
+
+	i = 0;
+	while (exe->fd[i])
+	{
+		close(exe->fd[i][0]);
+		close(exe->fd[i][1]);
+		i++;
+	}
+	return (SUCCESS);
+}
+
+int	close_parse(t_parse *parse)
+{
+	while (parse)
+	{
+		if (parse->infd > 0)
+			close(parse->infd);
+		if (parse->outfd > 0)
+			close(parse->outfd);
+		parse = parse->next;
+	}
+	return (SUCCESS);
+}
+
 int	execute(t_mini **mini)
 {
 	t_parse	*parse;
@@ -73,6 +103,8 @@ int	execute(t_mini **mini)
 		return (ERROR);
 	fork_childs(parse, &i, mini);
 	close_filedescriptor(parse, &(*mini)->exe);
+	// close_pipes(&(*mini)->exe);
+	// close_parse(parse);
 	wait_for_children(mini, i);
 	if (WIFEXITED((*mini)->exit_status))
 		(*mini)->exit_status = WEXITSTATUS((*mini)->exit_status);

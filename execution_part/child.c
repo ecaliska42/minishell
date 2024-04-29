@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:30:48 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/28 14:04:24 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 12:23:37 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,20 @@ static void	is_really_buildin(t_parse *comm, t_mini *ms, char **envp)
 	free_mini_and_exit(&ms);
 }
 
-void	check_exit(t_mini **mini, t_parse *comm)
+void	check_exit(t_mini **mini, t_parse *comm, t_parse *head)
 {
 	if (comm && comm->execute == IGNORE)
 	{
 		(*mini)->exit_status = 1;
+		close_filedescriptor(head, &(*mini)->exe);
 		free_mini_and_exit(mini);
 	}
 	if (!comm->command && !comm->outfd)
+	{
+		// (*mini)->exit_status = 1;
+		close_filedescriptor(head, &(*mini)->exe);
 		free_mini_and_exit(mini);
+	}
 }
 
 void	print_correct_error_message(t_parse *comm, t_mini **mini)
@@ -108,13 +113,13 @@ void	print_correct_error_message(t_parse *comm, t_mini **mini)
 		return (print_command_not_found(comm->command, mini));
 }
 
-int	child(t_parse *comm, int i, t_mini **mini)
+int	child(t_parse *comm, int i, t_mini **mini, t_parse *head)
 {
 	t_mini	*ms;
 	char	**envp;
 
 	ms = *mini;
-	check_exit(mini, comm);
+	check_exit(mini, comm, head);
 	if (comm->command && comm->command[0])
 		check_dot_slash(comm->command[0], mini);
 	envp = change_envp(&ms->env, *mini);
@@ -123,7 +128,7 @@ int	child(t_parse *comm, int i, t_mini **mini)
 	dup_and_close(ms, i, comm, envp);
 	if (is_buildin(comm->command) == true)
 		is_really_buildin(comm, ms, envp);
-	close_filedescriptor(comm, &ms->exe);
+	close_filedescriptor(head, &ms->exe);
 	if (g_sig || !comm->command || !comm->command[0])
 	{
 		free_double(envp);

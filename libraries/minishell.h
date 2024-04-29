@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/28 12:45:02 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 11:56:43 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ int		prepare_for_execution(t_mini **minishell);
 //parser2.c
 t_env	*get_path(t_env **envi);
 char	*do_while_access(char **path_values, char *str);
-char	*get_access(char *str, t_env **envi);
+char	*get_access(char *str, t_env **envi, t_mini **mini);
 int		get_check(t_mini **mini);
 void	add_back(t_parse **com, t_parse *node);
 //parser3.c
@@ -225,11 +225,9 @@ int		execute_buildin(t_parse **parse, t_env **env, int pc, t_mini **mini);
 int		parrent_buildin(char *s, t_env **envp);
 bool	is_parrent_buildin(char **s);
 
-void	*dup_for_no_pipes(t_parse *comm);
 void	*close_filedescriptor(t_parse *comm, t_exe *ex_utils);
 
 int		ft_readline(t_mini *mini);
-int		prepare_for_execution(t_mini **shell);
 int		heredoc(t_parse *node, char *end, bool expand, t_mini **mini);
 
 int		copy_environment(char **envp, t_env **lst);
@@ -237,7 +235,7 @@ int		free_environment(t_env **lst);
 void	*dup_for_no_pipes(t_parse *comm);
 char	*skip_starting_ending_spaces(char *value);
 char	*expand_heredoc(char *str, t_env *envp, t_mini **mini);
-char	*replace_exit_code(char *str, char **ne, int *i, t_mini *ms);
+char	*replace_exit_code(char *str, char **new_str, int *i, t_mini *ms);
 void	handle_quotes(t_token * token, char *str, t_mini *ms, t_expansion *exp);
 bool	check_exp(char *str, int i);
 int		do_expand(char *str, t_expansion *exp, t_mini *ms, t_token *token);
@@ -253,7 +251,7 @@ char	**change_envp(t_env **envp, t_mini *mini);
 int		malloc_ex_struct(t_exe *ex_struct);
 int		create_pipes(t_exe *ex_struct);
 //CHILD.C
-int		child(t_parse *comm, int i, t_mini **mini);
+int		child(t_parse *comm, int i, t_mini **mini, t_parse *head);
 
 int		dup_filedescriptor(t_parse *comm, t_exe *ex_utils, int i);
 bool	is_only_numbers(char *s);
@@ -291,7 +289,6 @@ char	*get_env_value(char *name, t_env *envp);
 char	*add_char(char *str, char new_char);
 t_env	*get_from_env(t_env **lst, char *s);
 t_token	*split_value(char *str, char *value, t_token *token, t_expansion *exp);
-char	*replace_exit_code(char *str, char **new_str, int *i, t_mini *ms);
 char	*expand_heredoc_delimeter(char *new_str, char *str, int *i, t_mini *ms);
 char	*handle_dollar_sign(char *new_str, char *str, int *i, t_mini *ms);
 
