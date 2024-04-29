@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/28 13:21:47 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 11:56:43 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ int		prepare_for_execution(t_mini **minishell);
 //parser2.c
 t_env	*get_path(t_env **envi);
 char	*do_while_access(char **path_values, char *str);
-char	*get_access(char *str, t_env **envi);
+char	*get_access(char *str, t_env **envi, t_mini **mini);
 int		get_check(t_mini **mini);
 void	add_back(t_parse **com, t_parse *node);
 //parser3.c

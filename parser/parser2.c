@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:11:51 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/28 16:22:45 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 11:57:14 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_env	*get_path(t_env **envi)
 	temp = *envi;
 	while (temp)
 	{
-		if (ft_strncmp(temp->name, "PATH", 4) == 0)
+		if (ft_strcmp(temp->name, "PATH") == 0)
 			break ;
 		temp = temp -> next;
 	}
@@ -54,7 +54,29 @@ char	*do_while_access(char **path_values, char *str) // elfeqäfjeläqfjäq
 	return (ret);
 }
 
-char	*get_access(char *str, t_env **envi)
+char	*get_current(char *str, t_mini **mini)
+{
+	char	*current_pwd;
+	char	*temp;
+
+	current_pwd = malloc(FILENAME_MAX);
+	check_malloc_exit(current_pwd, (*mini));
+	if (getcwd(current_pwd, FILENAME_MAX) == NULL)
+	{
+		perror("getcwd");
+		free_and_null((void **)&current_pwd);
+		return (NULL);
+	}
+	temp = current_pwd;
+	current_pwd = ft_strjoin(current_pwd, "/");
+	free_and_null((void **)&temp);
+	temp = current_pwd;
+	current_pwd = ft_strjoin(current_pwd, str);
+	free_and_null((void **)&temp);
+	return (current_pwd);
+}
+
+char	*get_access(char *str, t_env **envi, t_mini **mini)
 {
 	t_env	*path;
 	char	*temp2;
@@ -68,8 +90,8 @@ char	*get_access(char *str, t_env **envi)
 	path = get_path(envi);
 	if (!path)
 	{
-		path_values = 
-		return (NULL);
+		temp2 = get_current(str, mini);
+		return (temp2);
 	}
 	path_values = ft_split(path->values, ':');
 	if (!path_values)
@@ -93,7 +115,7 @@ int	get_check(t_mini **mini)
 			node = node->next;
 			continue ;
 		}
-		node->check = get_access(node->command[0], &(*mini)->env);
+		node->check = get_access(node->command[0], &(*mini)->env, mini);
 		if (!node->check)
 			return (ERROR);
 		node = node -> next;
