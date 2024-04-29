@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:01:15 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/28 11:53:12 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 13:24:03 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int	do_expand(char *str, t_expansion *exp, t_mini *ms, t_token *token)
 
 bool	check_exp(char *str, int i)
 {
-	if (ft_is_dollar(str[i]) && (str[i + 1] && str[i + 1] != '$'
-			&& str[i + 1] != '?' && str[i + 1] != '/'))
+	if (ft_is_dollar(str[i]) && (str[i + 1] && str[i + 1] != '$' && str[i
+				+ 1] != '?' && str[i + 1] != '/'))
 		return (true);
 	return (false);
 }
@@ -60,14 +60,14 @@ char	*process_single_quotes(char *new, char *str, int *i)
 	return (new);
 }
 
-static void helper(char **new, char *str, int **i, t_mini *ms)
+static void	helper(char **new, char *str, int **i, t_mini *ms)
 {
 	if (ft_is_dollar(str[**i]) && !ft_isalnum(str[(**i) + 1]))
-		{
-			*new = add_char(*new, str[**i]);
-			free_expansion(new, ms->exp, ms);
-			(**i)++;
-		}
+	{
+		*new = add_char(*new, str[**i]);
+		free_expansion(new, ms->exp, ms);
+		(**i)++;
+	}
 }
 
 char	*process_double_quotes(char *new, char *str, int *i, t_mini *ms)
@@ -94,4 +94,3 @@ char	*process_double_quotes(char *new, char *str, int *i, t_mini *ms)
 		(*i)++;
 	return (new);
 }
-
