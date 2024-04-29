@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/28 14:19:40 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:48:56 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ int	is_dollar_hd(t_expand *exp, char *str, t_mini *ms, t_env *envp)
 		tmp = ft_strjoin(exp->newest, exp->value);
 		free_and_null((void **)&exp->newest);
 		exp->newest = ft_strdup(tmp);
+		// free_and_null((void **)&tmp);
 		free_expansion(exp->newest, ms->exp, ms);
-		free_and_null((void **)&tmp);
 	}
 	free_and_null((void **)&exp->tmp);
 	return (SUCCESS);
@@ -138,7 +138,6 @@ int	heredoc(t_parse *node, char *end, bool expand, t_mini **mini)
 	if (node->infd != 0)
 		close(node->infd);
 	node->infd = open(name, O_RDONLY);
-	// unlink(name);
 	free_and_null((void **)&name);
 	if (node->infd < 0)
 		return (ERROR);

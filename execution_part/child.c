@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:30:48 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 12:23:37 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:47:46 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	check_dot_slash(char *command, t_mini **mini)
 {
 	if (command && (command[0] == '/'
-		|| (command[0] == '.' && command[1] == '/')))
+			|| (command[0] == '.' && command[1] == '/')))
 	{
 		if (opendir(command) != NULL)
 		{
@@ -62,17 +62,9 @@ static void	dup_and_close(t_mini *ms, int i, t_parse *comm, char **envp)
 	}
 }
 
-void	print_command_not_found(char **command, t_mini **mini)
+static void	is_really_buildin(t_parse *comm, t_mini *ms, char **envp, t_parse *head)
 {
-	while (*command && **command == '\0')
-		command++;
-	write(2, *command, ft_strlen(*command));
-	write(2, ": command not found\n", 21);
-	(*mini)->exit_status = 127;
-}
-
-static void	is_really_buildin(t_parse *comm, t_mini *ms, char **envp)
-{
+	(void)head;
 	execute_buildin(&comm, &ms->env, ms->exe.pipecount, &ms);
 	close_filedescriptor(comm, &ms->exe);
 	free_double(envp);
@@ -90,27 +82,10 @@ void	check_exit(t_mini **mini, t_parse *comm, t_parse *head)
 	}
 	if (!comm->command && !comm->outfd)
 	{
-		// (*mini)->exit_status = 1;
+		(*mini)->exit_status = 1;
 		close_filedescriptor(head, &(*mini)->exe);
 		free_mini_and_exit(mini);
 	}
-}
-
-void	print_correct_error_message(t_parse *comm, t_mini **mini)
-{
-	DIR *dir;
-	
-	dir = opendir(comm->command[0]);
-	if (dir != NULL)
-	{
-		write(2, comm->command[0], ft_strlen(comm->command[0]));
-		write(2, ": is a directory\n", 18);
-		(*mini)->exit_status = 126;
-		closedir(dir);
-		return ;
-	}
-	if (comm->empty == false || comm->command[0][0] != '\0')
-		return (print_command_not_found(comm->command, mini));
 }
 
 int	child(t_parse *comm, int i, t_mini **mini, t_parse *head)
@@ -127,7 +102,7 @@ int	child(t_parse *comm, int i, t_mini **mini, t_parse *head)
 		return (ERROR);
 	dup_and_close(ms, i, comm, envp);
 	if (is_buildin(comm->command) == true)
-		is_really_buildin(comm, ms, envp);
+		is_really_buildin(comm, ms, envp, head);
 	close_filedescriptor(head, &ms->exe);
 	if (g_sig || !comm->command || !comm->command[0])
 	{
@@ -137,8 +112,6 @@ int	child(t_parse *comm, int i, t_mini **mini, t_parse *head)
 	if (comm->check)
 		execve(comm->check, comm->command, envp);
 	print_correct_error_message(comm, mini);
-	// if (comm->empty == false || comm->command[0][0] != '\0')
-	// 	print_command_not_found(comm->command, mini);
 	free_double(envp);
 	check_malloc_exit(NULL, ms);
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 17:25:26 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/27 12:29:56 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 14:32:04 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ int	get_value(t_env **node, char *envp, t_env **lst)
 	return (SUCCESS);
 }
 
-//?PROTECTION DONE HERE SHOULD BE NO FUNCHECK ERRORS
 int	copy_environment(char **envp, t_env **lst)
 {
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 14:06:38 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 14:41:05 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ typedef struct t_export
 //export.c
 
 int		ft_export(t_env **lst, t_parse **node, t_mini **mini);
-
+int		do_while_export(t_env *tmp, t_env **copy, t_env *node);
 //export2.c
 
 void	print_list(t_env **list);
@@ -250,9 +250,12 @@ void	free_fds(int **fds);
 char	**change_envp(t_env **envp, t_mini *mini);
 int		malloc_ex_struct(t_exe *ex_struct);
 int		create_pipes(t_exe *ex_struct);
+
 //CHILD.C
 int		child(t_parse *comm, int i, t_mini **mini, t_parse *head);
 
+void	print_command_not_found(char **command, t_mini **mini);
+void	print_correct_error_message(t_parse *comm, t_mini **mini);
 int		dup_filedescriptor(t_parse *comm, t_exe *ex_utils, int i);
 bool	is_only_numbers(char *s);
 bool	is_alpha_numbers(char *s);

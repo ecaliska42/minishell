@@ -6,7 +6,7 @@
 #    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2024/04/29 14:06:34 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/04/29 14:53:25 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,14 +22,13 @@ NAME= minishell
 SRC= minishell.c \
 	buildins/ft_echo.c buildins/ft_cd.c buildins/ft_cd2.c buildins/ft_env.c \
 	buildins/ft_exit.c buildins/ft_cd3.c buildins/ft_export.c buildins/ft_export2.c buildins/ft_export3.c buildins/ft_export4.c buildins/ft_pwd.c buildins/ft_unset.c \
-	buildins/buildin_check.c \
-	parser/parser.c parser/parser2.c parser/parser3.c \
-	execution_part/execute.c \
+	buildins/buildin_check.c buildins/ft_export5.c\
+	parser/parser.c parser/parser2.c parser/parser3.c parser/parser4.c\
 	ms_utils.c \
-	dup_and_close_functions.c\
+	dup_and_close_functions.c dup2.c\
 	sizes/arrays.c sizes/lists.c\
 	heredoc.c environment.c\
-	execution_part/execution_utils.c execution_part/child.c\
+	execution_part/execution_utils.c execution_part/child.c execution_part/execute.c execution_part/child2.c\
 	booleans/bool_functions2.c\
 	close.c \
 	GNL/get_next_line.c GNL/get_next_line_utils.c\
@@ -82,7 +81,7 @@ parent: $(NAME)
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=texts/readline.supp ./$(NAME)
 
 fd:	$(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --track-fds=yes --suppressions=texts/readline.supp ./$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --track-fds=yes --suppressions=$(HOME)/readline.supp ./$(NAME)
 
 fun: $(NAME)
 	funcheck --test-functions='access, read, close, dup2, open, malloc' -a ./$(NAME)
