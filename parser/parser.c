@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 17:44:52 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:23:02 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	prepare_for_execution(t_mini **minishell)
 		return (return_write("malloc parser.c", ERROR));
 	ft_bzero(node, sizeof(*node));
 	if (while_loop_parser(tmp, &node, mini) == ERROR)
-		return (ERROR);
+		return (free(node), ERROR);
 	add_back(&mini->parse, node);
 	get_check(&mini);
 	execute(&mini);

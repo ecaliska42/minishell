@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:14:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 17:45:48 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:23:05 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	free_parsing_node(t_parse **head)
 
 int	is_input(char *name, t_parse ****node, t_mini **mini)
 {
-	if ((***node)->infd > 0)
+	if ((***node)->infd != 0 && (***node)->infd != -1)
 		close((***node)->infd);
 	(***node)->infd = open(name, O_RDONLY);
 	if ((***node)->infd == -1)

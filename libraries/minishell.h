@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 18:20:27 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:22:57 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,19 @@ typedef struct t_export
 	int		i;
 }	t_export;
 
+typedef struct s_lonely_buildin
+{
+	int	orig_stdout;
+	int	orig_stdin;
+	int	flag;
+}	t_lonely_buildin;
+
 //EXPORT
 
 //export.c
 
 int		ft_export(t_env **lst, t_parse **node, t_mini **mini);
-
+int		do_while_export(t_env *tmp, t_env **copy, t_env *node);
 //export2.c
 
 void	print_list(t_env **list);
@@ -152,6 +159,8 @@ typedef struct t_expand
 //cd3.c
 char	*remove_after_backslash(char *s);
 int		dot_dot(t_env **old, t_env **current, t_mini *mini);
+int		ch_dir_else(t_env **old, t_env **current, char *now);
+
 
 //PARSER
 
@@ -243,6 +252,8 @@ int		create_pipes(t_exe *ex_struct);
 
 int		child(t_parse *comm, int i, t_mini **mini, t_parse *head);
 
+void	print_command_not_found(char **command, t_mini **mini);
+void	print_correct_error_message(t_parse *comm, t_mini **mini);
 int		dup_filedescriptor(t_parse *comm, t_exe *ex_utils, int i);
 bool	is_only_numbers(char *s);
 bool	is_alpha_numbers(char *s);

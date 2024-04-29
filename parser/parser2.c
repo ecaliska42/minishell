@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:11:51 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 11:57:14 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 14:10:28 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_env	*get_path(t_env **envi)
 	return (temp);
 }
 
-char	*do_while_access(char **path_values, char *str) // elfeqäfjeläqfjäq
+char	*do_while_access(char **path_values, char *str)
 {
 	int		i;
 	char	*temp;
@@ -38,10 +38,10 @@ char	*do_while_access(char **path_values, char *str) // elfeqäfjeläqfjäq
 	i = 0;
 	while (path_values[i])
 	{
-		temp = ft_strjoin(path_values[i], "/"); // wlhd wlkhwkl
+		temp = ft_strjoin(path_values[i], "/");
 		if (!temp)
 			return (NULL);
-		temp2 = ft_strjoin(temp, str); // wkldh wdklwhdklw
+		temp2 = ft_strjoin(temp, str);
 		if (!temp2)
 			return (free_and_null((void **)&temp), NULL);
 		free_and_null((void **)&temp);
@@ -97,6 +97,7 @@ char	*get_access(char *str, t_env **envi, t_mini **mini)
 	if (!path_values)
 		return (NULL);
 	temp2 = do_while_access(path_values, str);
+	check_malloc_exit(temp2, *mini);
 	free_double(path_values);
 	if (!temp2)
 		return (NULL);
@@ -121,20 +122,4 @@ int	get_check(t_mini **mini)
 		node = node -> next;
 	}
 	return (SUCCESS);
-}
-
-void	add_back(t_parse **com, t_parse *node)
-{
-	t_parse	*temp;
-
-	if (*com == NULL)
-		*com = node;
-	else
-	{
-		temp = *com;
-		while (temp -> next != NULL)
-			temp = temp -> next;
-		temp -> next = node;
-	}
-	temp = *com;
 }

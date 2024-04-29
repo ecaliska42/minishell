@@ -6,36 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 17:02:21 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/28 12:29:59 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 14:17:35 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
-
-int fail_dup2(int oldfd, int newfd) {
-	(void)oldfd;
-	(void)newfd;
-    return -1;
-}
-
-//TODO add closing functions after each dup2
-
-void	*dup_for_no_pipes(t_parse *comm)
-{
-	if (comm->infd > 0)
-	{
-		if (dup2(comm->infd, STDIN_FILENO) == -1)
-			return (NULL);
-		close(comm->infd);
-	}
-	if (comm->outfd > 0)
-	{
-		if (dup2(comm->outfd, STDOUT_FILENO) == -1)
-			return (NULL);
-		close(comm->outfd);
-	}
-	return ((void *)1);
-}
 
 static int	first_pipe(t_parse **comm, int i, t_exe **ex_utils)
 {
@@ -62,22 +37,29 @@ static int	first_pipe(t_parse **comm, int i, t_exe **ex_utils)
 	return (SUCCESS);
 }
 
+static int	between_pipe_in(t_parse **comm, t_exe **ex_utils, int i)
+{
+	if (dup2((*comm)->infd, STDIN_FILENO) == -1)
+		return (ERROR);
+	if ((*comm)->outfd > 0)
+	{
+		if (dup2((*comm)->outfd, STDOUT_FILENO) == -1)
+			return (ERROR);
+	}
+	else
+	{
+		if (dup2((*ex_utils)->fd[i][1], STDOUT_FILENO) == -1)
+			return (ERROR);
+	}
+	return (SUCCESS);
+}
+
 static int	between_pipe(t_parse **comm, int i, t_exe **ex_utils)
 {
 	if ((*comm)->infd > 0)
 	{
-		if (dup2((*comm)->infd, STDIN_FILENO) == -1)
+		if (between_pipe_in(comm, ex_utils, i) == ERROR)
 			return (ERROR);
-		if ((*comm)->outfd > 0)
-		{
-			if (dup2((*comm)->outfd, STDOUT_FILENO) == -1)
-				return (ERROR);
-		}
-		else
-		{
-			if (dup2((*ex_utils)->fd[i][1], STDOUT_FILENO) == -1)
-				return (ERROR);
-		}
 	}
 	else if ((*comm)->outfd > 0)
 	{
@@ -119,8 +101,6 @@ static int	last_pipe(t_parse **comm, int i, t_exe **ex_utils)
 	{
 		if (dup2((*ex_utils)->fd[i - 1][0], STDIN_FILENO) == -1)
 			return (ERROR);
-		// if (dup2(STDOUT_FILENO, STDOUT_FILENO) == -1)
-		// 	return (ERROR);
 	}
 	return (SUCCESS);
 }

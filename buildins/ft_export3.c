@@ -6,29 +6,11 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:28:43 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 16:58:05 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 17:18:42 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
-
-void	free_list(t_env **head)
-{
-	t_env	*tmp;
-
-	while (*head)
-	{
-		tmp = *head;
-		*head = (*head)->next;
-		free_and_null((void **)&tmp->name);
-		tmp->name = NULL;
-		free_and_null((void **)&tmp->values);
-		tmp->values = NULL;
-		free_and_null((void **)&tmp);
-		tmp = NULL;
-		tmp = *head;
-	}
-}
 
 int	print_export(t_env *head)
 {
@@ -42,6 +24,18 @@ int	print_export(t_env *head)
 	return (SUCCESS);
 }
 
+int	env_add_back_helper(t_env *tmp, char *name, char *value)
+{
+	if (ft_strcmp(tmp->name, name) == 0)
+	{
+		free_and_null((void **)&tmp->values);
+		if (value)
+			tmp->values = ft_strdup(value);
+		return (ERROR);
+	}
+	return (SUCCESS);
+}
+
 int	env_addback(t_env **head, char *name, char *value)
 {
 	t_env	*node;
@@ -50,13 +44,8 @@ int	env_addback(t_env **head, char *name, char *value)
 	tmp = *head;
 	while (tmp->next && ft_strcmp(tmp->name, name) != 0)
 		tmp = tmp->next;
-	if (ft_strcmp(tmp->name, name) == 0)
-	{
-		free_and_null((void **)&tmp->values);
-		if (value)
-			tmp->values = ft_strdup(value);
+	if (env_add_back_helper(tmp, name, value) == ERROR)
 		return (SUCCESS);
-	}
 	node = malloc(sizeof(t_env));
 	if (!node)
 		return (ERROR);

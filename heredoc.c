@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 16:50:32 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:22:42 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,14 @@ int	is_dollar_hd(t_expand *exp, char *str, t_mini *ms, t_env *envp)
 	if (exp->value != NULL)
 	{
 		tmp = ft_strjoin(exp->newest, exp->value);
+		if (!tmp)
+			return (free_and_null((void **)&exp->tmp), ERROR);
 		free_and_null((void **)&exp->newest);
 		exp->newest = ft_strdup(tmp);
-		free_expansion(exp->newest, ms->exp, ms);
+		if (!exp->newest)
+			return (free_and_null((void **)&tmp), free_and_null((void **)&exp->tmp), ERROR);
 		free_and_null((void **)&tmp);
+		free_expansion(exp->newest, ms->exp, ms);
 	}
 	free_and_null((void **)&exp->tmp);
 	return (SUCCESS);

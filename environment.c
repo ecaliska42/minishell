@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 17:25:26 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/27 12:29:56 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:38:02 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,24 @@
 
 int	free_environment(t_env **lst)
 {
-    t_env	*tmp;
-    t_env	*next;
+	t_env	*tmp;
+	t_env	*next;
 
-    if (!lst || !*lst)
-        return (ERROR);
-
-    tmp = *lst;
-    while (tmp)
-    {
-        next = tmp->next;
-        if (tmp->name)
-            free_and_null((void **)&tmp->name);
-        if (tmp->values)
-            free_and_null((void **)&tmp->values);
-        free_and_null((void **)&tmp);
-        tmp = next;
-    }
-    *lst = NULL;
-    return (ERROR);
+	if (!lst || !*lst)
+		return (ERROR);
+	tmp = *lst;
+	while (tmp)
+	{
+		next = tmp->next;
+		if (tmp->name)
+			free_and_null((void **)&tmp->name);
+		if (tmp->values)
+			free_and_null((void **)&tmp->values);
+		free_and_null((void **)&tmp);
+		tmp = next;
+	}
+	*lst = NULL;
+	return (ERROR);
 }
 
 int	increase_shell_level(char *envp, t_env **node)
@@ -108,7 +107,6 @@ int	get_value(t_env **node, char *envp, t_env **lst)
 	return (SUCCESS);
 }
 
-//?PROTECTION DONE HERE SHOULD BE NO FUNCHECK ERRORS
 int	copy_environment(char **envp, t_env **lst)
 {
 	int		i;
