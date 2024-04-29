@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 14:11:25 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:51:48 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,11 @@ char	*get_after(char *str, char character);
 
 void	printf_double(char **str);
 void	printf_tripple(char ***str);
+
+// HEREDOC
+
+void	norm_helper_two(char *str, t_expand *exp, t_mini *ms);
+void	norm_helper(char *str, t_expand *exp, t_mini *ms);
 
 	// *./SIZES
 

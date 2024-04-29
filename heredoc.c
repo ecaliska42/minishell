@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/28 14:19:40 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:50:32 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,22 +79,16 @@ char	*expand_heredoc(char *str, t_env *envp, t_mini **mini)
 	free_expansion(exp.newest, ms->exp, *mini);
 	while (str[exp.i])
 	{
-		while (str[exp.i] && str[exp.i] != '$')
-		{
-			exp.newest = add_char(exp.newest, str[exp.i]);
-			free_expansion(exp.newest, ms->exp, ms);
-			(exp.i)++;
-		}
+		norm_helper(str, &exp, ms);
 		if ((ft_is_dollar(str[exp.i])) && (str[(exp.i) + 1] && (str[(exp.i)
 						+ 1] != '$')))
-			if (is_dollar_hd(&exp, str, ms, envp) == ERROR)
-				return (NULL);
-		while (str[exp.i] && str[exp.i] != '$' && str[exp.i])
 		{
-			exp.newest = add_char(exp.newest, str[exp.i]);
-			free_expansion(exp.newest, ms->exp, ms);
-			(exp.i)++;
+			if (is_dollar_hd(&exp, str, ms, envp) != ERROR)
+				continue ;
+			else
+				return (NULL);
 		}
+		norm_helper_two(str, &exp, ms);
 	}
 	free_and_null((void **)&str);
 	return (exp.newest);
@@ -108,9 +102,7 @@ void	do_while(int fd, char *end, bool expand, t_mini **mini)
 	while (1)
 	{
 		if (g_sig)
-		{
 			break ;
-		}
 		line = readline("> ");
 		if (!line)
 			return ;
@@ -138,7 +130,6 @@ int	heredoc(t_parse *node, char *end, bool expand, t_mini **mini)
 	if (node->infd != 0)
 		close(node->infd);
 	node->infd = open(name, O_RDONLY);
-	// unlink(name);
 	free_and_null((void **)&name);
 	if (node->infd < 0)
 		return (ERROR);
