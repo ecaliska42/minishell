@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:29:24 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/24 17:47:49 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 14:14:15 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	not_pipe(t_shell *shell, t_token *last_token, int *i)
 	last_token->str = get_word(shell, shell->input, i);
 	if (last_token->str == NULL)
 	{
-		ft_putendl_fd("minishell: syntax error near unexpected token `|'", 2);
+		ft_putendl_fd("minishell: syntax error", 2);
 		return (ERROR);
 	}
 	return (SUCCESS);

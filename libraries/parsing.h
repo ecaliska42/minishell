@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: melsen6 <melsen6@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/28 00:05:10 by melsen6          ###   ########.fr       */
+/*   Updated: 2024/04/29 14:18:55 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define CLOSED 0
 # define D_QUOTE '\"'
 # define S_QUOTE '\''
-# define PROMPT "🨀 ShellMate 🨁 :~ "
+# define PROMPT "ShellMate: "
 # define SUCCESS 0
 # define ERROR 1
 // # define DELIM " \n\t\r\v\f"

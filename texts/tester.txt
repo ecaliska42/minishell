@@ -1,5 +1,0 @@
-export T="l"
-$Ts
-
-$NOVAR
-

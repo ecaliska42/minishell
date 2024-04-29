@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 16:16:58 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/27 12:04:48 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 14:13:41 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,7 @@ int	invalid_word(t_shell *shell)
 	{
 		if (tmp->type != PIPE && tmp->str[0] == '\0')
 		{
-			ft_putendl_fd("minishell: syntax error near unexpected token `|'",
-				2);
+			ft_putendl_fd("minishell: syntax error", 2);
 			return (SYNTAX_ERROR);
 		}
 		tmp = tmp->next;
