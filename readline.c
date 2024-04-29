@@ -6,12 +6,13 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/29 14:31:20 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:00:42 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
 #include "GNL/get_next_line.h"
+#include "libft/libft.h"
 #include "libraries/parsing.h"
 
 void	first_stage(t_mini *mini)

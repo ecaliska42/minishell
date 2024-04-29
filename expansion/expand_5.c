@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:53:59 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/29 13:34:23 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:17:13 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,14 @@ char	*check_join(t_expansion *exp, char *str, char **words, t_token *token)
 	if (exp->join == 1 || exp->replace == 1)
 	{
 		joined = ft_strjoin(str, words[0]);
+		if (joined == NULL)
+			exit (1);
 		exp->word_count++;
 		if (str)
 			free_and_null((void **)&str);
 		val_check(joined, words);
-		token->str = joined;
+		if (joined)
+			token->str = joined;
 	}
 	return (joined);
 }
