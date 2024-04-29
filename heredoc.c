@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 15:55:50 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:01:38 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,12 @@ int	is_dollar_hd(t_expand *exp, char *str, t_mini *ms, t_env *envp)
 	if (exp->value != NULL)
 	{
 		tmp = ft_strjoin(exp->newest, exp->value);
+		if (!tmp)
+			return (free_and_null((void **)&exp->tmp), ERROR);
 		free_and_null((void **)&exp->newest);
 		exp->newest = ft_strdup(tmp);
+		if (!exp->newest)
+			return (free_and_null((void **)&tmp), free_and_null((void **)&exp->tmp), ERROR);
 		free_and_null((void **)&tmp);
 		free_expansion(exp->newest, ms->exp, ms);
 	}
@@ -85,8 +89,7 @@ char	*expand_heredoc(char *str, t_env *envp, t_mini **mini)
 			free_expansion(exp.newest, ms->exp, ms);
 			(exp.i)++;
 		}
-		if ((ft_is_dollar(str[exp.i])) && (str[(exp.i) + 1] && (str[(exp.i)
-						+ 1] != '$')))
+		if ((ft_is_dollar(str[exp.i])) && (str[(exp.i) + 1] && (str[(exp.i) + 1] != '$')))
 			if (is_dollar_hd(&exp, str, ms, envp) == ERROR)
 				return (NULL);
 		while (str[exp.i] && str[exp.i] != '$' && str[exp.i])
