@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:07:45 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/28 09:37:26 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 13:22:00 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,21 @@ char	*get_env_value(char *name, t_env *envp)
 		envp = envp->next;
 	}
 	return (NULL);
+}
+
+void	handle_quotes(t_token *token, char *str, t_mini *ms, t_expansion *exp)
+{
+	if (str[exp->i] == S_QUOTE)
+	{
+		token->str = process_single_quotes(token->str, str, &exp->i);
+		if (!token->str)
+			free_expansion(NULL, ms->exp, ms);
+		exp->quotes = CLOSED;
+	}
+	else if (exp->quotes == D_QUOTE)
+	{
+		exp->i++;
+		token->str = process_double_quotes(token->str, str, &exp->i, ms);
+		exp->quotes = CLOSED;
+	}
 }

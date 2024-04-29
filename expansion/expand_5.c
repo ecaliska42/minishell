@@ -6,68 +6,75 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:53:59 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/28 13:44:34 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 13:34:23 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
 
-char	*replace_exit_code(char *str, char **new, int *i, t_mini *ms)
+static void	*helper_split(t_expansion *exp, char **words, t_token *token)
 {
-	char	*new_str;
-	char	*exit_code;
-
-	if (str[*i] && str[*i] == '$' && str[(*i) + 1] && str[(*i) + 1] == '?')
+	while (words[exp->word_count] != NULL)
 	{
-		exit_code = ft_itoa(ms->exit_status);
-		free_expansion(exit_code, ms->exp, ms);
-		(*i) += 2;
-		new_str = ft_strjoin(*new, exit_code);
-		free_and_null((void **)&exit_code);
-		free_and_null((void **)new);
-		free_expansion(new_str, ms->exp, ms);
-		*new = new_str;
-		return (*new);
+		token = create_new_token(words[exp->word_count], token);
+		if (token == NULL)
+		{
+			free_words(words);
+			return (NULL);
+		}
+		exp->word_count++;
+		if (exp->word_count > 0 && token->type != HEREDOC
+			&& token->type != RANDOM)
+			token->ambiguous = true;
+		if (words[exp->word_count] == NULL && exp->split == 1)
+		{
+			token = create_new_token("", token);
+			exp->split = 0;
+			if (token == NULL)
+			{
+				free_words(words);
+				return (NULL);
+			}
+		}
 	}
-	return (0);
+	return (token);
 }
 
-t_token	*create_new_token(char *word, t_token *last)
+static void	*val_check(void *ptr, char **words)
 {
-	t_token	*new;
-
-	if (!word || !last)
-		return (NULL);
-	new = ft_calloc(1, sizeof(t_token));
-	if (new == NULL)
-		return (NULL);
-	new->str = ft_strdup(word);
-	if (new->str == NULL)
+	if (ptr == NULL)
 	{
-		free_and_null((void **)&new);
+		free_words(words);
 		return (NULL);
 	}
-	new->next = last->next;
-	new->type = last->type;
-	last->next = new;
-	last->expanded = 1;
-	new->expanded = 1;
-	return (new);
+	return (ptr);
 }
 
-void	free_words(char **words)
+char	*check_join(t_expansion *exp, char *str, char **words, t_token *token)
 {
-	int	i;
+	char	*joined;
 
-	i = 0;
-	if (!words)
-		return ;
-	while (words[i] != NULL)
+	joined = NULL;
+	if (exp->join == 1 || exp->replace == 1)
 	{
-		free_and_null((void **)&words[i]);
-		i++;
+		joined = ft_strjoin(str, words[0]);
+		exp->word_count++;
+		if (str)
+			free_and_null((void **)&str);
+		val_check(joined, words);
+		token->str = joined;
 	}
-	free_and_null((void **)&words);
+	return (joined);
+}
+
+static void	check_words(char **words, t_expansion *exp, t_token *token)
+{
+	if (words[exp->word_count] == NULL && exp->split == 1)
+	{
+		token = create_new_token("", token);
+		exp->split = 0;
+		val_check(token, words);
+	}
 }
 
 t_token	*split_value(char *str, char *value, t_token *token, t_expansion *exp)
@@ -76,7 +83,8 @@ t_token	*split_value(char *str, char *value, t_token *token, t_expansion *exp)
 	char	*joined;
 
 	exp->word_count = 0;
-	if ((ft_is_white_space(exp->value[ft_strlen(exp->value) - 1]) && *exp->tmp_i != '\0'))
+	if ((ft_is_white_space(exp->value[ft_strlen(exp->value) - 1])
+			&& *exp->tmp_i != '\0'))
 		exp->split = 1;
 	words = ft_split(value, ' ');
 	if (words == NULL)
@@ -88,65 +96,11 @@ t_token	*split_value(char *str, char *value, t_token *token, t_expansion *exp)
 			token = create_new_token("", token);
 		return (token);
 	}
-	if (exp->join == 1 || exp->replace == 1)
-	{
-		joined = ft_strjoin(str, words[0]);
-		exp->word_count++;
-		if (str)
-			free_and_null((void **)&str);
-		if (joined == NULL)
-		{
-			free_words(words);
-			return (NULL);
-		}		
-		token->str = joined;
-	}
+	joined = check_join(exp, str, words, token);
 	token->expanded = 1;
-	if (words[exp->word_count] == NULL && exp->split == 1)
-	{
-		token = create_new_token("", token);
-		if (token == NULL)
-		{
-			free_words(words);
-			return (NULL);
-		}
-	}
-	while (words[exp->word_count] != NULL)
-	{
-		token = create_new_token(words[exp->word_count], token);
-		if (token == NULL)
-		{
-			free_words(words);
-			return (NULL);
-		}
-		exp->word_count++;
-		if (exp->word_count > 0 && token->type != HEREDOC && token->type != RANDOM)
-			token->ambiguous = true;
-		if (words[exp->word_count] == NULL && exp->split == 1)
-		{
-			token = create_new_token("", token);
-			if (token == NULL)
-			{
-				free_words(words);
-				return (NULL);
-			}
-		}
-	}
+	check_words(words, exp, token);
+	token = helper_split(exp, words, token);
+	val_check(token, words);
 	free_words(words);
 	return (token);
-}
-
-char	*add_char(char *str, char new_char)
-{
-	char	*new;
-	int		str_len;
-
-	str_len = ft_strlen(str);
-	new = ft_calloc(str_len + 2, sizeof(char));
-	if (new == NULL)
-		return (NULL);
-	ft_memcpy(new, str, str_len);
-	new[str_len] = new_char;
-	free_and_null((void **)&str);
-	return (new);
 }

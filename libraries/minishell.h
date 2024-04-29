@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/28 12:45:02 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 12:30:48 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,6 +274,8 @@ void	free_mini_and_exit(t_mini **mini);
 void	free_double(char **str);
 void	free_exe(t_exe *ex_struct);
 void	free_mini(t_mini **mini);
+void	free_words(char **words);
+t_token	*create_new_token(char *word, t_token *last);
 
 /*
 	*EXPANSION
