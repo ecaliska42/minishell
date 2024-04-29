@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:01:15 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/29 13:24:03 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 17:15:12 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ int	do_expand(char *str, t_expansion *exp, t_mini *ms, t_token *token)
 	exp->i++;
 	exp->len = check_name_and_return_len(&str[exp->i]);
 	exp->tmp = ft_substr(str, exp->i, exp->len);
-	if (!exp->tmp)
-		return (-1);
+	free_expansion(exp->tmp, ms->exp, ms);
 	exp->i += exp->len;
 	exp->value = get_env_value(exp->tmp, ms->env);
 	free_and_null((void **)&exp->tmp);

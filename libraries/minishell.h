@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 14:06:38 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:20:27 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,29 +148,25 @@ typedef struct t_expand
 	char	*newest;
 	char	*name;
 }	t_expand;
-//CD
-//cd.c
-
-//cd2.c
 
 //cd3.c
 char	*remove_after_backslash(char *s);
 int		dot_dot(t_env **old, t_env **current, t_mini *mini);
 
 //PARSER
-//parser.c
+
 t_parse	*is_pipe(t_mini **mini, t_parse **node);
 void	is_file(t_token **tmp, t_parse ***node, t_mini **mini);
 int		while_loop_parser(t_token *tmp, t_parse **node, t_mini *mini);
 char	**create_command(char *str, char **cmd);
 int		prepare_for_execution(t_mini **minishell);
-//parser2.c
+
 t_env	*get_path(t_env **envi);
 char	*do_while_access(char **path_values, char *str);
 char	*get_access(char *str, t_env **envi, t_mini **mini);
 int		get_check(t_mini **mini);
 void	add_back(t_parse **com, t_parse *node);
-//parser3.c
+
 void	free_parsing_node(t_parse **head);
 int		is_input(char *name, t_parse ****node, t_mini **mini);
 int		is_output(t_token *tmp, t_parse ****node);
@@ -189,35 +185,31 @@ int		ft_pwd(t_mini **mini);
 void	ft_exit(t_parse **node, t_mini **mini);
 int		ft_echo(t_parse **node, t_mini **mini);
 
-/*
-	*EXECUTION_PART
-*/
+//*EXECUTION_PART
 
+int		execute(t_mini **mini);
 
-int		execute(t_mini **mini);//(t_parse **comm, int pipecount, t_env **envp)
-
-/*
-	*MS_UTILS
-*/
+//*MS_UTILS
 
 char	*get_till(char *str, char character);
 char	*get_after(char *str, char character);
 
-/*
-	*BOOLEANS
-*/
+//*BOOLEANS
+
 void	printf_double(char **str);
 void	printf_tripple(char ***str);
 
-/*
-	*./SIZES
-*/
+// HEREDOC
+
+void	norm_helper_two(char *str, t_expand *exp, t_mini *ms);
+void	norm_helper(char *str, t_expand *exp, t_mini *ms);
+
+	// *./SIZES
+
 int		t_env_size(t_env **envp);
 int		array_size(char **array);
 
-/*
-	*BUILDIN_CHECK.C
-*/
+	// *BUILDIN_CHECK.C
 
 int		lonely_buildin(t_parse *parse, t_env **envp, t_mini **mini);
 bool	is_buildin(char **command);
@@ -236,21 +228,19 @@ void	*dup_for_no_pipes(t_parse *comm);
 char	*skip_starting_ending_spaces(char *value);
 char	*expand_heredoc(char *str, t_env *envp, t_mini **mini);
 char	*replace_exit_code(char *str, char **new_str, int *i, t_mini *ms);
-void	handle_quotes(t_token * token, char *str, t_mini *ms, t_expansion *exp);
+void	handle_quotes(t_token *token, char *str, t_mini *ms, t_expansion *exp);
 bool	check_exp(char *str, int i);
 int		do_expand(char *str, t_expansion *exp, t_mini *ms, t_token *token);
 
-/*
-	*EXECUTION
-*/
-//EXECUTE.C
+	// *EXECUTION
 
-//EXECUTE_UTILS.C
 void	free_fds(int **fds);
 char	**change_envp(t_env **envp, t_mini *mini);
 int		malloc_ex_struct(t_exe *ex_struct);
 int		create_pipes(t_exe *ex_struct);
+
 //CHILD.C
+
 int		child(t_parse *comm, int i, t_mini **mini, t_parse *head);
 
 int		dup_filedescriptor(t_parse *comm, t_exe *ex_utils, int i);
@@ -275,9 +265,7 @@ void	free_mini(t_mini **mini);
 void	free_words(char **words);
 t_token	*create_new_token(char *word, t_token *last);
 
-/*
-	*EXPANSION
-*/
+// *EXPANSION
 
 void	expansion(t_token *token, t_mini *ms);
 t_token	*expand_variable(t_expansion exp, t_token *token, t_mini *ms);
