@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:55:29 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 16:58:05 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 13:26:25 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,21 @@ int	dot(t_env **old)
 
 int	only_cd(t_env *home, t_env **current, t_env **old)
 {
+	char	*pwd;
+
 	if (!home)
 		return (return_write("ShellMate: cd: HOME not set", ERROR));
+	pwd = malloc(FILENAME_MAX);
+	if (!pwd)
+		return (ERROR);
+	if (!getcwd(pwd, FILENAME_MAX))
+		return (free_and_null((void **)&pwd), ERROR);
 	if ((*old) && (*old)->values)
 	{
 		free_and_null((void **)&(*old)->values);
-		(*old)->values = ft_strdup((*current)->values);
+		(*old)->values = ft_strdup(pwd);
 	}
+	free_and_null((void **)&pwd);
 	if ((*current) && (*current)->values)
 	{
 		free_and_null((void **)&(*current)->values);
@@ -66,10 +74,10 @@ int	go_back(t_env **old, t_env **current, t_mini **mini)
 {
 	char	*now;
 
-	if (!(*old))
+	if (!(*old) || !(*old)->values)
 	{
 		(*mini)->exit_status = 1;
-		return (return_write("ShellMate: cd: OLDPWD not set", ERROR));
+		return (return_write("cd: OLDPWD not set", ERROR));
 	}
 	now = malloc(FILENAME_MAX);
 	if (!now)
@@ -77,7 +85,11 @@ int	go_back(t_env **old, t_env **current, t_mini **mini)
 	if (getcwd(now, FILENAME_MAX) == NULL)
 		return (free_and_null((void **)&now), ERROR);
 	if (chdir((*old)->values) == -1)
+	{
+		perror("CD -: CHDIR");
+		(*mini)->exit_status = 1;
 		return (free_and_null((void **)&now), ERROR);
+	}
 	free_and_null((void **)&(*old)->values);
 	if (!(*current))
 	{

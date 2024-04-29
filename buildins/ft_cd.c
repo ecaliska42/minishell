@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:12 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/27 13:15:42 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 13:21:02 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	check_dots_and_only(char **command, t_mini **mini, t_cd *cd_str)
 	if (ft_strcmp(cd_str->parse->command[1], "..") == 0)
 	{
 		(*mini)->exit_status = 0;
-		return (dot_dot(&cd_str->old, &cd_str->current));
+		return (dot_dot(&cd_str->old, &cd_str->current, *mini));
 	}
 	else if (ft_strcmp(cd_str->parse->command[1], ".") == 0)
 	{
@@ -43,29 +43,40 @@ int	check_dots_and_only(char **command, t_mini **mini, t_cd *cd_str)
 	return (5);
 }
 
-int	change_dir(t_cd *cd_str, t_mini **mini) // kbljefgjelfbjkeqfbeq
+ // kbljefgjelfbjkeqfbeqf
+int	change_dir(t_cd *cd_str, t_mini **mini)
 {
+	char	*pwd;
+	
+	pwd = malloc(FILENAME_MAX);
+	if (!pwd)
+		return (10);
+	if (!getcwd(pwd, FILENAME_MAX))
+		return (free_and_null((void **)&pwd), 10);
 	if (chdir(cd_str->parse->command[1]) != -1)
 	{
 		if (cd_str->old && cd_str->old->values)
 		{
 			free_and_null((void **)&cd_str->old->values);
-			cd_str->old->values = ft_strdup(cd_str->current->values);
+			cd_str->old->values = ft_strdup(pwd);
 			if (!cd_str->old->values)
-				return (10);
+				return (free_and_null((void **)&pwd), 10);
 		}
+		free_and_null((void **)&pwd);
 		if (cd_str->current && cd_str->current->values)
 		{
 			free_and_null((void **)&cd_str->current->values);
 			cd_str->current->values = malloc(FILENAME_MAX);
 			if (!cd_str->current->values)
-				return (10);
+				free_mini_and_exit(mini);
 			if (!getcwd(cd_str->current->values, FILENAME_MAX))
 				return (10);
 		}
 		(*mini)->exit_status = 0;
 		return (SUCCESS);
 	}
+	free_and_null((void **)&pwd);
+	(*mini)->exit_status = 1;
 	return (ERROR);
 }
 

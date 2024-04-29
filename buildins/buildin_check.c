@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/28 12:22:27 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 13:55:47 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	lonely_buildin(t_parse *parse, t_env **envp, t_mini **mini)
 		return (ERROR);
 	if (open_lonely_files(&parse) == ERROR)
 		return (ERROR);
-	execute_buildin(&parse, envp, 0, mini);
+	execute_buildin(&parse, envp, 0, mini);//protect pwd
 	if (lb.flag == 1)
 	{
 		if (dup2(lb.orig_stdin, STDIN_FILENO) == -1)
@@ -110,7 +110,7 @@ int	execute_buildin(t_parse **parse, t_env **env, int pc, t_mini **mini)
 	if (ft_strcmp("echo", s) == 0)
 		ft_echo(parse, mini);
 	else if (ft_strcmp("pwd", s) == 0)
-		ft_pwd(mini);
+		return (ft_pwd(mini));
 	else if (ft_strcmp("env", s) == 0)
 		ft_env(env, mini, parse);
 	else if (ft_strcmp("cd", s) == 0 && pc == 0)
