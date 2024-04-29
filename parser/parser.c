@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/28 11:28:01 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 17:05:34 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	prepare_for_execution(t_mini **minishell)
 		return (return_write("malloc parser.c", ERROR));
 	ft_bzero(node, sizeof(*node));
 	if (while_loop_parser(tmp, &node, mini) == ERROR)
-		return (ERROR);
+		return (free(node), ERROR);
 	add_back(&mini->parse, node);
 	get_check(&mini);
 	execute(&mini);

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 19:38:38 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 16:41:26 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 17:15:11 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,20 @@ int	return_write_free(void *ptr, char *str, int ret)
 	return_write(str, ret);
 	return (ret);
 }
+
+//int	dot_dot_helper(t_env **current, char *change_dir)
+//{
+//	if ((*current) && (*current)->values)
+//	{
+//		free_and_null((void **)&(*current)->values);
+//		(*current)->values = malloc(FILENAME_MAX);
+//		if (getcwd((*current)->values, FILENAME_MAX) == NULL)
+//			return_write_free(change_dir, "CD..: GETCWD", ERROR);
+//		free_and_null((void **)&change_dir);
+//		return (SUCCESS);
+//	}
+//	return (ERROR);
+//}
 
 int	dot_dot(t_env **old, t_env **current, t_mini *mini)
 {

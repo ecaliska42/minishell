@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:14:17 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/27 11:39:43 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:59:34 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,22 @@ void	free_mini(t_mini **mini)
 	free_and_null((void **)&(*mini)->shell.input);
 	free_parsing_node(&(*mini)->parse);
 	free_exe(&(*mini)->exe);
+}
+
+void	free_list(t_env **head)
+{
+	t_env	*tmp;
+
+	while (*head)
+	{
+		tmp = *head;
+		*head = (*head)->next;
+		free_and_null((void **)&tmp->name);
+		tmp->name = NULL;
+		free_and_null((void **)&tmp->values);
+		tmp->values = NULL;
+		free_and_null((void **)&tmp);
+		tmp = NULL;
+		tmp = *head;
+	}
 }
