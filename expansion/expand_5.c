@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:53:59 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/29 18:17:13 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 20:49:25 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,11 @@ char	*check_join(t_expansion *exp, char *str, char **words, t_token *token)
 	{
 		joined = ft_strjoin(str, words[0]);
 		if (joined == NULL)
-			exit (1);
+		{
+			exp->exit = 1;
+			free_words(words);
+			return (NULL);
+		}
 		exp->word_count++;
 		if (str)
 			free_and_null((void **)&str);
@@ -67,7 +71,7 @@ char	*check_join(t_expansion *exp, char *str, char **words, t_token *token)
 		if (joined)
 			token->str = joined;
 	}
-	return (joined);
+	return (token->str);
 }
 
 static void	check_words(char **words, t_expansion *exp, t_token *token)
@@ -83,7 +87,6 @@ static void	check_words(char **words, t_expansion *exp, t_token *token)
 t_token	*split_value(char *str, char *value, t_token *token, t_expansion *exp)
 {
 	char	**words;
-	char	*joined;
 
 	exp->word_count = 0;
 	if ((ft_is_white_space(exp->value[ft_strlen(exp->value) - 1])
@@ -99,7 +102,9 @@ t_token	*split_value(char *str, char *value, t_token *token, t_expansion *exp)
 			token = create_new_token("", token);
 		return (token);
 	}
-	joined = check_join(exp, str, words, token);
+	token->str = check_join(exp, str, words, token);
+	if (exp->exit == 1)
+		return (NULL);
 	token->expanded = 1;
 	check_words(words, exp, token);
 	token = helper_split(exp, words, token);

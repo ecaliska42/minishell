@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 14:07:20 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/29 11:31:38 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 20:04:31 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,9 @@ void	signal_handler_heredoc(int signal_num)
 
 void	signal_handler(int mode, t_mini *ms)
 {
+	(void)ms;
 	if (mode == READLINE)
 	{
-		if (g_sig)
-			g_sig = 0;
 		signal(SIGINT, catch_signals);
 		signal(SIGQUIT, SIG_IGN);
 	}
@@ -72,6 +71,4 @@ void	signal_handler(int mode, t_mini *ms)
 		signal(SIGINT, signal_handler_heredoc);
 		signal(SIGQUIT, SIG_IGN);
 	}
-	if (g_sig)
-		ms->exit_status = g_sig + 128;
 }

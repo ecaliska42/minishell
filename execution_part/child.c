@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:30:48 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 16:42:34 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 20:04:43 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,8 @@ static void	dup_and_close(t_mini *ms, int i, t_parse *comm, char **envp)
 
 void	is_really_buildin(t_parse *comm, t_mini *ms, char **envp, t_parse *head)
 {
-	(void)head;
 	execute_buildin(&comm, &ms->env, ms->exe.pipecount, &ms);
-	close_filedescriptor(comm, &ms->exe);
+	close_filedescriptor(head, &ms->exe);
 	free_double(envp);
 	ms->exit_status = 0;
 	free_mini_and_exit(&ms);

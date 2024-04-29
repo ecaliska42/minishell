@@ -6,12 +6,11 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/29 18:20:04 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 20:04:19 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
-#include "GNL/get_next_line.h"
 #include "libft/libft.h"
 #include "libraries/parsing.h"
 
@@ -19,16 +18,16 @@ void	first_stage(t_mini *mini)
 {
 	signal_handler(1, mini);
 	mini->shell.input = readline(PROMPT);
-	if (!mini->shell.input)
+	if (g_sig)
 	{
-		clear_history();
-		free_mini_and_exit(&mini);
-		exit(mini->exit_status);
+		mini->exit_status = g_sig + 128;
+		g_sig = 0;
 	}
+	signal_handler(3, mini);
 	if (!mini->shell.input)
 	{
-		free_mini_and_exit(&mini);
 		clear_history();
+		free_mini_and_exit(&mini);
 		exit(mini->exit_status);
 	}
 }
@@ -75,7 +74,11 @@ void	fourth_stage(t_mini *mini)
 		exit(1);
 	}
 	if (g_sig)
+	{
+		mini->exit_status = g_sig + 128;
+		g_sig = 0;
 		free_mini(&mini);
+	}
 }
 
 int	ft_readline(t_mini *mini)
@@ -84,7 +87,6 @@ int	ft_readline(t_mini *mini)
 	while (1)
 	{
 		first_stage(mini);
-		signal_handler(3, mini);
 		if (ft_strlen(mini->shell.input) == 0)
 			continue ;
 		add_history(mini->shell.input);
