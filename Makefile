@@ -6,7 +6,7 @@
 #    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2024/04/29 18:22:52 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/04/29 18:43:00 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ SRC= minishell.c \
 SRC2 = lexer.c needed_functions.c token.c readline.c quote_stuff.c \
 	syntax_check.c bool_functions.c expansion/expand_1.c signal.c free.c token_2.c extras.c \
 	expansion/expand_2.c expansion/expand_3.c expansion/expand_4.c expansion/expand_5.c \
-	free_2.c expansion/expand_6.c
+	free_2.c expansion/expand_6.c free3.c\
 
 #OBJ= $(SRC:.c=.o) $(SRC2:.c=.o)
 

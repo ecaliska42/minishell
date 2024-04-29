@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 18:22:57 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:37:06 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,6 @@ char	*remove_after_backslash(char *s);
 int		dot_dot(t_env **old, t_env **current, t_mini *mini);
 int		ch_dir_else(t_env **old, t_env **current, char *now);
 
-
 //PARSER
 
 t_parse	*is_pipe(t_mini **mini, t_parse **node);
@@ -275,6 +274,7 @@ void	free_exe(t_exe *ex_struct);
 void	free_mini(t_mini **mini);
 void	free_words(char **words);
 t_token	*create_new_token(char *word, t_token *last);
+void	get_rid_of_before_after(char **before, char **after);
 
 // *EXPANSION
 
