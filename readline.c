@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/28 14:16:48 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 13:40:49 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	ft_readline(t_mini *mini)
 				ft_putstr_fd("Error: prepare_for_execution\n", 2);
 				free_tokens(&mini->shell.tokens);
 				free_and_null((void **)&mini->shell.input);
+				free_mini_and_exit(&mini);
 				exit(1);
 			}
 			if (g_sig)

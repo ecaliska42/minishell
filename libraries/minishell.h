@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 13:57:04 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 14:06:38 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ typedef struct t_expand
 
 //cd3.c
 char	*remove_after_backslash(char *s);
-int		dot_dot(t_env **old, t_env **current);
+int		dot_dot(t_env **old, t_env **current, t_mini *mini);
 
 //PARSER
 //parser.c
