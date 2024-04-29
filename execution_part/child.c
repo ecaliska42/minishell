@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:30:48 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 15:47:46 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:42:34 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	dup_and_close(t_mini *ms, int i, t_parse *comm, char **envp)
 	}
 }
 
-static void	is_really_buildin(t_parse *comm, t_mini *ms, char **envp, t_parse *head)
+void	is_really_buildin(t_parse *comm, t_mini *ms, char **envp, t_parse *head)
 {
 	(void)head;
 	execute_buildin(&comm, &ms->env, ms->exe.pipecount, &ms);

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 19:38:38 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 13:16:25 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:41:26 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ char	*remove_after_backslash(char *s)
 	if (i <= 0)
 	{
 		free_and_null((void **)&s);
-		s = ft_strdup("/"); // protect
-		// if (!s)
-		// 	return (NULL);
+		s = ft_strdup("/");
+		if (!s)
+			return (NULL);
 	}
 	return (s);
 }
@@ -60,9 +60,8 @@ int	dot_dot(t_env **old, t_env **current, t_mini *mini)
 		return (ERROR);
 	}
 	change_dir = remove_after_backslash(ft_strdup(current_dir));
-	// printf("%schange_dir: %s\n%s",RED, change_dir, WHITE);
-	if (!change_dir) // new part
-		return (ERROR);
+	if (!change_dir)
+		return (free_and_null((void **)&current_dir), ERROR);
 	if ((*old) && (*old)->values)
 	{
 		free_and_null((void **)&(*old)->values);

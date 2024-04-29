@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 14:41:05 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:38:36 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,13 @@ typedef struct t_export
 	int		fail;
 	int		i;
 }	t_export;
+
+typedef struct s_lonely_buildin
+{
+	int	orig_stdout;
+	int	orig_stdin;
+	int	flag;
+}	t_lonely_buildin;
 
 //EXPORT
 

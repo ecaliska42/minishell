@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 13:55:47 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:40:24 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,6 @@ int	open_lonely_files(t_parse **parse)
 	return (SUCCESS);
 }
 
-typedef struct s_lonely_buildin
-{
-	int	orig_stdout;
-	int	orig_stdin;
-	int	flag;
-}	t_lonely_buildin;
-
 int	set_struct(t_lonely_buildin *lb, char *command)
 {
 	if (ft_strcmp("exit", command) == 0)
@@ -42,9 +35,11 @@ int	set_struct(t_lonely_buildin *lb, char *command)
 		lb->flag = 1;
 	if (lb->flag == 1)
 	{
-		if ((lb->orig_stdout = dup(1)) == -1)
+		lb->orig_stdout = dup(1);
+		if (lb->orig_stdout == -1)
 			return (ERROR);
-		if ((lb->orig_stdin = dup(0)) == -1)
+		lb->orig_stdin = dup(0);
+		if (lb->orig_stdin == -1)
 		{
 			close(lb->orig_stdout);
 			return (ERROR);
@@ -56,12 +51,12 @@ int	set_struct(t_lonely_buildin *lb, char *command)
 int	lonely_buildin(t_parse *parse, t_env **envp, t_mini **mini)
 {
 	t_lonely_buildin	lb;
-	
+
 	if (set_struct(&lb, parse->command[0]) == ERROR)
 		return (ERROR);
 	if (open_lonely_files(&parse) == ERROR)
 		return (ERROR);
-	execute_buildin(&parse, envp, 0, mini);//protect pwd
+	execute_buildin(&parse, envp, 0, mini);
 	if (lb.flag == 1)
 	{
 		if (dup2(lb.orig_stdin, STDIN_FILENO) == -1)

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:55:29 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 13:26:25 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:47:29 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,21 @@ int	dot(t_env **old)
 	free_and_null((void **)&(*old)->values);
 	(*old)->values = malloc(FILENAME_MAX);
 	getcwd((*old)->values, FILENAME_MAX);
+	return (SUCCESS);
+}
+
+int	only_cd_helper(t_env *home, t_env **current)
+{
+	if ((*current) && (*current)->values)
+	{
+		free_and_null((void **)&(*current)->values);
+		chdir(home->values);
+		(*current)->values = malloc(FILENAME_MAX);
+		if (!(*current)->values)
+			return (ERROR);
+		if (!getcwd((*current)->values, FILENAME_MAX))
+			return (ERROR);
+	}
 	return (SUCCESS);
 }
 
@@ -37,18 +52,12 @@ int	only_cd(t_env *home, t_env **current, t_env **old)
 	{
 		free_and_null((void **)&(*old)->values);
 		(*old)->values = ft_strdup(pwd);
+		if (!(*old)->values)
+			return (free_and_null((void **)&pwd), ERROR);
 	}
 	free_and_null((void **)&pwd);
-	if ((*current) && (*current)->values)
-	{
-		free_and_null((void **)&(*current)->values);
-		chdir(home->values);
-		(*current)->values = malloc(FILENAME_MAX);
-		if (!(*current)->values)
-			return (ERROR);
-		if (!getcwd((*current)->values, FILENAME_MAX))
-			return (ERROR);
-	}
+	if (only_cd_helper(home, current) == ERROR)
+		return (ERROR);
 	return (SUCCESS);
 }
 
@@ -70,6 +79,17 @@ int	ch_dir_else(t_env **old, t_env **current, char *now)
 	return (SUCCESS);
 }
 
+int	go_back_helper(t_env **old, t_mini **mini, char *now)
+{
+	if (chdir((*old)->values) == -1)
+	{
+		perror("CD -: CHDIR");
+		(*mini)->exit_status = 1;
+		return (free_and_null((void **)&now), ERROR);
+	}
+	return (SUCCESS);
+}
+
 int	go_back(t_env **old, t_env **current, t_mini **mini)
 {
 	char	*now;
@@ -84,12 +104,8 @@ int	go_back(t_env **old, t_env **current, t_mini **mini)
 		return (ERROR);
 	if (getcwd(now, FILENAME_MAX) == NULL)
 		return (free_and_null((void **)&now), ERROR);
-	if (chdir((*old)->values) == -1)
-	{
-		perror("CD -: CHDIR");
-		(*mini)->exit_status = 1;
-		return (free_and_null((void **)&now), ERROR);
-	}
+	if (go_back_helper(old, mini, now) == ERROR)
+		return (ERROR);
 	free_and_null((void **)&(*old)->values);
 	if (!(*current))
 	{

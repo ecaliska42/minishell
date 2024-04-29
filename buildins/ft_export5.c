@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 14:40:08 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 14:40:41 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:42:13 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ int	do_while_export(t_env *tmp, t_env **copy, t_env *node)
 	{
 		node->values = ft_strdup(tmp->values);
 		if (!node->values)
-			return (free_and_null((void **)&node->name), free_and_null((void **)&node), ERROR);
+		{
+			free_and_null((void **)&node->name);
+			free_and_null((void **)&node);	
+			return (ERROR);
+		}
 	}
 	else
 		node->values = NULL;
