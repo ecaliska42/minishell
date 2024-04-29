@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:20:20 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 11:15:47 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 13:59:16 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_echo(t_parse **node, t_mini **mini)
 	{
 		len = ft_strlen((*node)->command[i]);
 		write(1, (*node)->command[i], len);
-		if ((*node)->command[i + 1] && len != 0)
+		if ((*node)->command[i + 1])
 			write(1, " ", 1);
 		i++;
 	}
