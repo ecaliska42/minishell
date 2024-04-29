@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 16:38:36 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:50:14 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,8 @@ typedef struct t_expand
 //cd3.c
 char	*remove_after_backslash(char *s);
 int		dot_dot(t_env **old, t_env **current, t_mini *mini);
+int		ch_dir_else(t_env **old, t_env **current, char *now);
+
 
 //PARSER
 //parser.c

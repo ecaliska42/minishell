@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:12 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 13:21:02 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:55:51 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,25 @@ int	check_dots_and_only(char **command, t_mini **mini, t_cd *cd_str)
 	return (5);
 }
 
- // kbljefgjelfbjkeqfbeqf
+int	change_dir_helper(t_mini **mini, t_cd *cd_str)
+{
+	if (cd_str->current && cd_str->current->values)
+	{
+		free_and_null((void **)&cd_str->current->values);
+		cd_str->current->values = malloc(FILENAME_MAX);
+		if (!cd_str->current->values)
+			free_mini_and_exit(mini);
+		if (!getcwd(cd_str->current->values, FILENAME_MAX))
+			return (10);
+	}
+	(*mini)->exit_status = 0;
+	return (SUCCESS);
+}
+
 int	change_dir(t_cd *cd_str, t_mini **mini)
 {
 	char	*pwd;
-	
+
 	pwd = malloc(FILENAME_MAX);
 	if (!pwd)
 		return (10);
@@ -63,16 +77,8 @@ int	change_dir(t_cd *cd_str, t_mini **mini)
 				return (free_and_null((void **)&pwd), 10);
 		}
 		free_and_null((void **)&pwd);
-		if (cd_str->current && cd_str->current->values)
-		{
-			free_and_null((void **)&cd_str->current->values);
-			cd_str->current->values = malloc(FILENAME_MAX);
-			if (!cd_str->current->values)
-				free_mini_and_exit(mini);
-			if (!getcwd(cd_str->current->values, FILENAME_MAX))
-				return (10);
-		}
-		(*mini)->exit_status = 0;
+		if (change_dir_helper(mini, cd_str) == 10)
+			return (10);
 		return (SUCCESS);
 	}
 	free_and_null((void **)&pwd);

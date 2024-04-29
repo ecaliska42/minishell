@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:55:29 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 16:47:29 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:50:46 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,24 +58,6 @@ int	only_cd(t_env *home, t_env **current, t_env **old)
 	free_and_null((void **)&pwd);
 	if (only_cd_helper(home, current) == ERROR)
 		return (ERROR);
-	return (SUCCESS);
-}
-
-int	ch_dir_else(t_env **old, t_env **current, char *now)
-{
-	(*old)->values = ft_strdup((*current)->values);
-	if (!(*old)->values)
-		return (free_and_null((void **)&now), ERROR);
-	free_and_null((void **)&(*current)->values);
-	(*current)->values = malloc(FILENAME_MAX);
-	if (!(*current)->values)
-		return (free_and_null((void **)&now), ERROR);
-	if (!getcwd((*current)->values, FILENAME_MAX))
-	{
-		perror("CD -: GETCWD");
-		return (free_and_null((void **)&now), ERROR);
-	}
-	printf("%s\n", (*current)->values);
 	return (SUCCESS);
 }
 
