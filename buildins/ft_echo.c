@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:20:20 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 14:22:12 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 11:15:47 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_echo(t_parse **node, t_mini **mini)
 	{
 		len = ft_strlen((*node)->command[i]);
 		write(1, (*node)->command[i], len);
-		if ((*node)->command[i + 1])
+		if ((*node)->command[i + 1] && len != 0)
 			write(1, " ", 1);
 		i++;
 	}
