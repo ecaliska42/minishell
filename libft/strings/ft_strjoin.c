@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/08 21:25:19 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 20:06:47 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 21:15:03 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int		i;
-	int		j;
-	char	*str;
+	size_t		i;
+	size_t		j;
+	char		*str;
 
 	i = 0;
 	j = 0;

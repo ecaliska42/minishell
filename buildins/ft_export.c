@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:07 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 13:38:14 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 20:56:21 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
-
-void	free_t_export(t_export *expo)
-{
-	(void) expo;
-	return ;
-}
 
 int	ft_export(t_env **lst, t_parse **node, t_mini **mini)
 {
@@ -34,7 +28,6 @@ int	ft_export(t_env **lst, t_parse **node, t_mini **mini)
 	if (while_loop(&expo, mini) == ERROR)
 		return (ERROR);
 	set_exit_status(expo.fail, mini);
-	free_t_export(&expo);
 	return (0);
 }
 
