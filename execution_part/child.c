@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:30:48 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 20:04:43 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/30 10:19:10 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	check_exit(t_mini **mini, t_parse *comm, t_parse *head)
 		close_filedescriptor(head, &(*mini)->exe);
 		free_mini_and_exit(mini);
 	}
-	if (!comm->command && !comm->outfd)
+	if (!comm->command && !comm->outfd && g_sig != 0)
 	{
 		(*mini)->exit_status = 1;
 		close_filedescriptor(head, &(*mini)->exe);
