@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/30 10:27:17 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/30 10:52:03 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,6 +274,7 @@ void	free_exe(t_exe *ex_struct);
 void	free_mini(t_mini **mini);
 void	free_words(char **words);
 t_token	*create_new_token(char *word, t_token *last);
+void	get_rid_of_before_after(char **before, char **after);
 
 // *EXPANSION
 

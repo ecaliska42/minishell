@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 19:38:38 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 17:15:11 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:31:11 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,28 @@ int	return_write_free(void *ptr, char *str, int ret)
 	return (ret);
 }
 
-//int	dot_dot_helper(t_env **current, char *change_dir)
-//{
-//	if ((*current) && (*current)->values)
-//	{
-//		free_and_null((void **)&(*current)->values);
-//		(*current)->values = malloc(FILENAME_MAX);
-//		if (getcwd((*current)->values, FILENAME_MAX) == NULL)
-//			return_write_free(change_dir, "CD..: GETCWD", ERROR);
-//		free_and_null((void **)&change_dir);
-//		return (SUCCESS);
-//	}
-//	return (ERROR);
-//}
+int	check_get_cwd_ret(char *current_dir)
+{
+	if (getcwd(current_dir, FILENAME_MAX) == NULL)
+	{
+		perror("CD..: GETCWD");
+		free_and_null((void **)&current_dir);
+		return (ERROR);
+	}
+	return (SUCCESS);
+}
+
+void	do_dot_dot_old(t_env **old, char *current_dir, t_mini *mini)
+{
+	if ((*old) && (*old)->values)
+	{
+		free_and_null((void **)&(*old)->values);
+		(*old)->values = ft_strdup(current_dir);
+		free_and_null((void **)&current_dir);
+		check_malloc_exit((*old)->values, mini);
+	}
+	free_and_null((void **)&current_dir);
+}
 
 int	dot_dot(t_env **old, t_env **current, t_mini *mini)
 {
@@ -67,23 +76,12 @@ int	dot_dot(t_env **old, t_env **current, t_mini *mini)
 	current_dir = malloc(FILENAME_MAX);
 	if (!current_dir)
 		return (ERROR);
-	if (getcwd(current_dir, FILENAME_MAX) == NULL)
-	{
-		perror("CD..: GETCWD");
-		free_and_null((void **)&current_dir);
+	if (check_get_cwd_ret(current_dir) == ERROR)
 		return (ERROR);
-	}
 	change_dir = remove_after_backslash(ft_strdup(current_dir));
 	if (!change_dir)
 		return (free_and_null((void **)&current_dir), ERROR);
-	if ((*old) && (*old)->values)
-	{
-		free_and_null((void **)&(*old)->values);
-		(*old)->values = ft_strdup(current_dir);
-		free_and_null((void **)&current_dir);
-		check_malloc_exit((*old)->values, mini);
-	}
-	free_and_null((void **)&current_dir);
+	do_dot_dot_old(old, current_dir, mini);
 	if (chdir(change_dir) == -1)
 		return (return_write_free(change_dir, "CD..: CHDIR", ERROR));
 	if ((*current) && (*current)->values)
