@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:30:18 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/30 14:56:40 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/30 19:37:00 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,16 @@ static void	fork_childs(t_parse *parse, int *i, t_mini **mini)
 
 static bool	check_solo_buildin(t_parse *parse, t_mini **mini)
 {
+	int	check;
+
 	if (is_buildin(parse->command) == true && (*mini)->exe.pipecount == 0
 		&& parse->execute == EXECUTE)
 	{
-		lonely_buildin(parse, &(*mini)->env, mini);
+		check = lonely_buildin(parse, &(*mini)->env, mini);
 		free_and_null((void **)&(*mini)->exe.id);
 		free_fds((*mini)->exe.fd);
+		if (check == ERROR)
+			free_mini_and_exit(mini);
 		return (true);
 	}
 	return (false);

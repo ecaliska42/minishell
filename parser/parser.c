@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/30 10:27:30 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/30 17:56:40 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_parse	*is_pipe(t_mini **mini, t_parse **node)
 {
 	(*mini)->exe.pipecount++;
 	add_back(&(*mini)->parse, *node);
-	*node = malloc(sizeof(t_parse));
+	*node = malloc(sizeof(t_parse));//!CHECKED IS OK
 	if (!*node)
 	{
 		ft_putendl_fd("malloc parser.c", 2);
@@ -51,7 +51,7 @@ int	while_loop_parser(t_token *tmp, t_parse **node, t_mini *mini)
 		else if (tmp->type == PIPE)
 		{
 			*node = is_pipe(&mini, node);
-			if (!node)
+			if (!*node)
 				return (ERROR);
 		}
 		tmp = tmp->next;
@@ -95,7 +95,7 @@ int	prepare_for_execution(t_mini **minishell)
 	mini = *minishell;
 	tmp = mini->shell.tokens;
 	mini->exe.pipecount = 0;
-	node = malloc(sizeof(t_parse));
+	node = malloc(sizeof(t_parse));//!CHECKED IS OK
 	if (!node)
 		return (return_write("malloc parser.c", ERROR));
 	ft_bzero(node, sizeof(*node));

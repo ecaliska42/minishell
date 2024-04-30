@@ -6,7 +6,7 @@
 #    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2024/04/29 18:50:16 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/04/30 19:11:57 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,5 +68,7 @@ fclean:	clean
 re:	fclean all
 	$(MAKE) re -C libft
 
+leak: $(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --track-fds=yes --suppressions=$(HOME)/readline.supp ./$(NAME)
 
 .PHONY: all clean fclean re libft

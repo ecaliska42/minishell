@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 16:40:24 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/30 19:39:47 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,20 @@ int	open_lonely_files(t_parse **parse)
 {
 	if ((*parse)->outfd > 0)
 	{
-		dup2((*parse)->outfd, 1);
+		if (dup2((*parse)->outfd, 1) == -1)
+		{
+			close((*parse)->outfd);
+			return (ERROR);
+		}
 		close((*parse)->outfd);
 	}
 	if ((*parse)->infd > 0)
 	{
-		dup2((*parse)->infd, 0);
+		if (dup2((*parse)->infd, 0) == -1)
+		{
+			close((*parse)->infd);
+			return (ERROR);
+		}
 		close((*parse)->infd);
 	}
 	return (SUCCESS);
@@ -48,15 +56,17 @@ int	set_struct(t_lonely_buildin *lb, char *command)
 	return (SUCCESS);
 }
 
+
 int	lonely_buildin(t_parse *parse, t_env **envp, t_mini **mini)
 {
 	t_lonely_buildin	lb;
+	int					check;
 
 	if (set_struct(&lb, parse->command[0]) == ERROR)
 		return (ERROR);
 	if (open_lonely_files(&parse) == ERROR)
 		return (ERROR);
-	execute_buildin(&parse, envp, 0, mini);
+	check = execute_buildin(&parse, envp, 0, mini);
 	if (lb.flag == 1)
 	{
 		if (dup2(lb.orig_stdin, STDIN_FILENO) == -1)
@@ -68,6 +78,8 @@ int	lonely_buildin(t_parse *parse, t_env **envp, t_mini **mini)
 		if (close (lb.orig_stdout) == -1)
 			perror("close error (execute.c) : ");
 	}
+	if (check == ERROR)
+		return (ERROR);
 	return (SUCCESS);
 }
 
@@ -103,18 +115,18 @@ int	execute_buildin(t_parse **parse, t_env **env, int pc, t_mini **mini)
 	if (!s)
 		return (0);
 	if (ft_strcmp("echo", s) == 0)
-		ft_echo(parse, mini);
+		ft_echo(parse, mini);//shoud return correctly
 	else if (ft_strcmp("pwd", s) == 0)
-		return (ft_pwd(mini));
+		return (ft_pwd(mini));//shoud return correctly
 	else if (ft_strcmp("env", s) == 0)
-		ft_env(env, mini, parse);
+		return (ft_env(env, mini, parse));//shoud return correctly
 	else if (ft_strcmp("cd", s) == 0 && pc == 0)
-		ft_cd(env, parse, mini);
+		return (ft_cd(env, parse, mini));
 	else if (ft_strcmp("exit", s) == 0)
-		ft_exit(parse, mini);
+		ft_exit(parse, mini);//shoud return correctly
 	else if (ft_strcmp("unset", s) == 0 && pc == 0)
-		ft_unset(parse, env, mini);
+		ft_unset(parse, env, mini);//shoud return correctly
 	else if (ft_strcmp("export", s) == 0)
-		ft_export(env, parse, mini);
-	return (0);
+		return (ft_export(env, parse, mini));
+	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/30 10:55:12 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/30 17:54:36 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ void	fourth_stage(t_mini *mini)
 		ft_putstr_fd("Error: prepare_for_execution\n", 2);
 		free_tokens(&mini->shell.tokens);
 		free_and_null((void **)&mini->shell.input);
-		exit(1);
+		mini->exit_status = 1;
+		free_mini_and_exit(&mini);
 	}
 	if (g_sig)
 	{

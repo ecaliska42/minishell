@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:11:51 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 14:10:28 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/30 17:58:48 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*get_current(char *str, t_mini **mini)
 	char	*current_pwd;
 	char	*temp;
 
-	current_pwd = malloc(FILENAME_MAX);
+	current_pwd = malloc(FILENAME_MAX);//!CHECKED IS OK
 	check_malloc_exit(current_pwd, (*mini));
 	if (getcwd(current_pwd, FILENAME_MAX) == NULL)
 	{
