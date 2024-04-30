@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/29 18:20:04 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:52:31 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
-#include "GNL/get_next_line.h"
 #include "libft/libft.h"
 #include "libraries/parsing.h"
 
@@ -23,12 +22,6 @@ void	first_stage(t_mini *mini)
 	{
 		clear_history();
 		free_mini_and_exit(&mini);
-		exit(mini->exit_status);
-	}
-	if (!mini->shell.input)
-	{
-		free_mini_and_exit(&mini);
-		clear_history();
 		exit(mini->exit_status);
 	}
 }
