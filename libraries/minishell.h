@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 18:25:22 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/04/30 10:27:17 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ int		get_check(t_mini **mini);
 void	add_back(t_parse **com, t_parse *node);
 
 void	free_parsing_node(t_parse **head);
-int		is_input(char *name, t_parse ****node, t_mini **mini);
+int		is_input(char *name, t_parse ****node, t_mini **mini, t_token *tmp);
 int		is_output(t_token *tmp, t_parse ****node);
 int		is_append(t_token *tmp, t_parse ****node);
 int		is_random(t_token *tmp, t_parse ***node);

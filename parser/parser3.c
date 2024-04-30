@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 15:14:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 18:23:05 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/30 10:48:22 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,28 @@ void	free_parsing_node(t_parse **head)
 	}
 }
 
-int	is_input(char *name, t_parse ****node, t_mini **mini)
+int	is_input(char *name, t_parse ****node, t_mini **mini, t_token *tmp)
 {
-	if ((***node)->infd != 0 && (***node)->infd != -1)
-		close((***node)->infd);
-	(***node)->infd = open(name, O_RDONLY);
-	if ((***node)->infd == -1)
+	if (tmp->ambiguous == true || tmp->empty == true)
 	{
+		if ((***node)->outfd != 0 && (***node)->outfd != -1)
+			close((***node)->outfd);
+		ft_putstr_fd("minishell: ambiguous redirect\n", 2);
 		(***node)->execute = IGNORE;
-		ft_putstr_fd(name, 2);
-		write (2, ": ", 2);
-		perror("");
-		(*mini)->exit_status = 1;
+	}
+	else
+	{
+		if ((***node)->infd != 0 && (***node)->infd != -1)
+			close((***node)->infd);
+		(***node)->infd = open(name, O_RDONLY);
+		if ((***node)->infd == -1)
+		{
+			(***node)->execute = IGNORE;
+			ft_putstr_fd(name, 2);
+			write (2, ": ", 2);
+			perror("");
+			(*mini)->exit_status = 1;
+		}
 	}
 	return (SUCCESS);
 }
@@ -54,6 +64,8 @@ int	is_output(t_token *tmp, t_parse ****node)
 {
 	if (tmp->ambiguous == true || tmp->empty == true)
 	{
+		if ((***node)->outfd != 0 && (***node)->outfd != -1)
+			close((***node)->outfd);
 		ft_putstr_fd("minishell: ambiguous redirect\n", 2);
 		(***node)->execute = IGNORE;
 	}

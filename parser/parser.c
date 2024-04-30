@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 18:23:02 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/30 10:27:30 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ t_parse	*is_pipe(t_mini **mini, t_parse **node)
 
 void	is_file(t_token **tmp, t_parse ***node, t_mini **mini)
 {
-	if ((*tmp)->type == INPUT && ft_strlen((*tmp)->str) > 0)
-		is_input((*tmp)->str, &node, mini);
+	if ((*tmp)->type == INPUT)
+		is_input((*tmp)->str, &node, mini, *tmp);
 	else if ((*tmp)->type == OUTPUT && (**node)->execute == EXECUTE)
 		is_output((*tmp), &node);
-	else if ((*tmp)->type == APPEND && ft_strlen((*tmp)->str) > 0)
+	else if ((*tmp)->type == APPEND)
 		is_append((*tmp), &node);
 	else if ((*tmp)->type == HEREDOC)
 		heredoc(**node, (*tmp)->str, (*tmp)->flag_exp, mini);
