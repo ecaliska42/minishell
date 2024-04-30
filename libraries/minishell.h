@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/30 10:52:03 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:04:58 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,15 @@ typedef struct t_expand
 	char	*newest;
 	char	*name;
 }	t_expand;
+
+typedef struct s_change_envp_vars
+{
+	int		size;
+	char	**new_envp;
+	char	*temp;
+	t_env	*tmp;
+	int		i;
+}	t_change_envp_vars;
 
 //cd3.c
 char	*remove_after_backslash(char *s);

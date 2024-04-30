@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:27:15 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 12:23:33 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/30 14:57:32 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_if_valid(long number, int digit, int sign)
 	if (sign > 0 && (number > LONG_MAX / 10 || (number == LONG_MAX / 10
 				&& digit > 7)))
 		return (false);
-	if (sign < 0 && (number < LONG_MIN / 10 || (number == LONG_MIN / 10
+	if (sign < 0 && (number < LONG_MAX / 10 || (number == LONG_MAX / 10
 				&& digit > 8)))
 		return (false);
 	return (true);
