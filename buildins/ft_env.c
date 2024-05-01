@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:10 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/22 14:35:27 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/30 19:30:56 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_env(t_env **envp, t_mini **mini, t_parse **node)
 	{
 		write(2, "env: No such file or directory\n", 24);
 		(*mini)->exit_status = 127;
-		return (1);
+		return (SUCCESS);
 	}
 	while (tmp != NULL)
 	{
@@ -31,5 +31,5 @@ int	ft_env(t_env **envp, t_mini **mini, t_parse **node)
 	}
 	tmp = *envp;
 	(*mini)->exit_status = 0;
-	return (0);
+	return (SUCCESS);
 }

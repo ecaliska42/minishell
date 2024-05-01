@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/30 10:53:34 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/01 13:14:40 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,14 @@ char	*get_unique_heredoc_name(t_mini **mini)
 	dev_random = open("/dev/random", O_RDONLY);
 	if (dev_random < 0)
 		free_mini_and_exit(mini);
-	tmp = ft_calloc(5 + 1, sizeof(char));
+	tmp = ft_calloc(5 + 1, sizeof(char));//!IS WORKING
 	if (!tmp)
+	{
+		close (dev_random);
+		return (NULL);
+		// free_mini_and_exit(mini);
 		free_expansion(tmp, (*mini)->exp, *mini);
+	}
 	while (i < 5)
 	{
 		read(dev_random, &tmp[i], 1);
@@ -128,6 +133,8 @@ int	heredoc(t_parse *node, char *end, bool expand, t_mini **mini)
 	char	*name;
 
 	name = get_unique_heredoc_name(mini);
+	if (!name)
+		return (ERROR);
 	fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	do_while(fd, end, expand, mini);
 	close(fd);

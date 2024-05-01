@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/30 10:52:03 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/01 15:15:34 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,15 @@ typedef struct t_expand
 	char	*name;
 }	t_expand;
 
+typedef struct s_change_envp_vars
+{
+	int		size;
+	char	**new_envp;
+	char	*temp;
+	t_env	*tmp;
+	int		i;
+}	t_change_envp_vars;
+
 //cd3.c
 char	*remove_after_backslash(char *s);
 int		dot_dot(t_env **old, t_env **current, t_mini *mini);
@@ -164,7 +173,7 @@ int		ch_dir_else(t_env **old, t_env **current, char *now);
 //PARSER
 
 t_parse	*is_pipe(t_mini **mini, t_parse **node);
-void	is_file(t_token **tmp, t_parse ***node, t_mini **mini);
+int		is_file(t_token **tmp, t_parse ***node, t_mini **mini);
 int		while_loop_parser(t_token *tmp, t_parse **node, t_mini *mini);
 char	**create_command(char *str, char **cmd);
 int		prepare_for_execution(t_mini **minishell);
@@ -292,5 +301,12 @@ t_env	*get_from_env(t_env **lst, char *s);
 t_token	*split_value(char *str, char *value, t_token *token, t_expansion *exp);
 char	*expand_heredoc_delimeter(char *new_str, char *str, int *i, t_mini *ms);
 char	*handle_dollar_sign(char *new_str, char *str, int *i, t_mini *ms);
+
+// TOKENIZING
+
+char	*get_word(t_shell *shell, char *line, int *i, t_mini *ms);
+int		not_pipe(t_shell *shell, t_token *last_token, int *i, t_mini *ms);
+int		ft_strtok(t_shell *shell, int *i, t_mini *ms);
+int		lexical_analyzer(t_shell *shell, t_mini *ms);
 
 #endif

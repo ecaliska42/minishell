@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:17:25 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 18:36:09 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/30 19:45:23 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	only_equal(t_mini **mini)
 {
 	write(2, "export : '=': not a valid identifier\n", 38);
 	(*mini)->exit_status = 1;
-	return (ERROR);
+	return (SUCCESS);
 }
 
 void	export_error(char *command, int *i, int *fail)
@@ -55,7 +55,7 @@ int	while_loop(t_export *ex, t_mini **mini)
 	{
 		if (get_before_after(&ex->before, &ex->after,
 				ex->command->command[ex->i]) == ERROR)
-			return (ERROR);
+			return (ft_putendl_fd("malloc in export", 2), ERROR);
 		if (ft_strchr(ex->command->command[ex->i], '=') != NULL
 			&& ft_strlen(ex->command->command[ex->i]) == 1)
 		{

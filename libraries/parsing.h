@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/05/01 14:30:39 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/05/01 15:27:12 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ typedef struct s_expansion
 typedef struct s_token
 {
 	char			*str;
-	// int				token_count;
 	int				expanded;
 	bool			ambiguous;
 	bool			flag_exp;
@@ -86,13 +85,10 @@ void				ft_init_shell(t_shell *shell);
 // tokenizing
 t_token				*get_last_token(t_token **tokens);
 void				ft_tokenizer(t_shell *shell, t_token *last, int i);
-int					ft_strtok(t_shell *shell, int *i);
-char				*get_word(t_shell *shell, char *line, int *i);
 int					token_add(t_token **token);
 void				tokenize(t_shell *shell, int *i, bool is_quote);
 
 // lexer
-int					lexical_analyzer(t_shell *shell);
 int					syntax_check(t_shell *shell);
 
 // quotes
@@ -123,7 +119,6 @@ int					syntax_before_token(t_shell *shell);
 void				free_and_null(void **ptr);
 
 // TOKENIZING
-int					not_pipe(t_shell *shell, t_token *last_token, int *i);
 t_token				*add_new_empty_token(t_shell *shell);
 
 #endif

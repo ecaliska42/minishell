@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:28:43 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 17:18:42 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/01 12:32:36 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ int	env_addback(t_env **head, char *name, char *value)
 int	get_before_after(char **before, char **after, char *s)
 {
 	*before = get_till(s, '=');
-	if (!before)
+	if (!*before)
 		return (ERROR);
 	if (ft_strchr(s, '='))
 	{
 		*after = get_after(s, '=');
-		if (!after)
-			return (free_and_null((void **)&before), before = NULL, ERROR);
+		if (!*after)
+			return (free_and_null((void **)&*before), ERROR);
 	}
 	else
 		*after = NULL;
@@ -87,5 +87,5 @@ int	no_options(t_mini **mini, t_parse *command)
 	write(2, &command->command[1][1], 1);
 	write(2, ": no options are allowed\n", 26);
 	(*mini)->exit_status = 2;
-	return (ERROR);
+	return (SUCCESS);
 }

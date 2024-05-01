@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:06 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/26 16:58:05 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/30 19:32:02 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,8 @@ static void	delete_node(t_env **envp, char *name)
 			else
 				*envp = temp->next;
 			free_and_null((void **)&temp->name);
-			temp->name = NULL;
 			free_and_null((void **)&temp->values);
-			temp->values = NULL;
 			free_and_null((void **)&temp);
-			temp = NULL;
 			return ;
 		}
 		prev = temp;

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:55:29 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 16:50:46 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/01 12:32:47 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ int	dot(t_env **old)
 		return (SUCCESS);
 	free_and_null((void **)&(*old)->values);
 	(*old)->values = malloc(FILENAME_MAX);
-	getcwd((*old)->values, FILENAME_MAX);
+	if (!(*old)->values)
+		return (5);
+	if (getcwd((*old)->values, FILENAME_MAX) == NULL)
+		return (free_and_null((void **)&(*old)->values), 5);
 	return (SUCCESS);
 }
 
@@ -27,12 +30,16 @@ int	only_cd_helper(t_env *home, t_env **current)
 	if ((*current) && (*current)->values)
 	{
 		free_and_null((void **)&(*current)->values);
-		chdir(home->values);
+		if (chdir(home->values) == -1)
+		{
+			perror("CD HOME");
+			return (ERROR);
+		}
 		(*current)->values = malloc(FILENAME_MAX);
 		if (!(*current)->values)
 			return (ERROR);
 		if (!getcwd((*current)->values, FILENAME_MAX))
-			return (ERROR);
+			return (free_and_null((void **)&(*current)->values), ERROR);
 	}
 	return (SUCCESS);
 }
@@ -45,7 +52,7 @@ int	only_cd(t_env *home, t_env **current, t_env **old)
 		return (return_write("ShellMate: cd: HOME not set", ERROR));
 	pwd = malloc(FILENAME_MAX);
 	if (!pwd)
-		return (ERROR);
+		return (ft_putendl_fd("malloc ft_cd2.c", 2), ERROR);
 	if (!getcwd(pwd, FILENAME_MAX))
 		return (free_and_null((void **)&pwd), ERROR);
 	if ((*old) && (*old)->values)

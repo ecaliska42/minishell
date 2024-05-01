@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 16:08:00 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 15:38:55 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/01 13:13:17 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ static void	close_fds(t_exe **ex_utils)
 
 void	*close_filedescriptor(t_parse *comm, t_exe *ex_utils)
 {
-	close_fds(&ex_utils);
+	if (ex_utils)
+		close_fds(&ex_utils);
 	while (comm)
 	{
 		if (comm->infd > 0)

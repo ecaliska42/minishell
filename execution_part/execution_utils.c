@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 16:13:38 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/28 12:37:58 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:04:48 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,33 +27,41 @@ void	free_fds(int **fds)
 	free_and_null((void **)&fds);
 }
 
+void	free_until_envp(char **envp, int i)
+{
+	while (i >= 0)
+	{
+		free_and_null((void **)&envp[i]);
+		i--;
+	}
+	free_and_null((void **)&envp);
+}
+
 char	**change_envp(t_env **envp, t_mini *mini)
 {
-	int		size;
-	char	**new_envp;
-	char	*temp;
-	t_env	*tmp;
-	int		i;
+	t_change_envp_vars	vars;
 
-	i = 0;
-	tmp = *envp;
-	size = t_env_size(envp);
-	new_envp = ft_calloc(size + 1, sizeof(char *));
-	if (!new_envp)
+	vars.i = 0;
+	vars.tmp = *envp;
+	vars.size = t_env_size(envp);
+	vars.new_envp = ft_calloc(vars.size + 1, sizeof(char *));
+	if (!vars.new_envp)
+		return (NULL);
+	while (vars.i < vars.size)
 	{
-		mini->exit_status = 1;
-		check_malloc_exit(envp, mini);
+		vars.temp = ft_strjoin(vars.tmp->name, "=");
+		check_malloc_exit(vars.temp, mini);
+		vars.new_envp[vars.i] = ft_strjoin(vars.temp, vars.tmp->values);
+		free_and_null((void **)&vars.temp);
+		if (!vars.new_envp[vars.i])
+		{
+			free_until_envp(vars.new_envp, vars.i);
+			return (NULL);
+		}
+		vars.tmp = vars.tmp->next;
+		vars.i++;
 	}
-	while (i < size)
-	{
-		temp = ft_strjoin(tmp->name, "=");
-		check_malloc_exit(temp, mini);
-		new_envp[i] = ft_strjoin(temp, tmp->values);
-		check_malloc_exit(new_envp[i++], mini);
-		free_and_null((void **)&temp);
-		tmp = tmp->next;
-	}
-	return (new_envp);
+	return (vars.new_envp);
 }
 
 int	malloc_ex_struct(t_exe *ex_struct)

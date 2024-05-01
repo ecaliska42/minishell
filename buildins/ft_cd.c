@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:12 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 16:55:51 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/01 12:31:58 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	change_dir_helper(t_mini **mini, t_cd *cd_str)
 		free_and_null((void **)&cd_str->current->values);
 		cd_str->current->values = malloc(FILENAME_MAX);
 		if (!cd_str->current->values)
-			free_mini_and_exit(mini);
+			return (10);
 		if (!getcwd(cd_str->current->values, FILENAME_MAX))
 			return (10);
 	}
@@ -64,7 +64,7 @@ int	change_dir(t_cd *cd_str, t_mini **mini)
 
 	pwd = malloc(FILENAME_MAX);
 	if (!pwd)
-		return (10);
+		return (ft_putendl_fd("malloc ft_cd.c", 2), 10);
 	if (!getcwd(pwd, FILENAME_MAX))
 		return (free_and_null((void **)&pwd), 10);
 	if (chdir(cd_str->parse->command[1]) != -1)
@@ -102,6 +102,8 @@ int	ft_cd(t_env **lst, t_parse **node, t_mini **mini)
 	if (check_dots_and_only(cd_str.parse->command, mini, &cd_str) != 5)
 		return (SUCCESS);
 	check = change_dir(&cd_str, mini);
+	if (check == 10)
+		return (ERROR);
 	if (check != SUCCESS && check != 10)
 	{
 		write(2, "ShellMate: cd: ", 16);
