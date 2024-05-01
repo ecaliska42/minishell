@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   needed_functions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:32:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/05/01 13:18:48 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/01 15:32:35 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/parsing.h"
+#include "libraries/minishell.h"
 
 t_token	*get_last_token(t_token **tokens)
 {
@@ -24,18 +25,14 @@ t_token	*get_last_token(t_token **tokens)
 	return (tmp);
 }
 
-int	token_add(t_token **tokens)
+int	token_add(t_token **tokens, t_mini *ms)
 {
 	t_token	*new;
 	t_token	*tmp;
 
 	tmp = *tokens;
-	new = ft_calloc(1, sizeof(t_token));//!IF THIS FAILS WE ARE NOT EXITING IS THIS OK?
-	if (!new)
-	{
-		perror("failed malloc");
-		return (-1);
-	}
+	new = ft_calloc(1, sizeof(t_token));
+	check_malloc_exit(new, ms);
 	ft_bzero(new, sizeof(t_token));
 	if (tmp == NULL)
 	{

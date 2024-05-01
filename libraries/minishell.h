@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/05/01 15:15:34 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/05/01 15:33:10 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,5 +308,8 @@ char	*get_word(t_shell *shell, char *line, int *i, t_mini *ms);
 int		not_pipe(t_shell *shell, t_token *last_token, int *i, t_mini *ms);
 int		ft_strtok(t_shell *shell, int *i, t_mini *ms);
 int		lexical_analyzer(t_shell *shell, t_mini *ms);
+int		token_add(t_token **tokens, t_mini *ms);
+t_token	*add_new_empty_token(t_shell *shell, t_mini *ms);
+
 
 #endif

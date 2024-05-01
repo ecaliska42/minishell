@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/05/01 15:27:12 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/05/01 15:36:36 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void				ft_init_shell(t_shell *shell);
 // tokenizing
 t_token				*get_last_token(t_token **tokens);
 void				ft_tokenizer(t_shell *shell, t_token *last, int i);
-int					token_add(t_token **token);
 void				tokenize(t_shell *shell, int *i, bool is_quote);
 
 // lexer
@@ -114,11 +113,7 @@ void				skip_spaces(char *line, int *i);
 int					check_name_and_return_len(char *name);
 int					ft_strcmp(const char *s1, const char *s2);
 void				insert_token(char **str, t_token *token, t_token *n_token);
-
 int					syntax_before_token(t_shell *shell);
 void				free_and_null(void **ptr);
-
-// TOKENIZING
-t_token				*add_new_empty_token(t_shell *shell);
 
 #endif
