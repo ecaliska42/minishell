@@ -6,11 +6,12 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 19:14:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/24 18:09:10 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/05/01 15:13:59 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/parsing.h"
+#include "./libraries/minishell.h"
 
 int	unclosed_quote_error(t_shell *shell)
 {
@@ -36,7 +37,7 @@ int	unclosed_quote_error(t_shell *shell)
 	return (0);
 }
 
-int	lexical_analyzer(t_shell *shell)
+int	lexical_analyzer(t_shell *shell, t_mini *ms)
 {
 	int	i;
 
@@ -53,7 +54,7 @@ int	lexical_analyzer(t_shell *shell)
 		i++;
 	while (shell->input[i] != '\0')
 	{
-		if (ft_strtok(shell, &i) == ERROR)
+		if (ft_strtok(shell, &i, ms) == ERROR)
 			return (ERROR);
 	}
 	return (SUCCESS);

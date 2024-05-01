@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:43:38 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/05/01 14:45:09 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/01 15:17:04 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "libraries/minishell.h"
 
 void	free_tokens(t_token **tokens)
@@ -62,6 +63,7 @@ void	check_malloc_exit(void *ptr, t_mini *mini)
 {
 	if (ptr == NULL)
 	{
+		ft_putendl_fd("Malloc failed", 2);
 		free_and_null((void **)&mini->shell.input);
 		free_exe(&mini->exe);
 		free_parsing_node(&mini->parse);

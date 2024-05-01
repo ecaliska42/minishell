@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 13:12:54 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/30 17:54:36 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/01 15:14:27 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	first_stage(t_mini *mini)
 
 int	second_stage(t_mini *mini)
 {
-	if (lexical_analyzer(&mini->shell) == ERROR)
+	if (lexical_analyzer(&mini->shell, mini) == ERROR)
 	{
 		mini->exit_status = 2;
 		if (mini->shell.tokens != NULL)

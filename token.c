@@ -6,10 +6,11 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 11:26:46 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/18 16:34:33 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/05/01 15:13:33 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libraries/minishell.h"
 #include "libraries/parsing.h"
 
 t_token	*add_token_and_check(t_shell *shell)
@@ -55,7 +56,7 @@ int	handle_pipe(t_shell *shell, t_token **last_token, char **line, int **i)
 	return (SUCCESS);
 }
 
-int	ft_strtok(t_shell *shell, int *i)
+int	ft_strtok(t_shell *shell, int *i, t_mini *ms)
 {
 	char	*line;
 	t_token	*last_token;
@@ -76,7 +77,7 @@ int	ft_strtok(t_shell *shell, int *i)
 		handle_token_type(shell, &last_token, &i);
 		if (handle_pipe(shell, &last_token, &line, &i) == ERROR)
 			return (ERROR);
-		if (not_pipe(shell, last_token, i) == ERROR)
+		if (not_pipe(shell, last_token, i, ms) == ERROR)
 			return (ERROR);
 	}
 	return (SUCCESS);

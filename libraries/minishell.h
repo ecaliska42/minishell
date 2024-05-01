@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/05/01 13:06:48 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/01 15:15:34 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,5 +301,12 @@ t_env	*get_from_env(t_env **lst, char *s);
 t_token	*split_value(char *str, char *value, t_token *token, t_expansion *exp);
 char	*expand_heredoc_delimeter(char *new_str, char *str, int *i, t_mini *ms);
 char	*handle_dollar_sign(char *new_str, char *str, int *i, t_mini *ms);
+
+// TOKENIZING
+
+char	*get_word(t_shell *shell, char *line, int *i, t_mini *ms);
+int		not_pipe(t_shell *shell, t_token *last_token, int *i, t_mini *ms);
+int		ft_strtok(t_shell *shell, int *i, t_mini *ms);
+int		lexical_analyzer(t_shell *shell, t_mini *ms);
 
 #endif
