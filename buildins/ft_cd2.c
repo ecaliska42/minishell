@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:55:29 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/30 19:14:45 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/01 12:32:47 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	dot(t_env **old)
 	if (!(*old))
 		return (SUCCESS);
 	free_and_null((void **)&(*old)->values);
-	(*old)->values = malloc(FILENAME_MAX);//!CHECKED IS OK
+	(*old)->values = malloc(FILENAME_MAX);
 	if (!(*old)->values)
 		return (5);
 	if (getcwd((*old)->values, FILENAME_MAX) == NULL)
@@ -50,7 +50,7 @@ int	only_cd(t_env *home, t_env **current, t_env **old)
 
 	if (!home)
 		return (return_write("ShellMate: cd: HOME not set", ERROR));
-	pwd = malloc(FILENAME_MAX);//!CHECKED IS OK
+	pwd = malloc(FILENAME_MAX);
 	if (!pwd)
 		return (ft_putendl_fd("malloc ft_cd2.c", 2), ERROR);
 	if (!getcwd(pwd, FILENAME_MAX))
@@ -88,7 +88,7 @@ int	go_back(t_env **old, t_env **current, t_mini **mini)
 		(*mini)->exit_status = 1;
 		return (return_write("cd: OLDPWD not set", ERROR));
 	}
-	now = malloc(FILENAME_MAX);//!CHECKED SHOULD BE OK
+	now = malloc(FILENAME_MAX);
 	if (!now)
 		return (ERROR);
 	if (getcwd(now, FILENAME_MAX) == NULL)

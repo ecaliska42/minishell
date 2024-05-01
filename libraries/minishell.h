@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/30 15:04:58 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/01 13:06:48 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ int		ch_dir_else(t_env **old, t_env **current, char *now);
 //PARSER
 
 t_parse	*is_pipe(t_mini **mini, t_parse **node);
-void	is_file(t_token **tmp, t_parse ***node, t_mini **mini);
+int		is_file(t_token **tmp, t_parse ***node, t_mini **mini);
 int		while_loop_parser(t_token *tmp, t_parse **node, t_mini *mini);
 char	**create_command(char *str, char **cmd);
 int		prepare_for_execution(t_mini **minishell);

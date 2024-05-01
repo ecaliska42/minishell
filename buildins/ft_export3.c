@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 13:28:43 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/30 19:47:34 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/01 12:32:36 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,14 @@ int	env_addback(t_env **head, char *name, char *value)
 	return (SUCCESS);
 }
 
-int	get_before_after(char **before, char **after, char *s)//!CHECKED IS OK
+int	get_before_after(char **before, char **after, char *s)
 {
-	*before = get_till(s, '=');//!CHECKED IS OK
+	*before = get_till(s, '=');
 	if (!*before)
 		return (ERROR);
 	if (ft_strchr(s, '='))
 	{
-		*after = get_after(s, '=');//!CHECKED IS OK
+		*after = get_after(s, '=');
 		if (!*after)
 			return (free_and_null((void **)&*before), ERROR);
 	}

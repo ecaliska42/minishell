@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:12 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/30 19:38:35 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/01 12:31:58 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	change_dir_helper(t_mini **mini, t_cd *cd_str)
 	if (cd_str->current && cd_str->current->values)
 	{
 		free_and_null((void **)&cd_str->current->values);
-		cd_str->current->values = malloc(FILENAME_MAX);//!CHECKED SHOULD BE OK
+		cd_str->current->values = malloc(FILENAME_MAX);
 		if (!cd_str->current->values)
 			return (10);
 		if (!getcwd(cd_str->current->values, FILENAME_MAX))
@@ -62,7 +62,7 @@ int	change_dir(t_cd *cd_str, t_mini **mini)
 {
 	char	*pwd;
 
-	pwd = malloc(FILENAME_MAX);//!CHECKED SHOULD BE OK
+	pwd = malloc(FILENAME_MAX);
 	if (!pwd)
 		return (ft_putendl_fd("malloc ft_cd.c", 2), 10);
 	if (!getcwd(pwd, FILENAME_MAX))

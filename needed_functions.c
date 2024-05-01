@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:32:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/25 19:32:32 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/01 13:18:48 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	token_add(t_token **tokens)
 	t_token	*tmp;
 
 	tmp = *tokens;
-	new = ft_calloc(1, sizeof(t_token));
+	new = ft_calloc(1, sizeof(t_token));//!IF THIS FAILS WE ARE NOT EXITING IS THIS OK?
 	if (!new)
 	{
 		perror("failed malloc");
@@ -43,9 +43,7 @@ int	token_add(t_token **tokens)
 		return (0);
 	}
 	while (tmp->next)
-	{
 		tmp = tmp->next;
-	}
 	tmp->next = new;
 	return (0);
 }

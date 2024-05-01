@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:29:24 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/29 14:14:15 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/05/01 13:19:31 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	*get_word(t_shell *shell, char *line, int *i)
 		return (NULL);
 	tmp = *i;
 	len = get_len(shell, line, i);
-	word = ft_calloc(len + 2, sizeof(char));
+	word = ft_calloc(len + 2, sizeof(char));//!IF THIS FAILS WE ARE NOT EXITING IS THIS OK?
 	if (!word)
 	{
 		write(2, "Get word error: malloc failed\n", 30);

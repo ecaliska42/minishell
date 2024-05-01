@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand_6.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 12:29:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/04/29 18:05:25 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/05/01 14:48:53 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
 
-char	*add_char(char *str, char new_char)
+char	*add_char(char *str, char new_char)//!LEAK IF ADD_CHAR FAILS
 {
 	char	*new;
 	int		str_len;
@@ -20,7 +20,7 @@ char	*add_char(char *str, char new_char)
 	str_len = ft_strlen(str);
 	new = ft_calloc(str_len + 2, sizeof(char));
 	if (new == NULL)
-		return (NULL);
+		return (free_and_null((void **)&str), NULL);
 	ft_memcpy(new, str, str_len);
 	new[str_len] = new_char;
 	free_and_null((void **)&str);

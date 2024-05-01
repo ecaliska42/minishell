@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/30 17:56:40 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/01 13:12:47 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_parse	*is_pipe(t_mini **mini, t_parse **node)
 {
 	(*mini)->exe.pipecount++;
 	add_back(&(*mini)->parse, *node);
-	*node = malloc(sizeof(t_parse));//!CHECKED IS OK
+	*node = malloc(sizeof(t_parse));
 	if (!*node)
 	{
 		ft_putendl_fd("malloc parser.c", 2);
@@ -26,7 +26,7 @@ t_parse	*is_pipe(t_mini **mini, t_parse **node)
 	return (*node);
 }
 
-void	is_file(t_token **tmp, t_parse ***node, t_mini **mini)
+int	is_file(t_token **tmp, t_parse ***node, t_mini **mini)
 {
 	if ((*tmp)->type == INPUT)
 		is_input((*tmp)->str, &node, mini, *tmp);
@@ -35,14 +35,17 @@ void	is_file(t_token **tmp, t_parse ***node, t_mini **mini)
 	else if ((*tmp)->type == APPEND)
 		is_append((*tmp), &node);
 	else if ((*tmp)->type == HEREDOC)
-		heredoc(**node, (*tmp)->str, (*tmp)->flag_exp, mini);
+		if (heredoc(**node, (*tmp)->str, (*tmp)->flag_exp, mini) == ERROR)
+			return (ERROR);
+	return (SUCCESS);
 }
 
 int	while_loop_parser(t_token *tmp, t_parse **node, t_mini *mini)
 {
 	while (tmp)
 	{
-		is_file(&tmp, &node, &mini);
+		if (is_file(&tmp, &node, &mini) == ERROR)
+			return (ERROR);
 		if (tmp->type == RANDOM)
 		{
 			if (is_random(tmp, &node) == ERROR)
@@ -95,12 +98,16 @@ int	prepare_for_execution(t_mini **minishell)
 	mini = *minishell;
 	tmp = mini->shell.tokens;
 	mini->exe.pipecount = 0;
-	node = malloc(sizeof(t_parse));//!CHECKED IS OK
+	node = malloc(sizeof(t_parse));
 	if (!node)
 		return (return_write("malloc parser.c", ERROR));
 	ft_bzero(node, sizeof(*node));
 	if (while_loop_parser(tmp, &node, mini) == ERROR)
+	{
+		close_filedescriptor(mini->parse, NULL);
+		free_parsing_node(&mini->parse);
 		return (free(node), ERROR);
+	}
 	add_back(&mini->parse, node);
 	get_check(&mini);
 	execute(&mini);
