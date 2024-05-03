@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:32:13 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/05/01 13:12:47 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/03 15:28:25 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	**create_command(char *str, char **cmd)
 	free_and_null((void **)&cmd);
 	ret[i] = ft_strdup(str);
 	if (!ret[i])
-		return (NULL);
+		return (free_words(ret), NULL);
 	return (ret);
 }
 
@@ -106,7 +106,8 @@ int	prepare_for_execution(t_mini **minishell)
 	{
 		close_filedescriptor(mini->parse, NULL);
 		free_parsing_node(&mini->parse);
-		return (free(node), ERROR);
+		free_parsing_node(&node);
+		return (ERROR);
 	}
 	add_back(&mini->parse, node);
 	get_check(&mini);

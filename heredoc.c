@@ -3,19 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/05/03 13:59:50 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/03 15:31:38 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
 
-// free_expansion(tmp, (*mini)->exp, *mini); IF NO TMP
-
-//name = ft_strjoin("/tmp/", name); //ONLY IF THE NAME SHOULD BE 
-//SHOWN IN FILES OR BE INVICIBLE IN TEMPORARY
 char	*get_unique_heredoc_name(t_mini **mini)
 {
 	char	*name;
@@ -38,7 +34,6 @@ char	*get_unique_heredoc_name(t_mini **mini)
 	}
 	close(dev_random);
 	name = ft_strjoin("/tmp/", tmp);
-	free_expansion(name, (*mini)->exp, *mini);
 	free_and_null((void **)&tmp);
 	if (!name)
 		return (NULL);
