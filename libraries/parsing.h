@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:44:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/05/01 15:36:36 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/05/03 15:33:35 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,6 @@ bool				ft_is_space(char c);
 bool				ft_is_special(char c);
 bool				ft_is_dollar(char c);
 bool				ft_is_redirection(t_tokentype shell);
-
-// print - remove before push
-void				print_everything(t_shell *shell);
 
 bool				break_character(t_shell *shell, char *line, int i);
 void				skip_spaces(char *line, int *i);

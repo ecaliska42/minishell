@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/05/03 15:28:19 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/05/03 15:33:24 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,15 @@
 
 # include "../libft/libft.h"
 # include "parsing.h"
-// GNU Readline library
 # include <readline/readline.h>
 # include <readline/history.h>
-// Standard input/output library
 # include <stdio.h>
-// Memory management library
 # include <stdlib.h>
-// Unix standard library
 # include <unistd.h>
-// Directory handling library
-# include <sys/types.h> //opendir, readdir, closedir
-// Error handling library
-# include <sys/wait.h> //strerror, perror
-// Terminal I/O library
-# include <signal.h>//isatty, ttyname, ttyslot, ioctl
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <signal.h>
 # include <fcntl.h>
-// Terminfo library
-// # include <ncurses.h>   //tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
-// Terminal control library
-// # include <termios.h>   //tcsetattr, tcgetattr
 # include <stdbool.h>
 # include <dirent.h>
 

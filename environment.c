@@ -3,36 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 17:25:26 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 16:38:02 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/03 15:32:49 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libraries/minishell.h"
-
-//int	free_environment(t_env **lst)
-//{
-//	t_env	*tmp;
-//
-//	tmp = *lst;
-//	if (!lst)
-//		return (ERROR);
-//	while (*lst)
-//	{
-//		tmp = *lst;
-//		*lst = (*lst)->next;
-//		if (tmp->name)
-//			free_and_null((void **)&tmp->name);
-//		if (tmp->values)
-//			free_and_null((void **)&tmp->values);
-//		if (tmp)
-//			free_and_null((void **)&tmp);
-//	}
-//	*lst = NULL;
-//	return (ERROR);
-//}
 
 int	free_environment(t_env **lst)
 {

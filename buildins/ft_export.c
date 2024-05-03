@@ -6,7 +6,7 @@
 /*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:21:07 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/29 20:56:21 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/05/03 15:32:55 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,3 @@ int	ft_export(t_env **lst, t_parse **node, t_mini **mini)
 	set_exit_status(expo.fail, mini);
 	return (0);
 }
-
-//? export a=hello b=world =adf c=again
