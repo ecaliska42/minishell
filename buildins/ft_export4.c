@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:17:25 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/05/01 15:53:32 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/03 13:57:15 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ int	while_loop(t_export *ex, t_mini **mini)
 		if (get_before_after(&ex->before, &ex->after,
 				ex->command->command[ex->i]) == ERROR)
 			return (ft_putendl_fd("malloc in export", 2), ERROR);
-		if (ft_strchr(ex->command->command[ex->i], '=') != NULL
-			&& ft_strlen(ex->command->command[ex->i]) == 1)
+		if (check_doll_only(ex) == true)
 		{
 			free_and_null((void **)&ex->before);
 			free_and_null((void **)&ex->after);

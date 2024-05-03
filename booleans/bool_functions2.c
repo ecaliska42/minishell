@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bool_functions2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 17:58:46 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/25 18:36:30 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/05/03 13:58:42 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,14 @@ bool	first_character_is(char *s, char c)
 		s++;
 	}
 	if (*s == c)
+		return (true);
+	return (false);
+}
+
+bool	check_doll_only(t_export *ex)
+{
+	if (ft_strchr(ex->command->command[ex->i], '=') != NULL
+		&& ft_strlen(ex->command->command[ex->i]) == 1)
 		return (true);
 	return (false);
 }

@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 13:20:55 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/05/01 14:45:11 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/03 13:53:30 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,7 @@ t_token	*handle_closed(t_token *token, t_expansion *exp, t_mini *ms)
 			&& exp->joker[exp->i] != '\"' && exp->joker[exp->i] != '\'')
 		{
 			token->str = add_char(token->str, exp->joker[exp->i++]);
-			if (!token->str)
-				free_and_null((void **)&exp->joker);
-			free_expansion(token->str, ms->exp, ms);
+			free_expansion(token->str, exp, ms);
 		}
 		if (check_exp(exp->joker, exp->i))
 		{

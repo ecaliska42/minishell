@@ -6,7 +6,7 @@
 #    By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2024/05/01 15:48:32 by ecaliska         ###   ########.fr        #
+#    Updated: 2024/05/03 13:38:06 by ecaliska         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,10 +36,10 @@ SRC2 = lexer.c needed_functions.c token.c readline.c quote_stuff.c \
 	expansion/expand_2.c expansion/expand_3.c expansion/expand_4.c expansion/expand_5.c \
 	free_2.c expansion/expand_6.c free3.c\
 
-SRC3 = GNL/get_next_line.c GNL/get_next_line_utils.c
+#SRC3 = GNL/get_next_line.c GNL/get_next_line_utils.c
 
 OBJ_DIR= obj
-OBJ= $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o) $(SRC2:.c=.o) $(SRC3:.c=.o))
+OBJ= $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o) $(SRC2:.c=.o))# $(SRC3:.c=.o))
 
 RM= rm -f
 

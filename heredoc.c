@@ -6,11 +6,13 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/05/03 13:24:01 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/03 13:59:50 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./libraries/minishell.h"
+
+// free_expansion(tmp, (*mini)->exp, *mini); IF NO TMP
 
 //name = ft_strjoin("/tmp/", name); //ONLY IF THE NAME SHOULD BE 
 //SHOWN IN FILES OR BE INVICIBLE IN TEMPORARY
@@ -27,11 +29,7 @@ char	*get_unique_heredoc_name(t_mini **mini)
 		free_mini_and_exit(mini);
 	tmp = ft_calloc(5 + 1, sizeof(char));
 	if (!tmp)
-	{
-		close (dev_random);
-		return (NULL);
-		free_expansion(tmp, (*mini)->exp, *mini);
-	}
+		return (close (dev_random), NULL);
 	while (i < 5)
 	{
 		read(dev_random, &tmp[i], 1);

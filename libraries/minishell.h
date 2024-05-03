@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/05/03 13:25:37 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/03 13:56:52 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,7 @@ char	*get_after(char *str, char character);
 
 void	printf_double(char **str);
 void	printf_tripple(char ***str);
+bool	check_doll_only(t_export *ex);
 
 // HEREDOC
 
@@ -267,6 +268,7 @@ bool	is_only_numbers(char *s);
 bool	is_alpha_numbers(char *s);
 bool	first_character_is(char *s, char c);
 int		return_write(char *str, int ret);
+void	check_dir(char *command, t_mini **mini);
 
 // SIGNALS
 

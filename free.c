@@ -6,11 +6,10 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:43:38 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/05/01 15:57:24 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/03 13:35:37 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "libraries/minishell.h"
 
 void	free_tokens(t_token **tokens)

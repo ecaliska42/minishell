@@ -6,11 +6,26 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 14:29:06 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/05/03 12:45:57 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/03 13:38:27 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
+
+void	check_dir(char *command, t_mini **mini)
+{
+	DIR	*dir;
+
+	dir = opendir(command);
+	if (dir != NULL)
+	{
+		write(2, command, ft_strlen(command));
+		write(2, ": is a directory\n", 18);
+		closedir(dir);
+		(*mini)->exit_status = 126;
+		free_mini_and_exit(mini);
+	}
+}
 
 void	print_command_not_found(char **command, t_mini **mini)
 {
