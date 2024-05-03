@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 19:29:14 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/05/01 13:14:40 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/03 13:24:01 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,11 @@ char	*get_unique_heredoc_name(t_mini **mini)
 	dev_random = open("/dev/random", O_RDONLY);
 	if (dev_random < 0)
 		free_mini_and_exit(mini);
-	tmp = ft_calloc(5 + 1, sizeof(char));//!IS WORKING
+	tmp = ft_calloc(5 + 1, sizeof(char));
 	if (!tmp)
 	{
 		close (dev_random);
 		return (NULL);
-		// free_mini_and_exit(mini);
 		free_expansion(tmp, (*mini)->exp, *mini);
 	}
 	while (i < 5)

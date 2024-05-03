@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/05/01 15:33:10 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/05/03 13:25:37 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,6 +310,5 @@ int		ft_strtok(t_shell *shell, int *i, t_mini *ms);
 int		lexical_analyzer(t_shell *shell, t_mini *ms);
 int		token_add(t_token **tokens, t_mini *ms);
 t_token	*add_new_empty_token(t_shell *shell, t_mini *ms);
-
 
 #endif

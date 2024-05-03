@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:03:55 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/30 19:39:47 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/03 13:22:43 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,17 +115,17 @@ int	execute_buildin(t_parse **parse, t_env **env, int pc, t_mini **mini)
 	if (!s)
 		return (0);
 	if (ft_strcmp("echo", s) == 0)
-		ft_echo(parse, mini);//shoud return correctly
+		ft_echo(parse, mini);
 	else if (ft_strcmp("pwd", s) == 0)
-		return (ft_pwd(mini));//shoud return correctly
+		return (ft_pwd(mini));
 	else if (ft_strcmp("env", s) == 0)
-		return (ft_env(env, mini, parse));//shoud return correctly
+		return (ft_env(env, mini, parse));
 	else if (ft_strcmp("cd", s) == 0 && pc == 0)
 		return (ft_cd(env, parse, mini));
 	else if (ft_strcmp("exit", s) == 0)
-		ft_exit(parse, mini);//shoud return correctly
+		ft_exit(parse, mini);
 	else if (ft_strcmp("unset", s) == 0 && pc == 0)
-		ft_unset(parse, env, mini);//shoud return correctly
+		ft_unset(parse, env, mini);
 	else if (ft_strcmp("export", s) == 0)
 		return (ft_export(env, parse, mini));
 	return (SUCCESS);
