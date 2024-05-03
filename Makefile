@@ -6,7 +6,7 @@
 #    By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2024/05/03 14:40:54 by mesenyur         ###   ########.fr        #
+#    Updated: 2024/05/03 15:35:23 by mesenyur         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,8 +67,5 @@ fclean:	clean
 
 re:	fclean all
 	$(MAKE) re -C libft
-
-leak: $(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --trace-children=yes --track-fds=yes --suppressions=$(HOME)/readline.supp ./$(NAME)
 
 .PHONY: all clean fclean re libft
