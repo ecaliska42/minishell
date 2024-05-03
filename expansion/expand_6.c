@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand_6.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 12:29:12 by mesenyur          #+#    #+#             */
-/*   Updated: 2024/05/01 14:48:53 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/03 14:39:24 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
 
-char	*add_char(char *str, char new_char)//!LEAK IF ADD_CHAR FAILS
+char	*add_char(char *str, char new_char)
 {
 	char	*new;
 	int		str_len;
@@ -90,11 +90,11 @@ void	expansion(t_token *token, t_mini *ms)
 	t_expansion	exp;
 
 	ms->exp = &exp;
-	ft_bzero(&exp, sizeof(t_expansion));
 	while (token != NULL)
 	{
+		ft_bzero(&exp, sizeof(t_expansion));
 		if (token->str && token->expanded == 0)
-			token = expand_variable(exp, token, ms);
+			token = expand_variable(&exp, token, ms);
 		if (token)
 			token = token->next;
 	}
