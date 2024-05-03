@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 15:22:56 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/05/03 13:56:52 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/03 14:41:02 by mesenyur         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,7 +290,7 @@ void	get_rid_of_before_after(char **before, char **after);
 // *EXPANSION
 
 void	expansion(t_token *token, t_mini *ms);
-t_token	*expand_variable(t_expansion exp, t_token *token, t_mini *ms);
+t_token	*expand_variable(t_expansion *exp, t_token *token, t_mini *ms);
 t_token	*handle_closed(t_token *token, t_expansion *exp, t_mini *ms);
 t_token	*handle_expansion(t_token *token, t_expansion *exp, t_mini *ms);
 int		handle_heredoc_exp(t_token *token, t_expansion *exp, char *str,
