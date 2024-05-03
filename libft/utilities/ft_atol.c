@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mesenyur <mesenyur@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:27:15 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/05/01 15:26:45 by mesenyur         ###   ########.fr       */
+/*   Updated: 2024/05/03 12:14:17 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@
 
 int	check_if_valid(long number, int digit, int sign)
 {
-	printf("sign: %d\n", sign);
 	if (sign > 0 && (number > LONG_MAX / 10 || (number == LONG_MAX / 10
 				&& digit > 7)))
 		return (false);
-	if (sign < 0 && (number < LONG_MAX / 10 || (number == LONG_MAX / 10
+	if (sign < 0 && (number > LONG_MAX / 10 || (number == LONG_MAX / 10
 				&& digit > 8)))
 		return (false);
 	return (true);

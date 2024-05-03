@@ -6,24 +6,33 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:30:48 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/30 10:19:10 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/03 12:40:45 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libraries/minishell.h"
+
+static void	check_dir(char *command, t_mini **mini)
+{
+	DIR	*dir;
+
+	dir = opendir(command);
+	if (dir != NULL)
+	{
+		write(2, command, ft_strlen(command));
+		write(2, ": is a directory\n", 18);
+		closedir(dir);
+		(*mini)->exit_status = 126;
+		free_mini_and_exit(mini);
+	}
+}
 
 static void	check_dot_slash(char *command, t_mini **mini)
 {
 	if (command && (command[0] == '/'
 			|| (command[0] == '.' && command[1] == '/')))
 	{
-		if (opendir(command) != NULL)
-		{
-			write(2, command, ft_strlen(command));
-			write(2, ": is a directory\n", 18);
-			(*mini)->exit_status = 126;
-			free_mini_and_exit(mini);
-		}
+		check_dir(command, mini);
 		if (access(command, F_OK) == -1)
 		{
 			write(2, command, ft_strlen(command));

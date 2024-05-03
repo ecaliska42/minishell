@@ -6,7 +6,7 @@
 /*   By: ecaliska <ecaliska@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:17:25 by ecaliska          #+#    #+#             */
-/*   Updated: 2024/04/30 19:45:23 by ecaliska         ###   ########.fr       */
+/*   Updated: 2024/05/01 15:53:32 by ecaliska         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	while_loop(t_export *ex, t_mini **mini)
 		{
 			free_and_null((void **)&ex->before);
 			free_and_null((void **)&ex->after);
+			ex->fail = 1;
 			return (only_equal(mini));
 		}
 		if (ft_strlen(ex->before) == 0
